@@ -1,0 +1,10 @@
+name: BBLobby
+version: 4.0.0
+author: MJ
+
+main: de.mj.BattleBuild.lobby.main.Lobby
+depend: [CoinsAPI, Vault]
+
+commands:
+   afk:
+   spawn:
