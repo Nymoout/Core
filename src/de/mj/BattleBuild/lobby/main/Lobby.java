@@ -9,7 +9,9 @@ import de.mj.BattleBuild.lobby.utils.*;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -18,8 +20,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Lobby extends JavaPlugin {
 
     private static Plugin plugin;
+    private static Lobby lobby;
     private ConsoleCommandSender sender;
     private static Economy econ = null;
+    private NewScoreboardManager scoreboardManager;
     String prefix = new Var().getPrefix();
 
     @Override
@@ -29,6 +33,7 @@ public class Lobby extends JavaPlugin {
         sender.sendMessage(prefix + "§ewird gestartet...");
 
         setPlugin(this);
+        setLobby(this);
 
         sender.sendMessage(prefix + "§3initialisiere MySQL-Verbindung...");
         MySQLLoader mySQLLoader = new MySQLLoader(getPlugin());
@@ -56,8 +61,10 @@ public class Lobby extends JavaPlugin {
             sender.sendMessage(prefix + "§2Erfolg!");
         }
 
+        sender.sendMessage(prefix + "§binitialisiere Scoreboards...");
         TabList tabList = new TabList();
         tabList.loadTablist();
+        this.scoreboardManager = new NewScoreboardManager(this);
 
         sender.sendMessage(prefix + "§awurde gestartet!");
     }
@@ -117,6 +124,20 @@ public class Lobby extends JavaPlugin {
         return econ != null;
     }
 
+    public void removeMetadata(Entity entity, String meta) {
+        if (entity.hasMetadata(meta))
+            entity.removeMetadata(meta,this);
+    }
+
+    public void setMetadata(Entity entity, String meta, Object object) {
+        removeMetadata(entity, meta);
+        entity.setMetadata(meta, new FixedMetadataValue(this, object));
+    }
+
+    public NewScoreboardManager getScoreboardManager() {
+        return scoreboardManager;
+    }
+
     public static Economy getEconomy() {
         return econ;
     }
@@ -133,4 +154,11 @@ public class Lobby extends JavaPlugin {
         this.sender = consoleCommandSender;
     }
 
+    private void setLobby(Lobby lobby) {
+        this.lobby = lobby;
+    }
+
+    public static Lobby getLobby() {
+        return lobby;
+    }
 }

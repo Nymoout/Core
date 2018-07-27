@@ -1,6 +1,7 @@
 package de.mj.BattleBuild.lobby.listener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.mj.BattleBuild.lobby.MySQL.SettingsAPI;
 import de.mj.BattleBuild.lobby.main.Lobby;
@@ -29,9 +30,11 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 
 public class JoinListener implements Listener {
 
+    private final Lobby plugin = Lobby.getLobby();
+    SettingsListener settingsListener = new SettingsListener();
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent e) {
-        SettingsListener settingsListener = new SettingsListener();
         ActionbarTimer actionbarTimer = new ActionbarTimer();
         ItemCreator itemCreator = new ItemCreator();
         ScoreboardManager scoreboardManager = new ScoreboardManager();
@@ -137,5 +140,43 @@ public class JoinListener implements Listener {
             PacketPlayOutChat packet = new PacketPlayOutChat(icb);
             ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
         }
+        setDefaultSidebar(p);
+    }
+
+    public void setDefaultSidebar(Player p) {
+        String color = "§" + settingsListener.color.get(p);
+        HashMap<String, Integer> playerSidebar = new HashMap<>();
+        if (settingsListener.scoins.contains(p)) {
+            playerSidebar.put("§f§lDeine Coins §8:", 17);
+            playerSidebar.put(color + "lädt.", 16);
+            playerSidebar.put(" ", 15);
+        }
+        if (settingsListener.srang.contains(p)) {
+            playerSidebar.put("§f§lDein Rang §8:", 14);
+            playerSidebar.put(color + "lädt..", 13);
+            playerSidebar.put("     ", 12);
+        }
+        if (settingsListener.sclan.contains(p)) {
+            playerSidebar.put("§f§lDein Clan §8:", 11);
+            playerSidebar.put(color + "lädt...", 10);
+            playerSidebar.put("    ", 9);
+        }
+        if (settingsListener.sserver.contains(p)) {
+            playerSidebar.put("§f§lServer §8:", 8);
+            playerSidebar.put(color + "lädt....", 7);
+            playerSidebar.put("   ", 6);
+        }
+        if (settingsListener.sfriends.contains(p)) {
+            playerSidebar.put("§f§lFreunde §8:", 5);
+            playerSidebar.put(color + "lädt......", 4);
+            playerSidebar.put(" ", 3);
+        }
+        if (settingsListener.szeit.contains(p)) {
+            playerSidebar.put("§f§lSpielzeit §8:", 2);
+            playerSidebar.put(color + "lädt.......", 1);
+            playerSidebar.put("  ", 0);
+        }
+
+        plugin.getScoreboardManager().setSidebar(p, playerSidebar, color + "§lBattleBuild");
     }
 }

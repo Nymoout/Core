@@ -38,7 +38,6 @@ public class CompassListener implements Listener {
         } else {
             e.setCancelled(true);
         }
-
         if (e.getAction() == Action.RIGHT_CLICK_AIR | e.getAction() == Action.LEFT_CLICK_AIR
                 | e.getAction() == Action.LEFT_CLICK_BLOCK | e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (e.getMaterial() == Material.COMPASS) {
