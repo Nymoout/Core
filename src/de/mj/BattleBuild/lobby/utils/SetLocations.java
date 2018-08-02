@@ -33,7 +33,6 @@ public class SetLocations {
         float yaw = yamlConfiguration.getLong("bb." + path + ".yaw");
         float pitch = yamlConfiguration.getLong("bb." + path + ".pitch");
         Location loc = new Location(Bukkit.getWorld(yamlConfiguration.getString("bb.spawn.world")), x, y, z, yaw, pitch);
-        System.out.println(loc.toString());
         return loc;
     }
 

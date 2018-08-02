@@ -200,7 +200,7 @@ public class ScoreboardManager {
                             setBoardLOBBY(all);
                         }
                     }
-                }.runTaskTimer(this.lobby, 0L, 20L * 10)
+                }.runTaskTimerAsynchronously(this.lobby, 0L, 20L)
         );
     }
 }

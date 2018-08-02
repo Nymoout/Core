@@ -3,9 +3,10 @@ version: 4.1.2
 author: MJ
 
 main: de.mj.BattleBuild.lobby.Lobby
-depend: [CoinsAPI, Vault]
+depend: [CoinsAPI, Vault, TimoCloud, VIPHide, LuckPerms, NetworkManagerBridge, FriendsAPIForPartyAndFriends, Clans-Spigot-Part]
 
 commands:
    afk:
    spawn:
    set:
+   server:

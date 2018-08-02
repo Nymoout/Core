@@ -1,5 +1,8 @@
 package de.mj.BattleBuild.lobby;
 
+import cloud.timo.TimoCloud.api.TimoCloudAPI;
+import cloud.timo.TimoCloud.api.plugins.TimoCloudPlugin;
+import de.mj.BattleBuild.lobby.commands.ServerCommand;
 import de.mj.BattleBuild.lobby.commands.SetLocCommand;
 import de.mj.BattleBuild.lobby.mySQL.AsyncMySQL;
 import de.mj.BattleBuild.lobby.mySQL.MySQLLoader;
@@ -27,9 +30,11 @@ public class Lobby extends JavaPlugin {
     private static Lobby lobby;
     private ConsoleCommandSender sender;
     private static Economy econ = null;
+    private static Plugin timoCloudPlugin;
 
     //Commands
     private AFKCommand afkCommand;
+    private ServerCommand serverCommand;
     private SetLocCommand setLocCommand;
     private SpawnCommand spawnCommand;
 
@@ -45,6 +50,7 @@ public class Lobby extends JavaPlugin {
     private LobbySwitcherListener lobbySwitcherListener;
     private MinionListener minionListener;
     private QuitListener quitListener;
+    private ServerListener serverListener;
     private SettingsListener settingsListener;
     private StopReloadRestartListener stopReloadRestartListener;
     private WaterJumpListener waterJumpListener;
@@ -83,18 +89,13 @@ public class Lobby extends JavaPlugin {
 
         pluginManager = Bukkit.getPluginManager();
 
-        sender.sendMessage(prefix + "§2Versuche Vault-Hook...");
-        if (!setupEconomy()) {
-            sender.sendMessage(String.format("§c[%s] - Es wurde keine Vault-Dependency gefunden ... Plugin wird deaktiviert!", getDescription().getName()));
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        } else {
-            sender.sendMessage(prefix + "§2Erfolg!");
-        }
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
+        hook();
 
         init();
 
-        sender.sendMessage(prefix + "§awurde gestartet!");
+        sender.sendMessage(prefix + "§awurde erfolgreich gestartet!");
     }
 
     public void onDisable() {
@@ -105,16 +106,76 @@ public class Lobby extends JavaPlugin {
         schedulerSaver.cancelSchedulers();
     }
 
+    public void hook() {
+        sender.sendMessage(prefix + "§2try to hook in Vault...");
+        if (!setupEconomy()) {
+            sender.sendMessage(String.format("§c[%s] - Vault-Dependecy wasn't found - disable Plugin!", getDescription().getName()));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        } else {
+            sender.sendMessage(prefix + "§2hooked into: Vault");
+        }
+
+        sender.sendMessage(prefix + "§etry to hook into TimoCloud...");
+        if (getServer().getPluginManager().getPlugin("TimoCloud") != null) {
+            sender.sendMessage(prefix + "§ehooked into: TimoCloud");
+        } else {
+            sender.sendMessage(String.format("§c[%s] - TimoCloud wasn't found - disable Plugin!", getDescription().getName()));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        sender.sendMessage(prefix + "§dtry to hook into LuckPerms...");
+        if (getServer().getPluginManager().getPlugin("LuckPerms") != null) {
+            sender.sendMessage(prefix + "§dhooked into: LuckPerms");
+        } else {
+            sender.sendMessage(String.format("§c[%s] - LuckPerms wasn't found - disable Plugin!", getDescription().getName()));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        sender.sendMessage(prefix + "§6try to hook into FriendsAPIForPartyAndFriends...");
+        if (getServer().getPluginManager().getPlugin("FriendsAPIForPartyAndFriends") != null) {
+            sender.sendMessage(prefix + "§6hooked into: FriendsAPIForPartyAndFriends");
+        } else {
+            sender.sendMessage(String.format("§c[%s] - FriendsAPIForPartyAndFriends wasn't found - disable Plugin!", getDescription().getName()));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        sender.sendMessage(prefix + "§5try to hook into Clans-Spigot-Part...");
+        if (getServer().getPluginManager().getPlugin("Clans-Spigot-Part") != null) {
+            sender.sendMessage(prefix + "§5hooked into: Clans-Spigot-Part");
+        } else {
+            sender.sendMessage(String.format("§c[%s] - Clans-Spigot-Part wasn't found - disable Plugin!", getDescription().getName()));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        sender.sendMessage(prefix + "§atry to hook into NetworkManagerBridge...");
+        if (getServer().getPluginManager().getPlugin("NetworkManagerBridge") != null) {
+            sender.sendMessage(prefix + "§ahooked into: NetworkManagerBridge");
+        } else {
+            sender.sendMessage(String.format("§c[%s] - NetworkManagerBridge wasn't found - disable Plugin!", getDescription().getName()));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+    }
+
     public void init() {
         //Need to load at first
+        sender.sendMessage(prefix + "§fload Data");
         data = new Data();
 
         //init commands
+        sender.sendMessage(prefix + "§fload Commands");
         afkCommand = new AFKCommand(this);
+        serverCommand = new ServerCommand(this);
         setLocCommand = new SetLocCommand(this);
         spawnCommand = new SpawnCommand(this);
 
         //init listener
+        sender.sendMessage(prefix + "§fLoad Listener");
         afkListener = new AFKListener(this);
         commandBlockListener = new BukkitMinecraftCommandBlockListener(this);
         cancelListener = new CancelListener(this);
@@ -126,18 +187,21 @@ public class Lobby extends JavaPlugin {
         lobbySwitcherListener = new LobbySwitcherListener(this);
         minionListener = new MinionListener(this);
         quitListener = new QuitListener(this);
+        serverListener = new ServerListener(this);
         settingsListener = new SettingsListener(this);
         stopReloadRestartListener = new StopReloadRestartListener(this);
         waterJumpListener = new WaterJumpListener(this);
         yourProfileListener = new YourProfileListener(this);
 
         //mySQL
+        sender.sendMessage(prefix + "§fload MySQL");
         asyncMySQL = new AsyncMySQL(this);
         mySQL = new AsyncMySQL.MySQL();
         mySQLLoader = new MySQLLoader(this);
         settingsAPI = new SettingsAPI(this);
 
         //Utils
+        sender.sendMessage(prefix + "§fload Utils");
         actionbarTimer = new ActionbarTimer(this);
         itemCreator = new ItemCreator();
         locationsUtil = new LocationsUtil();
@@ -150,18 +214,22 @@ public class Lobby extends JavaPlugin {
         title = new Title(this);
 
         //load and connect to mysql
+        sender.sendMessage(prefix + "§dget MySQL-conf and connect to MySQL");
         mySQLLoader.loadConf();
         mySQLLoader.loadMySQL();
 
         //init scheduler
+        sender.sendMessage(prefix + "§3start scheduler");
         actionbarTimer.setActionBar();
         afkListener.AFKWorker();
         scoreboardManager.ScoreboardActu();
 
         //load locations
+        sender.sendMessage(prefix + "§eget locations from conf");
         setLocations.saveLocs();
 
         //load tablist
+        sender.sendMessage(prefix + "§2create tablist");
         tabList.loadTablist();
     }
 
@@ -194,6 +262,10 @@ public class Lobby extends JavaPlugin {
         this.sender = consoleCommandSender;
     }
 
+    public ConsoleCommandSender getSender() {
+        return sender;
+    }
+
     public void setListener(Listener listener) {
         Bukkit.getPluginManager().registerEvents(listener, this);
     }
@@ -212,6 +284,10 @@ public class Lobby extends JavaPlugin {
 
     public Economy getEconomy() {
         return econ;
+    }
+
+    public Plugin getTimoCloudPlugin() {
+        return timoCloudPlugin;
     }
 
     public AFKCommand getAfkCommand() {

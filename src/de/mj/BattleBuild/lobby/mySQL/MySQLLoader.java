@@ -1,5 +1,6 @@
 package de.mj.BattleBuild.lobby.mySQL;
 
+import de.mj.BattleBuild.lobby.Lobby;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -10,32 +11,30 @@ public class MySQLLoader {
     File f = new File("plugins/BBLobby/", "MySQL.yml");
     YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
 
-    private final Plugin plugin;
+    private final Lobby lobby;
     private String host;
     private int port;
     private String user;
     private String pw;
     private String db;
 
-    public MySQLLoader(Plugin pl) {
-        this.plugin = pl;
+    public MySQLLoader(Lobby lobby) {
+        this.lobby = lobby;
         loadMySQL();
     }
 
     public void loadConf() {
+        lobby.getSender().sendMessage(lobby.getData().getPrefix() + "§dload config.yml");
         host = cfg.getString("host");
-        System.out.println(host);
         port = cfg.getInt("port");
-        System.out.println(port);
         user = cfg.getString("username");
-        System.out.println(user);
         pw = cfg.getString("password");
         db = cfg.getString("database");
-        System.out.println(db);
     }
 
     public void loadMySQL() {
         this.loadConf();
-        new AsyncMySQL(plugin, host, port, user, pw, db);
+        lobby.getSender().sendMessage(lobby.getData().getPrefix() + "§dconnect to MySQL");
+        new AsyncMySQL(lobby, host, port, user, pw, db);
     }
 }

@@ -72,7 +72,6 @@ public class LobbySwitcherListener implements Listener {
             if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Lobby")
                     && !e.getCurrentItem().getItemMeta().getDisplayName().contains("Silent")) {
                 String[] lobby = e.getCurrentItem().getItemMeta().getDisplayName().split("-");
-                System.out.println(lobby[1]);
                 String server = "Lobby-" + lobby[1];
                 String[] splitserver = p.getServer().getServerName().split("-");
                 int serverid = Integer.parseInt(splitserver[1]);

@@ -39,7 +39,6 @@ public class SetLocCommand implements CommandExecutor {
         lobby.getSetLocations().getYamlConfiguration().set("bb." + path + ".z", loc.getZ());
         lobby.getSetLocations().getYamlConfiguration().set("bb." + path + ".yaw", loc.getYaw());
         lobby.getSetLocations().getYamlConfiguration().set("bb." + path + ".pitch", loc.getPitch());
-        System.out.println(loc.toString());
         try {
             lobby.getSetLocations().getYamlConfiguration().save(lobby.getSetLocations().getFile());
             player.sendMessage(lobby.getData().getPrefix() + "§aLocation wurde erfolgreich gespeichert!");
