@@ -11,7 +11,7 @@ import java.io.File;
 public class SetLocations {
 
     private final Lobby lobby;
-    private static File file = new File("/plugins/BBLobby/", "locations.yml");
+    private static File file = new File("plugins/BBLobby/", "locations.yml");
     private static YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(file);
 
     public SetLocations (Lobby lobby) {
@@ -27,12 +27,21 @@ public class SetLocations {
     }
 
     private static Location initLocs(String path) {
-        World world = Bukkit.getWorld("world");
         double x = yamlConfiguration.getDouble("bb." + path + ".x");
         double y = yamlConfiguration.getDouble("bb." + path + ".y");
         double z = yamlConfiguration.getDouble("bb." + path + ".z");
         float yaw = yamlConfiguration.getLong("bb." + path + ".yaw");
-        float pitch = yamlConfiguration.getLong("bb." + path + ".yaw");
-        return new Location(world, x, y, z, yaw, pitch);
+        float pitch = yamlConfiguration.getLong("bb." + path + ".pitch");
+        Location loc = new Location(Bukkit.getWorld(yamlConfiguration.getString("bb.spawn.world")), x, y, z, yaw, pitch);
+        System.out.println(loc.toString());
+        return loc;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public YamlConfiguration getYamlConfiguration() {
+        return yamlConfiguration;
     }
 }

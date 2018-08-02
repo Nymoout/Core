@@ -1,5 +1,6 @@
 package de.mj.BattleBuild.lobby;
 
+import de.mj.BattleBuild.lobby.commands.SetLocCommand;
 import de.mj.BattleBuild.lobby.mySQL.AsyncMySQL;
 import de.mj.BattleBuild.lobby.mySQL.MySQLLoader;
 import de.mj.BattleBuild.lobby.mySQL.SettingsAPI;
@@ -29,6 +30,7 @@ public class Lobby extends JavaPlugin {
 
     //Commands
     private AFKCommand afkCommand;
+    private SetLocCommand setLocCommand;
     private SpawnCommand spawnCommand;
 
     //Listener
@@ -109,6 +111,7 @@ public class Lobby extends JavaPlugin {
 
         //init commands
         afkCommand = new AFKCommand(this);
+        setLocCommand = new SetLocCommand(this);
         spawnCommand = new SpawnCommand(this);
 
         //init listener

@@ -40,6 +40,7 @@ public class JoinListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         p.teleport(lobby.getLocationsUtil().getSpawn());
+        System.out.println(lobby.getLocationsUtil().getSpawn().toString());
         if (!p.hasPlayedBefore()) {
             lobby.getSettingsListener().ridestate.add(p);
             lobby.getSettingsListener().color.put(p, "6");

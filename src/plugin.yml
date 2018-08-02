@@ -8,3 +8,4 @@ depend: [CoinsAPI, Vault]
 commands:
    afk:
    spawn:
+   set:
