@@ -1,7 +1,7 @@
 package de.mj.BattleBuild.lobby.listener;
 
-import de.mj.BattleBuild.lobby.main.Lobby;
-import de.mj.BattleBuild.lobby.utils.Var;
+import de.mj.BattleBuild.lobby.Lobby;
+import de.mj.BattleBuild.lobby.utils.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -25,7 +25,7 @@ public class StopReloadRestartListener implements Listener {
     }
 
     private static boolean isrestarting = false;
-    String prefix = new Var().getPrefix();
+    String prefix = new Data().getPrefix();
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void OverrideCommand(PlayerCommandPreprocessEvent e) {

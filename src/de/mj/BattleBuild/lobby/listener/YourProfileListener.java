@@ -1,6 +1,6 @@
 package de.mj.BattleBuild.lobby.listener;
 
-import de.mj.BattleBuild.lobby.main.Lobby;
+import de.mj.BattleBuild.lobby.Lobby;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

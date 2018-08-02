@@ -1,6 +1,6 @@
 package de.mj.BattleBuild.lobby.listener;
 
-import de.mj.BattleBuild.lobby.main.Lobby;
+import de.mj.BattleBuild.lobby.Lobby;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -24,7 +24,7 @@ public class JumpPadListener implements Listener {
     public void onMove(PlayerMoveEvent e) {
         Player p = e.getPlayer();
         if((p.getLocation().getBlock().getType() == Material.IRON_PLATE)){
-            if(SettingsListener.jumppads.contains(p)) {
+            if(lobby.getSettingsListener().jumppads.contains(p)) {
                 Vector v = p.getLocation().getDirection().multiply(2.0D).setY(1.0D);
                 p.setVelocity(v);
                 p.playSound(p.getLocation(), Sound.DIG_SAND, 1, 1);

@@ -1,6 +1,6 @@
 package de.mj.BattleBuild.lobby.listener;
 
-import de.mj.BattleBuild.lobby.main.Lobby;
+import de.mj.BattleBuild.lobby.Lobby;
 import me.BukkitPVP.VIPHide.VIPHide;
 import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.Contexts;

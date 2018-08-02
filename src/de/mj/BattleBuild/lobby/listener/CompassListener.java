@@ -4,11 +4,11 @@ import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.PlayerObject;
 import cloud.timo.TimoCloud.api.objects.ServerGroupObject;
 import cloud.timo.TimoCloud.api.objects.ServerObject;
-import de.mj.BattleBuild.lobby.main.Lobby;
+import de.mj.BattleBuild.lobby.Lobby;
 import de.mj.BattleBuild.lobby.utils.ItemCreator;
 import de.mj.BattleBuild.lobby.utils.LocationsUtil;
 import de.mj.BattleBuild.lobby.utils.Particle;
-import de.mj.BattleBuild.lobby.utils.Var;
+import de.mj.BattleBuild.lobby.utils.Data;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -24,19 +24,11 @@ import java.util.ArrayList;
 
 public class CompassListener implements Listener {
 
-    String prefix = new Var().getPrefix();
-
     private final Lobby lobby;
-    private SettingsListener settingsListener;
-    private ItemCreator itemCreator;
-    private LocationsUtil locationsUtil;
 
     public CompassListener(Lobby lobby) {
         this.lobby = lobby;
         lobby.setListener(this);
-        settingsListener = lobby.getSettingsListener();
-        itemCreator = lobby.getItemCreator();
-        locationsUtil = lobby.getLocationsUtil();
     }
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
@@ -55,46 +47,46 @@ public class CompassListener implements Listener {
                 Inventory inv = Bukkit.createInventory(null, 54, "§8\u00BB§7§lNavigator§8\u00AB");
 
                 for (int i = 8; i >= 0; i--) {
-                    if (settingsListener.design.containsKey(p)) {
-                        inv.setItem(i, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE,
-                                settingsListener.design.get(p), 1, null, null));
+                    if (lobby.getSettingsListener().design.containsKey(p)) {
+                        inv.setItem(i, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE,
+                                lobby.getSettingsListener().design.get(p), 1, null, null));
                     } else {
                         inv.setItem(i,
-                                itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
+                                lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
                     }
                 }
                 ServerGroupObject serverGroupObjectBW4x4 = TimoCloudAPI.getUniversalAPI().getServerGroup("BedWars4x4");
                 ArrayList<String> BWlore = new ArrayList<>();
                 BWlore.add("§7Derzeit sind §a" + getOnlinePlayerCount(serverGroupObjectBW4x4) + "§7 Spieler");
                 BWlore.add("§7online.");
-                inv.setItem(11, itemCreator.CreateItemwithMaterial(Material.BED, 0, 1, "§3§lBedWars", BWlore));
+                inv.setItem(11, lobby.getItemCreator().CreateItemwithMaterial(Material.BED, 0, 1, "§3§lBedWars", BWlore));
 
                 ServerGroupObject serverGroupObjectCityBuild = TimoCloudAPI.getUniversalAPI().getServerGroup("CityBuild");
                 ArrayList<String> CBlore = new ArrayList<>();
                 CBlore.add("§7Derzeit sind §a" + getOnlinePlayerCount(serverGroupObjectCityBuild) + "§7 Spieler");
                 CBlore.add("§7online.");
                 inv.setItem(15,
-                        itemCreator.CreateItemwithMaterial(Material.DIAMOND_BLOCK, 0, 1, "§6§lCityBuild", CBlore));
+                        lobby.getItemCreator().CreateItemwithMaterial(Material.DIAMOND_BLOCK, 0, 1, "§6§lCityBuild", CBlore));
 
-                inv.setItem(19, itemCreator.CreateItemwithMaterial(Material.IRON_AXE, 0, 1, "§9§lGunGame", null));
-                inv.setItem(22, itemCreator.CreateItemwithMaterial(Material.NETHER_STAR, 0, 1, "§a§lSpawn", null));
+                inv.setItem(19, lobby.getItemCreator().CreateItemwithMaterial(Material.IRON_AXE, 0, 1, "§9§lGunGame", null));
+                inv.setItem(22, lobby.getItemCreator().CreateItemwithMaterial(Material.NETHER_STAR, 0, 1, "§a§lSpawn", null));
 
                 ServerGroupObject serverGroupObjectSW8x1 = TimoCloudAPI.getUniversalAPI().getServerGroup("SkyWars8x1");
                 ArrayList<String> SW8x1lore = new ArrayList<>();
                 SW8x1lore.add("§7Derzeit sind §a" + getOnlinePlayerCount(serverGroupObjectSW8x1) + "§7 Spieler");
                 SW8x1lore.add("§7online.");
-                inv.setItem(25, itemCreator.CreateItemwithMaterial(Material.IRON_SWORD, 0, 1, "§f§lSkyWars", SW8x1lore));
+                inv.setItem(25, lobby.getItemCreator().CreateItemwithMaterial(Material.IRON_SWORD, 0, 1, "§f§lSkyWars", SW8x1lore));
                 inv.setItem(28,
-                        itemCreator.CreateItemwithMaterial(Material.TNT, 0, 1, "§4§lT§f§lN§4§lT§f§l-§4§lRun", null));
-                inv.setItem(34, itemCreator.CreateItemwithMaterial(Material.SIGN, 0, 1, "§8§lComing Soon", null));
+                        lobby.getItemCreator().CreateItemwithMaterial(Material.TNT, 0, 1, "§4§lT§f§lN§4§lT§f§l-§4§lRun", null));
+                inv.setItem(34, lobby.getItemCreator().CreateItemwithMaterial(Material.SIGN, 0, 1, "§8§lComing Soon", null));
 
                 for (int a = 53; a >= 45; a--) {
-                    if (settingsListener.design.containsKey(p)) {
-                        inv.setItem(a, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE,
-                                settingsListener.design.get(p), 1, null, null));
+                    if (lobby.getSettingsListener().design.containsKey(p)) {
+                        inv.setItem(a, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE,
+                                lobby.getSettingsListener().design.get(p), 1, null, null));
                     } else {
                         inv.setItem(a,
-                                itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
+                                lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
                     }
                 }
 
@@ -126,8 +118,8 @@ public class CompassListener implements Listener {
 
             if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§a§lSpawn")) {
 
-                p.teleport(locationsUtil.getSpawn());
-                p.sendMessage(prefix + "Du wurdest zum §6Server-Spawn §7teleportiert.");
+                p.teleport(lobby.getLocationsUtil().getSpawn());
+                p.sendMessage(lobby.getData().getPrefix() + "Du wurdest zum §6Server-Spawn §7teleportiert.");
                 Particle particle = new Particle(EnumParticle.FLAME, p.getLocation().add(0,2.25,0), true, 0.25f, 0.25f, 0.25f, 0, 10000);
                 particle.sendAll();
 
@@ -135,8 +127,8 @@ public class CompassListener implements Listener {
 
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§6§lCityBuild")) {
 
-                p.teleport(locationsUtil.getCitybuild());
-                p.sendMessage(prefix + "Du wurdest zu §6Citybuild §7teleportiert.");
+                p.teleport(lobby.getLocationsUtil().getCitybuild());
+                p.sendMessage(lobby.getData().getPrefix() + "Du wurdest zu §6Citybuild §7teleportiert.");
                 Particle particle = new Particle(EnumParticle.FLAME, p.getLocation().add(0,2.25,0), true, 0.25f, 0.25f, 0.25f, 0, 10000);
                 particle.sendAll();
 
@@ -145,8 +137,8 @@ public class CompassListener implements Listener {
 
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§3§lBedWars")) {
 
-                p.teleport(locationsUtil.getBedwars());
-                p.sendMessage(prefix + "Du wurdest zu §6Bedwars §7teleportiert.");
+                p.teleport(lobby.getLocationsUtil().getBedwars());
+                p.sendMessage(lobby.getData().getPrefix() + "Du wurdest zu §6Bedwars §7teleportiert.");
                 Particle particle = new Particle(EnumParticle.FLAME, p.getLocation().add(0,2.25,0), true, 0.25f, 0.25f, 0.25f, 0, 10000);
                 particle.sendAll();
 
@@ -156,8 +148,8 @@ public class CompassListener implements Listener {
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§9§lGunGame")) {
 
 
-                p.teleport(locationsUtil.getGungame());
-                p.sendMessage(prefix + "Du wurdest zu §6GunGame §7teleportiert.");
+                p.teleport(lobby.getLocationsUtil().getGungame());
+                p.sendMessage(lobby.getData().getPrefix() + "Du wurdest zu §6GunGame §7teleportiert.");
                 Particle particle = new Particle(EnumParticle.FLAME, p.getLocation().add(0,2.25,0), true, 0.25f, 0.25f, 0.25f, 0, 10000);
                 particle.sendAll();
 
@@ -165,21 +157,21 @@ public class CompassListener implements Listener {
 
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§f§lSkyWars")) {
 
-                p.teleport(locationsUtil.getSkywars());
-                p.sendMessage(prefix + "Du wurdest zu §6SkyWars §7teleportiert.");
+                p.teleport(lobby.getLocationsUtil().getSkywars());
+                p.sendMessage(lobby.getData().getPrefix() + "Du wurdest zu §6SkyWars §7teleportiert.");
                 Particle particle = new Particle(EnumParticle.FLAME, p.getLocation().add(0,2.25,0), true, 0.25f, 0.25f, 0.25f, 0, 10000);
                 particle.sendAll();
 
 
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§4§lT§f§lN§4§lT§f§l-§4§lRun")) {
 
-                p.sendMessage(prefix + "Dieser Modus ist noch nicht verfügbar!");
+                p.sendMessage(lobby.getData().getPrefix() + "Dieser Modus ist noch nicht verfügbar!");
                 Particle particle = new Particle(EnumParticle.FLAME, p.getLocation().add(0,2.25,0), true, 0.25f, 0.25f, 0.25f, 0, 10000);
                 particle.sendAll();
 
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§8Coming Soon")) {
 
-                p.sendMessage(prefix + "Dieser Modus ist noch nicht verfügbar!");
+                p.sendMessage(lobby.getData().getPrefix() + "Dieser Modus ist noch nicht verfügbar!");
 
 
             } else {

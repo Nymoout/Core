@@ -1,7 +1,7 @@
 package de.mj.BattleBuild.lobby.listener;
 
-import de.mj.BattleBuild.lobby.main.Lobby;
-import de.mj.BattleBuild.lobby.utils.Var;
+import de.mj.BattleBuild.lobby.Lobby;
+import de.mj.BattleBuild.lobby.utils.Data;
 import me.BukkitPVP.VIPHide.VIPHide;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -28,7 +28,7 @@ public class MinionListener implements Listener {
     public static HashMap<Player, ArmorStand> Minion = new HashMap<Player, ArmorStand>();
     public static HashMap<Player, Inventory> minioninv = new HashMap<Player, Inventory>();
     public static ArrayList<Player> ininv = new ArrayList<Player>();
-    String prefix = new Var().getPrefix();
+    String prefix = new Data().getPrefix();
 
     private final Lobby lobby;
 

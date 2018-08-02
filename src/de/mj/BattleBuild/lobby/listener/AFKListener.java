@@ -1,6 +1,6 @@
 package de.mj.BattleBuild.lobby.listener;
 
-import de.mj.BattleBuild.lobby.main.Lobby;
+import de.mj.BattleBuild.lobby.Lobby;
 import de.mj.BattleBuild.lobby.utils.SchedulerSaver;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -21,12 +21,10 @@ public class AFKListener implements Listener {
     private static ArrayList<Player> afkmover = new ArrayList<>();
 
     private final Lobby lobby;
-    private SchedulerSaver schedulerSaver;
 
     public AFKListener(Lobby lobby) {
         this.lobby = lobby;
         lobby.setListener(this);
-        schedulerSaver = lobby.getSchedulerSaver();
     }
 
     public void AFKTimer(Player p) {
@@ -81,7 +79,7 @@ public class AFKListener implements Listener {
     }
 
     public void LocationTimer() {
-        schedulerSaver.createScheduler(
+        lobby.getSchedulerSaver().createScheduler(
                 new BukkitRunnable() {
                     int counter = 2;
                     @Override

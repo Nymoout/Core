@@ -1,9 +1,6 @@
 package de.mj.BattleBuild.lobby.listener;
 
-import de.mj.BattleBuild.lobby.MySQL.SettingsAPI;
-import de.mj.BattleBuild.lobby.main.Lobby;
-import de.mj.BattleBuild.lobby.utils.ItemCreator;
-import de.mj.BattleBuild.lobby.utils.ScoreboardManager;
+import de.mj.BattleBuild.lobby.Lobby;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -55,18 +52,10 @@ public class SettingsListener implements Listener {
     static HashMap<Player, Inventory> score2 = new HashMap<Player, Inventory>();
 
     private final Lobby lobby;
-    private String prefix;
-    private SettingsAPI sapi;
-    private ItemCreator itemCreator;
-    private ScoreboardManager scoreboardManager;
 
     public SettingsListener(Lobby lobby) {
         this.lobby = lobby;
         lobby.setListener(this);
-        scoreboardManager = lobby.getScoreboardManager();
-        itemCreator = lobby.getItemCreator();
-        sapi = lobby.getSettingsAPI();
-        prefix = lobby.getVar().getPrefix();
     }
 
     @EventHandler
@@ -82,7 +71,7 @@ public class SettingsListener implements Listener {
                     p.openInventory(invent1.get(p));
                 }
             } else if (p.getInventory().getName().equals("§8§lMain Menu")) {
-                p.getInventory().setItem(31, itemCreator.CreateItemwithMaterial(Material.ARMOR_STAND, 0, 1,
+                p.getInventory().setItem(31, lobby.getItemCreator().CreateItemwithMaterial(Material.ARMOR_STAND, 0, 1,
                         "§9§lM§e§li§9§ln§e§li§9§lo§e§ln§9§ls", null));
             }
         }
@@ -92,7 +81,7 @@ public class SettingsListener implements Listener {
     public void onInvOpen(InventoryOpenEvent e) {
         Player p = (Player) e.getPlayer();
         if (p.getInventory().getTitle().contains("Main")) {
-            p.getInventory().setItem(31, itemCreator.CreateItemwithMaterial(Material.ARMOR_STAND, 0, 1,
+            p.getInventory().setItem(31, lobby.getItemCreator().CreateItemwithMaterial(Material.ARMOR_STAND, 0, 1,
                     "§9§lM§e§li§9§ln§e§li§9§lo§e§ln§9§ls", null));
         } else {
 
@@ -110,39 +99,39 @@ public class SettingsListener implements Listener {
         for (int i = 8; i >= 0; i--) {
             if (design.containsKey(p)) {
                 inv.setItem(i,
-                        itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
+                        lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
             } else {
-                inv.setItem(i, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
+                inv.setItem(i, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
             }
         }
         ArrayList<String> designlore = new ArrayList<String>();
         designlore.add("§7Ändere das Design der Inventare und des Scoreboards in der Lobby");
-        inv.setItem(9, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 0, 1, "§9§lDesign", designlore));
+        inv.setItem(9, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 0, 1, "§9§lDesign", designlore));
         if (design.containsKey(p)) {
-            inv.setItem(17, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, design.get(p), 1, null, null));
+            inv.setItem(17, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, design.get(p), 1, null, null));
         } else {
-            inv.setItem(17, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 0, 1, null, null));
+            inv.setItem(17, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 0, 1, null, null));
         }
         ArrayList<String> silentlore = new ArrayList<String>();
         silentlore.add("§7Mache dich anderen Spielern gegenüber unsichtbar und");
         silentlore.add("§7mache andere Spieler für dich unsichtbar");
         silentlore.add("§cDERZEIT NICHT VERFÜGBAR!");
-        inv.setItem(18, itemCreator.CreateItemwithMaterial(Material.ARROW, 0, 1, "§2§lSilent-Lobby", silentlore));
+        inv.setItem(18, lobby.getItemCreator().CreateItemwithMaterial(Material.ARROW, 0, 1, "§2§lSilent-Lobby", silentlore));
         if (silentstate.contains(p)) {
-            inv.setItem(26, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+            inv.setItem(26, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
-            inv.setItem(26, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+            inv.setItem(26, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
         }
         ArrayList<String> hidelore = new ArrayList<String>();
         hidelore.add("§7Verstecke bestimmte Spielergruppen");
-        inv.setItem(27, itemCreator.CreateItemwithMaterial(Material.BLAZE_ROD, 0, 1, "§6§lVerstecken", hidelore));
+        inv.setItem(27, lobby.getItemCreator().CreateItemwithMaterial(Material.BLAZE_ROD, 0, 1, "§6§lVerstecken", hidelore));
         ArrayList<String> ridelore = new ArrayList<String>();
         ridelore.add("§7Lasse Spieler auf dir reiten");
-        inv.setItem(27, itemCreator.CreateItemwithMaterial(Material.TRIPWIRE_HOOK, 0, 1, "§3§lRide on me", ridelore));
+        inv.setItem(27, lobby.getItemCreator().CreateItemwithMaterial(Material.TRIPWIRE_HOOK, 0, 1, "§3§lRide on me", ridelore));
         if (ridestate.contains(p)) {
-            inv.setItem(35, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+            inv.setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
-            inv.setItem(35, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+            inv.setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
         }
 
         ItemStack ArrowR = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
@@ -153,14 +142,14 @@ public class SettingsListener implements Listener {
         SM.setOwner("MHF_ArrowRight");
         ArrowR.setItemMeta(SM);
         inv.setItem(44, ArrowR);
-        inv.setItem(40, itemCreator.CreateItemwithMaterial(Material.PAPER, 0, 1, "§6§lSeite §a§l1§6§l/§a§l2", null));
+        inv.setItem(40, lobby.getItemCreator().CreateItemwithMaterial(Material.PAPER, 0, 1, "§6§lSeite §a§l1§6§l/§a§l2", null));
 
         for (int a = 53; a >= 45; a--) {
             if (design.containsKey(p)) {
                 inv.setItem(a,
-                        itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
+                        lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
             } else {
-                inv.setItem(a, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
+                inv.setItem(a, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
             }
         }
         invent1.put(p, inv);
@@ -169,39 +158,39 @@ public class SettingsListener implements Listener {
         for (int i = 8; i >= 0; i--) {
             if (design.containsKey(p)) {
                 inv2.setItem(i,
-                        itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
+                        lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
             } else {
-                inv2.setItem(i, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
+                inv2.setItem(i, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
             }
         }
 
         ArrayList<String> scorelore = new ArrayList<String>();
         scorelore.add("§7§ndere das Aussehen deines Scoreboards");
-        inv2.setItem(9, itemCreator.CreateItemwithMaterial(Material.SIGN, 0, 1, "§5§lScorboard", scorelore));
+        inv2.setItem(9, lobby.getItemCreator().CreateItemwithMaterial(Material.SIGN, 0, 1, "§5§lScorboard", scorelore));
 
         ArrayList<String> realtimelore = new ArrayList<String>();
         realtimelore.add("§7Wechsle zwischen Echtzeit, Tag oder Nacht in der Lobby");
-        inv2.setItem(18, itemCreator.CreateItemwithMaterial(Material.WATCH, 0, 1, "§6§lEcht§9§lzeit", realtimelore));
+        inv2.setItem(18, lobby.getItemCreator().CreateItemwithMaterial(Material.WATCH, 0, 1, "§6§lEcht§9§lzeit", realtimelore));
         if (srealtime.contains(p)) {
             inv2.setItem(26,
-                    itemCreator.CreateItemwithMaterial(Material.DAYLIGHT_DETECTOR, 0, 1, "§6Echt§9zeit", null));
+                    lobby.getItemCreator().CreateItemwithMaterial(Material.DAYLIGHT_DETECTOR, 0, 1, "§6Echt§9zeit", null));
         } else if (sday.contains(p)) {
-            inv2.setItem(26, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 4, 1, "§6Tag", null));
+            inv2.setItem(26, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 4, 1, "§6Tag", null));
         } else {
-            inv2.setItem(26, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 11, 1, "§9Nacht", null));
+            inv2.setItem(26, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 11, 1, "§9Nacht", null));
         }
 
         ArrayList<String> weatherlore = new ArrayList<String>();
         weatherlore.add("§7Wechsle zwichen Sonne oder Regen/Schnee");
-        inv2.setItem(27, itemCreator.CreateItemwithMaterial(Material.WATER_BUCKET, 0, 1, "§b§lWetter", weatherlore));
+        inv2.setItem(27, lobby.getItemCreator().CreateItemwithMaterial(Material.WATER_BUCKET, 0, 1, "§b§lWetter", weatherlore));
         if (sweather.contains(p)) {
-            inv2.setItem(35, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 4, 1, "§6Sonne", null));
+            inv2.setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 4, 1, "§6Sonne", null));
         } else {
-            inv2.setItem(35, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 11, 1, "§9Regen/Schnee", null));
+            inv2.setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 11, 1, "§9Regen/Schnee", null));
         }
 
         inv2.setItem(44, ArrowR);
-        inv.setItem(40, itemCreator.CreateItemwithMaterial(Material.PAPER, 0, 1, "§6§lSeite §a§l1§6§l/§a§l3", null));
+        inv.setItem(40, lobby.getItemCreator().CreateItemwithMaterial(Material.PAPER, 0, 1, "§6§lSeite §a§l1§6§l/§a§l3", null));
         ItemStack ArrowL = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         ItemMeta ArrowLM = ArrowL.getItemMeta();
         ArrowLM.setDisplayName("§6Vorherige Seite");
@@ -211,15 +200,15 @@ public class SettingsListener implements Listener {
         ArrowL.setItemMeta(SLM);
         inv2.setItem(36, ArrowL);
         inv3.setItem(36, ArrowL);
-        inv2.setItem(40, itemCreator.CreateItemwithMaterial(Material.PAPER, 0, 1, "§6§lSeite §a§l2§6§l/§a§l3", null));
-        inv3.setItem(40, itemCreator.CreateItemwithMaterial(Material.PAPER, 0, 1, "§6§lSeite §a§l3§6§l/§a§l3", null));
+        inv2.setItem(40, lobby.getItemCreator().CreateItemwithMaterial(Material.PAPER, 0, 1, "§6§lSeite §a§l2§6§l/§a§l3", null));
+        inv3.setItem(40, lobby.getItemCreator().CreateItemwithMaterial(Material.PAPER, 0, 1, "§6§lSeite §a§l3§6§l/§a§l3", null));
 
         for (int a = 53; a >= 45; a--) {
             if (design.containsKey(p)) {
                 inv2.setItem(a,
-                        itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
+                        lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
             } else {
-                inv2.setItem(a, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
+                inv2.setItem(a, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
             }
         }
         invent2.put(p, inv2);
@@ -229,45 +218,45 @@ public class SettingsListener implements Listener {
         for (int i = 8; i >= 0; i--) {
             if (design.containsKey(p)) {
                 inv3.setItem(i,
-                        itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
+                        lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
             } else {
-                inv3.setItem(i, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
+                inv3.setItem(i, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
             }
         }
 
         ArrayList<String> jumppadlore = new ArrayList<String>();
         jumppadlore.add("§7Schalte JumpPads an oder aus");
-        inv3.setItem(9, itemCreator.CreateItemwithMaterial(Material.GOLD_PLATE, 0, 1, "§5§lJumpPad", jumppadlore));
+        inv3.setItem(9, lobby.getItemCreator().CreateItemwithMaterial(Material.GOLD_PLATE, 0, 1, "§5§lJumpPad", jumppadlore));
         if (jumppads.contains(p)) {
-            inv3.setItem(17, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+            inv3.setItem(17, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
-            inv3.setItem(17, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+            inv3.setItem(17, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
         }
 
         ArrayList<String> doublejumplore = new ArrayList<String>();
         doublejumplore.add("§7Schalte DoubleJump an oder aus");
-        inv3.setItem(18, itemCreator.CreateItemwithMaterial(Material.FEATHER, 0, 1, "§f§lDoubleJump", doublejumplore));
+        inv3.setItem(18, lobby.getItemCreator().CreateItemwithMaterial(Material.FEATHER, 0, 1, "§f§lDoubleJump", doublejumplore));
         if (doppelsprung.contains(p)) {
-            inv3.setItem(26, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+            inv3.setItem(26, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
-            inv3.setItem(26, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+            inv3.setItem(26, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
         }
 
         ArrayList<String> liquidbouncelore = new ArrayList<String>();
         inv3.setItem(27,
-                itemCreator.CreateItemwithMaterial(Material.LAVA_BUCKET, 0, 1, "§2§lJump on Liquid", liquidbouncelore));
+                lobby.getItemCreator().CreateItemwithMaterial(Material.LAVA_BUCKET, 0, 1, "§2§lJump on Liquid", liquidbouncelore));
         if (waterjump.contains(p)) {
-            inv3.setItem(35, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+            inv3.setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
-            inv3.setItem(35, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+            inv3.setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
         }
 
         for (int a = 53; a >= 45; a--) {
             if (design.containsKey(p)) {
                 inv3.setItem(a,
-                        itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
+                        lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
             } else {
-                inv3.setItem(a, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
+                inv3.setItem(a, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
             }
         }
         invent3.put(p, inv3);
@@ -277,30 +266,30 @@ public class SettingsListener implements Listener {
     @EventHandler
     public void SettingsMenue(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
-        scoreboardManager.setBoardLOBBY(p);
+        lobby.getScoreboardManager().setBoardLOBBY(p);
         try {
             if (e.getCurrentItem().getItemMeta().getDisplayName().equals("§2§lSilent-Lobby")
                     && e.getCurrentItem().getType().equals(Material.ARROW)) {
                 if (p.hasPermission("lobby.silent")) {
                     if (!silentstate.contains(p)) {
                         silentstate.add(p);
-                        sapi.setSilent(p, true);
+                        lobby.getSettingsAPI().setSilent(p, true);
                         Inventory inv = invent1.get(p);
                         inv.setItem(26,
-                                itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+                                lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
                         p.updateInventory();
-                        p.sendMessage(prefix + "§aDu hast die §2Silent-Lobby §abetreten!");
+                        p.sendMessage(lobby.getData().getPrefix() + "§aDu hast die §2Silent-Lobby §abetreten!");
                     } else {
-                        sapi.setSilent(p, false);
+                        lobby.getSettingsAPI().setSilent(p, false);
                         silentstate.remove(p);
                         Inventory inv = invent1.get(p);
-                        inv.setItem(26, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1,
+                        inv.setItem(26, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1,
                                 "§cDEAKTIVIERT", null));
                         p.updateInventory();
-                        p.sendMessage(prefix + "§cDu hast die §4Silent-Lobby §cverlassen!");
+                        p.sendMessage(lobby.getData().getPrefix() + "§cDu hast die §4Silent-Lobby §cverlassen!");
                     }
                 } else {
-                    p.sendMessage(prefix
+                    p.sendMessage(lobby.getData().getPrefix()
                             + "§cDu benötigst mindestens den Rang VIP+, um dieses Feature nutzen zu können!");
                 }
             } else if (e.getCursor().getType().equals(Material.BLAZE_ROD)
@@ -316,18 +305,18 @@ public class SettingsListener implements Listener {
             } else if (e.getCurrentItem().getType().equals(Material.TRIPWIRE_HOOK)
                     && e.getCurrentItem().getItemMeta().getDisplayName().equals("§3§lRide on me")) {
                 if (ridestate.contains(p)) {
-                    p.sendMessage(prefix + "§cDu hast das §4Ride on me §cFeature deaktiviert!");
+                    p.sendMessage(lobby.getData().getPrefix() + "§cDu hast das §4Ride on me §cFeature deaktiviert!");
                     ridestate.remove(p);
                     invent1.get(p).setItem(35,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
-                    sapi.setRide(p, false);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+                    lobby.getSettingsAPI().setRide(p, false);
                     p.updateInventory();
                 } else {
-                    p.sendMessage(prefix + "§aDu hast das §2Ride on me §aFeature aktiviert!");
+                    p.sendMessage(lobby.getData().getPrefix() + "§aDu hast das §2Ride on me §aFeature aktiviert!");
                     ridestate.add(p);
                     invent1.get(p).setItem(35,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
-                    sapi.setRide(p, true);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+                    lobby.getSettingsAPI().setRide(p, true);
                     p.updateInventory();
                 }
             } else if (e.getCurrentItem().getType().equals(Material.WATCH)
@@ -336,20 +325,20 @@ public class SettingsListener implements Listener {
                     srealtime.remove(p);
                     sday.add(p);
                     invent2.get(p).setItem(26,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 4, 1, "§6Tag", null));
-                    sapi.setRealTime(p, false, true);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 4, 1, "§6Tag", null));
+                    lobby.getSettingsAPI().setRealTime(p, false, true);
                     p.updateInventory();
                 } else if (p.getOpenInventory().getItem(26).getItemMeta().getDisplayName().equalsIgnoreCase("§6Tag")) {
                     sday.remove(p);
                     invent2.get(p).setItem(26,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 11, 1, "§9Nacht", null));
-                    sapi.setRealTime(p, false, false);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 11, 1, "§9Nacht", null));
+                    lobby.getSettingsAPI().setRealTime(p, false, false);
                     p.updateInventory();
                 } else if (p.getOpenInventory().getItem(26).getItemMeta().getDisplayName().equalsIgnoreCase("§9Nacht")){
                     srealtime.add(p);
                     invent2.get(p).setItem(26,
-                            itemCreator.CreateItemwithMaterial(Material.DAYLIGHT_DETECTOR, 0, 1, "§6Echt§9zeit", null));
-                    sapi.setRealTime(p, true, false);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.DAYLIGHT_DETECTOR, 0, 1, "§6Echt§9zeit", null));
+                    lobby.getSettingsAPI().setRealTime(p, true, false);
                     p.updateInventory();
                 }
             } else if (e.getCurrentItem().getType().equals(Material.SKULL_ITEM)
@@ -371,16 +360,16 @@ public class SettingsListener implements Listener {
                 if (sweather.contains(p)) {
                     sweather.remove(p);
                     invent2.get(p).setItem(35,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 11, 1, "§9Regen/Schnee", null));
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 11, 1, "§9Regen/Schnee", null));
                     p.setPlayerWeather(WeatherType.DOWNFALL);
-                    sapi.setWeather(p, false);
+                    lobby.getSettingsAPI().setWeather(p, false);
                     p.updateInventory();
                 } else {
                     sweather.add(p);
                     invent2.get(p).setItem(35,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 4, 1, "§6Sonne", null));
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 4, 1, "§6Sonne", null));
                     p.setPlayerWeather(WeatherType.CLEAR);
-                    sapi.setWeather(p, true);
+                    lobby.getSettingsAPI().setWeather(p, true);
                     p.updateInventory();
                 }
             } else if (e.getCurrentItem().getType().equals(Material.LAVA_BUCKET)
@@ -388,14 +377,14 @@ public class SettingsListener implements Listener {
                 if (waterjump.contains(p)) {
                     waterjump.remove(p);
                     invent3.get(p).setItem(35,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
-                    sapi.setWJUMP(p, false);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+                    lobby.getSettingsAPI().setWJUMP(p, false);
                     p.updateInventory();
                 } else {
                     waterjump.add(p);
                     invent3.get(p).setItem(35,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
-                    sapi.setWJUMP(p, true);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+                    lobby.getSettingsAPI().setWJUMP(p, true);
                     p.updateInventory();
                 }
             } else if (e.getCurrentItem().getType().equals(Material.FEATHER)
@@ -403,19 +392,19 @@ public class SettingsListener implements Listener {
                 if (doppelsprung.contains(p)) {
                     doppelsprung.remove(p);
                     invent3.get(p).setItem(26,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
-                    sapi.setDJUMP(p, false);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+                    lobby.getSettingsAPI().setDJUMP(p, false);
                     p.updateInventory();
                 } else {
                     doppelsprung.add(p);
                     invent3.get(p).setItem(26,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
-                    sapi.setDJUMP(p, true);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+                    lobby.getSettingsAPI().setDJUMP(p, true);
                     p.updateInventory();
                 }
             }
             if (p.getInventory().getName().equals("§8§lMain Menu")) {
-                p.getInventory().setItem(31, itemCreator.CreateItemwithMaterial(Material.ARMOR_STAND, 0, 1,
+                p.getInventory().setItem(31, lobby.getItemCreator().CreateItemwithMaterial(Material.ARMOR_STAND, 0, 1,
                         "§9§lM§e§li§9§ln§e§li§9§lo§e§ln§9§ls", null));
             }
         } catch (NullPointerException | SQLException ex) {
@@ -432,7 +421,7 @@ public class SettingsListener implements Listener {
                     && !e.getCurrentItem().getItemMeta().getDisplayName().contains("Spawn")) {
                 short i = e.getCurrentItem().getDurability();
                 design.put(p, i);
-                sapi.setColor(p, i);
+                lobby.getSettingsAPI().setColor(p, i);
                 ItemColToString(p);
                 p.closeInventory();
                 new BukkitRunnable() {
@@ -479,14 +468,14 @@ public class SettingsListener implements Listener {
                 if (sfriends.contains(p)) {
                     sfriends.remove(p);
                     score1.get(p).setItem(17,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
-                    sapi.setFriends(p, false);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+                    lobby.getSettingsAPI().setFriends(p, false);
                     p.updateInventory();
                 } else {
                     sfriends.add(p);
                     score1.get(p).setItem(17,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
-                    sapi.setFriends(p, true);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+                    lobby.getSettingsAPI().setFriends(p, true);
                     p.updateInventory();
                 }
             } else if (e.getCurrentItem().getType().equals(Material.GOLD_INGOT)
@@ -494,14 +483,14 @@ public class SettingsListener implements Listener {
                 if (scoins.contains(p)) {
                     scoins.remove(p);
                     score1.get(p).setItem(26,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
-                    sapi.setCoins(p, false);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+                    lobby.getSettingsAPI().setCoins(p, false);
                     p.updateInventory();
                 } else {
                     scoins.add(p);
                     score1.get(p).setItem(26,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
-                    sapi.setCoins(p, true);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+                    lobby.getSettingsAPI().setCoins(p, true);
                     p.updateInventory();
                 }
             } else if (e.getCurrentItem().getType().equals(Material.REDSTONE)
@@ -509,14 +498,14 @@ public class SettingsListener implements Listener {
                 if (srang.contains(p)) {
                     srang.remove(p);
                     score1.get(p).setItem(35,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
-                    sapi.setRang(p, false);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+                    lobby.getSettingsAPI().setRang(p, false);
                     p.updateInventory();
                 } else {
                     srang.add(p);
                     score1.get(p).setItem(35,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
-                    sapi.setRang(p, true);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+                    lobby.getSettingsAPI().setRang(p, true);
                     p.updateInventory();
                 }
             } else if (e.getCurrentItem().getType().equals(Material.ENDER_CHEST)
@@ -524,14 +513,14 @@ public class SettingsListener implements Listener {
                 if (sclan.contains(p)) {
                     sclan.remove(p);
                     score2.get(p).setItem(17,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
-                    sapi.setClan(p, false);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+                    lobby.getSettingsAPI().setClan(p, false);
                     p.updateInventory();
                 } else {
                     sclan.add(p);
                     score2.get(p).setItem(17,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
-                    sapi.setClan(p, true);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+                    lobby.getSettingsAPI().setClan(p, true);
                     p.updateInventory();
                 }
             } else if (e.getCurrentItem().getType().equals(Material.NETHER_STAR)
@@ -539,14 +528,14 @@ public class SettingsListener implements Listener {
                 if (sserver.contains(p)) {
                     sserver.remove(p);
                     score2.get(p).setItem(26,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
-                    sapi.setServer(p, false);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+                    lobby.getSettingsAPI().setServer(p, false);
                     p.updateInventory();
                 } else {
                     sserver.add(p);
                     score2.get(p).setItem(26,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
-                    sapi.setServer(p, true);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+                    lobby.getSettingsAPI().setServer(p, true);
                     p.updateInventory();
                 }
             } else if (e.getCurrentItem().getType().equals(Material.GOLD_PLATE)
@@ -554,24 +543,24 @@ public class SettingsListener implements Listener {
                 if (jumppads.contains(p)) {
                     jumppads.remove(p);
                     invent3.get(p).setItem(17,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
-                    sapi.setPJUMP(p, false);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+                    lobby.getSettingsAPI().setPJUMP(p, false);
 
                 } else {
                     jumppads.add(p);
                     invent3.get(p).setItem(17,
-                            itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
-                    sapi.setPJUMP(p, true);
+                            lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+                    lobby.getSettingsAPI().setPJUMP(p, true);
                 }
             } else if (e.getCurrentItem().getType().equals(Material.WATCH) && e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§6Online-Zeit")) {
                 if (szeit.contains(p)) {
                     szeit.remove(p);
-                    score2.get(p).setItem(35, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
-                    sapi.setTime(p, false);
+                    score2.get(p).setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+                    lobby.getSettingsAPI().setTime(p, false);
                 } else {
                     szeit.add(p);
-                    score2.get(p).setItem(35, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
-                    sapi.setTime(p, true);
+                    score2.get(p).setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+                    lobby.getSettingsAPI().setTime(p, true);
                 }
             }
         } catch (NullPointerException | SQLException ex) {
@@ -587,9 +576,9 @@ public class SettingsListener implements Listener {
         for (int i = 8; i >= 0; i--) {
             if (design.containsKey(p)) {
                 inv1.setItem(i,
-                        itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
+                        lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
             } else {
-                inv1.setItem(i, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
+                inv1.setItem(i, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
             }
         }
 
@@ -603,23 +592,23 @@ public class SettingsListener implements Listener {
         inv1.setItem(9, player);
 
         if (sfriends.contains(p)) {
-            inv1.setItem(17, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+            inv1.setItem(17, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
-            inv1.setItem(17, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+            inv1.setItem(17, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
         }
 
-        inv1.setItem(18, itemCreator.CreateItemwithMaterial(Material.GOLD_INGOT, 0, 1, "§6§lCoins", null));
+        inv1.setItem(18, lobby.getItemCreator().CreateItemwithMaterial(Material.GOLD_INGOT, 0, 1, "§6§lCoins", null));
         if (scoins.contains(p)) {
-            inv1.setItem(26, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+            inv1.setItem(26, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
-            inv1.setItem(26, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+            inv1.setItem(26, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
         }
 
-        inv1.setItem(27, itemCreator.CreateItemwithMaterial(Material.REDSTONE, 0, 1, "§c§lRang", null));
+        inv1.setItem(27, lobby.getItemCreator().CreateItemwithMaterial(Material.REDSTONE, 0, 1, "§c§lRang", null));
         if (srang.contains(p)) {
-            inv1.setItem(35, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+            inv1.setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
-            inv1.setItem(35, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+            inv1.setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
         }
 
         ItemStack ArrowR = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
@@ -630,14 +619,14 @@ public class SettingsListener implements Listener {
         SM.setOwner("MHF_ArrowRight");
         ArrowR.setItemMeta(SM);
         inv1.setItem(44, ArrowR);
-        inv1.setItem(40, itemCreator.CreateItemwithMaterial(Material.PAPER, 0, 1, "§6§lSeite §a§l1§6§l/§a§l2", null));
+        inv1.setItem(40, lobby.getItemCreator().CreateItemwithMaterial(Material.PAPER, 0, 1, "§6§lSeite §a§l1§6§l/§a§l2", null));
 
         for (int a = 53; a >= 45; a--) {
             if (design.containsKey(p)) {
                 inv1.setItem(a,
-                        itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
+                        lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
             } else {
-                inv1.setItem(a, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
+                inv1.setItem(a, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
             }
         }
 
@@ -648,31 +637,31 @@ public class SettingsListener implements Listener {
         for (int i = 8; i >= 0; i--) {
             if (design.containsKey(p)) {
                 inv2.setItem(i,
-                        itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
+                        lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
             } else {
-                inv2.setItem(i, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
+                inv2.setItem(i, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
             }
         }
 
-        inv2.setItem(9, itemCreator.CreateItemwithMaterial(Material.ENDER_CHEST, 0, 1, "§2§lClan", null));
+        inv2.setItem(9, lobby.getItemCreator().CreateItemwithMaterial(Material.ENDER_CHEST, 0, 1, "§2§lClan", null));
         if (sclan.contains(p)) {
-            inv2.setItem(17, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+            inv2.setItem(17, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
-            inv2.setItem(17, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+            inv2.setItem(17, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
         }
 
-        inv2.setItem(18, itemCreator.CreateItemwithMaterial(Material.NETHER_STAR, 0, 1, "§f§lServer", null));
+        inv2.setItem(18, lobby.getItemCreator().CreateItemwithMaterial(Material.NETHER_STAR, 0, 1, "§f§lServer", null));
         if (sserver.contains(p)) {
-            inv2.setItem(26, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+            inv2.setItem(26, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
-            inv2.setItem(26, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+            inv2.setItem(26, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
         }
 
-        inv2.setItem(27, itemCreator.CreateItemwithMaterial(Material.WATCH, 0, 1, "§6Online-Zeit", null));
+        inv2.setItem(27, lobby.getItemCreator().CreateItemwithMaterial(Material.WATCH, 0, 1, "§6Online-Zeit", null));
         if (szeit.contains(p)) {
-            inv2.setItem(35, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
+            inv2.setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
-            inv2.setItem(35, itemCreator.CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
+            inv2.setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
         }
         ItemStack ArrowL = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         ItemMeta ArrowLM = ArrowL.getItemMeta();
@@ -682,14 +671,14 @@ public class SettingsListener implements Listener {
         SLM.setOwner("MHF_ArrowLeft");
         ArrowL.setItemMeta(SLM);
         inv2.setItem(36, ArrowL);
-        inv2.setItem(40, itemCreator.CreateItemwithMaterial(Material.PAPER, 0, 1, "§6§lSeite §a§l2§6§l/§a§l2", null));
+        inv2.setItem(40, lobby.getItemCreator().CreateItemwithMaterial(Material.PAPER, 0, 1, "§6§lSeite §a§l2§6§l/§a§l2", null));
 
         for (int a = 53; a >= 45; a--) {
             if (design.containsKey(p)) {
                 inv2.setItem(a,
-                        itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
+                        lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, design.get(p), 1, null, null));
             } else {
-                inv2.setItem(a, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
+                inv2.setItem(a, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
             }
         }
 
@@ -705,7 +694,7 @@ public class SettingsListener implements Listener {
             if (ridestate.contains(horse)) {
                 horse.setPassenger(rider);
             } else {
-                rider.sendMessage(prefix + "§cDer Spieler hat das Ride on me Feature nicht aktiviert!");
+                rider.sendMessage(lobby.getData().getPrefix() + "§cDer Spieler hat das Ride on me Feature nicht aktiviert!");
             }
         }
     }
@@ -730,22 +719,22 @@ public class SettingsListener implements Listener {
 
     public Inventory Design() {
         Inventory inv = Bukkit.createInventory(null, 18, "§9§lDesign");
-        inv.setItem(1, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 0, 1, "§f§lWeiss", null));
-        inv.setItem(2, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 1, 1, "§6§lOrange", null));
-        inv.setItem(3, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 2, 1, "§5§lMagenta", null));
-        inv.setItem(4, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 3, 1, "§b§lHellblau", null));
-        inv.setItem(5, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 4, 1, "§e§lGelb", null));
-        inv.setItem(6, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 5, 1, "§a§lHellgr§n", null));
-        inv.setItem(7, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 6, 1, "§d§lPink", null));
-        inv.setItem(9, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 7, 1, "§8§lDunkelgrau", null));
-        inv.setItem(10, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 8, 1, "§7§lHellgrau", null));
-        inv.setItem(11, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 9, 1, "§3§lAqua", null));
-        inv.setItem(12, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 10, 1, "§5§lLila", null));
-        inv.setItem(13, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 11, 1, "§9§lDunkelblau", null));
-        inv.setItem(14, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 12, 1, "§fBraun", null));
-        inv.setItem(15, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 13, 1, "§2§lDunkelgr§n", null));
-        inv.setItem(16, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 14, 1, "§c§lRot", null));
-        inv.setItem(17, itemCreator.CreateItemwithMaterial(Material.STAINED_GLASS, 15, 1, "§0§lSchwarz", null));
+        inv.setItem(1, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 0, 1, "§f§lWeiss", null));
+        inv.setItem(2, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 1, 1, "§6§lOrange", null));
+        inv.setItem(3, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 2, 1, "§5§lMagenta", null));
+        inv.setItem(4, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 3, 1, "§b§lHellblau", null));
+        inv.setItem(5, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 4, 1, "§e§lGelb", null));
+        inv.setItem(6, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 5, 1, "§a§lHellgr§n", null));
+        inv.setItem(7, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 6, 1, "§d§lPink", null));
+        inv.setItem(9, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 7, 1, "§8§lDunkelgrau", null));
+        inv.setItem(10, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 8, 1, "§7§lHellgrau", null));
+        inv.setItem(11, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 9, 1, "§3§lAqua", null));
+        inv.setItem(12, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 10, 1, "§5§lLila", null));
+        inv.setItem(13, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 11, 1, "§9§lDunkelblau", null));
+        inv.setItem(14, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 12, 1, "§fBraun", null));
+        inv.setItem(15, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 13, 1, "§2§lDunkelgr§n", null));
+        inv.setItem(16, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 14, 1, "§c§lRot", null));
+        inv.setItem(17, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 15, 1, "§0§lSchwarz", null));
         return inv;
     }
 

@@ -2,7 +2,7 @@ name: BBLobby
 version: 4.1.2
 author: MJ
 
-main: de.mj.BattleBuild.lobby.main.Lobby
+main: de.mj.BattleBuild.lobby.Lobby
 depend: [CoinsAPI, Vault]
 
 commands:

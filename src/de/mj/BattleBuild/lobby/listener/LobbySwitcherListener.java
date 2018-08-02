@@ -5,7 +5,7 @@ import cloud.timo.TimoCloud.api.objects.ServerGroupObject;
 import cloud.timo.TimoCloud.api.objects.ServerObject;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import de.mj.BattleBuild.lobby.main.Lobby;
+import de.mj.BattleBuild.lobby.Lobby;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class LobbySwitcherListener implements Listener {
 
     private Inventory inv = Bukkit.createInventory(null, 9, "§f§lLobby-Switcher");
-    private Lobby lobby;
+    private final Lobby lobby;
 
     public LobbySwitcherListener(Lobby lobby) {
         this.lobby = lobby;

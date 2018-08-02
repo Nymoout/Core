@@ -1,5 +1,6 @@
 package de.mj.BattleBuild.lobby.utils;
 
+import de.mj.BattleBuild.lobby.Lobby;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -9,18 +10,20 @@ import java.io.File;
 
 public class SetLocations {
 
+    private final Lobby lobby;
     private static File file = new File("/plugins/BBLobby/", "locations.yml");
     private static YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(file);
-    LocationsUtil locationsUtil = new LocationsUtil();
 
-    public SetLocations () {}
+    public SetLocations (Lobby lobby) {
+        this.lobby = lobby;
+    }
 
     public void saveLocs() {
-        locationsUtil.setBedwars(initLocs("bedwars"));
-        locationsUtil.setCitybuild(initLocs("citybuild"));
-        locationsUtil.setGungame(initLocs("gungame"));
-        locationsUtil.setSkywars(initLocs("skywars"));
-        locationsUtil.setSpawn(initLocs("spawn"));
+        lobby.getLocationsUtil().setBedwars(initLocs("bedwars"));
+        lobby.getLocationsUtil().setCitybuild(initLocs("citybuild"));
+        lobby.getLocationsUtil().setGungame(initLocs("gungame"));
+        lobby.getLocationsUtil().setSkywars(initLocs("skywars"));
+        lobby.getLocationsUtil().setSpawn(initLocs("spawn"));
     }
 
     private static Location initLocs(String path) {
