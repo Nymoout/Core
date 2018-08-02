@@ -1,11 +1,15 @@
 package de.mj.BattleBuild.lobby.listener;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
+import cloud.timo.TimoCloud.api.TimoCloudAPI;
+import cloud.timo.TimoCloud.api.objects.PlayerObject;
 import de.mj.BattleBuild.lobby.MySQL.SettingsAPI;
 import de.mj.BattleBuild.lobby.main.Lobby;
 import de.mj.BattleBuild.lobby.utils.*;
+import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
+import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.WeatherType;
@@ -20,25 +24,33 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import cloud.timo.TimoCloud.api.TimoCloudAPI;
-import cloud.timo.TimoCloud.api.objects.PlayerObject;;
-import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
-import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
+import java.util.ArrayList;
+
+;
 
 public class JoinListener implements Listener {
 
-    private final Lobby plugin = Lobby.getLobby();
-    SettingsListener settingsListener = new SettingsListener();
+    private final Lobby lobby;
+    private SettingsListener settingsListener;
+    private SettingsAPI settingsAPI;
+    private ActionbarTimer actionbarTimer;
+    private ItemCreator itemCreator;
+    private ScoreboardManager scoreboardManager;
+    private TabList tabList;
+
+    public JoinListener(Lobby lobby) {
+        this.lobby = lobby;
+        lobby.setListener(this);
+        settingsListener = lobby.getSettingsListener();
+        settingsAPI = lobby.getSettingsAPI();
+        actionbarTimer = lobby.getActionbarTimer();
+        itemCreator = lobby.getItemCreator();
+        scoreboardManager = lobby.getScoreboardManager();
+        tabList = lobby.getTabList();
+    }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent e) {
-        ActionbarTimer actionbarTimer = new ActionbarTimer();
-        ItemCreator itemCreator = new ItemCreator();
-        ScoreboardManager scoreboardManager = new ScoreboardManager();
-        TabList tabList = new TabList();
         Player p = e.getPlayer();
         if (!p.hasPlayedBefore()) {
             settingsListener.ridestate.add(p);
@@ -54,7 +66,6 @@ public class JoinListener implements Listener {
         p.setGameMode(GameMode.ADVENTURE);
         actionbarTimer.action.put(p, false);
         e.setJoinMessage(null);
-        SettingsAPI settingsAPI = new SettingsAPI();
         try {
             settingsAPI.createPlayer(p);
             settingsAPI.createScorePlayer(p);
@@ -90,7 +101,7 @@ public class JoinListener implements Listener {
                     }
                 }
             }
-        }.runTaskTimer(Lobby.getPlugin(), 0L, 20L * 5);
+        }.runTaskTimer(lobby, 0L, 20L * 5);
 
         p.getInventory().clear();
         tabList.setPrefix(p);
@@ -140,9 +151,9 @@ public class JoinListener implements Listener {
             PacketPlayOutChat packet = new PacketPlayOutChat(icb);
             ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
         }
-        setDefaultSidebar(p);
+        //setDefaultSidebar(p);
     }
-
+    /*
     public void setDefaultSidebar(Player p) {
         String color = "§" + settingsListener.color.get(p);
         HashMap<String, Integer> playerSidebar = new HashMap<>();
@@ -179,4 +190,5 @@ public class JoinListener implements Listener {
 
         plugin.getScoreboardManager().setSidebar(p, playerSidebar, color + "§lBattleBuild");
     }
+    */
 }

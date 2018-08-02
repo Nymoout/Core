@@ -1,30 +1,7 @@
 package de.mj.BattleBuild.lobby.utils;
 
-import cloud.timo.TimoCloud.api.TimoCloudAPI;
-import cloud.timo.TimoCloud.api.objects.PlayerObject;
-import de.mj.BattleBuild.lobby.listener.SettingsListener;
-import de.mj.BattleBuild.lobby.main.Lobby;
-import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
-import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
-import de.simonsator.partyandfriends.spigot.clans.api.ClansManager;
-import me.Dunios.NetworkManagerBridge.spigot.NetworkManagerBridge;
-import me.lucko.luckperms.LuckPerms;
-import me.lucko.luckperms.api.Contexts;
-import me.lucko.luckperms.api.User;
-import me.lucko.luckperms.api.caching.MetaData;
-import me.lucko.luckperms.api.context.ContextManager;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
-
-import java.util.HashMap;
-
 public class NewScoreboardManager {
-
+    /*
     private final Lobby plugin;
     private SettingsListener settingsListener = new SettingsListener();
 
@@ -187,4 +164,5 @@ public class NewScoreboardManager {
             }
         }.runTaskTimerAsynchronously(plugin, 0L, 20L);
     }
+    */
 }

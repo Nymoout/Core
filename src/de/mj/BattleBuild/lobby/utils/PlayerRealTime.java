@@ -10,7 +10,7 @@ import java.util.Calendar;
 
 public class PlayerRealTime {
 
-    private Plugin plugin;
+    private final Plugin plugin;
     SchedulerSaver schedulerSaver = new SchedulerSaver();
 
     public PlayerRealTime(Plugin plugin) {

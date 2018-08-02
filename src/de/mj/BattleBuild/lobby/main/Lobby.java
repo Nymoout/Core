@@ -1,16 +1,19 @@
 package de.mj.BattleBuild.lobby.main;
 
+import de.mj.BattleBuild.lobby.MySQL.AsyncMySQL;
 import de.mj.BattleBuild.lobby.MySQL.MySQLLoader;
-import de.mj.BattleBuild.lobby.Variabeln.Var;
+import de.mj.BattleBuild.lobby.MySQL.SettingsAPI;
 import de.mj.BattleBuild.lobby.commands.AFKCommand;
 import de.mj.BattleBuild.lobby.commands.SpawnCommand;
 import de.mj.BattleBuild.lobby.listener.*;
 import de.mj.BattleBuild.lobby.utils.*;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -23,7 +26,49 @@ public class Lobby extends JavaPlugin {
     private static Lobby lobby;
     private ConsoleCommandSender sender;
     private static Economy econ = null;
-    private NewScoreboardManager scoreboardManager;
+
+    //Commands
+    private AFKCommand afkCommand;
+    private SpawnCommand spawnCommand;
+
+    //Listener
+    private AFKListener afkListener;
+    private BukkitMinecraftCommandBlockListener commandBlockListener;
+    private CancelListener cancelListener;
+    private ChatListener chatListener;
+    private CompassListener compassListener;
+    private DoubleJumpListener doubleJumpListener;
+    private JoinListener joinListener;
+    private JumpPadListener jumpPadListener;
+    private LobbySwitcherListener lobbySwitcherListener;
+    private MinionListener minionListener;
+    private QuitListener quitListener;
+    private SettingsListener settingsListener;
+    private StopReloadRestartListener stopReloadRestartListener;
+    private WaterJumpListener waterJumpListener;
+    private YourProfileListener yourProfileListener;
+
+    //MySQL
+    private AsyncMySQL asyncMySQL;
+    private AsyncMySQL.MySQL mySQL;
+    private MySQLLoader mySQLLoader;
+    private SettingsAPI settingsAPI;
+
+    //Utlis
+    private ActionbarTimer actionbarTimer;
+    private ItemCreator itemCreator;
+    private LocationsUtil locationsUtil;
+    private Particle particle;
+    private PlayerRealTime playerRealTime;
+    private SchedulerSaver schedulerSaver;
+    private ScoreboardManager scoreboardManager;
+    private SetLocations setLocations;
+    private TabList tabList;
+    private Title title;
+    private Var var;
+
+    private PluginManager pluginManager;
+
     String prefix = new Var().getPrefix();
 
     @Override
@@ -32,25 +77,9 @@ public class Lobby extends JavaPlugin {
 
         sender.sendMessage(prefix + "§ewird gestartet...");
 
-        setPlugin(this);
         setLobby(this);
 
-        sender.sendMessage(prefix + "§3initialisiere MySQL-Verbindung...");
-        MySQLLoader mySQLLoader = new MySQLLoader(getPlugin());
-        mySQLLoader.loadConf();
-
-        sender.sendMessage(prefix + "§6initialisiere Commands und Listener");
-        initCommandAndListener();
-
-        sender.sendMessage(prefix + "§9registriere BungeeCord-PluginChannel...");
-        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-
-        sender.sendMessage(prefix + "§dinitialisiere Scheduler...");
-        initScheduler();
-
-        sender.sendMessage(prefix + "§binitialisiere Locations...");
-        SetLocations setLocations = new SetLocations();
-        setLocations.saveLocs();
+        pluginManager = Bukkit.getPluginManager();
 
         sender.sendMessage(prefix + "§2Versuche Vault-Hook...");
         if (!setupEconomy()) {
@@ -61,10 +90,7 @@ public class Lobby extends JavaPlugin {
             sender.sendMessage(prefix + "§2Erfolg!");
         }
 
-        sender.sendMessage(prefix + "§binitialisiere Scoreboards...");
-        TabList tabList = new TabList();
-        tabList.loadTablist();
-        this.scoreboardManager = new NewScoreboardManager(this);
+        init();
 
         sender.sendMessage(prefix + "§awurde gestartet!");
     }
@@ -77,37 +103,48 @@ public class Lobby extends JavaPlugin {
         schedulerSaver.cancelSchedulers();
     }
 
-    public void initCommandAndListener() {
-        //Commands
-        getCommand("afk").setExecutor(new AFKCommand());
-        getCommand("spawn").setExecutor(new SpawnCommand());
+    public void init() {
+        //init commands
+        afkCommand = new AFKCommand(this);
+        spawnCommand = new SpawnCommand(this);
 
-        //Listener
-        PluginManager pluginManager = Bukkit.getPluginManager();
-        pluginManager.registerEvents(new AFKListener(), this);
-        pluginManager.registerEvents(new BukkitMinecraftCommandBlockListener(), this);
-        pluginManager.registerEvents(new CancelListener(), this);
-        pluginManager.registerEvents(new ChatListener(), this);
-        pluginManager.registerEvents(new CompassListener(), this);
-        pluginManager.registerEvents(new DoubleJumpListener(), this);
-        pluginManager.registerEvents(new JoinListener(), this);
-        pluginManager.registerEvents(new JumpPadListener(), this);
-        pluginManager.registerEvents(new LobbySwitcherListener(), this);
-        pluginManager.registerEvents(new MinionListener(), this);
-        pluginManager.registerEvents(new QuitListener(), this);
-        pluginManager.registerEvents(new SettingsListener(), this);
-        pluginManager.registerEvents(new StopReloadRestartListener(), this);
-        pluginManager.registerEvents(new WaterJumpListener(), this);
-        pluginManager.registerEvents(new YourProfileListener(), this);
-    }
+        //init listener
+        afkListener = new AFKListener(this);
+        commandBlockListener = new BukkitMinecraftCommandBlockListener(this);
+        cancelListener = new CancelListener(this);
+        chatListener = new ChatListener(this);
+        compassListener = new CompassListener(this);
+        doubleJumpListener = new DoubleJumpListener(this);
+        joinListener = new JoinListener(this);
+        jumpPadListener = new JumpPadListener(this);
+        lobbySwitcherListener = new LobbySwitcherListener(this);
+        minionListener = new MinionListener(this);
+        quitListener = new QuitListener(this);
+        settingsListener = new SettingsListener(this);
+        stopReloadRestartListener = new StopReloadRestartListener(this);
+        waterJumpListener = new WaterJumpListener(this);
+        yourProfileListener = new YourProfileListener(this);
 
-    public void initScheduler() {
-        AFKListener afkListener = new AFKListener(getPlugin());
-        PlayerRealTime playerRealTime = new PlayerRealTime(getPlugin());
-        ActionbarTimer actionbarTimer = new ActionbarTimer(getPlugin());
-        afkListener.LocationTimer();
-        playerRealTime.setPlayerRealTime();
-        actionbarTimer.setActionBar();
+        //MySQL
+        asyncMySQL = new AsyncMySQL(this);
+        mySQL = new AsyncMySQL.MySQL();
+        mySQLLoader = new MySQLLoader(this);
+        settingsAPI = new SettingsAPI(this);
+        mySQLLoader.loadConf();
+        mySQLLoader.loadMySQL();
+
+        //Utils
+        actionbarTimer = new ActionbarTimer(this);
+        itemCreator = new ItemCreator();
+        locationsUtil = new LocationsUtil();
+        particle = new Particle();
+        playerRealTime = new PlayerRealTime(this);
+        schedulerSaver = new SchedulerSaver();
+        scoreboardManager = new ScoreboardManager(this);
+        setLocations = new SetLocations();
+        tabList = new TabList();
+        title = new Title(this);
+        var = new Var();
     }
 
     private boolean setupEconomy() {
@@ -134,31 +171,156 @@ public class Lobby extends JavaPlugin {
         entity.setMetadata(meta, new FixedMetadataValue(this, object));
     }
 
-    public NewScoreboardManager getScoreboardManager() {
-        return scoreboardManager;
-    }
-
-    public static Economy getEconomy() {
-        return econ;
-    }
-
-    public static void setPlugin(Plugin lobby) {
-        plugin = lobby;
-    }
-
-    public static Plugin getPlugin() {
-        return plugin;
-    }
 
     public void setSender(ConsoleCommandSender consoleCommandSender) {
         this.sender = consoleCommandSender;
     }
 
-    private void setLobby(Lobby lobby) {
+    public void setListener(Listener listener) {
+        Bukkit.getPluginManager().registerEvents(listener, this);
+    }
+
+    public void setCommand(CommandExecutor commandExecutor, String command) {
+        getCommand(command).setExecutor(commandExecutor);
+    }
+
+    public Lobby getLobby() {
+        return lobby;
+    }
+
+    public void setLobby(Lobby lobby) {
         this.lobby = lobby;
     }
 
-    public static Lobby getLobby() {
-        return lobby;
+    public Economy getEconomy() {
+        return econ;
+    }
+
+    public AFKCommand getAfkCommand() {
+        return afkCommand;
+    }
+
+    public SpawnCommand getSpawnCommand() {
+        return spawnCommand;
+    }
+
+    public AFKListener getAfkListener() {
+        return afkListener;
+    }
+
+    public BukkitMinecraftCommandBlockListener getCommandBlockListener() {
+        return commandBlockListener;
+    }
+
+    public CancelListener getCancelListener() {
+        return cancelListener;
+    }
+
+    public ChatListener getChatListener() {
+        return chatListener;
+    }
+
+    public CompassListener getCompassListener() {
+        return compassListener;
+    }
+
+    public DoubleJumpListener getDoubleJumpListener() {
+        return doubleJumpListener;
+    }
+
+    public JoinListener getJoinListener() {
+        return joinListener;
+    }
+
+    public JumpPadListener getJumpPadListener() {
+        return jumpPadListener;
+    }
+
+    public LobbySwitcherListener getLobbySwitcherListener() {
+        return lobbySwitcherListener;
+    }
+
+    public MinionListener getMinionListener() {
+        return minionListener;
+    }
+
+    public QuitListener getQuitListener() {
+        return quitListener;
+    }
+
+    public SettingsListener getSettingsListener() {
+        return settingsListener;
+    }
+
+    public StopReloadRestartListener getStopReloadRestartListener() {
+        return stopReloadRestartListener;
+    }
+
+    public WaterJumpListener getWaterJumpListener() {
+        return waterJumpListener;
+    }
+
+    public YourProfileListener getYourProfileListener() {
+        return yourProfileListener;
+    }
+
+    public AsyncMySQL getAsyncMySQL() {
+        return asyncMySQL;
+    }
+
+    public AsyncMySQL.MySQL getMySQL() {
+        return mySQL;
+    }
+
+    public MySQLLoader getMySQLLoader() {
+        return mySQLLoader;
+    }
+
+    public SettingsAPI getSettingsAPI() {
+        return settingsAPI;
+    }
+
+    public ActionbarTimer getActionbarTimer() {
+        return actionbarTimer;
+    }
+
+    public ItemCreator getItemCreator() {
+        return itemCreator;
+    }
+
+    public LocationsUtil getLocationsUtil() {
+        return locationsUtil;
+    }
+
+    public Particle getParticle() {
+        return particle;
+    }
+
+    public PlayerRealTime getPlayerRealTime() {
+        return playerRealTime;
+    }
+
+    public SchedulerSaver getSchedulerSaver() {
+        return schedulerSaver;
+    }
+
+    public ScoreboardManager getScoreboardManager() {
+        return scoreboardManager;
+    }
+
+    public SetLocations getSetLocations() {
+        return setLocations;
+    }
+
+    public TabList getTabList() {
+        return tabList;
+    }
+
+    public Title getTitle() {
+        return title;
+    }
+
+    public Var getVar() {
+        return var;
     }
 }

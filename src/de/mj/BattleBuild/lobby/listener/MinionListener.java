@@ -1,14 +1,14 @@
 package de.mj.BattleBuild.lobby.listener;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import de.mj.BattleBuild.lobby.Variabeln.Var;
+import de.mj.BattleBuild.lobby.main.Lobby;
+import de.mj.BattleBuild.lobby.utils.Var;
 import me.BukkitPVP.VIPHide.VIPHide;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.*;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -20,12 +20,22 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class MinionListener implements Listener {
 
     public static HashMap<Player, ArmorStand> Minion = new HashMap<Player, ArmorStand>();
     public static HashMap<Player, Inventory> minioninv = new HashMap<Player, Inventory>();
     public static ArrayList<Player> ininv = new ArrayList<Player>();
     String prefix = new Var().getPrefix();
+
+    private final Lobby lobby;
+
+    public MinionListener(Lobby lobby) {
+        this.lobby = lobby;
+        lobby.setListener(this);
+    }
 
     @EventHandler
     public void createMinion(PlayerInteractEvent e) {

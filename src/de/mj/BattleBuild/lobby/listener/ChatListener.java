@@ -1,5 +1,6 @@
 package de.mj.BattleBuild.lobby.listener;
 
+import de.mj.BattleBuild.lobby.main.Lobby;
 import me.BukkitPVP.VIPHide.VIPHide;
 import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.Contexts;
@@ -12,6 +13,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatListener implements Listener {
+
+    private final Lobby lobby;
+
+    public ChatListener(Lobby lobby) {
+        this.lobby = lobby;
+        lobby.setListener(this);
+    }
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
         Player p = e.getPlayer();

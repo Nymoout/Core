@@ -1,6 +1,6 @@
 package de.mj.BattleBuild.lobby.listener;
 
-import org.bukkit.entity.Player;
+import de.mj.BattleBuild.lobby.main.Lobby;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -8,7 +8,14 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class QuitListener implements Listener {
 
-    MinionListener minionListener = new MinionListener();
+    private final Lobby lobby;
+    private MinionListener minionListener;
+
+    public QuitListener(Lobby lobby) {
+        this.lobby = lobby;
+        lobby.setListener(this);
+        minionListener = lobby.getMinionListener();
+    }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onQuit(PlayerQuitEvent e) {

@@ -3,9 +3,8 @@ package de.mj.BattleBuild.lobby.listener;
 import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.ServerGroupObject;
 import cloud.timo.TimoCloud.api.objects.ServerObject;
-
-import java.util.ArrayList;
-
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import de.mj.BattleBuild.lobby.main.Lobby;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -19,12 +18,17 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
+import java.util.ArrayList;
 
 public class LobbySwitcherListener implements Listener {
 
-    Inventory inv = Bukkit.createInventory(null, 9, "§f§lLobby-Switcher");
+    private Inventory inv = Bukkit.createInventory(null, 9, "§f§lLobby-Switcher");
+    private Lobby lobby;
+
+    public LobbySwitcherListener(Lobby lobby) {
+        this.lobby = lobby;
+        lobby.setListener(this);
+    }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
@@ -81,7 +85,7 @@ public class LobbySwitcherListener implements Listener {
                     ByteArrayDataOutput out = ByteStreams.newDataOutput();
                     out.writeUTF("Connect");
                     out.writeUTF(server);
-                    p.sendPluginMessage(Lobby.getPlugin(), "BungeeCord", out.toByteArray());
+                    p.sendPluginMessage(this.lobby, "BungeeCord", out.toByteArray());
                 }
             }
         } catch (Exception ex) {}

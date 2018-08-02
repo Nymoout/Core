@@ -1,6 +1,7 @@
 package de.mj.BattleBuild.lobby.listener;
 
-import de.mj.BattleBuild.lobby.Variabeln.Var;
+import de.mj.BattleBuild.lobby.main.Lobby;
+import de.mj.BattleBuild.lobby.utils.Var;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -9,7 +10,12 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class BukkitMinecraftCommandBlockListener implements Listener {
 
-    Var var = new Var();
+    private Var var;
+
+    public BukkitMinecraftCommandBlockListener(Lobby lobby) {
+        lobby.setListener(this);
+        var = lobby.getVar();
+    }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onCMD(PlayerCommandPreprocessEvent e) {

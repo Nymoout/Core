@@ -1,11 +1,6 @@
 package de.mj.BattleBuild.lobby.listener;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import de.mj.BattleBuild.lobby.MySQL.SettingsAPI;
-import de.mj.BattleBuild.lobby.Variabeln.Var;
 import de.mj.BattleBuild.lobby.main.Lobby;
 import de.mj.BattleBuild.lobby.utils.ItemCreator;
 import de.mj.BattleBuild.lobby.utils.ScoreboardManager;
@@ -28,6 +23,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SettingsListener implements Listener {
 
@@ -55,10 +54,20 @@ public class SettingsListener implements Listener {
     static HashMap<Player, Inventory> score1 = new HashMap<Player, Inventory>();
     static HashMap<Player, Inventory> score2 = new HashMap<Player, Inventory>();
 
-    String prefix = new Var().getPrefix();
-    SettingsAPI sapi = new SettingsAPI();
-    ItemCreator itemCreator = new ItemCreator();
-    static ScoreboardManager scoreboardManager = new ScoreboardManager();
+    private final Lobby lobby;
+    private String prefix;
+    private SettingsAPI sapi;
+    private ItemCreator itemCreator;
+    private ScoreboardManager scoreboardManager;
+
+    public SettingsListener(Lobby lobby) {
+        this.lobby = lobby;
+        lobby.setListener(this);
+        scoreboardManager = lobby.getScoreboardManager();
+        itemCreator = lobby.getItemCreator();
+        sapi = lobby.getSettingsAPI();
+        prefix = lobby.getVar().getPrefix();
+    }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
@@ -438,7 +447,7 @@ public class SettingsListener implements Listener {
                             this.cancel();
                         }
                     }
-                }.runTaskTimer(Lobby.getPlugin(), 0L, 10L);
+                }.runTaskTimer(lobby, 0L, 10L);
                 setInv(p);
             }
         } catch (NullPointerException ex) {

@@ -1,8 +1,8 @@
 package de.mj.BattleBuild.lobby.utils;
 
+import de.mj.BattleBuild.lobby.main.Lobby;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -10,17 +10,16 @@ import java.util.HashMap;
 public class ActionbarTimer {
 
     public static HashMap<Player, Boolean> action = new HashMap<>();
-    Plugin plugin;
-    SchedulerSaver schedulerSaver = new SchedulerSaver();
-    Title title = new Title(plugin);
+    private final Lobby lobby;
+    private Title title;
 
-    public ActionbarTimer () {}
-    public ActionbarTimer(Plugin plugin) {
-        this.plugin = plugin;
+    public ActionbarTimer(Lobby lobby) {
+        this.lobby = lobby;
+        title = lobby.getTitle();
     }
 
     public void setActionBar() {
-        schedulerSaver.createScheduler(
+        lobby.getSchedulerSaver().createScheduler(
                 new BukkitRunnable() {
 
                     int msg = 2;
@@ -65,7 +64,7 @@ public class ActionbarTimer {
                         msg--;
                     }
 
-                }.runTaskTimer(this.plugin, 0L, 20L * 5)
+                }.runTaskTimer(lobby, 0L, 20L * 5)
         );
     }
 }

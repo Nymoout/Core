@@ -1,5 +1,6 @@
 package de.mj.BattleBuild.lobby.listener;
 
+import de.mj.BattleBuild.lobby.main.Lobby;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -12,6 +13,13 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
 public class CancelListener implements Listener {
+
+    private Lobby lobby;
+
+    public CancelListener(Lobby lobby) {
+        this.lobby = lobby;
+        lobby.setListener(this);
+    }
 
     @EventHandler
     public void Itemmove(InventoryMoveItemEvent e) {

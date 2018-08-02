@@ -4,10 +4,11 @@ import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.PlayerObject;
 import cloud.timo.TimoCloud.api.objects.ServerGroupObject;
 import cloud.timo.TimoCloud.api.objects.ServerObject;
+import de.mj.BattleBuild.lobby.main.Lobby;
 import de.mj.BattleBuild.lobby.utils.ItemCreator;
 import de.mj.BattleBuild.lobby.utils.LocationsUtil;
 import de.mj.BattleBuild.lobby.utils.Particle;
-import de.mj.BattleBuild.lobby.Variabeln.Var;
+import de.mj.BattleBuild.lobby.utils.Var;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -23,11 +24,20 @@ import java.util.ArrayList;
 
 public class CompassListener implements Listener {
 
-    SettingsListener settingsListener = new SettingsListener();
-    ItemCreator itemCreator = new ItemCreator();
-    LocationsUtil locationsUtil = new LocationsUtil();
     String prefix = new Var().getPrefix();
 
+    private final Lobby lobby;
+    private SettingsListener settingsListener;
+    private ItemCreator itemCreator;
+    private LocationsUtil locationsUtil;
+
+    public CompassListener(Lobby lobby) {
+        this.lobby = lobby;
+        lobby.setListener(this);
+        settingsListener = lobby.getSettingsListener();
+        itemCreator = lobby.getItemCreator();
+        locationsUtil = lobby.getLocationsUtil();
+    }
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
 

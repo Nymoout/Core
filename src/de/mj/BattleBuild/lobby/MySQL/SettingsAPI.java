@@ -1,18 +1,24 @@
 package de.mj.BattleBuild.lobby.MySQL;
 
 
-import java.sql.SQLException;
-import java.util.UUID;
-
 import de.mj.BattleBuild.lobby.listener.SettingsListener;
 import de.mj.BattleBuild.lobby.main.Lobby;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+
+import java.sql.SQLException;
+import java.util.UUID;
 
 public class SettingsAPI {
 
-    static AsyncMySQL amsql = new AsyncMySQL((Plugin)Lobby.getPlugin());
-    static AsyncMySQL.MySQL msql = new AsyncMySQL.MySQL();
+    private final Lobby lobby;
+    private AsyncMySQL amsql;
+    private AsyncMySQL.MySQL msql;
+
+    public SettingsAPI(Lobby lobby) {
+        this.lobby = lobby;
+        amsql = lobby.getAsyncMySQL();
+        msql = lobby.getMySQL();
+    }
 
     public void createPlayer(Player p) throws SQLException {
         UUID uuid = p.getUniqueId();

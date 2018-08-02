@@ -1,5 +1,6 @@
 package de.mj.BattleBuild.lobby.listener;
 
+import de.mj.BattleBuild.lobby.main.Lobby;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -10,6 +11,13 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
 
 public class JumpPadListener implements Listener {
+
+    private final Lobby lobby;
+
+    public JumpPadListener(Lobby lobby) {
+        this.lobby = lobby;
+        lobby.setListener(this);
+    }
 
     @SuppressWarnings("deprecation")
     @EventHandler

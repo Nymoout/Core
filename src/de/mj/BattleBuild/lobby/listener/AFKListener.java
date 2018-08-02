@@ -1,5 +1,6 @@
 package de.mj.BattleBuild.lobby.listener;
 
+import de.mj.BattleBuild.lobby.main.Lobby;
 import de.mj.BattleBuild.lobby.utils.SchedulerSaver;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -7,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -19,12 +19,14 @@ public class AFKListener implements Listener {
     private static HashMap<Player, Location> locations = new HashMap<>();
     private static HashMap<Player, BukkitTask> runs = new HashMap<>();
     private static ArrayList<Player> afkmover = new ArrayList<>();
-    private Plugin plugin;
-    SchedulerSaver schedulerSaver = new SchedulerSaver();
 
-    public AFKListener() {}
-    public AFKListener(Plugin plugin) {
-        this.plugin = plugin;
+    private final Lobby lobby;
+    private SchedulerSaver schedulerSaver;
+
+    public AFKListener(Lobby lobby) {
+        this.lobby = lobby;
+        lobby.setListener(this);
+        schedulerSaver = lobby.getSchedulerSaver();
     }
 
     public void AFKTimer(Player p) {
@@ -47,7 +49,7 @@ public class AFKListener implements Listener {
                     cancel();
                 }
             }
-        }.runTaskTimer(this.plugin, 0L, 20L));
+        }.runTaskTimer(this.lobby, 0L, 20L));
     }
 
     public void AFKWorker() {
@@ -92,7 +94,7 @@ public class AFKListener implements Listener {
                         }
                         counter--;
                     }
-                }.runTaskTimer(this.plugin, 0L, 20L*10)
+                }.runTaskTimer(this.lobby, 0L, 20L * 10)
         );
     }
 

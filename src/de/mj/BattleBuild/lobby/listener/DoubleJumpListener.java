@@ -1,5 +1,6 @@
 package de.mj.BattleBuild.lobby.listener;
 
+import de.mj.BattleBuild.lobby.main.Lobby;
 import de.mj.BattleBuild.lobby.utils.Particle;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.GameMode;
@@ -14,7 +15,14 @@ import org.bukkit.util.Vector;
 
 public class DoubleJumpListener implements Listener {
 
-    SettingsListener settingsListener = new SettingsListener();
+    private final Lobby lobby;
+    private SettingsListener settingsListener;
+
+    public DoubleJumpListener(Lobby lobby) {
+        this.lobby = lobby;
+        lobby.setListener(this);
+        settingsListener = lobby.getSettingsListener();
+    }
 
     @SuppressWarnings("deprecation")
     @EventHandler

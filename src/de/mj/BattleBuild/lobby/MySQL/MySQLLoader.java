@@ -1,21 +1,26 @@
 package de.mj.BattleBuild.lobby.MySQL;
 
-import java.io.File;
-
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+
+import java.io.File;
 
 public class MySQLLoader {
 
     File f = new File("plugins/BBLobby/", "MySQL.yml");
     YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
 
-    Plugin plugin;
-    String host;
-    int port;
-    String user;
-    String pw;
-    String db;
+    private final Plugin plugin;
+    private String host;
+    private int port;
+    private String user;
+    private String pw;
+    private String db;
+
+    public MySQLLoader(Plugin pl) {
+        this.plugin = pl;
+        loadMySQL();
+    }
 
     public void loadConf() {
         host = cfg.getString("host");
@@ -27,10 +32,6 @@ public class MySQLLoader {
         pw = cfg.getString("password");
         db = cfg.getString("database");
         System.out.println(db);
-    }
-
-    public MySQLLoader(Plugin pl) {
-        this.plugin = pl;
     }
 
     public void loadMySQL() {
