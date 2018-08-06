@@ -1,20 +1,31 @@
+/*
+ * @author MJ
+ * Created in 25.08.2018
+ * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
+ *
+ */
+
 package de.mj.BattleBuild.lobby.utils;
 
+import de.mj.BattleBuild.lobby.Lobby;
 import de.mj.BattleBuild.lobby.listener.SettingsListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Calendar;
 
 public class PlayerRealTime {
 
-    private Plugin plugin;
+    private final Lobby lobby;
     SchedulerSaver schedulerSaver = new SchedulerSaver();
 
-    public PlayerRealTime(Plugin plugin) {
-        this.plugin = plugin;
+    public PlayerRealTime(Lobby lobby) {
+        this.lobby = lobby;
+    }
+
+    private static double secToTicks(long sec) {
+        return Math.floor(0.2777778F * (float) sec);
     }
 
     public void setPlayerRealTime() {
@@ -43,10 +54,7 @@ public class PlayerRealTime {
                             }
                         }
                     }
-                }.runTaskTimer(this.plugin, 0L, 20L * 6)
+                }.runTaskTimerAsynchronously(lobby, 0L, 20L)
         );
-    }
-    private static double secToTicks(long sec) {
-        return Math.floor(0.2777778F * (float)sec);
     }
 }

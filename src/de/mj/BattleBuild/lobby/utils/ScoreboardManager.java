@@ -1,43 +1,50 @@
+/*
+ * @author MJ
+ * Created in 25.08.2018
+ * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
+ *
+ */
+
 package de.mj.BattleBuild.lobby.utils;
 
 
-import de.mj.BattleBuild.lobby.listener.SettingsListener;
-import de.mj.BattleBuild.lobby.main.Lobby;
-import me.Dunios.NetworkManagerBridge.spigot.NetworkManagerBridge;
-import net.minecraft.server.v1_8_R3.*;
-import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.PlayerObject;
+import de.mj.BattleBuild.lobby.Lobby;
+import de.mj.BattleBuild.lobby.listener.SettingsListener;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
 import de.simonsator.partyandfriends.spigot.clans.api.ClansManager;
+import me.Dunios.NetworkManagerBridge.spigot.NetworkManagerBridge;
 import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.Contexts;
 import me.lucko.luckperms.api.User;
 import me.lucko.luckperms.api.caching.MetaData;
 import me.lucko.luckperms.api.context.ContextManager;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
+import net.minecraft.server.v1_8_R3.*;
+import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class ScoreboardManager {
 
-    private Plugin plugin;
-    static SettingsListener settingsListener = new SettingsListener();
-    SchedulerSaver schedulerSaver = new SchedulerSaver();
+    static SettingsListener settingsListener;
+    private final Lobby lobby;
+    SchedulerSaver schedulerSaver;
 
-    public ScoreboardManager() {}
+    public ScoreboardManager(Lobby lobby) {
+        this.lobby = lobby;
+        settingsListener = lobby.getSettingsListener();
+        schedulerSaver = lobby.getSchedulerSaver();
+    }
 
-    public ScoreboardManager(Plugin plugin) {
-        this.plugin = plugin;
+    private static void sendPacket(@SuppressWarnings("rawtypes") Packet packet, Player p) {
+        ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
     }
 
     public void setBoardLOBBY(Player p) {
-        Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        Scoreboard scoreboard = new Scoreboard();
         String color;
         if (settingsListener.color.containsKey(p)) {
             color = settingsListener.color.get(p);
@@ -46,17 +53,17 @@ public class ScoreboardManager {
             settingsListener.ItemColToString(p);
             color = "6";
         }
-        Objective obj = scoreboard.registerObjective("zagd", IScoreboardCriteria.b);
+        ScoreboardObjective obj = scoreboard.registerObjective("zagd", IScoreboardCriteria.b);
         obj.setDisplayName("§" + color + "§lBattleBuild");
         PacketPlayOutScoreboardObjective createPacket = new PacketPlayOutScoreboardObjective(obj, 0);
         PacketPlayOutScoreboardDisplayObjective display = new PacketPlayOutScoreboardDisplayObjective(1, obj);
         ScoreboardScore s1 = new ScoreboardScore(scoreboard, obj, "§a§lDeine Coins §8:");
-        ScoreboardScore s2 = null;
-        s2 = new ScoreboardScore(scoreboard, obj, "§8\u00BB §" + color + String.valueOf(Lobby.getEconomy().getBalance(p.getName())));
+        ScoreboardScore s2;
+        s2 = new ScoreboardScore(scoreboard, obj, "§8\u00BB §" + color + String.valueOf(lobby.getEconomy().getBalance(p)));
         ScoreboardScore s3 = new ScoreboardScore(scoreboard, obj, "§8§7");
 
         ScoreboardScore s4 = new ScoreboardScore(scoreboard, obj, "§a§lDein Rang §8:");
-        ScoreboardScore s5 = null;
+        ScoreboardScore s5;
         User user = LuckPerms.getApi().getUser(p.getUniqueId());
         ContextManager cm = LuckPerms.getApi().getContextManager();
         Contexts contexts = cm.lookupApplicableContexts(user).orElse(cm.getStaticContexts());
@@ -71,7 +78,7 @@ public class ScoreboardManager {
         ScoreboardScore s6 = new ScoreboardScore(scoreboard, obj, "§7§9 ");
 
         ScoreboardScore s8 = new ScoreboardScore(scoreboard, obj, "§a§lDein Clan §8:");
-        ScoreboardScore s9 = null;
+        ScoreboardScore s9;
         PAFPlayer pafp = PAFPlayerManager.getInstance().getPlayer(p.getUniqueId());
         int i = 0;
         try {
@@ -98,7 +105,7 @@ public class ScoreboardManager {
         ScoreboardScore s13 = new ScoreboardScore(scoreboard, obj, "§7§5 ");
 
         ScoreboardScore s14 = new ScoreboardScore(scoreboard, obj, "§a§lOnline Freunde");
-        ScoreboardScore s15 = null;
+        ScoreboardScore s15;
         int f = 0;
         for (PAFPlayer friends : pafp.getFriends()) {
             for (PlayerObject online : TimoCloudAPI.getUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
@@ -192,10 +199,6 @@ public class ScoreboardManager {
         }
     }
 
-    private static void sendPacket(@SuppressWarnings("rawtypes") Packet packet, Player p) {
-        ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
-    }
-
     public void ScoreboardActu() {
         schedulerSaver.createScheduler(
                 new BukkitRunnable() {
@@ -205,7 +208,7 @@ public class ScoreboardManager {
                             setBoardLOBBY(all);
                         }
                     }
-                }.runTaskTimer(this.plugin, 0L, 20L * 10)
+                }.runTaskTimerAsynchronously(this.lobby, 0L, 20L)
         );
     }
 }

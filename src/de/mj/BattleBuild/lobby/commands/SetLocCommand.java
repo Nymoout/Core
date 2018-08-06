@@ -1,3 +1,10 @@
+/*
+ * @author MJ
+ * Created in 25.08.2018
+ * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
+ *
+ */
+
 package de.mj.BattleBuild.lobby.commands;
 
 import de.mj.BattleBuild.lobby.Lobby;
@@ -5,14 +12,13 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class SetLocCommand implements CommandExecutor {
 
     private final Lobby lobby;
 
-    public SetLocCommand (Lobby lobby) {
+    public SetLocCommand(Lobby lobby) {
         this.lobby = lobby;
         lobby.setCommand(this, "set");
     }

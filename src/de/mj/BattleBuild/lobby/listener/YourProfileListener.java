@@ -1,5 +1,13 @@
+/*
+ * @author MJ
+ * Created in 25.08.2018
+ * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
+ *
+ */
+
 package de.mj.BattleBuild.lobby.listener;
 
+import de.mj.BattleBuild.lobby.Lobby;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -7,6 +15,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class YourProfileListener implements Listener {
+
+    private final Lobby lobby;
+
+    public YourProfileListener(Lobby lobby) {
+        this.lobby = lobby;
+        lobby.setListener(this);
+    }
+
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         try {
@@ -15,6 +31,7 @@ public class YourProfileListener implements Listener {
                 p.playSound(p.getLocation(), Sound.NOTE_PIANO, 1, 1);
                 p.performCommand("friendsgui");
             }
-        } catch (Exception ex) { }
+        } catch (Exception ex) {
+        }
     }
 }

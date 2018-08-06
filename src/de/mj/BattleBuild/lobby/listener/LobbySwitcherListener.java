@@ -1,13 +1,20 @@
+/*
+ * @author MJ
+ * Created in 25.08.2018
+ * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
+ *
+ */
+
 package de.mj.BattleBuild.lobby.listener;
 
 import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.ServerGroupObject;
 import cloud.timo.TimoCloud.api.objects.ServerObject;
-
-import java.util.ArrayList;
-
-import de.mj.BattleBuild.lobby.main.Lobby;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+import de.mj.BattleBuild.lobby.Lobby;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,27 +26,32 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
+import java.util.ArrayList;
 
 public class LobbySwitcherListener implements Listener {
 
-    Inventory inv = Bukkit.createInventory(null, 9, "§f§lLobby-Switcher");
+    private final Lobby lobby;
+    private Inventory inv = Bukkit.createInventory(null, 9, "§f§lLobby-Switcher");
+
+    public LobbySwitcherListener(Lobby lobby) {
+        this.lobby = lobby;
+        lobby.setListener(this);
+    }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
+    public void onInteract(PlayerInteractEvent interactEvent) {
+        Player player = interactEvent.getPlayer();
         try {
-            if (((e.getAction() == Action.RIGHT_CLICK_BLOCK) || (e.getAction() == Action.RIGHT_CLICK_AIR))
-                    && (e.getItem().getItemMeta().getDisplayName().equalsIgnoreCase("§8\u00BB§f§lLobby-Switcher§8\u00AB"))) {
-                p.playSound(p.getLocation(), Sound.NOTE_PIANO, 1.0F, 1.0F);
+            if (((interactEvent.getAction() == Action.RIGHT_CLICK_BLOCK) || (interactEvent.getAction() == Action.RIGHT_CLICK_AIR))
+                    && (interactEvent.getItem().getItemMeta().getDisplayName().equalsIgnoreCase("§8\u00BB§f§lLobby-Switcher§8\u00AB"))) {
+                player.playSound(player.getLocation(), Sound.NOTE_PIANO, 1.0F, 1.0F);
                 ServerGroupObject go = TimoCloudAPI.getUniversalAPI().getServerGroup("Lobby");
                 int i = go.getServers().size();
                 int size = i;
                 if (size == 1) {
-                    p.sendMessage("§7[§6§lBattleBuild§7] §7Derzeit sind keine weiteren Lobby-Server online!");
+                    player.sendMessage("§7[§6§lBattleBuild§7] §7Derzeit sind keine weiteren Lobby-Server online!");
                 } else {
-                    String curServer = p.getServer().getServerName();
+                    String curServer = player.getServer().getServerName();
                     while (size > 0) {
                         ServerObject so = TimoCloudAPI.getUniversalAPI().getServer("Lobby-" + size);
                         int c = so.getOnlinePlayerCount();
@@ -49,8 +61,8 @@ public class LobbySwitcherListener implements Listener {
                             Strating("Lobby-" + size, size);
                         }
                         size--;
-                        p.openInventory(this.inv);
-                        p.updateInventory();
+                        player.openInventory(this.inv);
+                        player.updateInventory();
                     }
                 }
             }
@@ -59,32 +71,32 @@ public class LobbySwitcherListener implements Listener {
     }
 
     @EventHandler
-    public void onClick(InventoryClickEvent e) {
-        if (e.getWhoClicked() == null) {
+    public void onClick(InventoryClickEvent clickEvent) {
+        if (clickEvent.getWhoClicked() == null) {
             return;
         }
-        Player p = (Player) e.getWhoClicked();
+        Player player = (Player) clickEvent.getWhoClicked();
         try {
-            if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Lobby")
-                    && !e.getCurrentItem().getItemMeta().getDisplayName().contains("Silent")) {
-                String[] lobby = e.getCurrentItem().getItemMeta().getDisplayName().split("-");
-                System.out.println(lobby[1]);
+            if (clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Lobby")
+                    && !clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Silent")) {
+                String[] lobby = clickEvent.getCurrentItem().getItemMeta().getDisplayName().split("-");
                 String server = "Lobby-" + lobby[1];
-                String[] splitserver = p.getServer().getServerName().split("-");
+                String[] splitserver = player.getServer().getServerName().split("-");
                 int serverid = Integer.parseInt(splitserver[1]);
                 int lobbyid = Integer.parseInt(lobby[1]);
                 if (lobbyid == serverid) {
-                    p.sendMessage("§7[§6§lBattleBuild§7] §7Du bist bereits mit diesem Server verbunden!");
+                    player.sendMessage("§7[§6§lBattleBuild§7] §7Du bist bereits mit diesem Server verbunden!");
                 } else {
-                    p.sendMessage("§7[§6§lBattleBuild§7] §7§7Du betrittst nun den Server §6§lLobby-" + lobby[1]);
-                    p.closeInventory();
+                    player.sendMessage("§7[§6§lBattleBuild§7] §7§7Du betrittst nun den Server §6§lLobby-" + lobby[1]);
+                    player.closeInventory();
                     ByteArrayDataOutput out = ByteStreams.newDataOutput();
                     out.writeUTF("Connect");
                     out.writeUTF(server);
-                    p.sendPluginMessage(Lobby.getPlugin(), "BungeeCord", out.toByteArray());
+                    player.sendPluginMessage(this.lobby, "BungeeCord", out.toByteArray());
                 }
             }
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -108,9 +120,9 @@ public class LobbySwitcherListener implements Listener {
         where--;
         this.inv.setItem(where, emer);
     }
+
     public void Strating(String name, int where) {
-        @SuppressWarnings("deprecation")
-        ItemStack emer = new ItemStack(351, 1, (short) 8);
+        ItemStack emer = new ItemStack(Material.INK_SACK, 1, (short) 8);
         ItemMeta emerm = emer.getItemMeta();
         emerm.setDisplayName("§c" + name);
         ArrayList<String> list = new ArrayList<String>();

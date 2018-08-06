@@ -1,17 +1,22 @@
+/*
+ * @author MJ
+ * Created in 25.08.2018
+ * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
+ *
+ */
+
 package de.mj.BattleBuild.lobby.mySQL;
 
 import de.mj.BattleBuild.lobby.Lobby;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 
 public class MySQLLoader {
 
+    private final Lobby lobby;
     File f = new File("plugins/BBLobby/", "MySQL.yml");
     YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
-
-    private final Lobby lobby;
     private String host;
     private int port;
     private String user;

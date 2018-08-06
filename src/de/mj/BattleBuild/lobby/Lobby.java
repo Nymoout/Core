@@ -1,15 +1,20 @@
+/*
+ * @author MJ
+ * Created in 25.08.2018
+ * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
+ *
+ */
+
 package de.mj.BattleBuild.lobby;
 
-import cloud.timo.TimoCloud.api.TimoCloudAPI;
-import cloud.timo.TimoCloud.api.plugins.TimoCloudPlugin;
+import de.mj.BattleBuild.lobby.commands.AFKCommand;
 import de.mj.BattleBuild.lobby.commands.ServerCommand;
 import de.mj.BattleBuild.lobby.commands.SetLocCommand;
+import de.mj.BattleBuild.lobby.commands.SpawnCommand;
+import de.mj.BattleBuild.lobby.listener.*;
 import de.mj.BattleBuild.lobby.mySQL.AsyncMySQL;
 import de.mj.BattleBuild.lobby.mySQL.MySQLLoader;
 import de.mj.BattleBuild.lobby.mySQL.SettingsAPI;
-import de.mj.BattleBuild.lobby.commands.AFKCommand;
-import de.mj.BattleBuild.lobby.commands.SpawnCommand;
-import de.mj.BattleBuild.lobby.listener.*;
 import de.mj.BattleBuild.lobby.utils.*;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -24,20 +29,19 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+
 public class Lobby extends JavaPlugin {
 
     private static Plugin plugin;
     private static Lobby lobby;
-    private ConsoleCommandSender sender;
     private static Economy econ = null;
-    private static Plugin timoCloudPlugin;
-
+    String prefix = new Data().getPrefix();
+    private ConsoleCommandSender sender;
     //Commands
     private AFKCommand afkCommand;
     private ServerCommand serverCommand;
     private SetLocCommand setLocCommand;
     private SpawnCommand spawnCommand;
-
     //Listener
     private AFKListener afkListener;
     private BukkitMinecraftCommandBlockListener commandBlockListener;
@@ -55,13 +59,11 @@ public class Lobby extends JavaPlugin {
     private StopReloadRestartListener stopReloadRestartListener;
     private WaterJumpListener waterJumpListener;
     private YourProfileListener yourProfileListener;
-
     //mySQL
     private AsyncMySQL asyncMySQL;
     private AsyncMySQL.MySQL mySQL;
     private MySQLLoader mySQLLoader;
     private SettingsAPI settingsAPI;
-
     //Utlis
     private ActionbarTimer actionbarTimer;
     private ItemCreator itemCreator;
@@ -74,10 +76,7 @@ public class Lobby extends JavaPlugin {
     private TabList tabList;
     private Title title;
     private Data data;
-
     private PluginManager pluginManager;
-
-    String prefix = new Data().getPrefix();
 
     @Override
     public void onEnable() {
@@ -249,7 +248,7 @@ public class Lobby extends JavaPlugin {
 
     public void removeMetadata(Entity entity, String meta) {
         if (entity.hasMetadata(meta))
-            entity.removeMetadata(meta,this);
+            entity.removeMetadata(meta, this);
     }
 
     public void setMetadata(Entity entity, String meta, Object object) {
@@ -257,13 +256,12 @@ public class Lobby extends JavaPlugin {
         entity.setMetadata(meta, new FixedMetadataValue(this, object));
     }
 
+    public ConsoleCommandSender getSender() {
+        return sender;
+    }
 
     public void setSender(ConsoleCommandSender consoleCommandSender) {
         this.sender = consoleCommandSender;
-    }
-
-    public ConsoleCommandSender getSender() {
-        return sender;
     }
 
     public void setListener(Listener listener) {
@@ -284,10 +282,6 @@ public class Lobby extends JavaPlugin {
 
     public Economy getEconomy() {
         return econ;
-    }
-
-    public Plugin getTimoCloudPlugin() {
-        return timoCloudPlugin;
     }
 
     public AFKCommand getAfkCommand() {

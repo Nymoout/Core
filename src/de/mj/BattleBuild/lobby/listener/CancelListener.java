@@ -1,5 +1,13 @@
+/*
+ * @author MJ
+ * Created in 25.08.2018
+ * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
+ *
+ */
+
 package de.mj.BattleBuild.lobby.listener;
 
+import de.mj.BattleBuild.lobby.Lobby;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -13,45 +21,52 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 
 public class CancelListener implements Listener {
 
-    @EventHandler
-    public void Itemmove(InventoryMoveItemEvent e) {
-        e.setCancelled(true);
+    private Lobby lobby;
+
+    public CancelListener(Lobby lobby) {
+        this.lobby = lobby;
+        lobby.setListener(this);
     }
 
     @EventHandler
-    public void drop(PlayerDropItemEvent e) {
-        e.setCancelled(true);
+    public void Itemmove(InventoryMoveItemEvent moveItemEvent) {
+        moveItemEvent.setCancelled(true);
     }
 
     @EventHandler
-    public void drop(PlayerFishEvent e) {
-        e.setCancelled(false);
+    public void drop(PlayerDropItemEvent dropItemEvent) {
+        dropItemEvent.setCancelled(true);
     }
 
     @EventHandler
-    public void pickup(PlayerPickupItemEvent e) {
-            e.setCancelled(true);
+    public void drop(PlayerFishEvent fishEvent) {
+        fishEvent.setCancelled(false);
     }
 
     @EventHandler
-    public void damage(EntityDamageEvent e) {
-        e.setCancelled(true);
+    public void pickup(PlayerPickupItemEvent pickupItemEvent) {
+        pickupItemEvent.setCancelled(true);
     }
 
     @EventHandler
-    public void food(FoodLevelChangeEvent e) {
-        e.setCancelled(true);
+    public void damage(EntityDamageEvent damageEvent) {
+        damageEvent.setCancelled(true);
     }
 
     @EventHandler
-    public void spawn(CreatureSpawnEvent e) {
-        if (e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL || e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CHUNK_GEN) {
-            e.setCancelled(true);
+    public void food(FoodLevelChangeEvent levelChangeEvent) {
+        levelChangeEvent.setCancelled(true);
+    }
+
+    @EventHandler
+    public void spawn(CreatureSpawnEvent spawnEvent) {
+        if (spawnEvent.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL || spawnEvent.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CHUNK_GEN) {
+            spawnEvent.setCancelled(true);
         }
     }
 
     @EventHandler
-    public void wetter(WeatherChangeEvent e) {
-        e.setCancelled(true);
+    public void wetter(WeatherChangeEvent weatherChangeEvent) {
+        weatherChangeEvent.setCancelled(true);
     }
 }

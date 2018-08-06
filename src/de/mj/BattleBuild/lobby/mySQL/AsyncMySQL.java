@@ -1,21 +1,17 @@
 package de.mj.BattleBuild.lobby.mySQL;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+
+import java.sql.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-
 public class AsyncMySQL {
     private static ExecutorService executor;
-    private Plugin plugin;
     private static MySQL sql;
+    private Plugin plugin;
 
     public AsyncMySQL(Plugin pl, String host, int port, String user, String pw, String db) {
         try {
@@ -31,6 +27,10 @@ public class AsyncMySQL {
         plugin = pl;
     }
 
+    public static void update(String statement) {
+        executor.execute(() -> sql.queryUpdate(statement));
+    }
+
     public void update(PreparedStatement statement) {
         executor.execute(() -> sql.queryUpdate(statement));
         try {
@@ -38,10 +38,6 @@ public class AsyncMySQL {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-    }
-
-    public static void update(String statement) {
-        executor.execute(() -> sql.queryUpdate(statement));
     }
 
     public void query(PreparedStatement statement, Consumer<ResultSet> consumer) {

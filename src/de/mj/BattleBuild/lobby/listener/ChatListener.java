@@ -1,5 +1,13 @@
+/*
+ * @author MJ
+ * Created in 25.08.2018
+ * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
+ *
+ */
+
 package de.mj.BattleBuild.lobby.listener;
 
+import de.mj.BattleBuild.lobby.Lobby;
 import me.BukkitPVP.VIPHide.VIPHide;
 import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.Contexts;
@@ -12,14 +20,22 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatListener implements Listener {
+
+    private final Lobby lobby;
+
+    public ChatListener(Lobby lobby) {
+        this.lobby = lobby;
+        lobby.setListener(this);
+    }
+
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent e) {
-        Player p = e.getPlayer();
-        User user = LuckPerms.getApi().getUser(p.getUniqueId());
+    public void onChat(AsyncPlayerChatEvent playerChatEvent) {
+        Player player = playerChatEvent.getPlayer();
+        User user = LuckPerms.getApi().getUser(player.getUniqueId());
         ContextManager cm = LuckPerms.getApi().getContextManager();
         Contexts contexts = cm.lookupApplicableContexts(user).orElse(cm.getStaticContexts());
         MetaData md = user.getCachedData().getMetaData(contexts);
-        String msg = e.getMessage().replace("%", "Prozent");
+        String msg = playerChatEvent.getMessage().replace("%", "Prozent");
         String prefix = "";
         if (md.getPrefix() != null) {
             prefix = md.getPrefix();
@@ -28,11 +44,11 @@ public class ChatListener implements Listener {
         if (md.getSuffix() != null) {
             suffix = md.getSuffix();
         }
-        if (!VIPHide.instance.isDisguised(p)) {
-            if (p.hasPermission("chat.color")) {
-                e.setFormat(prefix.replace("&", "§") + p.getName() + suffix.replace("&", "§") + msg.replace("&", "§"));
+        if (!VIPHide.instance.isDisguised(player)) {
+            if (player.hasPermission("chat.color")) {
+                playerChatEvent.setFormat(prefix.replace("&", "§") + player.getName() + suffix.replace("&", "§") + msg.replace("&", "§"));
             } else {
-                e.setFormat(prefix.replace("&", "§") + p.getName() + suffix.replace("&", "§") + msg);
+                playerChatEvent.setFormat(prefix.replace("&", "§") + player.getName() + suffix.replace("&", "§") + msg);
             }
         }
     }

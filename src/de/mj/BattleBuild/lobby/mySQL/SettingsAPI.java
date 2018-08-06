@@ -1,8 +1,15 @@
+/*
+ * @author MJ
+ * Created in 25.08.2018
+ * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
+ *
+ */
+
 package de.mj.BattleBuild.lobby.mySQL;
 
 
-import de.mj.BattleBuild.lobby.listener.SettingsListener;
 import de.mj.BattleBuild.lobby.Lobby;
+import de.mj.BattleBuild.lobby.listener.SettingsListener;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
@@ -39,8 +46,7 @@ public class SettingsAPI {
                             SettingsListener.design.put(p, c);
                             SettingsListener.ItemColToString(p);
                         }
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
@@ -58,10 +64,9 @@ public class SettingsAPI {
                         if ((b = rs.getInt("SILENT")) == 1) {
                             SettingsListener.silentstate.add(p);
                         } else {
-                            SettingsListener.silentstate.remove((Object)p);
+                            SettingsListener.silentstate.remove((Object) p);
                         }
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
@@ -79,10 +84,9 @@ public class SettingsAPI {
                         if ((b = rs.getInt("WJUMP")) == 1) {
                             SettingsListener.waterjump.add(p);
                         } else {
-                            SettingsListener.waterjump.remove((Object)p);
+                            SettingsListener.waterjump.remove((Object) p);
                         }
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
@@ -100,10 +104,9 @@ public class SettingsAPI {
                         if ((b = rs.getInt("PJUMP")) == 1) {
                             SettingsListener.jumppads.add(p);
                         } else {
-                            SettingsListener.jumppads.remove((Object)p);
+                            SettingsListener.jumppads.remove((Object) p);
                         }
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
@@ -121,10 +124,9 @@ public class SettingsAPI {
                         if ((b = rs.getInt("DJUMP")) == 1) {
                             SettingsListener.doppelsprung.add(p);
                         } else {
-                            SettingsListener.doppelsprung.remove((Object)p);
+                            SettingsListener.doppelsprung.remove((Object) p);
                         }
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
@@ -143,10 +145,9 @@ public class SettingsAPI {
                         if (b == 1) {
                             SettingsListener.ridestate.add(p);
                         } else {
-                            SettingsListener.ridestate.remove((Object)p);
+                            SettingsListener.ridestate.remove((Object) p);
                         }
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
@@ -204,10 +205,9 @@ public class SettingsAPI {
                         if ((b = rs.getInt("FRIENDS")) == 1) {
                             SettingsListener.sfriends.add(p);
                         } else {
-                            SettingsListener.sfriends.remove((Object)p);
+                            SettingsListener.sfriends.remove((Object) p);
                         }
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
@@ -225,10 +225,9 @@ public class SettingsAPI {
                         if ((b = rs.getInt("RANG")) == 1) {
                             SettingsListener.srang.add(p);
                         } else {
-                            SettingsListener.srang.remove((Object)p);
+                            SettingsListener.srang.remove((Object) p);
                         }
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
@@ -246,10 +245,9 @@ public class SettingsAPI {
                         if ((b = rs.getInt("SERVER")) == 1) {
                             SettingsListener.sserver.add(p);
                         } else {
-                            SettingsListener.sserver.remove((Object)p);
+                            SettingsListener.sserver.remove((Object) p);
                         }
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
@@ -267,10 +265,9 @@ public class SettingsAPI {
                         if ((b = rs.getInt("CLAN")) == 1) {
                             SettingsListener.sclan.add(p);
                         } else {
-                            SettingsListener.sclan.remove((Object)p);
+                            SettingsListener.sclan.remove((Object) p);
                         }
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
@@ -288,10 +285,9 @@ public class SettingsAPI {
                         if ((b = rs.getInt("COINS")) == 1) {
                             SettingsListener.scoins.add(p);
                         } else {
-                            SettingsListener.scoins.remove((Object)p);
+                            SettingsListener.scoins.remove((Object) p);
                         }
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
@@ -309,14 +305,13 @@ public class SettingsAPI {
                         if ((b = rs.getInt("REALTIME")) == 1) {
                             SettingsListener.srealtime.add(p);
                         } else if (b == 2) {
-                            SettingsListener.srealtime.remove((Object)p);
+                            SettingsListener.srealtime.remove((Object) p);
                             SettingsListener.sday.add(p);
                         } else {
-                            SettingsListener.srealtime.remove((Object)p);
-                            SettingsListener.sday.remove((Object)p);
+                            SettingsListener.srealtime.remove((Object) p);
+                            SettingsListener.sday.remove((Object) p);
                         }
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
@@ -334,10 +329,9 @@ public class SettingsAPI {
                         if ((b = rs.getInt("TIME")) == 1) {
                             SettingsListener.szeit.add(p);
                         } else {
-                            SettingsListener.szeit.remove((Object)p);
+                            SettingsListener.szeit.remove((Object) p);
                         }
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
@@ -355,10 +349,9 @@ public class SettingsAPI {
                         if ((b = rs.getInt("WEATHER")) == 1) {
                             SettingsListener.sweather.add(p);
                         } else {
-                            SettingsListener.sweather.remove((Object)p);
+                            SettingsListener.sweather.remove((Object) p);
                         }
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }

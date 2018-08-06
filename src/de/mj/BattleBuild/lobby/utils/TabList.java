@@ -1,3 +1,10 @@
+/*
+ * @author MJ
+ * Created in 25.08.2018
+ * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
+ *
+ */
+
 package de.mj.BattleBuild.lobby.utils;
 
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
@@ -10,7 +17,8 @@ import org.bukkit.scoreboard.Scoreboard;
 public class TabList {
     static Scoreboard scoreboard;
 
-    public TabList () {}
+    public TabList() {
+    }
 
     public void loadTablist() {
         scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();

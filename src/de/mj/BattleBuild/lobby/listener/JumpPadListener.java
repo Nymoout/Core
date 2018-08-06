@@ -1,5 +1,13 @@
+/*
+ * @author MJ
+ * Created in 25.08.2018
+ * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
+ *
+ */
+
 package de.mj.BattleBuild.lobby.listener;
 
+import de.mj.BattleBuild.lobby.Lobby;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -11,16 +19,22 @@ import org.bukkit.util.Vector;
 
 public class JumpPadListener implements Listener {
 
-    @SuppressWarnings("deprecation")
+    private final Lobby lobby;
+
+    public JumpPadListener(Lobby lobby) {
+        this.lobby = lobby;
+        lobby.setListener(this);
+    }
+    
     @EventHandler
-    public void onMove(PlayerMoveEvent e) {
-        Player p = e.getPlayer();
-        if((p.getLocation().getBlock().getType() == Material.IRON_PLATE)){
-            if(SettingsListener.jumppads.contains(p)) {
-                Vector v = p.getLocation().getDirection().multiply(2.0D).setY(1.0D);
-                p.setVelocity(v);
-                p.playSound(p.getLocation(), Sound.DIG_SAND, 1, 1);
-                p.playEffect(p.getLocation(), Effect.LAVA_POP, 100);
+    public void onMove(PlayerMoveEvent moveEvent) {
+        Player player = moveEvent.getPlayer();
+        if ((player.getLocation().getBlock().getType() == Material.IRON_PLATE)) {
+            if (lobby.getSettingsListener().jumppads.contains(player)) {
+                Vector v = player.getLocation().getDirection().multiply(2.0D).setY(1.0D);
+                player.setVelocity(v);
+                player.playSound(player.getLocation(), Sound.DIG_SAND, 1, 1);
+                player.playEffect(player.getLocation(), Effect.LAVA_POP, null);
             }
         }
     }

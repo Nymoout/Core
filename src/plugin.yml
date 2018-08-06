@@ -1,10 +1,12 @@
 name: BBLobby
-version: 4.0.0
+version: 4.1.2
 author: MJ
 
-main: de.mj.BattleBuild.lobby.main.Lobby
-depend: [CoinsAPI, Vault]
+main: de.mj.BattleBuild.lobby.Lobby
+depend: [CoinsAPI, Vault, TimoCloud, VIPHide, LuckPerms, NetworkManagerBridge, FriendsAPIForPartyAndFriends, Clans-Spigot-Part]
 
 commands:
    afk:
    spawn:
+   set:
+   server:

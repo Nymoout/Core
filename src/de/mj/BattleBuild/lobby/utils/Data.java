@@ -1,3 +1,10 @@
+/*
+ * @author MJ
+ * Created in 25.08.2018
+ * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
+ *
+ */
+
 package de.mj.BattleBuild.lobby.utils;
 
 public class Data {
@@ -8,5 +15,8 @@ public class Data {
     public String getPrefix() {
         return prefix;
     }
-    public String getNoperm() { return noperm; }
+
+    public String getNoperm() {
+        return noperm;
+    }
 }

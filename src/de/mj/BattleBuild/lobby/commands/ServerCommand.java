@@ -1,3 +1,10 @@
+/*
+ * @author MJ
+ * Created in 25.08.2018
+ * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
+ *
+ */
+
 package de.mj.BattleBuild.lobby.commands;
 
 import cloud.timo.TimoCloud.api.TimoCloudAPI;
@@ -37,7 +44,7 @@ public class ServerCommand implements CommandExecutor {
                     }
                 }
                 Inventory inventory = Bukkit.createInventory(null, getInventorySize(serversize), "§9§lOnline Server");
-                int inventorysize = serversize-1;
+                int inventorysize = serversize - 1;
                 for (String name : servername) {
                     inventory.setItem(inventorysize, lobby.getItemCreator().CreateItemwithMaterial(Material.COMPASS, 0, 1, name, null));
                     inventorysize--;

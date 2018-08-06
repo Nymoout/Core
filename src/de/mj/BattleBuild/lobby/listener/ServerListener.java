@@ -1,13 +1,15 @@
+/*
+ * @author MJ
+ * Created in 25.08.2018
+ * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
+ *
+ */
+
 package de.mj.BattleBuild.lobby.listener;
 
-import cloud.timo.TimoCloud.api.TimoCloudAPI;
-import cloud.timo.TimoCloud.api.objects.ServerGroupObject;
-import cloud.timo.TimoCloud.api.objects.ServerObject;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import de.mj.BattleBuild.lobby.Lobby;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,6 +23,7 @@ public class ServerListener implements Listener {
         this.lobby = lobby;
         lobby.setListener(this);
     }
+
     @EventHandler
     public void onServerClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
