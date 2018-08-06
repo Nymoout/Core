@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class SchedulerSaver {
 
-    private ArrayList<BukkitTask> schedulerlist = new ArrayList<>();
+    private static ArrayList<BukkitTask> schedulerlist = new ArrayList<>();
 
     public SchedulerSaver() {}
 

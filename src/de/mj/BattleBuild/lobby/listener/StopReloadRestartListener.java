@@ -1,7 +1,6 @@
 package de.mj.BattleBuild.lobby.listener;
 
-import de.mj.BattleBuild.lobby.Lobby;
-import de.mj.BattleBuild.lobby.utils.Data;
+import de.mj.BattleBuild.lobby.main.Lobby;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,17 +14,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import de.mj.BattleBuild.lobby.Variabeln.Var;
+
 public class StopReloadRestartListener implements Listener {
 
-    private final Lobby lobby;
-
-    public StopReloadRestartListener(Lobby lobby) {
-        this.lobby = lobby;
-        lobby.setListener(this);
-    }
-
     private static boolean isrestarting = false;
-    String prefix = new Data().getPrefix();
+    String prefix = new Var().getPrefix();
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void OverrideCommand(PlayerCommandPreprocessEvent e) {
@@ -84,6 +78,6 @@ public class StopReloadRestartListener implements Listener {
                 }
 
             }
-        }.runTaskTimer(lobby, 0L, 20L);
+        }.runTaskTimer(Lobby.getPlugin(), 0L, 20L);
     }
 }

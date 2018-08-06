@@ -1,6 +1,5 @@
 package de.mj.BattleBuild.lobby.listener;
 
-import de.mj.BattleBuild.lobby.Lobby;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -10,14 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class WaterJumpListener implements Listener {
-
-    private final Lobby lobby;
-
-    public WaterJumpListener(Lobby lobby) {
-        this.lobby = lobby;
-        lobby.setListener(this);
-    }
-
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         Player p = e.getPlayer();

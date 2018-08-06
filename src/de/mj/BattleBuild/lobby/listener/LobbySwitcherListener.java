@@ -3,9 +3,10 @@ package de.mj.BattleBuild.lobby.listener;
 import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.ServerGroupObject;
 import cloud.timo.TimoCloud.api.objects.ServerObject;
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
-import de.mj.BattleBuild.lobby.Lobby;
+
+import java.util.ArrayList;
+
+import de.mj.BattleBuild.lobby.main.Lobby;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -18,17 +19,12 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 
 public class LobbySwitcherListener implements Listener {
 
-    private Inventory inv = Bukkit.createInventory(null, 9, "§f§lLobby-Switcher");
-    private final Lobby lobby;
-
-    public LobbySwitcherListener(Lobby lobby) {
-        this.lobby = lobby;
-        lobby.setListener(this);
-    }
+    Inventory inv = Bukkit.createInventory(null, 9, "§f§lLobby-Switcher");
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
@@ -72,6 +68,7 @@ public class LobbySwitcherListener implements Listener {
             if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Lobby")
                     && !e.getCurrentItem().getItemMeta().getDisplayName().contains("Silent")) {
                 String[] lobby = e.getCurrentItem().getItemMeta().getDisplayName().split("-");
+                System.out.println(lobby[1]);
                 String server = "Lobby-" + lobby[1];
                 String[] splitserver = p.getServer().getServerName().split("-");
                 int serverid = Integer.parseInt(splitserver[1]);
@@ -84,7 +81,7 @@ public class LobbySwitcherListener implements Listener {
                     ByteArrayDataOutput out = ByteStreams.newDataOutput();
                     out.writeUTF("Connect");
                     out.writeUTF(server);
-                    p.sendPluginMessage(this.lobby, "BungeeCord", out.toByteArray());
+                    p.sendPluginMessage(Lobby.getPlugin(), "BungeeCord", out.toByteArray());
                 }
             }
         } catch (Exception ex) {}

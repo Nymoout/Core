@@ -1,16 +1,16 @@
 package de.mj.BattleBuild.lobby.utils;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-
 public class Title {
 
-    private final Plugin plugin;
+    private Plugin plugin;
 
     public Title(Plugin plugin) {
         this.plugin = plugin;

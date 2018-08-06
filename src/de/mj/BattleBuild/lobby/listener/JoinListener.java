@@ -1,14 +1,11 @@
 package de.mj.BattleBuild.lobby.listener;
 
-import cloud.timo.TimoCloud.api.TimoCloudAPI;
-import cloud.timo.TimoCloud.api.objects.PlayerObject;
-import de.mj.BattleBuild.lobby.Lobby;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import de.mj.BattleBuild.lobby.MySQL.SettingsAPI;
+import de.mj.BattleBuild.lobby.main.Lobby;
 import de.mj.BattleBuild.lobby.utils.*;
-import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
-import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.WeatherType;
@@ -23,56 +20,60 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-
-;
+import cloud.timo.TimoCloud.api.TimoCloudAPI;
+import cloud.timo.TimoCloud.api.objects.PlayerObject;;
+import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
+import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 
 public class JoinListener implements Listener {
 
-    private final Lobby lobby;
-
-    public JoinListener(Lobby lobby) {
-        this.lobby = lobby;
-        lobby.setListener(this);
-    }
+    private final Lobby plugin = Lobby.getLobby();
+    SettingsListener settingsListener = new SettingsListener();
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent e) {
+        ActionbarTimer actionbarTimer = new ActionbarTimer();
+        ItemCreator itemCreator = new ItemCreator();
+        ScoreboardManager scoreboardManager = new ScoreboardManager();
+        TabList tabList = new TabList();
         Player p = e.getPlayer();
-        p.teleport(lobby.getLocationsUtil().getSpawn());
-        System.out.println(lobby.getLocationsUtil().getSpawn().toString());
         if (!p.hasPlayedBefore()) {
-            lobby.getSettingsListener().ridestate.add(p);
-            lobby.getSettingsListener().color.put(p, "6");
-            lobby.getSettingsListener().sclan.add(p);
-            lobby.getSettingsListener().scoins.add(p);
-            lobby.getSettingsListener().sfriends.add(p);
-            lobby.getSettingsListener().srang.add(p);
-            lobby.getSettingsListener().sserver.add(p);
-            lobby.getSettingsListener().jumppads.add(p);
+            settingsListener.ridestate.add(p);
+            settingsListener.color.put(p, "6");
+            settingsListener.sclan.add(p);
+            settingsListener.scoins.add(p);
+            settingsListener.sfriends.add(p);
+            settingsListener.srang.add(p);
+            settingsListener.sserver.add(p);
+            settingsListener.jumppads.add(p);
         }
 
         p.setGameMode(GameMode.ADVENTURE);
-        lobby.getActionbarTimer().action.put(p, false);
+        actionbarTimer.action.put(p, false);
         e.setJoinMessage(null);
+        SettingsAPI settingsAPI = new SettingsAPI();
         try {
-            lobby.getSettingsAPI().createPlayer(p);
-            lobby.getSettingsAPI().createScorePlayer(p);
-            lobby.getSettingsAPI().getColor(p);
-            lobby.getSettingsAPI().getSilent(p);
-            lobby.getSettingsAPI().getRide(p);
-            lobby.getSettingsAPI().getFriends(p);
-            lobby.getSettingsAPI().getRang(p);
-            lobby.getSettingsAPI().getServer(p);
-            lobby.getSettingsAPI().getClan(p);
-            lobby.getSettingsAPI().getCoins(p);
-            lobby.getSettingsAPI().getRealTime(p);
-            lobby.getSettingsAPI().getWeather(p);
-            lobby.getSettingsAPI().getDoubleJump(p);
-            lobby.getSettingsAPI().getWjump(p);
-            lobby.getSettingsAPI().getJumPlate(p);
-            lobby.getSettingsAPI().getTime(p);
+            settingsAPI.createPlayer(p);
+            settingsAPI.createScorePlayer(p);
+            settingsAPI.getColor(p);
+            settingsAPI.getSilent(p);
+            settingsAPI.getRide(p);
+            settingsAPI.getFriends(p);
+            settingsAPI.getRang(p);
+            settingsAPI.getServer(p);
+            settingsAPI.getClan(p);
+            settingsAPI.getCoins(p);
+            settingsAPI.getRealTime(p);
+            settingsAPI.getWeather(p);
+            settingsAPI.getDoubleJump(p);
+            settingsAPI.getWjump(p);
+            settingsAPI.getJumPlate(p);
+            settingsAPI.getTime(p);
         } catch (Exception e1) {
+            e1.printStackTrace();
         }
         new BukkitRunnable() {
             int i = 1;
@@ -82,25 +83,25 @@ public class JoinListener implements Listener {
                 if (i > 0) {
                     i--;
                 } else {
-                    if (lobby.getSettingsListener().sweather.contains(p)) {
+                    if (settingsListener.sweather.contains(p)) {
                         p.setPlayerWeather(WeatherType.CLEAR);
                     } else {
                         p.setPlayerWeather(WeatherType.DOWNFALL);
                     }
                 }
             }
-        }.runTaskTimer(lobby, 0L, 20L * 5);
+        }.runTaskTimer(Lobby.getPlugin(), 0L, 20L * 5);
 
         p.getInventory().clear();
-        lobby.getTabList().setPrefix(p);
+        tabList.setPrefix(p);
 
         p.getInventory().setItem(4,
-                lobby.getItemCreator().CreateItemwithMaterial(Material.COMPASS, 0, 1, "§8\u00BB§7§lNavigator§8\u00AB", null));
-        p.getInventory().setItem(1, lobby.getItemCreator().CreateItemwithMaterial(Material.REDSTONE_COMPARATOR, 0, 1,
+                itemCreator.CreateItemwithMaterial(Material.COMPASS, 0, 1, "§8\u00BB§7§lNavigator§8\u00AB", null));
+        p.getInventory().setItem(1, itemCreator.CreateItemwithMaterial(Material.REDSTONE_COMPARATOR, 0, 1,
                 "§8\u00BB§6§lEinstellungen§8\u00AB", null));
         p.getInventory().setItem(7,
-                lobby.getItemCreator().CreateItemwithMaterial(Material.NETHER_STAR, 0, 1, "§8\u00BB§f§lLobby-Switcher§8\u00AB", null));
-        p.getInventory().setItem(0, lobby.getItemCreator().CreateItemwithMaterial(Material.ARMOR_STAND, 0 , 1, "§8\u00BB§3§lDein Minion§8\u00AB", null));
+                itemCreator.CreateItemwithMaterial(Material.NETHER_STAR, 0, 1, "§8\u00BB§f§lLobby-Switcher§8\u00AB", null));
+        p.getInventory().setItem(0, itemCreator.CreateItemwithMaterial(Material.ARMOR_STAND, 0 , 1, "§8\u00BB§3§lDein Minion§8\u00AB", null));
 
         ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         ItemMeta im = is.getItemMeta();
@@ -111,7 +112,9 @@ public class JoinListener implements Listener {
         is.setItemMeta(sm);
         p.getInventory().setItem(8, is);
 
-        lobby.getScoreboardManager().setBoardLOBBY(p);
+        p.teleport(new LocationsUtil().getSpawn());
+
+        scoreboardManager.setBoardLOBBY(p);
 
         ArrayList<String> friends = new ArrayList<String>();
         PAFPlayer pafp = PAFPlayerManager.getInstance().getPlayer(p.getUniqueId());
@@ -137,9 +140,9 @@ public class JoinListener implements Listener {
             PacketPlayOutChat packet = new PacketPlayOutChat(icb);
             ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
         }
-        //setDefaultSidebar(p);
+        setDefaultSidebar(p);
     }
-    /*
+
     public void setDefaultSidebar(Player p) {
         String color = "§" + settingsListener.color.get(p);
         HashMap<String, Integer> playerSidebar = new HashMap<>();
@@ -176,5 +179,4 @@ public class JoinListener implements Listener {
 
         plugin.getScoreboardManager().setSidebar(p, playerSidebar, color + "§lBattleBuild");
     }
-    */
 }

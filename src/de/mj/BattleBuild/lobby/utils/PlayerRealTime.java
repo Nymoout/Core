@@ -1,6 +1,5 @@
 package de.mj.BattleBuild.lobby.utils;
 
-import de.mj.BattleBuild.lobby.Lobby;
 import de.mj.BattleBuild.lobby.listener.SettingsListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -11,11 +10,11 @@ import java.util.Calendar;
 
 public class PlayerRealTime {
 
-    private final Lobby lobby;
+    private Plugin plugin;
     SchedulerSaver schedulerSaver = new SchedulerSaver();
 
-    public PlayerRealTime(Lobby lobby) {
-        this.lobby = lobby;
+    public PlayerRealTime(Plugin plugin) {
+        this.plugin = plugin;
     }
 
     public void setPlayerRealTime() {
@@ -44,7 +43,7 @@ public class PlayerRealTime {
                             }
                         }
                     }
-                }.runTaskTimerAsynchronously(lobby, 0L, 20L)
+                }.runTaskTimer(this.plugin, 0L, 20L * 6)
         );
     }
     private static double secToTicks(long sec) {
