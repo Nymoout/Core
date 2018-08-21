@@ -26,8 +26,8 @@ public class SpawnCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            player.teleport(lobby.getLocationsUtil().getSpawn());
-            player.sendMessage(lobby.getData().getPrefix() + "Du wurdest zum Spawn teleportiert!");
+            player.teleport(lobby.getServerManager().getLocationsUtil().getSpawn());
+            player.sendMessage(lobby.getServerManager().getData().getPrefix() + "Du wurdest zum Spawn teleportiert!");
         }
         return false;
     }

@@ -7,34 +7,39 @@
 
 package de.mj.BattleBuild.lobby.utils;
 
+import de.mj.BattleBuild.lobby.Lobby;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
-import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
-import de.simonsator.partyandfriends.spigot.clans.api.ClansManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 
 public class TabList {
+
+    private final Lobby lobby;
     static Scoreboard scoreboard;
 
-    public TabList() {
+    public TabList(Lobby lobby) {
+        this.lobby = lobby;
     }
 
     public void loadTablist() {
         scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 
-        scoreboard.registerNewTeam("a").setPrefix("§4§lA §4| ");
-        scoreboard.registerNewTeam("b").setPrefix("§c§lSrM §c| ");
-        scoreboard.registerNewTeam("c").setPrefix("§c§lM §c| ");
-        scoreboard.registerNewTeam("d").setPrefix("§3§lSrD §3| ");
-        scoreboard.registerNewTeam("e").setPrefix("§3§lD §3| ");
-        scoreboard.registerNewTeam("f").setPrefix("§2§lSrB §2| ");
-        scoreboard.registerNewTeam("g").setPrefix("§2§lB §2| ");
-        scoreboard.registerNewTeam("h").setPrefix("§9§lSrS §9| ");
-        scoreboard.registerNewTeam("i").setPrefix("§9§lS §9| ");
-        scoreboard.registerNewTeam("j").setPrefix("§5§lYT §5| ");
-        scoreboard.registerNewTeam("k").setPrefix("§6VIP+ §6| ");
-        scoreboard.registerNewTeam("l").setPrefix("§7");
+        scoreboard.registerNewTeam("a").setPrefix("§4§lA §8|§7 ");
+        scoreboard.registerNewTeam("b").setPrefix("§c§lSrM §8|§7 ");
+        scoreboard.registerNewTeam("c").setPrefix("§c§lM §8|§7 ");
+        scoreboard.registerNewTeam("d").setPrefix("§3§lSrD §8|§7 ");
+        scoreboard.registerNewTeam("e").setPrefix("§3§lD §8|§7 ");
+        scoreboard.registerNewTeam("f").setPrefix("§2§lSrB §8|§7 ");
+        scoreboard.registerNewTeam("g").setPrefix("§2§lB §8|§7 ");
+        scoreboard.registerNewTeam("h").setPrefix("§9§lSrS §8|§7 ");
+        scoreboard.registerNewTeam("i").setPrefix("§9§lS §8|§7 ");
+        scoreboard.registerNewTeam("j").setPrefix("§5§lYT §8|§7 ");
+        scoreboard.registerNewTeam("k").setPrefix("§6VIP+ §8|§7 ");
+        scoreboard.registerNewTeam("l").setPrefix("§bDiamond §8|§7 ");
+        scoreboard.registerNewTeam("m").setPrefix("§aEmerald §8|§7 ");
+        scoreboard.registerNewTeam("n").setPrefix("§6Gold §8|§7 ");
+        scoreboard.registerNewTeam("o").setPrefix("§7");
     }
 
     public void setPrefix(Player p) {
@@ -61,15 +66,21 @@ public class TabList {
             team = "j";
         } else if (p.hasPermission("group." + "vip+")) {
             team = "k";
-        } else {
+        } else if (p.hasPermission("group." + "diamond")) {
             team = "l";
+        } else if (p.hasPermission("group." + "emerald")) {
+            team = "m";
+        } else if (p.hasPermission("group." + "gold")) {
+            team = "n";
+        } else {
+            team = "o";
         }
 
         scoreboard.getTeam(team).addEntry(p.getName());
-        PAFPlayer pafPlayer = PAFPlayerManager.getInstance().getPlayer(p.getUniqueId());
+        PAFPlayer pafPlayer = lobby.getHookManager().getPafPlayerManager().getPlayer(p.getUniqueId());
         String clan;
-        if (ClansManager.getInstance().getClan(pafPlayer) != null) {
-            clan = "§e" + ClansManager.getInstance().getClan(pafPlayer).getClanTag();
+        if (lobby.getHookManager().getClansManager().getClan(pafPlayer) != null) {
+            clan = "§e" + lobby.getHookManager().getClansManager().getClan(pafPlayer).getClanTag();
         } else {
             clan = "";
         }

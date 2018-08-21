@@ -8,8 +8,6 @@
 package de.mj.BattleBuild.lobby.listener;
 
 import de.mj.BattleBuild.lobby.Lobby;
-import me.BukkitPVP.VIPHide.VIPHide;
-import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.Contexts;
 import me.lucko.luckperms.api.User;
 import me.lucko.luckperms.api.caching.MetaData;
@@ -31,8 +29,8 @@ public class ChatListener implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent playerChatEvent) {
         Player player = playerChatEvent.getPlayer();
-        User user = LuckPerms.getApi().getUser(player.getUniqueId());
-        ContextManager cm = LuckPerms.getApi().getContextManager();
+        User user = lobby.getHookManager().getLuckPermsApi().getUser(player.getUniqueId());
+        ContextManager cm = lobby.getHookManager().getLuckPermsApi().getContextManager();
         Contexts contexts = cm.lookupApplicableContexts(user).orElse(cm.getStaticContexts());
         MetaData md = user.getCachedData().getMetaData(contexts);
         String msg = playerChatEvent.getMessage().replace("%", "Prozent");
@@ -44,7 +42,7 @@ public class ChatListener implements Listener {
         if (md.getSuffix() != null) {
             suffix = md.getSuffix();
         }
-        if (!VIPHide.instance.isDisguised(player)) {
+        if (!lobby.getHookManager().getVipHide().isDisguised(player)) {
             if (player.hasPermission("chat.color")) {
                 playerChatEvent.setFormat(prefix.replace("&", "§") + player.getName() + suffix.replace("&", "§") + msg.replace("&", "§"));
             } else {

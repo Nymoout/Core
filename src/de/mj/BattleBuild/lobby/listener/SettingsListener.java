@@ -8,6 +8,7 @@
 package de.mj.BattleBuild.lobby.listener;
 
 import de.mj.BattleBuild.lobby.Lobby;
+import de.mj.BattleBuild.lobby.utils.ServerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -28,7 +29,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -118,7 +118,7 @@ public class SettingsListener implements Listener {
                     p.openInventory(invent1.get(p));
                 }
             } else if (p.getInventory().getName().equals("§8§lMain Menu")) {
-                p.getInventory().setItem(31, lobby.getItemCreator().CreateItemwithMaterial(Material.ARMOR_STAND, 0, 1,
+                p.getInventory().setItem(31, lobby.getServerManager().getItemCreator().CreateItemwithMaterial(Material.ARMOR_STAND, 0, 1,
                         "§9§lM§e§li§9§ln§e§li§9§lo§e§ln§9§ls", null));
             }
         }
@@ -128,7 +128,7 @@ public class SettingsListener implements Listener {
     public void onInvOpen(InventoryOpenEvent e) {
         Player p = (Player) e.getPlayer();
         if (p.getInventory().getTitle().contains("Main")) {
-            p.getInventory().setItem(31, lobby.getItemCreator().CreateItemwithMaterial(Material.ARMOR_STAND, 0, 1,
+            p.getInventory().setItem(31, lobby.getServerManager().getItemCreator().CreateItemwithMaterial(Material.ARMOR_STAND, 0, 1,
                     "§9§lM§e§li§9§ln§e§li§9§lo§e§ln§9§ls", null));
         } else {
 
@@ -136,9 +136,8 @@ public class SettingsListener implements Listener {
     }
 
     public void setInv(Player p) {
-        if (invent1.containsKey(p)) {
-            invent1.remove(p);
-        }
+        ServerManager lobby = this.lobby.getServerManager();
+        invent1.remove(p);
         p.playSound(p.getLocation(), Sound.NOTE_PIANO, 1, 1);
         Inventory inv = Bukkit.createInventory(null, 54, "§6§lEinstellungen");
         Inventory inv2 = Bukkit.createInventory(null, 54, "§6§lEinstellungen");
@@ -312,6 +311,7 @@ public class SettingsListener implements Listener {
 
     @EventHandler
     public void SettingsMenue(InventoryClickEvent e) {
+        ServerManager lobby = this.lobby.getServerManager();
         Player p = (Player) e.getWhoClicked();
         lobby.getScoreboardManager().setBoardLOBBY(p);
         try {
@@ -454,7 +454,7 @@ public class SettingsListener implements Listener {
                 p.getInventory().setItem(31, lobby.getItemCreator().CreateItemwithMaterial(Material.ARMOR_STAND, 0, 1,
                         "§9§lM§e§li§9§ln§e§li§9§lo§e§ln§9§ls", null));
             }
-        } catch (NullPointerException | SQLException ex) {
+        } catch (NullPointerException ex) {
             ex.printStackTrace();
         }
     }
@@ -468,7 +468,7 @@ public class SettingsListener implements Listener {
                     && !e.getCurrentItem().getItemMeta().getDisplayName().contains("Spawn")) {
                 short i = e.getCurrentItem().getDurability();
                 design.put(p, i);
-                lobby.getSettingsAPI().setColor(p, i);
+                lobby.getServerManager().getSettingsAPI().setColor(p, i);
                 ItemColToString(p);
                 p.closeInventory();
                 new BukkitRunnable() {
@@ -494,6 +494,7 @@ public class SettingsListener implements Listener {
     @SuppressWarnings("deprecation")
     @EventHandler
     public void onScore(InventoryClickEvent e) {
+        ServerManager lobby = this.lobby.getServerManager();
         Player p = (Player) e.getWhoClicked();
         try {
             if (e.getCurrentItem().getTypeId() == 323
@@ -610,14 +611,14 @@ public class SettingsListener implements Listener {
                     lobby.getSettingsAPI().setTime(p, true);
                 }
             }
-        } catch (NullPointerException | SQLException ex) {
+        } catch (NullPointerException ex) {
             ex.printStackTrace();
         }
     }
 
     public void setScore(Player p) {
         // Score 1
-
+        ServerManager lobby = this.lobby.getServerManager();
         Inventory inv1 = Bukkit.createInventory(null, 54, "§9§lScoreboard");
 
         for (int i = 8; i >= 0; i--) {
@@ -741,7 +742,7 @@ public class SettingsListener implements Listener {
             if (ridestate.contains(horse)) {
                 horse.setPassenger(rider);
             } else {
-                rider.sendMessage(lobby.getData().getPrefix() + "§cDer Spieler hat das Ride on me Feature nicht aktiviert!");
+                rider.sendMessage(lobby.getServerManager().getData().getPrefix() + "§cDer Spieler hat das Ride on me Feature nicht aktiviert!");
             }
         }
     }
@@ -765,6 +766,7 @@ public class SettingsListener implements Listener {
     }
 
     public Inventory Design() {
+        ServerManager lobby = this.lobby.getServerManager();
         Inventory inv = Bukkit.createInventory(null, 18, "§9§lDesign");
         inv.setItem(1, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 0, 1, "§f§lWeiss", null));
         inv.setItem(2, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS, 1, 1, "§6§lOrange", null));

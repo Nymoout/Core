@@ -29,7 +29,7 @@ public class MySQLLoader {
     }
 
     public void loadConf() {
-        lobby.getSender().sendMessage(lobby.getData().getPrefix() + "§dload config.yml");
+        lobby.getSender().sendMessage(lobby.getServerManager().getData().getPrefix() + "§dload config.yml");
         host = cfg.getString("host");
         port = cfg.getInt("port");
         user = cfg.getString("username");
@@ -39,7 +39,7 @@ public class MySQLLoader {
 
     public void loadMySQL() {
         this.loadConf();
-        lobby.getSender().sendMessage(lobby.getData().getPrefix() + "§dconnect to MySQL");
+        lobby.getSender().sendMessage(lobby.getServerManager().getData().getPrefix() + "§dconnect to MySQL");
         new AsyncMySQL(lobby, host, port, user, pw, db);
     }
 }

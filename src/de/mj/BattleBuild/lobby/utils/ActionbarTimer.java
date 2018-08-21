@@ -12,6 +12,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class ActionbarTimer {
@@ -24,6 +26,7 @@ public class ActionbarTimer {
     }
 
     public void setActionBar() {
+        ServerManager lobby = this.lobby.getServerManager();
         lobby.getSchedulerSaver().createScheduler(
                 new BukkitRunnable() {
 
@@ -32,14 +35,14 @@ public class ActionbarTimer {
                     @Override
                     public void run() {
                         for (Player all : Bukkit.getOnlinePlayers()) {
-                            if (action.get(all) == false) {
+                            if (!action.get(all)) {
                                 lobby.getTitle().sendActionBar(all, "§f§lDein Scoreboard wird geladen, bitte warte einen Moment...");
                             }
                         }
                         switch (msg) {
                             case 0:
                                 for (Player all : Bukkit.getOnlinePlayers()) {
-                                    if (action.get(all) == true) {
+                                    if (action.get(all)) {
                                         lobby.getTitle().sendActionBar(all, "§c§lJetzt neu: §6§lBedWars");
                                     }
                                 }
@@ -47,21 +50,28 @@ public class ActionbarTimer {
                                 break;
                             case 1:
                                 for (Player all : Bukkit.getOnlinePlayers()) {
-                                    if (action.get(all) == true) {
+                                    if (action.get(all)) {
                                         lobby.getTitle().sendActionBar(all, "§2§lBaue dir jetzt deinen eigenen Plot auf §b§lCityBuild");
                                     }
                                 }
                                 break;
                             case 2:
                                 for (Player all : Bukkit.getOnlinePlayers()) {
-                                    if (action.get(all) == true) {
+                                    if (action.get(all)) {
                                         lobby.getTitle().sendActionBar(all, "§6§lWillkommen auf §9§lBattleBuild!");
                                     }
                                 }
                                 break;
+                            case 3:
+                                String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmm").format(Calendar.getInstance().getTime());
+                                for (Player all : Bukkit.getOnlinePlayers()) {
+                                    if (action.get(all)) {
+                                        lobby.getTitle().sendActionBar(all, "§6§lDatum + Uhrzeit: §b" + timeStamp);
+                                    }
+                                }
                             default:
                                 for (Player all : Bukkit.getOnlinePlayers()) {
-                                    if (action.get(all) == true) {
+                                    if (action.get(all)) {
                                         lobby.getTitle().sendActionBar(all, "§6§lWillkommen auf §9§lBattleBuild!");
                                     }
                                 }
@@ -69,7 +79,7 @@ public class ActionbarTimer {
                         msg--;
                     }
 
-                }.runTaskTimer(lobby, 0L, 20L * 5)
+                }.runTaskTimer(this.lobby, 0L, 20L * 5)
         );
     }
 }

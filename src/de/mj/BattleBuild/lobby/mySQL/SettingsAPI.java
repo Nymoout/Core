@@ -23,8 +23,8 @@ public class SettingsAPI {
 
     public SettingsAPI(Lobby lobby) {
         this.lobby = lobby;
-        amsql = lobby.getAsyncMySQL();
-        msql = lobby.getMySQL();
+        amsql = lobby.getServerManager().getAsyncMySQL();
+        msql = lobby.getServerManager().getMySQL();
     }
 
     public void createPlayer(Player p) throws SQLException {
@@ -64,7 +64,7 @@ public class SettingsAPI {
                         if ((b = rs.getInt("SILENT")) == 1) {
                             SettingsListener.silentstate.add(p);
                         } else {
-                            SettingsListener.silentstate.remove((Object) p);
+                            SettingsListener.silentstate.remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -84,7 +84,7 @@ public class SettingsAPI {
                         if ((b = rs.getInt("WJUMP")) == 1) {
                             SettingsListener.waterjump.add(p);
                         } else {
-                            SettingsListener.waterjump.remove((Object) p);
+                            SettingsListener.waterjump.remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -104,7 +104,7 @@ public class SettingsAPI {
                         if ((b = rs.getInt("PJUMP")) == 1) {
                             SettingsListener.jumppads.add(p);
                         } else {
-                            SettingsListener.jumppads.remove((Object) p);
+                            SettingsListener.jumppads.remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -124,7 +124,7 @@ public class SettingsAPI {
                         if ((b = rs.getInt("DJUMP")) == 1) {
                             SettingsListener.doppelsprung.add(p);
                         } else {
-                            SettingsListener.doppelsprung.remove((Object) p);
+                            SettingsListener.doppelsprung.remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -145,7 +145,7 @@ public class SettingsAPI {
                         if (b == 1) {
                             SettingsListener.ridestate.add(p);
                         } else {
-                            SettingsListener.ridestate.remove((Object) p);
+                            SettingsListener.ridestate.remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -159,35 +159,35 @@ public class SettingsAPI {
         AsyncMySQL.update("UPDATE LobbyConf SET COLOR='" + i + "' WHERE UUID='" + uuid + "'");
     }
 
-    public void setSilent(Player p, boolean silent) throws SQLException {
+    public void setSilent(Player p, boolean silent) {
         UUID uuid = p.getUniqueId();
         int b = 0;
         b = silent ? 1 : 0;
         AsyncMySQL.update("UPDATE LobbyConf SET SILENT='" + b + "' WHERE UUID='" + uuid + "'");
     }
 
-    public void setRide(Player p, boolean ride) throws SQLException {
+    public void setRide(Player p, boolean ride) {
         UUID uuid = p.getUniqueId();
         int b = 0;
         b = ride ? 1 : 0;
         AsyncMySQL.update("UPDATE LobbyConf SET RIDE='" + b + "' WHERE UUID='" + uuid + "'");
     }
 
-    public void setWJUMP(Player p, boolean wjump) throws SQLException {
+    public void setWJUMP(Player p, boolean wjump) {
         UUID uuid = p.getUniqueId();
         int b = 0;
         b = wjump ? 1 : 0;
         AsyncMySQL.update("UPDATE LobbyConf SET WJUMP='" + b + "' WHERE UUID='" + uuid + "'");
     }
 
-    public void setPJUMP(Player p, boolean pjump) throws SQLException {
+    public void setPJUMP(Player p, boolean pjump) {
         UUID uuid = p.getUniqueId();
         int b = 0;
         b = pjump ? 1 : 0;
         AsyncMySQL.update("UPDATE LobbyConf SET PJUMP='" + b + "' WHERE UUID='" + uuid + "'");
     }
 
-    public void setDJUMP(Player p, boolean djump) throws SQLException {
+    public void setDJUMP(Player p, boolean djump) {
         UUID uuid = p.getUniqueId();
         int b = 0;
         b = djump ? 1 : 0;
@@ -205,7 +205,7 @@ public class SettingsAPI {
                         if ((b = rs.getInt("FRIENDS")) == 1) {
                             SettingsListener.sfriends.add(p);
                         } else {
-                            SettingsListener.sfriends.remove((Object) p);
+                            SettingsListener.sfriends.remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -225,7 +225,7 @@ public class SettingsAPI {
                         if ((b = rs.getInt("RANG")) == 1) {
                             SettingsListener.srang.add(p);
                         } else {
-                            SettingsListener.srang.remove((Object) p);
+                            SettingsListener.srang.remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -245,7 +245,7 @@ public class SettingsAPI {
                         if ((b = rs.getInt("SERVER")) == 1) {
                             SettingsListener.sserver.add(p);
                         } else {
-                            SettingsListener.sserver.remove((Object) p);
+                            SettingsListener.sserver.remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -265,7 +265,7 @@ public class SettingsAPI {
                         if ((b = rs.getInt("CLAN")) == 1) {
                             SettingsListener.sclan.add(p);
                         } else {
-                            SettingsListener.sclan.remove((Object) p);
+                            SettingsListener.sclan.remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -285,7 +285,7 @@ public class SettingsAPI {
                         if ((b = rs.getInt("COINS")) == 1) {
                             SettingsListener.scoins.add(p);
                         } else {
-                            SettingsListener.scoins.remove((Object) p);
+                            SettingsListener.scoins.remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -305,11 +305,11 @@ public class SettingsAPI {
                         if ((b = rs.getInt("REALTIME")) == 1) {
                             SettingsListener.srealtime.add(p);
                         } else if (b == 2) {
-                            SettingsListener.srealtime.remove((Object) p);
+                            SettingsListener.srealtime.remove(p);
                             SettingsListener.sday.add(p);
                         } else {
-                            SettingsListener.srealtime.remove((Object) p);
-                            SettingsListener.sday.remove((Object) p);
+                            SettingsListener.srealtime.remove(p);
+                            SettingsListener.sday.remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -329,7 +329,7 @@ public class SettingsAPI {
                         if ((b = rs.getInt("TIME")) == 1) {
                             SettingsListener.szeit.add(p);
                         } else {
-                            SettingsListener.szeit.remove((Object) p);
+                            SettingsListener.szeit.remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -349,7 +349,7 @@ public class SettingsAPI {
                         if ((b = rs.getInt("WEATHER")) == 1) {
                             SettingsListener.sweather.add(p);
                         } else {
-                            SettingsListener.sweather.remove((Object) p);
+                            SettingsListener.sweather.remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -358,56 +358,56 @@ public class SettingsAPI {
         );
     }
 
-    public void setFriends(Player p, boolean friends) throws SQLException {
+    public void setFriends(Player p, boolean friends) {
         UUID uuid = p.getUniqueId();
         int b = 0;
         b = friends ? 1 : 0;
         AsyncMySQL.update("UPDATE ScoreConf SET FRIENDS='" + b + "' WHERE UUID='" + uuid + "'");
     }
 
-    public void setRang(Player p, boolean rang) throws SQLException {
+    public void setRang(Player p, boolean rang) {
         UUID uuid = p.getUniqueId();
         int b = 0;
         b = rang ? 1 : 0;
         AsyncMySQL.update("UPDATE ScoreConf SET RANG='" + b + "' WHERE UUID='" + uuid + "'");
     }
 
-    public void setServer(Player p, boolean server) throws SQLException {
+    public void setServer(Player p, boolean server) {
         UUID uuid = p.getUniqueId();
         int b = 0;
         b = server ? 1 : 0;
         AsyncMySQL.update("UPDATE ScoreConf SET SERVER='" + b + "' WHERE UUID='" + uuid + "'");
     }
 
-    public void setClan(Player p, boolean clan) throws SQLException {
+    public void setClan(Player p, boolean clan) {
         UUID uuid = p.getUniqueId();
         int b = 0;
         b = clan ? 1 : 0;
         AsyncMySQL.update("UPDATE ScoreConf SET CLAN='" + b + "' WHERE UUID='" + uuid + "'");
     }
 
-    public void setCoins(Player p, boolean coins) throws SQLException {
+    public void setCoins(Player p, boolean coins) {
         UUID uuid = p.getUniqueId();
         int b = 0;
         b = coins ? 1 : 0;
         AsyncMySQL.update("UPDATE ScoreConf SET COINS='" + b + "' WHERE UUID='" + uuid + "'");
     }
 
-    public void setRealTime(Player p, boolean realtime, boolean day) throws SQLException {
+    public void setRealTime(Player p, boolean realtime, boolean day) {
         UUID uuid = p.getUniqueId();
         int b = 0;
         b = realtime ? 1 : (day ? 2 : 0);
         AsyncMySQL.update("UPDATE ScoreConf SET REALTIME='" + b + "' WHERE UUID='" + uuid + "'");
     }
 
-    public void setWeather(Player p, boolean weather) throws SQLException {
+    public void setWeather(Player p, boolean weather) {
         UUID uuid = p.getUniqueId();
         int b = 0;
         b = weather ? 1 : 0;
         AsyncMySQL.update("UPDATE ScoreConf SET WEATHER='" + b + "' WHERE UUID='" + uuid + "'");
     }
 
-    public void setTime(Player p, boolean time) throws SQLException {
+    public void setTime(Player p, boolean time) {
         UUID uuid = p.getUniqueId();
         int b = 0;
         b = time ? 1 : 0;

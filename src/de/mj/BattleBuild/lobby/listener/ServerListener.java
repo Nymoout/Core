@@ -30,7 +30,7 @@ public class ServerListener implements Listener {
         if (event.getClickedInventory().getTitle().equals("§9§lOnline Server")) {
             String server = event.getCurrentItem().getItemMeta().getDisplayName();
             System.out.println(server);
-            player.sendMessage(lobby.getData().getPrefix() + "§7§7Du betrittst nun den Server §6§l" + server);
+            player.sendMessage(lobby.getServerManager().getData().getPrefix() + "§7§7Du betrittst nun den Server §6§l" + server);
             player.closeInventory();
             ByteArrayDataOutput out = ByteStreams.newDataOutput();
             out.writeUTF("Connect");

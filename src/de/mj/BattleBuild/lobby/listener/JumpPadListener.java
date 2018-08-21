@@ -30,7 +30,7 @@ public class JumpPadListener implements Listener {
     public void onMove(PlayerMoveEvent moveEvent) {
         Player player = moveEvent.getPlayer();
         if ((player.getLocation().getBlock().getType() == Material.IRON_PLATE)) {
-            if (lobby.getSettingsListener().jumppads.contains(player)) {
+            if (SettingsListener.jumppads.contains(player)) {
                 Vector v = player.getLocation().getDirection().multiply(2.0D).setY(1.0D);
                 player.setVelocity(v);
                 player.playSound(player.getLocation(), Sound.DIG_SAND, 1, 1);

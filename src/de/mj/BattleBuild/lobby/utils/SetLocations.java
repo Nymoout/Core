@@ -34,12 +34,13 @@ public class SetLocations {
         return loc;
     }
 
-    public void saveLocs() {
-        lobby.getLocationsUtil().setBedwars(initLocs("bedwars"));
-        lobby.getLocationsUtil().setCitybuild(initLocs("citybuild"));
-        lobby.getLocationsUtil().setGungame(initLocs("gungame"));
-        lobby.getLocationsUtil().setSkywars(initLocs("skywars"));
-        lobby.getLocationsUtil().setSpawn(initLocs("spawn"));
+    void saveLocs() {
+        LocationsUtil locationsUtil = lobby.getServerManager().getLocationsUtil();
+        locationsUtil.setBedwars(initLocs("bedwars"));
+        locationsUtil.setCitybuild(initLocs("citybuild"));
+        locationsUtil.setGungame(initLocs("gungame"));
+        locationsUtil.setSkywars(initLocs("skywars"));
+        locationsUtil.setSpawn(initLocs("spawn"));
     }
 
     public File getFile() {

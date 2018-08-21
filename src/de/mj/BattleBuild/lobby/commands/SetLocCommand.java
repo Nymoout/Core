@@ -8,6 +8,7 @@
 package de.mj.BattleBuild.lobby.commands;
 
 import de.mj.BattleBuild.lobby.Lobby;
+import de.mj.BattleBuild.lobby.utils.ServerManager;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -38,16 +39,17 @@ public class SetLocCommand implements CommandExecutor {
 
     public void setLocation(String path, Player player) {
         Location loc = player.getLocation();
-        lobby.getSetLocations().getYamlConfiguration().set("bb." + path + ".world", loc.getWorld().getName());
-        lobby.getSetLocations().getYamlConfiguration().set("bb." + path + ".world", loc.getWorld().getName());
-        lobby.getSetLocations().getYamlConfiguration().set("bb." + path + ".x", loc.getX());
-        lobby.getSetLocations().getYamlConfiguration().set("bb." + path + ".y", loc.getY());
-        lobby.getSetLocations().getYamlConfiguration().set("bb." + path + ".z", loc.getZ());
-        lobby.getSetLocations().getYamlConfiguration().set("bb." + path + ".yaw", loc.getYaw());
-        lobby.getSetLocations().getYamlConfiguration().set("bb." + path + ".pitch", loc.getPitch());
+        ServerManager serverManager = lobby.getServerManager();
+        serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".world", loc.getWorld().getName());
+        serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".world", loc.getWorld().getName());
+        serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".x", loc.getX());
+        serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".y", loc.getY());
+        serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".z", loc.getZ());
+        serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".yaw", loc.getYaw());
+        serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".pitch", loc.getPitch());
         try {
-            lobby.getSetLocations().getYamlConfiguration().save(lobby.getSetLocations().getFile());
-            player.sendMessage(lobby.getData().getPrefix() + "§aLocation wurde erfolgreich gespeichert!");
+            serverManager.getSetLocations().getYamlConfiguration().save(serverManager.getSetLocations().getFile());
+            player.sendMessage(serverManager.getData().getPrefix() + "§aLocation wurde erfolgreich gespeichert!");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

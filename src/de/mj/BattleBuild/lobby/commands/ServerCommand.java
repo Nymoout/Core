@@ -46,7 +46,7 @@ public class ServerCommand implements CommandExecutor {
                 Inventory inventory = Bukkit.createInventory(null, getInventorySize(serversize), "§9§lOnline Server");
                 int inventorysize = serversize - 1;
                 for (String name : servername) {
-                    inventory.setItem(inventorysize, lobby.getItemCreator().CreateItemwithMaterial(Material.COMPASS, 0, 1, name, null));
+                    inventory.setItem(inventorysize, lobby.getServerManager().getItemCreator().CreateItemwithMaterial(Material.COMPASS, 0, 1, name, null));
                     inventorysize--;
                 }
                 player.openInventory(inventory);

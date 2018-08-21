@@ -8,15 +8,10 @@
 package de.mj.BattleBuild.lobby.utils;
 
 
-import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.PlayerObject;
 import de.mj.BattleBuild.lobby.Lobby;
 import de.mj.BattleBuild.lobby.listener.SettingsListener;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
-import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
-import de.simonsator.partyandfriends.spigot.clans.api.ClansManager;
-import me.Dunios.NetworkManagerBridge.spigot.NetworkManagerBridge;
-import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.Contexts;
 import me.lucko.luckperms.api.User;
 import me.lucko.luckperms.api.caching.MetaData;
@@ -35,8 +30,8 @@ public class ScoreboardManager {
 
     public ScoreboardManager(Lobby lobby) {
         this.lobby = lobby;
-        settingsListener = lobby.getSettingsListener();
-        schedulerSaver = lobby.getSchedulerSaver();
+        settingsListener = lobby.getServerManager().getSettingsListener();
+        schedulerSaver = lobby.getServerManager().getSchedulerSaver();
     }
 
     private static void sendPacket(@SuppressWarnings("rawtypes") Packet packet, Player p) {
@@ -44,13 +39,14 @@ public class ScoreboardManager {
     }
 
     public void setBoardLOBBY(Player p) {
+        HookManager lobby = this.lobby.getHookManager();
         Scoreboard scoreboard = new Scoreboard();
         String color;
-        if (settingsListener.color.containsKey(p)) {
-            color = settingsListener.color.get(p);
+        if (SettingsListener.color.containsKey(p)) {
+            color = SettingsListener.color.get(p);
             ActionbarTimer.action.replace(p, true);
         } else {
-            settingsListener.ItemColToString(p);
+            SettingsListener.ItemColToString(p);
             color = "6";
         }
         ScoreboardObjective obj = scoreboard.registerObjective("zagd", IScoreboardCriteria.b);
@@ -64,8 +60,8 @@ public class ScoreboardManager {
 
         ScoreboardScore s4 = new ScoreboardScore(scoreboard, obj, "§a§lDein Rang §8:");
         ScoreboardScore s5;
-        User user = LuckPerms.getApi().getUser(p.getUniqueId());
-        ContextManager cm = LuckPerms.getApi().getContextManager();
+        User user = lobby.getLuckPermsApi().getUser(p.getUniqueId());
+        ContextManager cm = lobby.getLuckPermsApi().getContextManager();
         Contexts contexts = cm.lookupApplicableContexts(user).orElse(cm.getStaticContexts());
         MetaData md = user.getCachedData().getMetaData(contexts);
         String prefix;
@@ -79,11 +75,11 @@ public class ScoreboardManager {
 
         ScoreboardScore s8 = new ScoreboardScore(scoreboard, obj, "§a§lDein Clan §8:");
         ScoreboardScore s9;
-        PAFPlayer pafp = PAFPlayerManager.getInstance().getPlayer(p.getUniqueId());
+        PAFPlayer pafp = lobby.getPafPlayerManager().getPlayer(p.getUniqueId());
         int i = 0;
         try {
-            for (PAFPlayer all : ClansManager.getInstance().getClan(pafp).getAllPlayers()) {
-                for (PlayerObject online : TimoCloudAPI.getUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
+            for (PAFPlayer all : lobby.getClansManager().getClan(pafp).getAllPlayers()) {
+                for (PlayerObject online : lobby.getTimoCloudUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
                     if (online.getUuid().equals(all.getUniqueId())) {
                         i++;
                     }
@@ -91,10 +87,10 @@ public class ScoreboardManager {
             }
         } catch (NullPointerException ex) {
         }
-        if (ClansManager.getInstance().getClan(pafp) != null) {
+        if (lobby.getClansManager().getClan(pafp) != null) {
             s9 = new ScoreboardScore(scoreboard, obj,
-                    "§8» §" + color + ClansManager.getInstance().getClan(pafp).getClanTag() + "§f [§" + color + i
-                            + "§f/" + ClansManager.getInstance().getClan(pafp).getAllPlayers().size() + "]");
+                    "§8» §" + color + lobby.getClansManager().getClan(pafp).getClanTag() + "§f [§" + color + i
+                            + "§f/" + lobby.getClansManager().getClan(pafp).getAllPlayers().size() + "]");
         } else {
             s9 = new ScoreboardScore(scoreboard, obj, "§8» §7");
         }
@@ -108,7 +104,7 @@ public class ScoreboardManager {
         ScoreboardScore s15;
         int f = 0;
         for (PAFPlayer friends : pafp.getFriends()) {
-            for (PlayerObject online : TimoCloudAPI.getUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
+            for (PlayerObject online : lobby.getTimoCloudUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
                 if (online.getUuid().equals(friends.getUniqueId())) {
                     f++;
                 }
@@ -121,7 +117,7 @@ public class ScoreboardManager {
         }
         ScoreboardScore s16 = new ScoreboardScore(scoreboard, obj, "§7§6 ");
         ScoreboardScore s17 = new ScoreboardScore(scoreboard, obj, "§a§lOnline-Zeit");
-        int playtime = NetworkManagerBridge.getInstance().getPlayer(p.getUniqueId()).getPlaytime();
+        int playtime = lobby.getNetworkManagerBridge().getPlayer(p.getUniqueId()).getPlaytime();
         float tosecond = playtime / 1000;
         float tominute = tosecond / 60;
         float tohour = tominute / 60;
@@ -168,31 +164,31 @@ public class ScoreboardManager {
         sendPacket(createPacket, p);
         sendPacket(display, p);
 
-        if (settingsListener.scoins.contains(p)) {
+        if (SettingsListener.scoins.contains(p)) {
             sendPacket(pa1, p);
             sendPacket(pa2, p);
             sendPacket(pa3, p);
         }
-        if (settingsListener.srang.contains(p)) {
+        if (SettingsListener.srang.contains(p)) {
             sendPacket(pa4, p);
             sendPacket(pa5, p);
             sendPacket(pa6, p);
         }
-        if (settingsListener.sclan.contains(p)) {
+        if (SettingsListener.sclan.contains(p)) {
             sendPacket(pa8, p);
             sendPacket(pa9, p);
             sendPacket(pa7, p);
         }
-        if (settingsListener.sserver.contains(p)) {
+        if (SettingsListener.sserver.contains(p)) {
             sendPacket(pa11, p);
             sendPacket(pa12, p);
             sendPacket(pa13, p);
         }
-        if (settingsListener.sfriends.contains(p)) {
+        if (SettingsListener.sfriends.contains(p)) {
             sendPacket(pa14, p);
             sendPacket(pa15, p);
         }
-        if (settingsListener.szeit.contains(p)) {
+        if (SettingsListener.szeit.contains(p)) {
             sendPacket(pa16, p);
             sendPacket(pa17, p);
             sendPacket(pa18, p);

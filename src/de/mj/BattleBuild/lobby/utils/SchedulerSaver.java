@@ -13,18 +13,18 @@ import java.util.ArrayList;
 
 public class SchedulerSaver {
 
-    private ArrayList<BukkitTask> schedulerlist = new ArrayList<>();
+    private ArrayList<BukkitTask> schedulerList = new ArrayList<>();
 
     public SchedulerSaver() {
     }
 
     public void cancelSchedulers() {
-        for (BukkitTask task : schedulerlist) {
+        for (BukkitTask task : schedulerList) {
             task.cancel();
         }
     }
 
     public void createScheduler(BukkitTask bukkitTask) {
-        schedulerlist.add(bukkitTask);
+        schedulerList.add(bukkitTask);
     }
 }

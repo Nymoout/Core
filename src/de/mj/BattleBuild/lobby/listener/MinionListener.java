@@ -10,7 +10,6 @@ package de.mj.BattleBuild.lobby.listener;
 import de.mj.BattleBuild.lobby.Lobby;
 import de.mj.BattleBuild.lobby.utils.Data;
 import me.BukkitPVP.VIPHide.VIPHide;
-import net.minecraft.server.v1_8_R3.AchievementList;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,8 +19,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -88,9 +88,9 @@ public class MinionListener implements Listener {
         }
     }
 
-    public ItemMeta setColor(ItemStack itemStack, Player player) {
+    private ItemMeta setColor(ItemStack itemStack, Player player) {
         LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) itemStack.getItemMeta();
-        if (VIPHide.instance.isDisguised(player)) return null;
+        if (lobby.getHookManager().getVipHide().isDisguised(player)) return null;
         if (player.hasPermission("group.administrator")) {
             leatherArmorMeta.setColor(Color.fromRGB(170, 2, 0));
             return leatherArmorMeta;
@@ -153,14 +153,14 @@ public class MinionListener implements Listener {
             as.setChestplate(chest);
             ItemStack helm = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
             SkullMeta hm = (SkullMeta) helm.getItemMeta();
-            if (VIPHide.instance.isDisguised(player)) {
-                hm.setOwner(VIPHide.instance.getName(player));
+            if (lobby.getHookManager().getVipHide().isDisguised(player)) {
+                hm.setOwner(lobby.getHookManager().getVipHide().getName(player));
                 as.setHelmet(helm);
             }
         }
     }
 
-    public void rmMini(Player player) {
+    void rmMini(Player player) {
         try {
             ArmorStand armorStand = Minion.get(player);
             armorStand.remove();

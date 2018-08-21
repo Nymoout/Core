@@ -17,14 +17,14 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class AFKListener implements Listener {
 
     private static HashMap<Player, Location> locations = new HashMap<>();
     private static HashMap<Player, BukkitTask> runs = new HashMap<>();
-    private static ArrayList<Player> afkmover = new ArrayList<>();
+    private static HashSet<Player> afkmover = new HashSet<>();
 
     private final Lobby lobby;
 
@@ -33,7 +33,7 @@ public class AFKListener implements Listener {
         lobby.setListener(this);
     }
 
-    public static ArrayList getAfkmover() {
+    public static HashSet<Player> getAfkmover() {
         return afkmover;
     }
 
@@ -77,9 +77,7 @@ public class AFKListener implements Listener {
 
     public void saveLocation() {
         for (Player all : Bukkit.getOnlinePlayers()) {
-            if (locations.containsKey(all)) {
-                locations.remove(all);
-            }
+            locations.remove(all);
             locations.put(all, all.getLocation());
         }
     }
@@ -95,7 +93,7 @@ public class AFKListener implements Listener {
     }
 
     public void LocationTimer() {
-        lobby.getSchedulerSaver().createScheduler(
+        lobby.getServerManager().getSchedulerSaver().createScheduler(
                 new BukkitRunnable() {
                     int counter = 2;
 

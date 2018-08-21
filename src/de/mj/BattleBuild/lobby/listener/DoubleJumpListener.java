@@ -33,7 +33,7 @@ public class DoubleJumpListener implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent moveEvent) {
         Player player = moveEvent.getPlayer();
-        if (player.getGameMode() != GameMode.CREATIVE && lobby.getSettingsListener().doppelsprung.contains(player)) {
+        if (player.getGameMode() != GameMode.CREATIVE && SettingsListener.doppelsprung.contains(player)) {
             if (player.getLocation().add(0, -1, 0).getBlock().getType() != Material.AIR || player.getLocation().add(0, -1, 0).getBlock().getType() != Material.WATER) {
                 if (player.isOnGround()) {
                     player.setAllowFlight(true);
@@ -46,7 +46,7 @@ public class DoubleJumpListener implements Listener {
     @EventHandler
     public void onDoubleJump(PlayerToggleFlightEvent flightEvent) {
         Player player = flightEvent.getPlayer();
-        if (player.getGameMode() != GameMode.CREATIVE && lobby.getSettingsListener().doppelsprung.contains(player)) {
+        if (player.getGameMode() != GameMode.CREATIVE && SettingsListener.doppelsprung.contains(player)) {
             flightEvent.setCancelled(true);
             player.setAllowFlight(false);
             player.setFlying(false);

@@ -18,7 +18,6 @@ import java.util.Calendar;
 public class PlayerRealTime {
 
     private final Lobby lobby;
-    SchedulerSaver schedulerSaver = new SchedulerSaver();
 
     public PlayerRealTime(Lobby lobby) {
         this.lobby = lobby;
@@ -29,7 +28,7 @@ public class PlayerRealTime {
     }
 
     public void setPlayerRealTime() {
-        schedulerSaver.createScheduler(
+        lobby.getServerManager().getSchedulerSaver().createScheduler(
                 new BukkitRunnable() {
 
                     @Override

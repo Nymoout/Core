@@ -24,7 +24,7 @@ public class QuitListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onQuit(PlayerQuitEvent quitEvent) {
-        lobby.getMinionListener().rmMini(quitEvent.getPlayer());
+        lobby.getServerManager().getMinionListener().rmMini(quitEvent.getPlayer());
         quitEvent.setQuitMessage(null);
     }
 }

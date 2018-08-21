@@ -7,7 +7,6 @@
 
 package de.mj.BattleBuild.lobby.listener;
 
-import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.ServerGroupObject;
 import cloud.timo.TimoCloud.api.objects.ServerObject;
 import com.google.common.io.ByteArrayDataOutput;
@@ -45,7 +44,7 @@ public class LobbySwitcherListener implements Listener {
             if (((interactEvent.getAction() == Action.RIGHT_CLICK_BLOCK) || (interactEvent.getAction() == Action.RIGHT_CLICK_AIR))
                     && (interactEvent.getItem().getItemMeta().getDisplayName().equalsIgnoreCase("§8\u00BB§f§lLobby-Switcher§8\u00AB"))) {
                 player.playSound(player.getLocation(), Sound.NOTE_PIANO, 1.0F, 1.0F);
-                ServerGroupObject go = TimoCloudAPI.getUniversalAPI().getServerGroup("Lobby");
+                ServerGroupObject go = lobby.getHookManager().getTimoCloudUniversalAPI().getServerGroup("Lobby");
                 int i = go.getServers().size();
                 int size = i;
                 if (size == 1) {
@@ -53,7 +52,7 @@ public class LobbySwitcherListener implements Listener {
                 } else {
                     String curServer = player.getServer().getServerName();
                     while (size > 0) {
-                        ServerObject so = TimoCloudAPI.getUniversalAPI().getServer("Lobby-" + size);
+                        ServerObject so = lobby.getHookManager().getTimoCloudUniversalAPI().getServer("Lobby-" + size);
                         int c = so.getOnlinePlayerCount();
                         if (so.getState().equals("ONLINE")) {
                             Inv("Lobby-" + size, c, size, curServer);
