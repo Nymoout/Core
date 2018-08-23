@@ -1,7 +1,5 @@
 package de.mj.BattleBuild.lobby.utils;
 
-import cloud.timo.TimoCloud.api.TimoCloudAPI;
-import cloud.timo.TimoCloud.api.TimoCloudUniversalAPI;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
@@ -28,7 +26,6 @@ public class HookManager {
     private final ConsoleCommandSender sender;
     private final String prefix = new Data().getPrefix();
     private ProtocolManager protocolManager;
-    private TimoCloudUniversalAPI timoCloudUniversalAPI;
     private NetworkManagerBridge networkManagerBridge;
     private LuckPermsApi luckPermsApi;
     private PAFPlayerManager pafPlayerManager;
@@ -53,7 +50,6 @@ public class HookManager {
 
         sender.sendMessage(prefix + "§etry to hook into TimoCloud...");
         if (lobby.getServer().getPluginManager().getPlugin("TimoCloud") != null) {
-            this.timoCloudUniversalAPI = TimoCloudAPI.getUniversalAPI();
             sender.sendMessage(prefix + "§ehooked into: TimoCloud");
         } else {
             sender.sendMessage(String.format("§c[%s] - TimoCloud wasn't found - disable Plugin!", lobby.getDescription().getName()));
@@ -151,10 +147,6 @@ public class HookManager {
                 }
             }
         });
-    }
-
-    public TimoCloudUniversalAPI getTimoCloudUniversalAPI() {
-        return timoCloudUniversalAPI;
     }
 
     public NetworkManagerBridge getNetworkManagerBridge() {

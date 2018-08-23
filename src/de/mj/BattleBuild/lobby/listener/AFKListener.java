@@ -50,7 +50,7 @@ public class AFKListener implements Listener {
                 if (player.getLocation().equals(locations.get(player))) {
                     if (counter == 0) {
                         if (!afkmover.contains(player)) {
-                            Bukkit.getServer().broadcastMessage("§a" + player.getName() + " §eist nun AFKListener!");
+                            Bukkit.getServer().broadcastMessage("§a" + player.getName() + " §eist nun AFK!");
                             afkmover.add(player);
                             cancel();
                         } else {

@@ -32,16 +32,14 @@ public class ServerManager {
     private CancelListener cancelListener;
     private ChatListener chatListener;
     private CompassListener compassListener;
-    private DoubleJumpListener doubleJumpListener;
     private JoinListener joinListener;
-    private JumpPadListener jumpPadListener;
     private LobbySwitcherListener lobbySwitcherListener;
     private MinionListener minionListener;
+    private PlayerMoveListener playerMoveListener;
     private QuitListener quitListener;
     private ServerListener serverListener;
     private SettingsListener settingsListener;
     private StopReloadRestartListener stopReloadRestartListener;
-    private WaterJumpListener waterJumpListener;
     private YourProfileListener yourProfileListener;
     //mySQL
     private AsyncMySQL asyncMySQL;
@@ -66,7 +64,7 @@ public class ServerManager {
         sender = lobby.getSender();
     }
 
-    public void init(ServerType serverType) {
+    public synchronized void init(ServerType serverType) {
         //loaded by default
         sender.sendMessage(prefix + "§fload Data");
         data = new Data();
@@ -86,16 +84,14 @@ public class ServerManager {
             cancelListener = new CancelListener(lobby);
             chatListener = new ChatListener(lobby);
             compassListener = new CompassListener(lobby);
-            doubleJumpListener = new DoubleJumpListener(lobby);
             joinListener = new JoinListener(lobby);
-            jumpPadListener = new JumpPadListener(lobby);
             lobbySwitcherListener = new LobbySwitcherListener(lobby);
             minionListener = new MinionListener(lobby);
+            playerMoveListener = new PlayerMoveListener(lobby);
             quitListener = new QuitListener(lobby);
             serverListener = new ServerListener(lobby);
             settingsListener = new SettingsListener(lobby);
             stopReloadRestartListener = new StopReloadRestartListener(lobby);
-            waterJumpListener = new WaterJumpListener(lobby);
             yourProfileListener = new YourProfileListener(lobby);
 
             //mySQL
@@ -120,7 +116,7 @@ public class ServerManager {
 
             mySQLLoader.loadConf();
             mySQLLoader.loadMySQL();
-            afkListener.AFKWorker();
+            afkListener.LocationTimer();
             tabList.loadTablist();
             setLocations.saveLocs();
             playerRealTime.setPlayerRealTime();
@@ -180,16 +176,8 @@ public class ServerManager {
         return compassListener;
     }
 
-    public DoubleJumpListener getDoubleJumpListener() {
-        return doubleJumpListener;
-    }
-
     public JoinListener getJoinListener() {
         return joinListener;
-    }
-
-    public JumpPadListener getJumpPadListener() {
-        return jumpPadListener;
     }
 
     public LobbySwitcherListener getLobbySwitcherListener() {
@@ -214,10 +202,6 @@ public class ServerManager {
 
     public StopReloadRestartListener getStopReloadRestartListener() {
         return stopReloadRestartListener;
-    }
-
-    public WaterJumpListener getWaterJumpListener() {
-        return waterJumpListener;
     }
 
     public YourProfileListener getYourProfileListener() {
@@ -282,6 +266,10 @@ public class ServerManager {
 
     public ServerType getServerType() {
         return serverType;
+    }
+
+    public PlayerMoveListener getPlayerMoveListener() {
+        return playerMoveListener;
     }
 
     public void setServerType(ServerType serverType) {

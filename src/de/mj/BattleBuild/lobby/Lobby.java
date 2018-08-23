@@ -17,8 +17,8 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-
 public class Lobby extends JavaPlugin {
+
 
     private Lobby lobby;
     private ConsoleCommandSender sender;
@@ -32,14 +32,16 @@ public class Lobby extends JavaPlugin {
         setSender(Bukkit.getConsoleSender());
 
         sender.sendMessage(prefix + "§eis starting...");
+        serverManager = new ServerManager(this);
+        hookManager = new HookManager(this);
         setLobby(this);
 
         sender.sendMessage(prefix + "§edetec server version...");
-        preInit();
         sender.sendMessage(prefix + "§adetected server §6" + Bukkit.getServerName());
         sender.sendMessage(prefix + "§eload hooks...");
         hookManager.hook();
         sender.sendMessage(prefix + "§eload modules...");
+        preInit();
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
@@ -51,11 +53,11 @@ public class Lobby extends JavaPlugin {
     }
 
     private void preInit() {
-        serverManager = new ServerManager(this);
-        hookManager = new HookManager(this);
         String server = Bukkit.getServerName();
-        if (server.contains("Lobby"))
+        if (server.contains("Lobby")) {
+            sender.sendMessage(prefix + "§eload modules for Server " + server + " ...");
             serverManager.init(ServerType.LOBBY);
+        }
         if (server.equalsIgnoreCase("CityBuild"))
             serverManager.init(ServerType.CITY_BUILD);
         if (server.equalsIgnoreCase("BauServer"))

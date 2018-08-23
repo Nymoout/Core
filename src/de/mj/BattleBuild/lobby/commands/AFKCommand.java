@@ -33,9 +33,8 @@ public class AFKCommand implements CommandExecutor {
                 for (Player all : Bukkit.getOnlinePlayers()) {
                     all.sendMessage("§a" + player.getName() + " §eist nun AFK!");
                 }
-            } else {
+            } else
                 player.sendMessage(lobby.getServerManager().getData().getPrefix() + "§cDu bist bereits AFK!");
-            }
         } else
             sender.sendMessage(lobby.getServerManager().getData().getPrefix() + "§cDu musst ein Spieler sein um diesen Befehl ausführen zu können!");
         return false;

@@ -8,6 +8,7 @@
 package de.mj.BattleBuild.lobby.utils;
 
 
+import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.PlayerObject;
 import de.mj.BattleBuild.lobby.Lobby;
 import de.mj.BattleBuild.lobby.listener.SettingsListener;
@@ -79,7 +80,7 @@ public class ScoreboardManager {
         int i = 0;
         try {
             for (PAFPlayer all : lobby.getClansManager().getClan(pafp).getAllPlayers()) {
-                for (PlayerObject online : lobby.getTimoCloudUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
+                for (PlayerObject online : TimoCloudAPI.getUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
                     if (online.getUuid().equals(all.getUniqueId())) {
                         i++;
                     }
@@ -104,7 +105,7 @@ public class ScoreboardManager {
         ScoreboardScore s15;
         int f = 0;
         for (PAFPlayer friends : pafp.getFriends()) {
-            for (PlayerObject online : lobby.getTimoCloudUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
+            for (PlayerObject online : TimoCloudAPI.getUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
                 if (online.getUuid().equals(friends.getUniqueId())) {
                     f++;
                 }

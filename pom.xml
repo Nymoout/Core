@@ -24,10 +24,6 @@
             <url>https://repo1.maven.org/maven2/</url>
         </repository>
         <repository>
-            <id>TimoCloud-API</id>
-            <url>https://maven.timo.cloud/repository/TimoCloud-API/</url>
-        </repository>
-        <repository>
             <id>vault-repo</id>
             <url>http://nexus.hc.to/content/repositories/pub_releases</url>
         </repository>
@@ -48,13 +44,25 @@
             <version>4.2</version>
             <scope>provided</scope>
         </dependency>
+
+        <!--TimoCloud-API-->
+        <dependency>
+            <groupId>de.knox</groupId>
+            <artifactId>CommandHelper</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
         <!--TimoCloud-API-->
         <dependency>
             <groupId>cloud.timo.TimoCloud</groupId>
-            <artifactId>TimoCloud-API</artifactId>
-            <version>5.2.0</version>
+            <artifactId>TimoCloud</artifactId>
+            <version>5.3.5</version>
         </dependency>
-        <!--Vault-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.2</version>
+        </dependency>
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>Vault</artifactId>

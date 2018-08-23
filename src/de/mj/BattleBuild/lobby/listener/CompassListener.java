@@ -7,7 +7,7 @@
 
 package de.mj.BattleBuild.lobby.listener;
 
-import cloud.timo.TimoCloud.api.TimoCloudUniversalAPI;
+import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.PlayerObject;
 import cloud.timo.TimoCloud.api.objects.ServerGroupObject;
 import cloud.timo.TimoCloud.api.objects.ServerObject;
@@ -33,14 +33,12 @@ import java.util.ArrayList;
 public class CompassListener implements Listener {
 
     private final Lobby lobby;
-    private final TimoCloudUniversalAPI universalAPI;
 
     private ServerManager serverManager;
 
     public CompassListener(Lobby lobby) {
         this.lobby = lobby;
         lobby.setListener(this);
-        this.universalAPI = lobby.getHookManager().getTimoCloudUniversalAPI();
         this.serverManager = lobby.getServerManager();
     }
 
@@ -70,8 +68,8 @@ public class CompassListener implements Listener {
                     }
                 }
                 ArrayList<String> BWlore = new ArrayList<>();
-                if (universalAPI.getServerGroup("BedWars4x4") != null) {
-                    ServerGroupObject serverGroupObjectBW4x4 = universalAPI.getServerGroup("BedWars4x4");
+                if (TimoCloudAPI.getUniversalAPI().getServerGroup("BedWars4x4") != null) {
+                    ServerGroupObject serverGroupObjectBW4x4 = TimoCloudAPI.getUniversalAPI().getServerGroup("BedWars4x4");
                     BWlore.add("§7Derzeit sind §a" + getOnlinePlayerCount(serverGroupObjectBW4x4) + "§7 Spieler");
                     BWlore.add("§7online.");
                 } else
@@ -79,8 +77,8 @@ public class CompassListener implements Listener {
                 inv.setItem(11, serverManager.getItemCreator().CreateItemwithMaterial(Material.BED, 0, 1, "§3§lBedWars", BWlore));
 
                 ArrayList<String> CBlore = new ArrayList<>();
-                if (universalAPI.getServerGroup("CityBuild") != null) {
-                    ServerGroupObject serverGroupObjectCityBuild = universalAPI.getServerGroup("CityBuild");
+                if (TimoCloudAPI.getUniversalAPI().getServerGroup("CityBuild") != null) {
+                    ServerGroupObject serverGroupObjectCityBuild = TimoCloudAPI.getUniversalAPI().getServerGroup("CityBuild");
                     CBlore.add("§7Derzeit sind §a" + getOnlinePlayerCount(serverGroupObjectCityBuild) + "§7 Spieler");
                     CBlore.add("§7online.");
                 } else
@@ -89,8 +87,8 @@ public class CompassListener implements Listener {
                         serverManager.getItemCreator().CreateItemwithMaterial(Material.DIAMOND_BLOCK, 0, 1, "§6§lCityBuild", CBlore));
 
                 ArrayList<String> sPvPlore = new ArrayList<>();
-                if (universalAPI.getServerGroup("SkyPvP") != null) {
-                    ServerGroupObject serverGroupObjectCityBuild = universalAPI.getServerGroup("SkyPvP");
+                if (TimoCloudAPI.getUniversalAPI().getServerGroup("SkyPvP") != null) {
+                    ServerGroupObject serverGroupObjectCityBuild = TimoCloudAPI.getUniversalAPI().getServerGroup("SkyPvP");
                     sPvPlore.add("§7Derzeit sind §a" + getOnlinePlayerCount(serverGroupObjectCityBuild) + "§7 Spieler");
                     sPvPlore.add("§7online.");
                 } else
@@ -98,14 +96,14 @@ public class CompassListener implements Listener {
                 inv.setItem(19, serverManager.getItemCreator().CreateItemwithMaterial(Material.GRASS, 0, 1, "§9§lSkyPvP", sPvPlore));
 
                 ArrayList<String> lobbyLore = new ArrayList<>();
-                ServerGroupObject serverGroupObjectLobby = universalAPI.getServerGroup("Lobby");
+                ServerGroupObject serverGroupObjectLobby = TimoCloudAPI.getUniversalAPI().getServerGroup("Lobby");
                 lobbyLore.add("§7Derzeit sind §a" + getOnlinePlayerCount(serverGroupObjectLobby) + "§7 Spieler");
                 lobbyLore.add("§7online.");
                 inv.setItem(22, serverManager.getItemCreator().CreateItemwithMaterial(Material.NETHER_STAR, 0, 1, "§a§lSpawn", lobbyLore));
 
                 ArrayList<String> SW8x1lore = new ArrayList<>();
-                if (universalAPI.getServerGroup("SkyWars8x1") != null) {
-                    ServerGroupObject serverGroupObjectSW8x1 = universalAPI.getServerGroup("SkyWars8x1");
+                if (TimoCloudAPI.getUniversalAPI().getServerGroup("SkyWars8x1") != null) {
+                    ServerGroupObject serverGroupObjectSW8x1 = TimoCloudAPI.getUniversalAPI().getServerGroup("SkyWars8x1");
                     SW8x1lore.add("§7Derzeit sind §a" + getOnlinePlayerCount(serverGroupObjectSW8x1) + "§7 Spieler");
                     SW8x1lore.add("§7online.");
                 } else
