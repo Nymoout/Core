@@ -1,5 +1,5 @@
 # LobbyTestPlugin
-A lobby plugin for Minecraft servers
+A core plugin for Minecraft servers
 
 # What is the LobbyTestPlugin
 

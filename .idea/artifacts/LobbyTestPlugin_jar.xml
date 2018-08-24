@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="LobbyTestPlugin:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/LobbyTestPlugin_jar</output-path>
-    <root id="archive" name="LobbyTestPlugin.jar">
-      <element id="module-output" name="LobbyTestPlugin" />
-    </root>
-  </artifact>
-</component>
