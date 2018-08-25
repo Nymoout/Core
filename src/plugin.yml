@@ -1,9 +1,9 @@
 name: BBCore
-version: 5.0.4
+version: 5.2.1
 author: MJ
 
 main: de.mj.BattleBuild.core.Core
-softdepend: [CoinsAPI, Vault, TimoCloud, VIPHide, LuckPerms, NetworkManagerBridge, FriendsAPIForPartyAndFriends, Clans-Spigot-Part, ProtocolLib]
+softdepend: [CoinsAPI, Vault, TimoCloud, VIPHide, LuckPerms, NetworkManagerBridge, FriendsAPIForPartyAndFriends, Clans-Spigot-Part, ProtocolLib, Skript]
 
 commands:
    afk:
@@ -11,3 +11,5 @@ commands:
    set:
    server:
    setrank:
+   gotoserver:
+   serverinfo:

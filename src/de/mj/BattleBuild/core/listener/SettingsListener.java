@@ -313,7 +313,7 @@ public class SettingsListener implements Listener {
     public void SettingsMenue(InventoryClickEvent e) {
         ServerManager lobby = this.core.getServerManager();
         Player p = (Player) e.getWhoClicked();
-        lobby.getScoreboardManager().setBoardLOBBY(p);
+        lobby.getScoreboardManager().setScoreboard(p);
         try {
             if (e.getCurrentItem().getItemMeta().getDisplayName().equals("§2§lSilent-Lobby")
                     && e.getCurrentItem().getType().equals(Material.ARROW)) {

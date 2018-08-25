@@ -16,6 +16,7 @@ import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.WeatherType;
@@ -115,8 +116,7 @@ public class JoinListener implements Listener {
             is.setItemMeta(sm);
             player.getInventory().setItem(8, is);
 
-            core.getServerManager().getScoreboardManager().setBoardLOBBY(player);
-            core.getServerManager().getTabList().setPrefix(player);
+            core.getServerManager().getScoreboardManager().setScoreboard(player);
 
             ArrayList<String> friends = new ArrayList<String>();
             PAFPlayer pafp = PAFPlayerManager.getInstance().getPlayer(player.getUniqueId());
@@ -143,7 +143,39 @@ public class JoinListener implements Listener {
                 PacketPlayOutChat packet = new PacketPlayOutChat(icb);
                 ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
             }
-        } else if (core.getServerManager().getServerType().equals(ServerType.DEFAULT))
+        } else if (core.getServerManager().getServerType().equals(ServerType.DEFAULT)) {
             core.getServerManager().getTabList().setPrefix(player);
+        }
+        waitMySQL(player, core.getServerManager().getServerType());
+        core.getServerManager().getTabList().setPrefix(player);
+    }
+
+    private void waitMySQL(Player player, ServerType serverType) {
+        core.getServerManager().getSchedulerSaver().createScheduler(new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (serverType.equals(ServerType.LOBBY)) {
+                    if (core.getServerManager().getServerStatsAPI().getMaxServer().containsKey(player)) {
+                        IChatBaseComponent icb = ChatSerializer
+                                .a("{\"text\":\"§2Du spielst öfters auf dem Server\",\"extra\":[{\"text\":\"§b "
+                                        + core.getServerManager().getServerStatsAPI().getMaxServer().get(player)
+                                        + ". §2Wenn §2du §2dich §2mit §2diesem §2verbinden §2willst, §2dann §2klick §2einfach §2hier!\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"§aKlicke hier um diesen Server zu betreten!\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gotoserver " + core.getServerManager().getServerStatsAPI().getMaxServer().get(player) + "\"}}]}");
+                        PacketPlayOutChat packet = new PacketPlayOutChat(icb);
+                        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+                        cancel();
+                    } else {
+                        core.getServerManager().getServerStatsAPI().getMaxPlayed(player);
+                    }
+                } else {
+                    if (!core.getServerManager().getServerStatsAPI().getPlayed().containsKey(player)) {
+                        core.getServerManager().getServerStatsAPI().createPlayer(player);
+                        core.getServerManager().getServerStatsAPI().getPlayed(player);
+                    } else {
+                        core.getServerManager().getServerStatsAPI().updatePlayed(player, core.getServerManager().getServerStatsAPI().getPlayedInt(player, Bukkit.getServerName()) + 1, Bukkit.getServerName());
+                        cancel();
+                    }
+                }
+            }
+        }.runTaskTimer(core, 0L, 20L));
     }
 }

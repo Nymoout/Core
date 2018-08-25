@@ -8,6 +8,7 @@
 package de.mj.BattleBuild.core.listener;
 
 import de.mj.BattleBuild.core.Core;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,14 +25,13 @@ public class YourProfileListener implements Listener {
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent e) {
-        try {
-            Player p = e.getPlayer();
-            if (e.getItem().getItemMeta().getDisplayName().equalsIgnoreCase("§8\u00BB§9§lDein Profil§8\u00AB")) {
-                p.playSound(p.getLocation(), Sound.NOTE_PIANO, 1, 1);
-                p.performCommand("friendsgui");
-            }
-        } catch (Exception ex) {
+    public void onInteract(PlayerInteractEvent interactEvent) {
+        if (interactEvent.getItem() == null) return;
+        if (interactEvent.getItem().getType() == null || interactEvent.getItem().getType().equals(Material.AIR)) return;
+        Player player = interactEvent.getPlayer();
+        if (interactEvent.getItem().getItemMeta().getDisplayName().equalsIgnoreCase("§8\u00BB§9§lDein Profil§8\u00AB")) {
+            player.playSound(player.getLocation(), Sound.NOTE_PIANO, 1, 1);
+            player.performCommand("friendsgui");
         }
     }
 }

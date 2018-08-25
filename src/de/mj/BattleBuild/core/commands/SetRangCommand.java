@@ -17,13 +17,6 @@ public class SetRangCommand implements CommandExecutor {
         core.setCommand(this, "setrank");
     }
 
-    /**
-     * @param commandSender
-     * @param command
-     * @param label
-     * @param args
-     * @return
-     */
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         if (commandSender.hasPermission("core.setrank")) {

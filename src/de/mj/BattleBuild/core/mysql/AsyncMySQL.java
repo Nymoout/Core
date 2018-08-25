@@ -1,4 +1,4 @@
-package de.mj.BattleBuild.core.mySQL;
+package de.mj.BattleBuild.core.mysql;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;

@@ -3,9 +3,10 @@ package de.mj.BattleBuild.core.utils;
 import de.mj.BattleBuild.core.Core;
 import de.mj.BattleBuild.core.commands.*;
 import de.mj.BattleBuild.core.listener.*;
-import de.mj.BattleBuild.core.mySQL.AsyncMySQL;
-import de.mj.BattleBuild.core.mySQL.MySQLLoader;
-import de.mj.BattleBuild.core.mySQL.SettingsAPI;
+import de.mj.BattleBuild.core.mysql.AsyncMySQL;
+import de.mj.BattleBuild.core.mysql.MySQLLoader;
+import de.mj.BattleBuild.core.mysql.ServerStatsAPI;
+import de.mj.BattleBuild.core.mysql.SettingsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -20,7 +21,6 @@ public class ServerManager {
 
     //Commands
     private AFKCommand afkCommand;
-    private ServerCommand serverCommand;
     private SetLocCommand setLocCommand;
     private SetRangCommand setRangCommand;
     private SpawnCommand spawnCommand;
@@ -39,10 +39,11 @@ public class ServerManager {
     private SettingsListener settingsListener;
     private StopReloadRestartListener stopReloadRestartListener;
     private YourProfileListener yourProfileListener;
-    //mySQL
+    //mysql
     private AsyncMySQL asyncMySQL;
     private AsyncMySQL.MySQL mySQL;
     private MySQLLoader mySQLLoader;
+    private ServerStatsAPI serverStatsAPI;
     private SettingsAPI settingsAPI;
     //Utlis
     private ActionbarTimer actionbarTimer;
@@ -67,12 +68,20 @@ public class ServerManager {
         //loaded by default
         sender.sendMessage(prefix + "§fload Data");
         data = new Data();
+        asyncMySQL = new AsyncMySQL(core);
+        mySQL = new AsyncMySQL.MySQL();
+        mySQLLoader = new MySQLLoader(core);
+        serverStatsAPI = new ServerStatsAPI(core);
+        serverStatsAPI.createTable();
+        schedulerSaver = new SchedulerSaver();
+        new ServerInfoCommand(core);
+
 
         if (serverType.equals(ServerType.LOBBY)) {
             //init commands
             sender.sendMessage(prefix + "§fload Commands");
             afkCommand = new AFKCommand(core);
-            serverCommand = new ServerCommand(core);
+            new GoToServerCommand(core);
             setLocCommand = new SetLocCommand(core);
             setRangCommand = new SetRangCommand(core);
             spawnCommand = new SpawnCommand(core);
@@ -94,11 +103,6 @@ public class ServerManager {
             stopReloadRestartListener = new StopReloadRestartListener(core);
             yourProfileListener = new YourProfileListener(core);
 
-            //mySQL
-            sender.sendMessage(prefix + "§fload MySQL");
-            asyncMySQL = new AsyncMySQL(core);
-            mySQL = new AsyncMySQL.MySQL();
-            mySQLLoader = new MySQLLoader(core);
             settingsAPI = new SettingsAPI(core);
 
             //Utils
@@ -108,7 +112,6 @@ public class ServerManager {
             locationsUtil = new LocationsUtil();
             particle = new Particle();
             playerRealTime = new PlayerRealTime(core);
-            schedulerSaver = new SchedulerSaver();
             scoreboardManager = new ScoreboardManager(core);
             setLocations = new SetLocations(core);
             tabList = new TabList(core);
@@ -123,6 +126,22 @@ public class ServerManager {
             actionbarTimer.setActionBar();
             scoreboardManager.ScoreboardActu();
         } else if (serverType.equals(ServerType.DEFAULT)) {
+            data = new Data();
+            tabList = new TabList(core);
+            joinListener = new JoinListener(core);
+            chatListener = new ChatListener(core);
+            commandBlockListener = new BukkitMinecraftCommandBlockListener(core);
+            stopReloadRestartListener = new StopReloadRestartListener(core);
+            tabList.loadTablist();
+        } else if (serverType.equals(ServerType.SKY_PVP)) {
+            data = new Data();
+            tabList = new TabList(core);
+            joinListener = new JoinListener(core);
+            chatListener = new ChatListener(core);
+            commandBlockListener = new BukkitMinecraftCommandBlockListener(core);
+            stopReloadRestartListener = new StopReloadRestartListener(core);
+            tabList.loadTablist();
+        } else if (serverType.equals(ServerType.CITY_BUILD)) {
             data = new Data();
             tabList = new TabList(core);
             joinListener = new JoinListener(core);
@@ -150,10 +169,6 @@ public class ServerManager {
 
     public AFKCommand getAfkCommand() {
         return afkCommand;
-    }
-
-    public ServerCommand getServerCommand() {
-        return serverCommand;
     }
 
     public SetLocCommand getSetLocCommand() {
@@ -278,5 +293,9 @@ public class ServerManager {
 
     public PlayerMoveListener getPlayerMoveListener() {
         return playerMoveListener;
+    }
+
+    public ServerStatsAPI getServerStatsAPI() {
+        return serverStatsAPI;
     }
 }

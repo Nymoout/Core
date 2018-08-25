@@ -63,10 +63,17 @@ public class Core extends JavaPlugin {
             serverManager.init();
             return;
         }
+        if (server.equalsIgnoreCase("SkyPvP")) {
+            serverManager = new ServerManager(this, ServerType.SKY_PVP);
+            hookManager.hook(ServerType.SKY_PVP);
+            serverManager.init();
+            return;
+        }
         if (server.equalsIgnoreCase("BauServer")) {
             serverManager = new ServerManager(this, ServerType.BAU_SERVER);
             hookManager.hook(ServerType.BAU_SERVER);
             serverManager.init();
+
         } else {
             serverManager = new ServerManager(this, ServerType.DEFAULT);
             hookManager.hook(ServerType.DEFAULT);

@@ -21,7 +21,7 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 
 public class CancelListener implements Listener {
 
-    private Core core;
+    private final Core core;
 
     public CancelListener(Core core) {
         this.core = core;

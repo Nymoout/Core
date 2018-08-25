@@ -5,7 +5,7 @@
  *
  */
 
-package de.mj.BattleBuild.core.mySQL;
+package de.mj.BattleBuild.core.mysql;
 
 
 import de.mj.BattleBuild.core.Core;
@@ -19,12 +19,10 @@ public class SettingsAPI {
 
     private final Core core;
     private AsyncMySQL amsql;
-    private AsyncMySQL.MySQL msql;
 
     public SettingsAPI(Core core) {
         this.core = core;
         amsql = core.getServerManager().getAsyncMySQL();
-        msql = core.getServerManager().getMySQL();
     }
 
     public void createPlayer(Player p) {

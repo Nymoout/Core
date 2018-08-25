@@ -8,9 +8,7 @@
 package de.mj.BattleBuild.core.listener;
 
 import cloud.timo.TimoCloud.api.TimoCloudAPI;
-import cloud.timo.TimoCloud.api.objects.PlayerObject;
 import cloud.timo.TimoCloud.api.objects.ServerGroupObject;
-import cloud.timo.TimoCloud.api.objects.ServerObject;
 import de.mj.BattleBuild.core.Core;
 import de.mj.BattleBuild.core.utils.Particle;
 import de.mj.BattleBuild.core.utils.ServerManager;
@@ -122,7 +120,6 @@ public class CompassListener implements Listener {
                                 serverManager.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
                     }
                 }
-
                 interactEvent.getPlayer().openInventory(inv);
             }
         }
@@ -130,13 +127,9 @@ public class CompassListener implements Listener {
     }
 
     public Integer getOnlinePlayerCount(ServerGroupObject serverGroupObject) {
-        Integer playerCount = 0;
-        for (ServerObject serverObject : serverGroupObject.getServers()) {
-            for (PlayerObject playerObject : serverObject.getOnlinePlayers()) {
-                playerCount++;
-            }
-        }
-        return playerCount;
+        final Integer[] playerCount = {0};
+        serverGroupObject.getServers().forEach(serverObject -> playerCount[0] += serverObject.getOnlinePlayerCount());
+        return playerCount[0];
     }
 
     @EventHandler

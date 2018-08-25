@@ -67,7 +67,7 @@ public class StopReloadRestartListener implements Listener {
             if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aJa")) {
                 p.closeInventory();
                 p.sendMessage("§aDu hast einen Serverneustart initialisiert!");
-                if (!isrestarting) Shutdown();
+                if (!isrestarting) shutdown();
                 isrestarting = true;
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§cNein")) {
                 p.closeInventory();
@@ -75,7 +75,7 @@ public class StopReloadRestartListener implements Listener {
         }
     }
 
-    public void Shutdown() {
+    private void shutdown() {
         Bukkit.broadcastMessage(prefix + "§c§lDer Server muss neu gestartet werden.");
         Bukkit.broadcastMessage(prefix + "§c" + Bukkit.getServerName() + " wird gleich wieder verf\u00FCgbar sein.");
         new BukkitRunnable() {

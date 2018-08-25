@@ -39,7 +39,7 @@ public class ScoreboardManager {
         ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
     }
 
-    public void setBoardLOBBY(Player p) {
+    public void setScoreboard(Player p) {
         HookManager lobby = this.core.getHookManager();
         Scoreboard scoreboard = new Scoreboard();
         String color;
@@ -201,7 +201,7 @@ public class ScoreboardManager {
                     @Override
                     public void run() {
                         for (Player all : Bukkit.getOnlinePlayers()) {
-                            setBoardLOBBY(all);
+                            setScoreboard(all);
                         }
                     }
                 }.runTaskTimerAsynchronously(this.core, 0L, 20L)

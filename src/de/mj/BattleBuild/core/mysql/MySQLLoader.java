@@ -5,7 +5,7 @@
  *
  */
 
-package de.mj.BattleBuild.core.mySQL;
+package de.mj.BattleBuild.core.mysql;
 
 import de.mj.BattleBuild.core.Core;
 import org.bukkit.configuration.file.YamlConfiguration;

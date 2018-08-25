@@ -30,9 +30,8 @@ public class AFKCommand implements CommandExecutor {
             Player player = (Player) sender;
             if (!AFKListener.getAfkmover().contains(player)) {
                 core.getServerManager().getAfkListener().setAfkmover(player);
-                for (Player all : Bukkit.getOnlinePlayers()) {
+                for (Player all : Bukkit.getOnlinePlayers())
                     all.sendMessage("§a" + player.getName() + " §eist nun AFK!");
-                }
             } else
                 player.sendMessage(core.getServerManager().getData().getPrefix() + "§cDu bist bereits AFK!");
         } else
