@@ -8,7 +8,6 @@
 package de.mj.BattleBuild.core.utils;
 
 import de.mj.BattleBuild.core.Core;
-import de.mj.BattleBuild.core.listener.SettingsListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -44,9 +43,9 @@ public class PlayerRealTime {
                             int s = calendar.get(13);
                             long seconds = h * 60 * 60 + m * 60 + s;
                             long ticks = (long) secToTicks(seconds);
-                            if (SettingsListener.srealtime.contains(all)) {
+                            if (core.getServerManager().getSettingsListener().getSrealtime().contains(all)) {
                                 all.setPlayerTime(ticks, false);
-                            } else if (SettingsListener.sday.contains(all)) {
+                            } else if (core.getServerManager().getSettingsListener().getSday().contains(all)) {
                                 all.setPlayerTime(6000, false);
                             } else {
                                 all.setPlayerTime(18000, false);

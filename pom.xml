@@ -44,14 +44,6 @@
             <version>4.2</version>
             <scope>provided</scope>
         </dependency>
-
-        <!--TimoCloud-API-->
-        <dependency>
-            <groupId>de.knox</groupId>
-            <artifactId>CommandHelper</artifactId>
-            <version>1.0.1</version>
-        </dependency>
-
         <!--TimoCloud-API-->
         <dependency>
             <groupId>cloud.timo.TimoCloud</groupId>

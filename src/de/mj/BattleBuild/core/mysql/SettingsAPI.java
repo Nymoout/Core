@@ -9,7 +9,6 @@ package de.mj.BattleBuild.core.mysql;
 
 
 import de.mj.BattleBuild.core.Core;
-import de.mj.BattleBuild.core.listener.SettingsListener;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
@@ -41,8 +40,8 @@ public class SettingsAPI {
                     try {
                         if (rs.next()) {
                             short c = rs.getShort("COLOR");
-                            SettingsListener.design.put(p, c);
-                            SettingsListener.ItemColToString(p);
+                            core.getServerManager().getSettingsListener().getDesign().put(p, c);
+                            core.getServerManager().getSettingsListener().ItemColToString(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -60,9 +59,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("SILENT"));
                         }
                         if ((b = rs.getInt("SILENT")) == 1) {
-                            SettingsListener.silentstate.add(p);
+                            core.getServerManager().getSettingsListener().getSilentState().add(p);
                         } else {
-                            SettingsListener.silentstate.remove(p);
+                            core.getServerManager().getSettingsListener().getSilentState().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -80,9 +79,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("WJUMP"));
                         }
                         if ((b = rs.getInt("WJUMP")) == 1) {
-                            SettingsListener.waterjump.add(p);
+                            core.getServerManager().getSettingsListener().getWaterJump().add(p);
                         } else {
-                            SettingsListener.waterjump.remove(p);
+                            core.getServerManager().getSettingsListener().getWaterJump().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -100,9 +99,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("PJUMP"));
                         }
                         if ((b = rs.getInt("PJUMP")) == 1) {
-                            SettingsListener.jumppads.add(p);
+                            core.getServerManager().getSettingsListener().getJumpPads().add(p);
                         } else {
-                            SettingsListener.jumppads.remove(p);
+                            core.getServerManager().getSettingsListener().getJumpPads().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -120,9 +119,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("DJUMP"));
                         }
                         if ((b = rs.getInt("DJUMP")) == 1) {
-                            SettingsListener.doppelsprung.add(p);
+                            core.getServerManager().getSettingsListener().getDoubleJump().add(p);
                         } else {
-                            SettingsListener.doppelsprung.remove(p);
+                            core.getServerManager().getSettingsListener().getDoubleJump().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -141,9 +140,9 @@ public class SettingsAPI {
                         int b = rs.getInt("RIDE");
                         System.out.println("R" + b);
                         if (b == 1) {
-                            SettingsListener.ridestate.add(p);
+                            core.getServerManager().getSettingsListener().getRideState().add(p);
                         } else {
-                            SettingsListener.ridestate.remove(p);
+                            core.getServerManager().getSettingsListener().getRideState().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -201,9 +200,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("FRIENDS"));
                         }
                         if ((b = rs.getInt("FRIENDS")) == 1) {
-                            SettingsListener.sfriends.add(p);
+                            core.getServerManager().getSettingsListener().getSfriends().add(p);
                         } else {
-                            SettingsListener.sfriends.remove(p);
+                            core.getServerManager().getSettingsListener().getSfriends().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -221,9 +220,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("RANG"));
                         }
                         if ((b = rs.getInt("RANG")) == 1) {
-                            SettingsListener.srang.add(p);
+                            core.getServerManager().getSettingsListener().getSrang().add(p);
                         } else {
-                            SettingsListener.srang.remove(p);
+                            core.getServerManager().getSettingsListener().getSrang().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -241,9 +240,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("SERVER"));
                         }
                         if ((b = rs.getInt("SERVER")) == 1) {
-                            SettingsListener.sserver.add(p);
+                            core.getServerManager().getSettingsListener().getSserver().add(p);
                         } else {
-                            SettingsListener.sserver.remove(p);
+                            core.getServerManager().getSettingsListener().getSserver().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -261,9 +260,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("CLAN"));
                         }
                         if ((b = rs.getInt("CLAN")) == 1) {
-                            SettingsListener.sclan.add(p);
+                            core.getServerManager().getSettingsListener().getSclan().add(p);
                         } else {
-                            SettingsListener.sclan.remove(p);
+                            core.getServerManager().getSettingsListener().getSclan().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -281,9 +280,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("COINS"));
                         }
                         if ((b = rs.getInt("COINS")) == 1) {
-                            SettingsListener.scoins.add(p);
+                            core.getServerManager().getSettingsListener().getScoins().add(p);
                         } else {
-                            SettingsListener.scoins.remove(p);
+                            core.getServerManager().getSettingsListener().getScoins().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -301,13 +300,13 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("REALTIME"));
                         }
                         if ((b = rs.getInt("REALTIME")) == 1) {
-                            SettingsListener.srealtime.add(p);
+                            core.getServerManager().getSettingsListener().getSrealtime().add(p);
                         } else if (b == 2) {
-                            SettingsListener.srealtime.remove(p);
-                            SettingsListener.sday.add(p);
+                            core.getServerManager().getSettingsListener().getSrealtime().remove(p);
+                            core.getServerManager().getSettingsListener().getSday().add(p);
                         } else {
-                            SettingsListener.srealtime.remove(p);
-                            SettingsListener.sday.remove(p);
+                            core.getServerManager().getSettingsListener().getSrealtime().remove(p);
+                            core.getServerManager().getSettingsListener().getSday().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -325,9 +324,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("TIME"));
                         }
                         if ((b = rs.getInt("TIME")) == 1) {
-                            SettingsListener.szeit.add(p);
+                            core.getServerManager().getSettingsListener().getStime().add(p);
                         } else {
-                            SettingsListener.szeit.remove(p);
+                            core.getServerManager().getSettingsListener().getStime().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -345,9 +344,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("WEATHER"));
                         }
                         if ((b = rs.getInt("WEATHER")) == 1) {
-                            SettingsListener.sweather.add(p);
+                            core.getServerManager().getSettingsListener().getSweather().add(p);
                         } else {
-                            SettingsListener.sweather.remove(p);
+                            core.getServerManager().getSettingsListener().getSweather().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();

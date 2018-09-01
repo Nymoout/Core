@@ -15,7 +15,9 @@ import org.bukkit.util.Vector;
 
 public class PlayerMoveListener implements Listener {
 
+    public final Core core;
     public PlayerMoveListener(Core core) {
+        this.core = core;
         core.setListener(this);
     }
 
@@ -23,7 +25,7 @@ public class PlayerMoveListener implements Listener {
     public void onMove(PlayerMoveEvent moveEvent) {
         Player player = moveEvent.getPlayer();
         if (player.getGameMode() != GameMode.CREATIVE) {
-            if (SettingsListener.waterjump.contains(player)) {
+            if (core.getServerManager().getSettingsListener().getWaterJump().contains(player)) {
                 Location loc = player.getLocation();
                 Block block = loc.getBlock();
                 if (block.isLiquid()) {
@@ -32,7 +34,7 @@ public class PlayerMoveListener implements Listener {
                     player.setAllowFlight(false);
                 }
             }
-            if (SettingsListener.doppelsprung.contains(player)) {
+            if (core.getServerManager().getSettingsListener().getDoubleJump().contains(player)) {
                 if (player.getLocation().add(0, -1, 0).getBlock().getType() != Material.AIR || player.getLocation().add(0, -1, 0).getBlock().getType() != Material.WATER) {
                     if (player.isOnGround()) {
                         player.setAllowFlight(true);
@@ -41,7 +43,7 @@ public class PlayerMoveListener implements Listener {
                 }
             }
             if ((player.getLocation().getBlock().getType() == Material.IRON_PLATE)) {
-                if (SettingsListener.jumppads.contains(player)) {
+                if (core.getServerManager().getSettingsListener().getJumpPads().contains(player)) {
                     Vector v = player.getLocation().getDirection().multiply(2.0D).setY(1.0D);
                     player.setVelocity(v);
                     player.playSound(player.getLocation(), Sound.DIG_SAND, 1, 1);
@@ -54,7 +56,7 @@ public class PlayerMoveListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDoubleJump(PlayerToggleFlightEvent flightEvent) {
         Player player = flightEvent.getPlayer();
-        if (player.getGameMode() != GameMode.CREATIVE && SettingsListener.doppelsprung.contains(player)) {
+        if (player.getGameMode() != GameMode.CREATIVE && core.getServerManager().getSettingsListener().getDoubleJump().contains(player)) {
             flightEvent.setCancelled(true);
             player.setAllowFlight(false);
             player.setFlying(false);

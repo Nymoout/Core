@@ -9,6 +9,8 @@ package de.mj.BattleBuild.core.listener;
 
 import de.mj.BattleBuild.core.Core;
 import de.mj.BattleBuild.core.utils.ServerManager;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -32,31 +34,33 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@Getter
+@Setter
 public class SettingsListener implements Listener {
 
-    public static ArrayList<Player> silentstate = new ArrayList<Player>();
-    public static ArrayList<Player> ridestate = new ArrayList<Player>();
-    public static HashMap<Player, Short> design = new HashMap<Player, Short>();
-    public static HashMap<Player, String> color = new HashMap<>();
-    public static ArrayList<Player> jumppads = new ArrayList<Player>();
-    public static ArrayList<Player> doppelsprung = new ArrayList<Player>();
-    public static ArrayList<Player> waterjump = new ArrayList<Player>();
+    private ArrayList<Player> silentState = new ArrayList<>();
+    private ArrayList<Player> rideState = new ArrayList<>();
+    private HashMap<Player, Short> design = new HashMap<>();
+    private HashMap<Player, String> color = new HashMap<>();
+    private ArrayList<Player> jumpPads = new ArrayList<>();
+    private ArrayList<Player> doubleJump = new ArrayList<>();
+    private ArrayList<Player> waterJump = new ArrayList<>();
 
-    public static ArrayList<Player> sfriends = new ArrayList<Player>();
-    public static ArrayList<Player> srang = new ArrayList<Player>();
-    public static ArrayList<Player> sserver = new ArrayList<Player>();
-    public static ArrayList<Player> sclan = new ArrayList<Player>();
-    public static ArrayList<Player> scoins = new ArrayList<Player>();
-    public static ArrayList<Player> szeit = new ArrayList<Player>();
-    public static ArrayList<Player> srealtime = new ArrayList<Player>();
-    public static ArrayList<Player> sday = new ArrayList<Player>();
-    public static ArrayList<Player> sweather = new ArrayList<Player>();
+    private ArrayList<Player> sfriends = new ArrayList<>();
+    private ArrayList<Player> srang = new ArrayList<>();
+    private ArrayList<Player> sserver = new ArrayList<>();
+    private ArrayList<Player> sclan = new ArrayList<>();
+    private ArrayList<Player> scoins = new ArrayList<>();
+    private ArrayList<Player> stime = new ArrayList<>();
+    private ArrayList<Player> srealtime = new ArrayList<>();
+    private ArrayList<Player> sday = new ArrayList<>();
+    private ArrayList<Player> sweather = new ArrayList<>();
 
-    static HashMap<Player, Inventory> invent1 = new HashMap<Player, Inventory>();
-    static HashMap<Player, Inventory> invent2 = new HashMap<Player, Inventory>();
-    static HashMap<Player, Inventory> invent3 = new HashMap<Player, Inventory>();
-    static HashMap<Player, Inventory> score1 = new HashMap<Player, Inventory>();
-    static HashMap<Player, Inventory> score2 = new HashMap<Player, Inventory>();
+    private HashMap<Player, Inventory> invent1 = new HashMap<Player, Inventory>();
+    private HashMap<Player, Inventory> invent2 = new HashMap<Player, Inventory>();
+    private HashMap<Player, Inventory> invent3 = new HashMap<Player, Inventory>();
+    private HashMap<Player, Inventory> score1 = new HashMap<Player, Inventory>();
+    private HashMap<Player, Inventory> score2 = new HashMap<Player, Inventory>();
 
     private final Core core;
 
@@ -65,7 +69,7 @@ public class SettingsListener implements Listener {
         core.setListener(this);
     }
 
-    public static void ItemColToString(Player p) {
+    public void ItemColToString(Player p) {
         if (design.containsKey(p)) {
             if (design.get(p) == 0) {
                 color.put(p, "f");
@@ -163,7 +167,7 @@ public class SettingsListener implements Listener {
         silentlore.add("§7mache andere Spieler für dich unsichtbar");
         silentlore.add("§cDERZEIT NICHT VERFÜGBAR!");
         inv.setItem(18, lobby.getItemCreator().CreateItemwithMaterial(Material.ARROW, 0, 1, "§2§lSilent-Lobby", silentlore));
-        if (silentstate.contains(p)) {
+        if (silentState.contains(p)) {
             inv.setItem(26, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
             inv.setItem(26, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
@@ -174,7 +178,7 @@ public class SettingsListener implements Listener {
         ArrayList<String> ridelore = new ArrayList<String>();
         ridelore.add("§7Lasse Spieler auf dir reiten");
         inv.setItem(27, lobby.getItemCreator().CreateItemwithMaterial(Material.TRIPWIRE_HOOK, 0, 1, "§3§lRide on me", ridelore));
-        if (ridestate.contains(p)) {
+        if (rideState.contains(p)) {
             inv.setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
             inv.setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
@@ -273,7 +277,7 @@ public class SettingsListener implements Listener {
         ArrayList<String> jumppadlore = new ArrayList<String>();
         jumppadlore.add("§7Schalte JumpPads an oder aus");
         inv3.setItem(9, lobby.getItemCreator().CreateItemwithMaterial(Material.GOLD_PLATE, 0, 1, "§5§lJumpPad", jumppadlore));
-        if (jumppads.contains(p)) {
+        if (jumpPads.contains(p)) {
             inv3.setItem(17, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
             inv3.setItem(17, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
@@ -282,7 +286,7 @@ public class SettingsListener implements Listener {
         ArrayList<String> doublejumplore = new ArrayList<String>();
         doublejumplore.add("§7Schalte DoubleJump an oder aus");
         inv3.setItem(18, lobby.getItemCreator().CreateItemwithMaterial(Material.FEATHER, 0, 1, "§f§lDoubleJump", doublejumplore));
-        if (doppelsprung.contains(p)) {
+        if (doubleJump.contains(p)) {
             inv3.setItem(26, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
             inv3.setItem(26, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
@@ -291,7 +295,7 @@ public class SettingsListener implements Listener {
         ArrayList<String> liquidbouncelore = new ArrayList<String>();
         inv3.setItem(27,
                 lobby.getItemCreator().CreateItemwithMaterial(Material.LAVA_BUCKET, 0, 1, "§2§lJump on Liquid", liquidbouncelore));
-        if (waterjump.contains(p)) {
+        if (waterJump.contains(p)) {
             inv3.setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
             inv3.setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
@@ -311,6 +315,8 @@ public class SettingsListener implements Listener {
 
     @EventHandler
     public void SettingsMenue(InventoryClickEvent e) {
+        if (e.getCurrentItem().getType().equals(Material.AIR) || e.getCurrentItem().getType() == null) return;
+        if (e.getClickedInventory().getType() == null) return;
         ServerManager lobby = this.core.getServerManager();
         Player p = (Player) e.getWhoClicked();
         lobby.getScoreboardManager().setScoreboard(p);
@@ -318,8 +324,8 @@ public class SettingsListener implements Listener {
             if (e.getCurrentItem().getItemMeta().getDisplayName().equals("§2§lSilent-Lobby")
                     && e.getCurrentItem().getType().equals(Material.ARROW)) {
                 if (p.hasPermission("core.silent")) {
-                    if (!silentstate.contains(p)) {
-                        silentstate.add(p);
+                    if (!silentState.contains(p)) {
+                        silentState.add(p);
                         lobby.getSettingsAPI().setSilent(p, true);
                         Inventory inv = invent1.get(p);
                         inv.setItem(26,
@@ -328,7 +334,7 @@ public class SettingsListener implements Listener {
                         p.sendMessage(lobby.getData().getPrefix() + "§aDu hast die §2Silent-Lobby §abetreten!");
                     } else {
                         lobby.getSettingsAPI().setSilent(p, false);
-                        silentstate.remove(p);
+                        silentState.remove(p);
                         Inventory inv = invent1.get(p);
                         inv.setItem(26, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1,
                                 "§cDEAKTIVIERT", null));
@@ -351,16 +357,16 @@ public class SettingsListener implements Listener {
                 p.openInventory(Design());
             } else if (e.getCurrentItem().getType().equals(Material.TRIPWIRE_HOOK)
                     && e.getCurrentItem().getItemMeta().getDisplayName().equals("§3§lRide on me")) {
-                if (ridestate.contains(p)) {
+                if (rideState.contains(p)) {
                     p.sendMessage(lobby.getData().getPrefix() + "§cDu hast das §4Ride on me §cFeature deaktiviert!");
-                    ridestate.remove(p);
+                    rideState.remove(p);
                     invent1.get(p).setItem(35,
                             lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
                     lobby.getSettingsAPI().setRide(p, false);
                     p.updateInventory();
                 } else {
                     p.sendMessage(lobby.getData().getPrefix() + "§aDu hast das §2Ride on me §aFeature aktiviert!");
-                    ridestate.add(p);
+                    rideState.add(p);
                     invent1.get(p).setItem(35,
                             lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
                     lobby.getSettingsAPI().setRide(p, true);
@@ -421,14 +427,14 @@ public class SettingsListener implements Listener {
                 }
             } else if (e.getCurrentItem().getType().equals(Material.LAVA_BUCKET)
                     && e.getCurrentItem().getItemMeta().getDisplayName().equals("§2§lJump on Liquid")) {
-                if (waterjump.contains(p)) {
-                    waterjump.remove(p);
+                if (waterJump.contains(p)) {
+                    waterJump.remove(p);
                     invent3.get(p).setItem(35,
                             lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
                     lobby.getSettingsAPI().setWJUMP(p, false);
                     p.updateInventory();
                 } else {
-                    waterjump.add(p);
+                    waterJump.add(p);
                     invent3.get(p).setItem(35,
                             lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
                     lobby.getSettingsAPI().setWJUMP(p, true);
@@ -436,14 +442,14 @@ public class SettingsListener implements Listener {
                 }
             } else if (e.getCurrentItem().getType().equals(Material.FEATHER)
                     && e.getCurrentItem().getItemMeta().getDisplayName().equals("§f§lDoubleJump")) {
-                if (doppelsprung.contains(p)) {
-                    doppelsprung.remove(p);
+                if (doubleJump.contains(p)) {
+                    doubleJump.remove(p);
                     invent3.get(p).setItem(26,
                             lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
                     lobby.getSettingsAPI().setDJUMP(p, false);
                     p.updateInventory();
                 } else {
-                    doppelsprung.add(p);
+                    doubleJump.add(p);
                     invent3.get(p).setItem(26,
                             lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
                     lobby.getSettingsAPI().setDJUMP(p, true);
@@ -588,25 +594,25 @@ public class SettingsListener implements Listener {
                 }
             } else if (e.getCurrentItem().getType().equals(Material.GOLD_PLATE)
                     && e.getCurrentItem().getItemMeta().getDisplayName().equals("§5§lJumpPad")) {
-                if (jumppads.contains(p)) {
-                    jumppads.remove(p);
+                if (jumpPads.contains(p)) {
+                    jumpPads.remove(p);
                     invent3.get(p).setItem(17,
                             lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
                     lobby.getSettingsAPI().setPJUMP(p, false);
 
                 } else {
-                    jumppads.add(p);
+                    jumpPads.add(p);
                     invent3.get(p).setItem(17,
                             lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
                     lobby.getSettingsAPI().setPJUMP(p, true);
                 }
             } else if (e.getCurrentItem().getType().equals(Material.WATCH) && e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§6Online-Zeit")) {
-                if (szeit.contains(p)) {
-                    szeit.remove(p);
+                if (stime.contains(p)) {
+                    stime.remove(p);
                     score2.get(p).setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
                     lobby.getSettingsAPI().setTime(p, false);
                 } else {
-                    szeit.add(p);
+                    stime.add(p);
                     score2.get(p).setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
                     lobby.getSettingsAPI().setTime(p, true);
                 }
@@ -706,7 +712,7 @@ public class SettingsListener implements Listener {
         }
 
         inv2.setItem(27, lobby.getItemCreator().CreateItemwithMaterial(Material.WATCH, 0, 1, "§6Online-Zeit", null));
-        if (szeit.contains(p)) {
+        if (stime.contains(p)) {
             inv2.setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT", null));
         } else {
             inv2.setItem(35, lobby.getItemCreator().CreateItemwithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT", null));
@@ -739,7 +745,7 @@ public class SettingsListener implements Listener {
         if (e.getRightClicked() instanceof Player) {
             Player horse = (Player) e.getRightClicked();
             Player rider = e.getPlayer();
-            if (ridestate.contains(horse)) {
+            if (rideState.contains(horse)) {
                 horse.setPassenger(rider);
             } else {
                 rider.sendMessage(core.getServerManager().getData().getPrefix() + "§cDer Spieler hat das Ride on me Feature nicht aktiviert!");
@@ -749,6 +755,8 @@ public class SettingsListener implements Listener {
 
     @EventHandler
     public void hitRider(EntityDamageByEntityEvent e) {
+        if (e.getDamager() == null) return;
+        if (!(e.getEntity() instanceof Player)) return;
         if (e.getEntity() instanceof Player) {
             Player rider = (Player) e.getEntity();
             Player hiter = (Player) e.getDamager();

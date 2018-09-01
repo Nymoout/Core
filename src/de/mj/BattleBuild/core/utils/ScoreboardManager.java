@@ -43,10 +43,10 @@ public class ScoreboardManager {
         HookManager lobby = this.core.getHookManager();
         Scoreboard scoreboard = new Scoreboard();
         String color;
-        if (SettingsListener.color.containsKey(p)) {
-            color = SettingsListener.color.get(p);
+        if (core.getServerManager().getSettingsListener().getColor().containsKey(p)) {
+            color = core.getServerManager().getSettingsListener().getColor().get(p);
         } else {
-            SettingsListener.ItemColToString(p);
+            core.getServerManager().getSettingsListener().ItemColToString(p);
             color = "6";
         }
         ScoreboardObjective obj = scoreboard.registerObjective("zagd", IScoreboardCriteria.b);
@@ -55,7 +55,7 @@ public class ScoreboardManager {
         PacketPlayOutScoreboardDisplayObjective display = new PacketPlayOutScoreboardDisplayObjective(1, obj);
         ScoreboardScore s1 = new ScoreboardScore(scoreboard, obj, "§a§lDeine Coins §8:");
         ScoreboardScore s2;
-        s2 = new ScoreboardScore(scoreboard, obj, "§8\u00BB §" + color + String.valueOf(lobby.getEconomy().getBalance(p)));
+        s2 = new ScoreboardScore(scoreboard, obj, "§8\u00BB §" + color + String.valueOf(HookManager.getEconomy().getBalance(p)));
         ScoreboardScore s3 = new ScoreboardScore(scoreboard, obj, "§8§7");
 
         ScoreboardScore s4 = new ScoreboardScore(scoreboard, obj, "§a§lDein Rang §8:");
@@ -164,31 +164,31 @@ public class ScoreboardManager {
         sendPacket(createPacket, p);
         sendPacket(display, p);
 
-        if (SettingsListener.scoins.contains(p)) {
+        if (core.getServerManager().getSettingsListener().getScoins().contains(p)) {
             sendPacket(pa1, p);
             sendPacket(pa2, p);
             sendPacket(pa3, p);
         }
-        if (SettingsListener.srang.contains(p)) {
+        if (core.getServerManager().getSettingsListener().getSrang().contains(p)) {
             sendPacket(pa4, p);
             sendPacket(pa5, p);
             sendPacket(pa6, p);
         }
-        if (SettingsListener.sclan.contains(p)) {
+        if (core.getServerManager().getSettingsListener().getSclan().contains(p)) {
             sendPacket(pa8, p);
             sendPacket(pa9, p);
             sendPacket(pa7, p);
         }
-        if (SettingsListener.sserver.contains(p)) {
+        if (core.getServerManager().getSettingsListener().getSserver().contains(p)) {
             sendPacket(pa11, p);
             sendPacket(pa12, p);
             sendPacket(pa13, p);
         }
-        if (SettingsListener.sfriends.contains(p)) {
+        if (core.getServerManager().getSettingsListener().getSfriends().contains(p)) {
             sendPacket(pa14, p);
             sendPacket(pa15, p);
         }
-        if (SettingsListener.szeit.contains(p)) {
+        if (core.getServerManager().getSettingsListener().getSclan().contains(p)) {
             sendPacket(pa16, p);
             sendPacket(pa17, p);
             sendPacket(pa18, p);

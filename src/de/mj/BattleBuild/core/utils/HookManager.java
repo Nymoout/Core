@@ -11,6 +11,7 @@ import com.comphenix.protocol.reflect.FieldAccessException;
 import de.mj.BattleBuild.core.Core;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
 import de.simonsator.partyandfriends.spigot.clans.api.ClansManager;
+import lombok.Getter;
 import me.BukkitPVP.VIPHide.VIPHide;
 import me.Dunios.NetworkManagerBridge.spigot.NetworkManagerBridge;
 import me.lucko.luckperms.LuckPerms;
@@ -19,9 +20,10 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
+@Getter
 public class HookManager {
 
-    private static Economy econ;
+    private static Economy economy;
     private final Core core;
     private final ConsoleCommandSender sender;
     private final String prefix = new Data().getPrefix();
@@ -37,9 +39,10 @@ public class HookManager {
         sender = core.getSender();
     }
 
-    /**
-     * @param serverType
-     */
+    public static Economy getEconomy() {
+        return economy;
+    }
+
     public void hook(ServerType serverType) {
         if (serverType.equals(ServerType.LOBBY)) {
             sender.sendMessage(prefix + "§2try to hook in Vault...");
@@ -49,7 +52,7 @@ public class HookManager {
                 return;
             } else {
                 sender.sendMessage(prefix + "§2hooked into: Vault");
-                sender.sendMessage(prefix + "§2hooked into Economy-Plugin: " + econ.getName());
+                sender.sendMessage(prefix + "§2hooked into Economy-Plugin: " + economy.getName());
             }
 
             sender.sendMessage(prefix + "§etry to hook into TimoCloud...");
@@ -200,20 +203,34 @@ public class HookManager {
                 core.getServer().getPluginManager().disablePlugin(core);
             }
         }
-    }
-
-    private boolean setupEconomy() {
-        if (core.getServer().getPluginManager().getPlugin("Vault") == null) {
-            System.out.println("Vault nicht gefunden");
-            return false;
+        if (serverType.equals(ServerType.BAU_SERVER)) {
+            sender.sendMessage(prefix + "§dtry to hook into LuckPerms...");
+            if (core.getServer().getPluginManager().getPlugin("LuckPerms") != null) {
+                this.luckPermsApi = LuckPerms.getApi();
+                sender.sendMessage(prefix + "§dhooked into: LuckPerms");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - LuckPerms wasn't found - disable Plugin!", core.getDescription().getName()));
+                core.getServer().getPluginManager().disablePlugin(core);
+            }
+            sender.sendMessage(prefix + "§btry to hook into VIPHide...");
+            if (core.getServer().getPluginManager().getPlugin("VIPHide") != null) {
+                this.vipHide = VIPHide.instance;
+                sender.sendMessage(prefix + "§bhooked into: VIPHide");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - VIPHide wasn't found - disable Plugin", core.getDescription().getName()));
+                core.getServer().getPluginManager().disablePlugin(core);
+            }
+            sender.sendMessage(prefix + "§etry to hook into ProtocolLib...");
+            if (core.getServer().getPluginManager().getPlugin("ProtocolLib") != null) {
+                this.protocolManager = ProtocolLibrary.getProtocolManager();
+                sender.sendMessage(prefix + "§ehooked into: ProtocolLib");
+                blockTabComplete();
+                sender.sendMessage(prefix + "§eBlockTabComplete-Module was successfully enabled!");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - ProtocolLib wasn't found - disable TabComplete!", core.getDescription().getName()));
+                core.getServer().getPluginManager().disablePlugin(core);
+            }
         }
-        RegisteredServiceProvider<Economy> rsp = core.getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            System.out.println("RegisteredServiceProvider Fehler");
-            return false;
-        }
-        econ = rsp.getProvider();
-        return econ != null;
     }
 
     private void blockTabComplete() {
@@ -236,27 +253,17 @@ public class HookManager {
         });
     }
 
-    public NetworkManagerBridge getNetworkManagerBridge() {
-        return networkManagerBridge;
-    }
-
-    public LuckPermsApi getLuckPermsApi() {
-        return luckPermsApi;
-    }
-
-    public PAFPlayerManager getPafPlayerManager() {
-        return pafPlayerManager;
-    }
-
-    public ClansManager getClansManager() {
-        return clansManager;
-    }
-
-    public VIPHide getVipHide() {
-        return vipHide;
-    }
-
-    public Economy getEconomy() {
-        return econ;
+    private boolean setupEconomy() {
+        if (core.getServer().getPluginManager().getPlugin("Vault") == null) {
+            System.out.println("Vault nicht gefunden");
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = core.getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            System.out.println("RegisteredServiceProvider Fehler");
+            return false;
+        }
+        economy = rsp.getProvider();
+        return economy != null;
     }
 }

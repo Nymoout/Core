@@ -24,7 +24,7 @@ public class ServerStatsAPI {
     }
 
     public void createPlayer(Player player) {
-        AsyncMySQL.update("INSERT INTO serverstats (uuid, server, played) SELECT '" + player.getUniqueId() + "', '" + Bukkit.getServerName() + "', '1' FROM DUAL WHERE NOT EXISTS (SELECT '*' FROM serverstats WHERE server = '" + Bukkit.getServerName() + "');");
+        AsyncMySQL.update("INSERT INTO serverstats (uuid, server, played) SELECT '" + player.getUniqueId() + "', '" + Bukkit.getServerName() + "', '1' FROM DUAL WHERE NOT EXISTS (SELECT '*' FROM serverstats WHERE server= '" + Bukkit.getServerName() + "' AND uuid='" + player.getUniqueId() + "');");
     }
 
     public void updatePlayed(Player player, int i, String serverName) {
@@ -32,7 +32,7 @@ public class ServerStatsAPI {
     }
 
     public void getPlayed(Player player) {
-        amsql.query("SELECT * FROM serverstats WHERE uuid='" + player.getUniqueId() + "'", resultSet -> {
+        amsql.query("SELECT * FROM serverstats WHERE uuid='" + player.getUniqueId() + "' AND server='" + Bukkit.getServerName() + "'", resultSet -> {
             try {
                 if (resultSet.next()) {
                     Integer played = resultSet.getInt("played");
@@ -48,9 +48,9 @@ public class ServerStatsAPI {
     }
 
     public void getMaxPlayed(Player player) {
-        amsql.query("SELECT MAX(played),server,uuid FROM serverstats WHERE uuid='" + player.getUniqueId() + "'", resultSet -> {
+        amsql.query("SELECT MAX(played),server FROM serverstats WHERE uuid='" + player.getUniqueId() + "' GROUP BY played", resultSet -> {
             try {
-                if (resultSet.next()) {
+                if (resultSet.last()) {
                     String maxServer = resultSet.getString("server");
                     this.maxServer.put(player, maxServer);
                 }

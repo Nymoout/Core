@@ -16,6 +16,7 @@ import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,6 +24,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -53,13 +56,13 @@ public class CompassListener implements Listener {
         if (interactEvent.getAction() == Action.RIGHT_CLICK_AIR | interactEvent.getAction() == Action.LEFT_CLICK_AIR
                 | interactEvent.getAction() == Action.LEFT_CLICK_BLOCK | interactEvent.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (interactEvent.getMaterial() == Material.COMPASS) {
-
+                player.playSound(player.getLocation(), Sound.NOTE_PIANO, 1, 1);
                 Inventory inv = Bukkit.createInventory(null, 54, "§8\u00BB§7§lNavigator§8\u00AB");
 
                 for (int i = 8; i >= 0; i--) {
-                    if (SettingsListener.design.containsKey(player)) {
+                    if (core.getServerManager().getSettingsListener().getDesign().containsKey(player)) {
                         inv.setItem(i, serverManager.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE,
-                                SettingsListener.design.get(player), 1, null, null));
+                                core.getServerManager().getSettingsListener().getDesign().get(player), 1, null, null));
                     } else {
                         inv.setItem(i,
                                 serverManager.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
@@ -112,9 +115,9 @@ public class CompassListener implements Listener {
                 inv.setItem(34, serverManager.getItemCreator().CreateItemwithMaterial(Material.SIGN, 0, 1, "§8§lComing Soon", null));
 
                 for (int a = 53; a >= 45; a--) {
-                    if (SettingsListener.design.containsKey(player)) {
+                    if (core.getServerManager().getSettingsListener().getDesign().containsKey(player)) {
                         inv.setItem(a, serverManager.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE,
-                                SettingsListener.design.get(player), 1, null, null));
+                                core.getServerManager().getSettingsListener().getDesign().get(player), 1, null, null));
                     } else {
                         inv.setItem(a,
                                 serverManager.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
@@ -134,6 +137,10 @@ public class CompassListener implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent clickEvent) {
+        if (clickEvent.getClickedInventory() == null) return;
+        if (clickEvent.getCurrentItem().getType().equals(Material.AIR) || clickEvent.getCurrentItem().getType() == null)
+            return;
+        if (clickEvent.getClickedInventory().getType() == null) return;
         Player player = (Player) clickEvent.getWhoClicked();
         if (player.isOp()) {
             clickEvent.setCancelled(false);
@@ -207,10 +214,13 @@ public class CompassListener implements Listener {
             int timer = 1;
 
             public void run() {
-                if (timer == 1)
+                if (timer == 1) {
                     player.setVelocity(new Vector(0, 1, 0));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, 1));
+                }
                 if (timer == 0) {
                     player.teleport(location);
+                    player.removePotionEffect(PotionEffectType.BLINDNESS);
                     cancel();
                 }
                 timer--;

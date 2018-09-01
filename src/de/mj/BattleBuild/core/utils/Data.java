@@ -7,6 +7,9 @@
 
 package de.mj.BattleBuild.core.utils;
 
+import lombok.Getter;
+
+@Getter
 public class Data {
 
     private static String prefix = "§7[§6§lBattleBuild§7] §7";

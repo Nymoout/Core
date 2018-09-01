@@ -49,14 +49,16 @@ public class JoinListener implements Listener {
         if (core.getServerManager().getServerType().equals(ServerType.LOBBY)) {
             player.teleport(core.getServerManager().getLocationsUtil().getSpawn());
             if (!player.hasPlayedBefore()) {
-                SettingsListener.ridestate.add(player);
-                SettingsListener.color.put(player, "6");
-                SettingsListener.sclan.add(player);
-                SettingsListener.scoins.add(player);
-                SettingsListener.sfriends.add(player);
-                SettingsListener.srang.add(player);
-                SettingsListener.sserver.add(player);
-                SettingsListener.jumppads.add(player);
+                core.getServerManager().getSettingsListener().getRideState().add(player);
+                core.getServerManager().getSettingsListener().getColor().put(player, "6");
+                core.getServerManager().getSettingsListener().getSclan().add(player);
+                core.getServerManager().getSettingsListener().getScoins().add(player);
+                core.getServerManager().getSettingsListener().getSfriends().add(player);
+                core.getServerManager().getSettingsListener().getSrang().add(player);
+                core.getServerManager().getSettingsListener().getSserver().add(player);
+                core.getServerManager().getSettingsListener().getJumpPads().add(player);
+                core.getServerManager().getSettingsListener().getSweather().add(player);
+                player.setPlayerWeather(WeatherType.DOWNFALL);
             }
             player.setGameMode(GameMode.ADVENTURE);
             joinEvent.setJoinMessage(null);
@@ -88,7 +90,7 @@ public class JoinListener implements Listener {
                     if (i > 0) {
                         i--;
                     } else {
-                        if (SettingsListener.sweather.contains(player)) {
+                        if (core.getServerManager().getSettingsListener().getSweather().contains(player)) {
                             player.setPlayerWeather(WeatherType.CLEAR);
                         } else {
                             player.setPlayerWeather(WeatherType.DOWNFALL);
@@ -118,7 +120,7 @@ public class JoinListener implements Listener {
 
             core.getServerManager().getScoreboardManager().setScoreboard(player);
 
-            ArrayList<String> friends = new ArrayList<String>();
+            ArrayList<String> friends = new ArrayList<>();
             PAFPlayer pafp = PAFPlayerManager.getInstance().getPlayer(player.getUniqueId());
             for (PlayerObject all : TimoCloudAPI.getUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
                 for (PAFPlayer fr : pafp.getFriends()) {
@@ -155,7 +157,7 @@ public class JoinListener implements Listener {
             @Override
             public void run() {
                 if (serverType.equals(ServerType.LOBBY)) {
-                    if (core.getServerManager().getServerStatsAPI().getMaxServer().containsKey(player)) {
+                    if (core.getServerManager().getServerStatsAPI().getMaxServer().containsKey(player) && core.getServerManager().getServerStatsAPI().getMaxServer().get(player) != null) {
                         IChatBaseComponent icb = ChatSerializer
                                 .a("{\"text\":\"§2Du spielst öfters auf dem Server\",\"extra\":[{\"text\":\"§b "
                                         + core.getServerManager().getServerStatsAPI().getMaxServer().get(player)
@@ -167,12 +169,12 @@ public class JoinListener implements Listener {
                         core.getServerManager().getServerStatsAPI().getMaxPlayed(player);
                     }
                 } else {
-                    if (!core.getServerManager().getServerStatsAPI().getPlayed().containsKey(player)) {
-                        core.getServerManager().getServerStatsAPI().createPlayer(player);
-                        core.getServerManager().getServerStatsAPI().getPlayed(player);
-                    } else {
+                    try {
                         core.getServerManager().getServerStatsAPI().updatePlayed(player, core.getServerManager().getServerStatsAPI().getPlayedInt(player, Bukkit.getServerName()) + 1, Bukkit.getServerName());
                         cancel();
+                    } catch (NullPointerException e) {
+                        core.getServerManager().getServerStatsAPI().createPlayer(player);
+                        core.getServerManager().getServerStatsAPI().getPlayed(player);
                     }
                 }
             }

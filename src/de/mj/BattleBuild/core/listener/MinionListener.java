@@ -13,6 +13,7 @@ import me.BukkitPVP.VIPHide.VIPHide;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -22,22 +23,18 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MinionListener implements Listener {
 
-    public static HashMap<Player, ArmorStand> Minion = new HashMap<Player, ArmorStand>();
-    public static HashMap<Player, Inventory> minioninv = new HashMap<Player, Inventory>();
-    public static ArrayList<Player> ininv = new ArrayList<Player>();
+    private static HashMap<Player, ArmorStand> minion = new HashMap<Player, ArmorStand>();
     private final Core core;
-    String prefix = new Data().getPrefix();
+    private String prefix = new Data().getPrefix();
 
     public MinionListener(Core core) {
         this.core = core;
@@ -49,9 +46,10 @@ public class MinionListener implements Listener {
         Action action = interactEvent.getAction();
         Player player = interactEvent.getPlayer();
         try {
-            if (interactEvent.getPlayer().getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("§8\u00BB§3§lDein Minion§8\u00AB")) {
+            if (interactEvent.getPlayer().getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("§8\u00BB§3§lDein minion§8\u00AB")) {
                 if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK) || action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)) {
-                    if (Minion.containsKey(player)) {
+                    player.playSound(player.getLocation(), Sound.NOTE_PIANO, 1, 1);
+                    if (minion.containsKey(player)) {
                         rmMini(player);
                     } else {
                         ArmorStand as = (ArmorStand) player.getLocation().getWorld().spawnEntity(player.getLocation(),
@@ -78,7 +76,7 @@ public class MinionListener implements Listener {
                         ItemStack Chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
                         Chestplate.setItemMeta(setColor(Chestplate, player));
                         as.setChestplate(Chestplate);
-                        Minion.put(player, as);
+                        minion.put(player, as);
                         player.sendMessage(
                                 prefix + "§9§lM§e§li§9§ln§e§li§9§lo§e§ln §7wurde ausger\u00FCstet.");
                     }
@@ -129,10 +127,10 @@ public class MinionListener implements Listener {
     }
 
     @EventHandler
-    public void TpMini(PlayerMoveEvent moveEvent) {
+    public void teleportMini(PlayerMoveEvent moveEvent) {
         Player player = moveEvent.getPlayer();
-        if (Minion.containsKey(player)) {
-            ArmorStand as = Minion.get(player);
+        if (minion.containsKey(player)) {
+            ArmorStand as = minion.get(player);
             double nX;
             double nZ;
             float yaw = player.getLocation().getYaw() + 90;
@@ -161,11 +159,10 @@ public class MinionListener implements Listener {
     }
 
     void rmMini(Player player) {
-        try {
-            ArmorStand armorStand = Minion.get(player);
+        if (minion.containsKey(player)) {
+            ArmorStand armorStand = minion.get(player);
             armorStand.remove();
-            Minion.remove(player);
-        } catch (NullPointerException localNullPointerException) {
+            minion.remove(player);
         }
     }
 

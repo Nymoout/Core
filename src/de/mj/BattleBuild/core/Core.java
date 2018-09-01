@@ -11,12 +11,16 @@ import de.mj.BattleBuild.core.utils.Data;
 import de.mj.BattleBuild.core.utils.HookManager;
 import de.mj.BattleBuild.core.utils.ServerManager;
 import de.mj.BattleBuild.core.utils.ServerType;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Getter
+@Setter
 public class Core extends JavaPlugin {
 
 
@@ -73,20 +77,11 @@ public class Core extends JavaPlugin {
             serverManager = new ServerManager(this, ServerType.BAU_SERVER);
             hookManager.hook(ServerType.BAU_SERVER);
             serverManager.init();
-
-        } else {
-            serverManager = new ServerManager(this, ServerType.DEFAULT);
-            hookManager.hook(ServerType.DEFAULT);
-            serverManager.init();
+            return;
         }
-    }
-
-    public ConsoleCommandSender getSender() {
-        return sender;
-    }
-
-    private void setSender(ConsoleCommandSender consoleCommandSender) {
-        this.sender = consoleCommandSender;
+        serverManager = new ServerManager(this, ServerType.DEFAULT);
+        hookManager.hook(ServerType.DEFAULT);
+        serverManager.init();
     }
 
     public void setListener(Listener listener) {
@@ -95,21 +90,5 @@ public class Core extends JavaPlugin {
 
     public void setCommand(CommandExecutor commandExecutor, String command) {
         getCommand(command).setExecutor(commandExecutor);
-    }
-
-    public Core getCore() {
-        return core;
-    }
-
-    public void setCore(Core core) {
-        this.core = core;
-    }
-
-    public ServerManager getServerManager() {
-        return serverManager;
-    }
-
-    public HookManager getHookManager() {
-        return hookManager;
     }
 }
