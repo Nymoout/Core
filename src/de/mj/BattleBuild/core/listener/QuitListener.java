@@ -7,24 +7,25 @@
 
 package de.mj.BattleBuild.core.listener;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class QuitListener implements Listener {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
 
-    public QuitListener(Core core) {
-        this.core = core;
-        core.setListener(this);
+    public QuitListener(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        coreSpigot.setListener(this);
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onQuit(PlayerQuitEvent quitEvent) {
-        core.getServerManager().getMinionListener().rmMini(quitEvent.getPlayer());
+        coreSpigot.getServerManager().getMinionListener().rmMini(quitEvent.getPlayer());
         quitEvent.setQuitMessage(null);
     }
 }

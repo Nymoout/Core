@@ -7,30 +7,31 @@
 
 package de.mj.BattleBuild.core.listener;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import de.mj.BattleBuild.core.utils.Data;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class BukkitMinecraftCommandBlockListener implements Listener {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
     private Data data;
 
-    public BukkitMinecraftCommandBlockListener(Core core) {
-        this.core = core;
-        core.setListener(this);
-        data = core.getServerManager().getData();
+    public BukkitMinecraftCommandBlockListener(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        coreSpigot.setListener(this);
+        data = coreSpigot.getServerManager().getData();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onCMD(PlayerCommandPreprocessEvent preprocessEvent) {
         Player player = preprocessEvent.getPlayer();
         String[] cmd = preprocessEvent.getMessage().substring(1).split(" ");
-        if (player.hasPermission("core.commands")) {
+        if (player.hasPermission("coreSpigot.commands")) {
             if ((cmd[0].startsWith("bukkit") || cmd[0].startsWith("minecraft")) && (!player.isOp())) {
                 player.sendMessage(data.getNoperm());
                 preprocessEvent.setCancelled(true);

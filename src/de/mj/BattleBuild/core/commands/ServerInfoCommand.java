@@ -1,21 +1,22 @@
 package de.mj.BattleBuild.core.commands;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 public class ServerInfoCommand implements CommandExecutor {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
 
-    public ServerInfoCommand(Core core) {
-        this.core = core;
-        core.setCommand(this, "serverinfo");
+    public ServerInfoCommand(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        coreSpigot.setCommand(this, "serverinfo");
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -36,7 +37,7 @@ public class ServerInfoCommand implements CommandExecutor {
                 return true;
             }
         } else {
-            sender.sendMessage(core.getServerManager().getData().getNoperm());
+            sender.sendMessage(coreSpigot.getServerManager().getData().getNoperm());
         }
         return false;
     }

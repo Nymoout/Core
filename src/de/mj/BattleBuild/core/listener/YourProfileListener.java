@@ -7,21 +7,22 @@
 
 package de.mj.BattleBuild.core.listener;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class YourProfileListener implements Listener {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
 
-    public YourProfileListener(Core core) {
-        this.core = core;
-        core.setListener(this);
+    public YourProfileListener(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        coreSpigot.setListener(this);
     }
 
     @EventHandler

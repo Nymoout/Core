@@ -7,7 +7,7 @@
 
 package de.mj.BattleBuild.core.listener;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import de.mj.BattleBuild.core.utils.Data;
 import me.BukkitPVP.VIPHide.VIPHide;
 import org.bukkit.Color;
@@ -27,18 +27,19 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
 public class MinionListener implements Listener {
 
     private static HashMap<Player, ArmorStand> minion = new HashMap<Player, ArmorStand>();
-    private final Core core;
+    private final CoreSpigot coreSpigot;
     private String prefix = new Data().getPrefix();
 
-    public MinionListener(Core core) {
-        this.core = core;
-        core.setListener(this);
+    public MinionListener(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        coreSpigot.setListener(this);
     }
 
     @EventHandler
@@ -88,7 +89,7 @@ public class MinionListener implements Listener {
 
     private ItemMeta setColor(ItemStack itemStack, Player player) {
         LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) itemStack.getItemMeta();
-        if (core.getHookManager().getVipHide().isDisguised(player)) return null;
+        if (coreSpigot.getHookManager().getVipHide().isDisguised(player)) return null;
         if (player.hasPermission("group.administrator")) {
             leatherArmorMeta.setColor(Color.fromRGB(170, 2, 0));
             return leatherArmorMeta;
@@ -151,8 +152,8 @@ public class MinionListener implements Listener {
             as.setChestplate(chest);
             ItemStack helm = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
             SkullMeta hm = (SkullMeta) helm.getItemMeta();
-            if (core.getHookManager().getVipHide().isDisguised(player)) {
-                hm.setOwner(core.getHookManager().getVipHide().getName(player));
+            if (coreSpigot.getHookManager().getVipHide().isDisguised(player)) {
+                hm.setOwner(coreSpigot.getHookManager().getVipHide().getName(player));
                 as.setHelmet(helm);
             }
         }

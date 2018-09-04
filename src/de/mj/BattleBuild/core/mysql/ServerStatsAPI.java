@@ -1,22 +1,23 @@
 package de.mj.BattleBuild.core.mysql;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLException;
 import java.util.HashMap;
 
 public class ServerStatsAPI {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
     private AsyncMySQL amsql;
     private HashMap<Player, HashMap<String, Integer>> played = new HashMap<>();
     private HashMap<Player, String> maxServer = new HashMap<>();
 
-    public ServerStatsAPI(Core core) {
-        this.core = core;
-        this.amsql = core.getServerManager().getAsyncMySQL();
+    public ServerStatsAPI(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        this.amsql = coreSpigot.getServerManager().getAsyncMySQL();
     }
 
     public void createTable() {

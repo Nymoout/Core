@@ -7,7 +7,7 @@
 
 package de.mj.BattleBuild.core.utils;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -17,14 +17,14 @@ import java.util.Calendar;
 
 public class ActionbarTimer {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
 
-    public ActionbarTimer(Core core) {
-        this.core = core;
+    public ActionbarTimer(CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
     }
 
     public void setActionBar() {
-        ServerManager lobby = this.core.getServerManager();
+        ServerManager lobby = this.coreSpigot.getServerManager();
         lobby.getSchedulerSaver().createScheduler(
                 new BukkitRunnable() {
 
@@ -62,7 +62,7 @@ public class ActionbarTimer {
                         msg--;
                     }
 
-                }.runTaskTimer(this.core, 0L, 20L * 5)
+                }.runTaskTimer(this.coreSpigot, 0L, 20L * 5)
         );
     }
 }

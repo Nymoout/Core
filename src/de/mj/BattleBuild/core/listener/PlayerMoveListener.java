@@ -1,6 +1,6 @@
 package de.mj.BattleBuild.core.listener;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import de.mj.BattleBuild.core.utils.Particle;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.*;
@@ -12,20 +12,22 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 public class PlayerMoveListener implements Listener {
 
-    public final Core core;
-    public PlayerMoveListener(Core core) {
-        this.core = core;
-        core.setListener(this);
+    public final CoreSpigot coreSpigot;
+
+    public PlayerMoveListener(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        coreSpigot.setListener(this);
     }
 
     @EventHandler
     public void onMove(PlayerMoveEvent moveEvent) {
         Player player = moveEvent.getPlayer();
         if (player.getGameMode() != GameMode.CREATIVE) {
-            if (core.getServerManager().getSettingsListener().getWaterJump().contains(player)) {
+            if (coreSpigot.getServerManager().getSettingsListener().getWaterJump().contains(player)) {
                 Location loc = player.getLocation();
                 Block block = loc.getBlock();
                 if (block.isLiquid()) {
@@ -34,7 +36,7 @@ public class PlayerMoveListener implements Listener {
                     player.setAllowFlight(false);
                 }
             }
-            if (core.getServerManager().getSettingsListener().getDoubleJump().contains(player)) {
+            if (coreSpigot.getServerManager().getSettingsListener().getDoubleJump().contains(player)) {
                 if (player.getLocation().add(0, -1, 0).getBlock().getType() != Material.AIR || player.getLocation().add(0, -1, 0).getBlock().getType() != Material.WATER) {
                     if (player.isOnGround()) {
                         player.setAllowFlight(true);
@@ -43,7 +45,7 @@ public class PlayerMoveListener implements Listener {
                 }
             }
             if ((player.getLocation().getBlock().getType() == Material.IRON_PLATE)) {
-                if (core.getServerManager().getSettingsListener().getJumpPads().contains(player)) {
+                if (coreSpigot.getServerManager().getSettingsListener().getJumpPads().contains(player)) {
                     Vector v = player.getLocation().getDirection().multiply(2.0D).setY(1.0D);
                     player.setVelocity(v);
                     player.playSound(player.getLocation(), Sound.DIG_SAND, 1, 1);
@@ -56,7 +58,7 @@ public class PlayerMoveListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDoubleJump(PlayerToggleFlightEvent flightEvent) {
         Player player = flightEvent.getPlayer();
-        if (player.getGameMode() != GameMode.CREATIVE && core.getServerManager().getSettingsListener().getDoubleJump().contains(player)) {
+        if (player.getGameMode() != GameMode.CREATIVE && coreSpigot.getServerManager().getSettingsListener().getDoubleJump().contains(player)) {
             flightEvent.setCancelled(true);
             player.setAllowFlight(false);
             player.setFlying(false);

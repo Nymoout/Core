@@ -7,7 +7,7 @@
 
 package de.mj.BattleBuild.core.listener;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -18,14 +18,15 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class CancelListener implements Listener {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
 
-    public CancelListener(Core core) {
-        this.core = core;
-        core.setListener(this);
+    public CancelListener(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        coreSpigot.setListener(this);
     }
 
     @EventHandler

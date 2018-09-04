@@ -21,10 +21,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
 @Setter
-public class Core extends JavaPlugin {
+public class CoreSpigot extends JavaPlugin {
 
 
-    private Core core;
+    private CoreSpigot coreSpigot;
     private ConsoleCommandSender sender;
     private ServerManager serverManager;
     private HookManager hookManager;
@@ -37,9 +37,9 @@ public class Core extends JavaPlugin {
 
         sender.sendMessage(prefix + "§eis starting...");
         hookManager = new HookManager(this);
-        setCore(this);
+        this.setCoreSpigot(this);
 
-        sender.sendMessage(prefix + "§edetec server version...");
+        sender.sendMessage(prefix + "§edetect server version...");
         sender.sendMessage(prefix + "§adetected server §6" + Bukkit.getServerName());
         preInit();
 
@@ -58,6 +58,12 @@ public class Core extends JavaPlugin {
         if (server.contains("Lobby")) {
             serverManager = new ServerManager(this, ServerType.LOBBY);
             hookManager.hook(ServerType.LOBBY);
+            serverManager.init();
+            return;
+        }
+        if (server.contains("BedWars")) {
+            serverManager = new ServerManager(this, ServerType.BED_WARS);
+            hookManager.hook(ServerType.BED_WARS);
             serverManager.init();
             return;
         }

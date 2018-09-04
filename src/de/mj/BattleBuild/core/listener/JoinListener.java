@@ -9,7 +9,7 @@ package de.mj.BattleBuild.core.listener;
 
 import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.PlayerObject;
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import de.mj.BattleBuild.core.utils.ServerType;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
@@ -30,55 +30,56 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 public class JoinListener implements Listener {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
 
-    public JoinListener(Core core) {
-        this.core = core;
-        core.setListener(this);
+    public JoinListener(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        coreSpigot.setListener(this);
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent joinEvent) {
         Player player = joinEvent.getPlayer();
-        System.out.println(core.getServerManager().getServerType());
-        if (core.getServerManager().getServerType().equals(ServerType.LOBBY)) {
-            player.teleport(core.getServerManager().getLocationsUtil().getSpawn());
+        System.out.println(coreSpigot.getServerManager().getServerType());
+        if (coreSpigot.getServerManager().getServerType().equals(ServerType.LOBBY)) {
+            player.teleport(coreSpigot.getServerManager().getLocationsUtil().getSpawn());
             if (!player.hasPlayedBefore()) {
-                core.getServerManager().getSettingsListener().getRideState().add(player);
-                core.getServerManager().getSettingsListener().getColor().put(player, "6");
-                core.getServerManager().getSettingsListener().getSclan().add(player);
-                core.getServerManager().getSettingsListener().getScoins().add(player);
-                core.getServerManager().getSettingsListener().getSfriends().add(player);
-                core.getServerManager().getSettingsListener().getSrang().add(player);
-                core.getServerManager().getSettingsListener().getSserver().add(player);
-                core.getServerManager().getSettingsListener().getJumpPads().add(player);
-                core.getServerManager().getSettingsListener().getSweather().add(player);
+                coreSpigot.getServerManager().getSettingsListener().getRideState().add(player);
+                coreSpigot.getServerManager().getSettingsListener().getColor().put(player, "6");
+                coreSpigot.getServerManager().getSettingsListener().getSclan().add(player);
+                coreSpigot.getServerManager().getSettingsListener().getScoins().add(player);
+                coreSpigot.getServerManager().getSettingsListener().getSfriends().add(player);
+                coreSpigot.getServerManager().getSettingsListener().getSrang().add(player);
+                coreSpigot.getServerManager().getSettingsListener().getSserver().add(player);
+                coreSpigot.getServerManager().getSettingsListener().getJumpPads().add(player);
+                coreSpigot.getServerManager().getSettingsListener().getSweather().add(player);
                 player.setPlayerWeather(WeatherType.DOWNFALL);
             }
             player.setGameMode(GameMode.ADVENTURE);
             joinEvent.setJoinMessage(null);
             try {
-                core.getServerManager().getSettingsAPI().createPlayer(player);
-                core.getServerManager().getSettingsAPI().createScorePlayer(player);
-                core.getServerManager().getSettingsAPI().getColor(player);
-                core.getServerManager().getSettingsAPI().getSilent(player);
-                core.getServerManager().getSettingsAPI().getRide(player);
-                core.getServerManager().getSettingsAPI().getFriends(player);
-                core.getServerManager().getSettingsAPI().getRang(player);
-                core.getServerManager().getSettingsAPI().getServer(player);
-                core.getServerManager().getSettingsAPI().getClan(player);
-                core.getServerManager().getSettingsAPI().getCoins(player);
-                core.getServerManager().getSettingsAPI().getRealTime(player);
-                core.getServerManager().getSettingsAPI().getWeather(player);
-                core.getServerManager().getSettingsAPI().getDoubleJump(player);
-                core.getServerManager().getSettingsAPI().getWjump(player);
-                core.getServerManager().getSettingsAPI().getJumPlate(player);
-                core.getServerManager().getSettingsAPI().getTime(player);
+                coreSpigot.getServerManager().getSettingsAPI().createPlayer(player);
+                coreSpigot.getServerManager().getSettingsAPI().createScorePlayer(player);
+                coreSpigot.getServerManager().getSettingsAPI().getColor(player);
+                coreSpigot.getServerManager().getSettingsAPI().getSilent(player);
+                coreSpigot.getServerManager().getSettingsAPI().getRide(player);
+                coreSpigot.getServerManager().getSettingsAPI().getFriends(player);
+                coreSpigot.getServerManager().getSettingsAPI().getRang(player);
+                coreSpigot.getServerManager().getSettingsAPI().getServer(player);
+                coreSpigot.getServerManager().getSettingsAPI().getClan(player);
+                coreSpigot.getServerManager().getSettingsAPI().getCoins(player);
+                coreSpigot.getServerManager().getSettingsAPI().getRealTime(player);
+                coreSpigot.getServerManager().getSettingsAPI().getWeather(player);
+                coreSpigot.getServerManager().getSettingsAPI().getDoubleJump(player);
+                coreSpigot.getServerManager().getSettingsAPI().getWjump(player);
+                coreSpigot.getServerManager().getSettingsAPI().getJumPlate(player);
+                coreSpigot.getServerManager().getSettingsAPI().getTime(player);
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -90,24 +91,24 @@ public class JoinListener implements Listener {
                     if (i > 0) {
                         i--;
                     } else {
-                        if (core.getServerManager().getSettingsListener().getSweather().contains(player)) {
+                        if (coreSpigot.getServerManager().getSettingsListener().getSweather().contains(player)) {
                             player.setPlayerWeather(WeatherType.CLEAR);
                         } else {
                             player.setPlayerWeather(WeatherType.DOWNFALL);
                         }
                     }
                 }
-            }.runTaskTimer(core, 0L, 20L * 5);
+            }.runTaskTimer(coreSpigot, 0L, 20L * 5);
 
             player.getInventory().clear();
 
             player.getInventory().setItem(4,
-                    core.getServerManager().getItemCreator().CreateItemwithMaterial(Material.COMPASS, 0, 1, "§8\u00BB§7§lNavigator§8\u00AB", null));
-            player.getInventory().setItem(1, core.getServerManager().getItemCreator().CreateItemwithMaterial(Material.REDSTONE_COMPARATOR, 0, 1,
+                    coreSpigot.getServerManager().getItemCreator().createItemWithMaterial(Material.COMPASS, 0, 1, "§8\u00BB§7§lNavigator§8\u00AB", null));
+            player.getInventory().setItem(1, coreSpigot.getServerManager().getItemCreator().createItemWithMaterial(Material.REDSTONE_COMPARATOR, 0, 1,
                     "§8\u00BB§6§lEinstellungen§8\u00AB", null));
             player.getInventory().setItem(7,
-                    core.getServerManager().getItemCreator().CreateItemwithMaterial(Material.NETHER_STAR, 0, 1, "§8\u00BB§f§lLobby-Switcher§8\u00AB", null));
-            player.getInventory().setItem(0, core.getServerManager().getItemCreator().CreateItemwithMaterial(Material.ARMOR_STAND, 0, 1, "§8\u00BB§3§lDein Minion§8\u00AB", null));
+                    coreSpigot.getServerManager().getItemCreator().createItemWithMaterial(Material.NETHER_STAR, 0, 1, "§8\u00BB§f§lLobby-Switcher§8\u00AB", null));
+            player.getInventory().setItem(0, coreSpigot.getServerManager().getItemCreator().createItemWithMaterial(Material.ARMOR_STAND, 0, 1, "§8\u00BB§3§lDein Minion§8\u00AB", null));
 
             ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
             ItemMeta im = is.getItemMeta();
@@ -118,7 +119,7 @@ public class JoinListener implements Listener {
             is.setItemMeta(sm);
             player.getInventory().setItem(8, is);
 
-            core.getServerManager().getScoreboardManager().setScoreboard(player);
+            coreSpigot.getServerManager().getScoreboardManager().setScoreboard(player);
 
             ArrayList<String> friends = new ArrayList<>();
             PAFPlayer pafp = PAFPlayerManager.getInstance().getPlayer(player.getUniqueId());
@@ -145,39 +146,39 @@ public class JoinListener implements Listener {
                 PacketPlayOutChat packet = new PacketPlayOutChat(icb);
                 ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
             }
-        } else if (core.getServerManager().getServerType().equals(ServerType.DEFAULT)) {
-            core.getServerManager().getTabList().setPrefix(player);
+        } else if (coreSpigot.getServerManager().getServerType().equals(ServerType.DEFAULT)) {
+            coreSpigot.getServerManager().getTabList().setPrefix(player);
         }
-        waitMySQL(player, core.getServerManager().getServerType());
-        core.getServerManager().getTabList().setPrefix(player);
+        waitMySQL(player, coreSpigot.getServerManager().getServerType());
+        coreSpigot.getServerManager().getTabList().setPrefix(player);
     }
 
     private void waitMySQL(Player player, ServerType serverType) {
-        core.getServerManager().getSchedulerSaver().createScheduler(new BukkitRunnable() {
+        coreSpigot.getServerManager().getSchedulerSaver().createScheduler(new BukkitRunnable() {
             @Override
             public void run() {
                 if (serverType.equals(ServerType.LOBBY)) {
-                    if (core.getServerManager().getServerStatsAPI().getMaxServer().containsKey(player) && core.getServerManager().getServerStatsAPI().getMaxServer().get(player) != null) {
+                    if (coreSpigot.getServerManager().getServerStatsAPI().getMaxServer().containsKey(player) && coreSpigot.getServerManager().getServerStatsAPI().getMaxServer().get(player) != null) {
                         IChatBaseComponent icb = ChatSerializer
                                 .a("{\"text\":\"§2Du spielst öfters auf dem Server\",\"extra\":[{\"text\":\"§b "
-                                        + core.getServerManager().getServerStatsAPI().getMaxServer().get(player)
-                                        + ". §2Wenn §2du §2dich §2mit §2diesem §2verbinden §2willst, §2dann §2klick §2einfach §2hier!\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"§aKlicke hier um diesen Server zu betreten!\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gotoserver " + core.getServerManager().getServerStatsAPI().getMaxServer().get(player) + "\"}}]}");
+                                        + coreSpigot.getServerManager().getServerStatsAPI().getMaxServer().get(player)
+                                        + ". §2Wenn §2du §2dich §2mit §2diesem §2verbinden §2willst, §2dann §2klick §2einfach §2hier!\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"§aKlicke hier um diesen Server zu betreten!\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gotoserver " + coreSpigot.getServerManager().getServerStatsAPI().getMaxServer().get(player) + "\"}}]}");
                         PacketPlayOutChat packet = new PacketPlayOutChat(icb);
                         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
                         cancel();
                     } else {
-                        core.getServerManager().getServerStatsAPI().getMaxPlayed(player);
+                        coreSpigot.getServerManager().getServerStatsAPI().getMaxPlayed(player);
                     }
                 } else {
                     try {
-                        core.getServerManager().getServerStatsAPI().updatePlayed(player, core.getServerManager().getServerStatsAPI().getPlayedInt(player, Bukkit.getServerName()) + 1, Bukkit.getServerName());
+                        coreSpigot.getServerManager().getServerStatsAPI().updatePlayed(player, coreSpigot.getServerManager().getServerStatsAPI().getPlayedInt(player, Bukkit.getServerName()) + 1, Bukkit.getServerName());
                         cancel();
                     } catch (NullPointerException e) {
-                        core.getServerManager().getServerStatsAPI().createPlayer(player);
-                        core.getServerManager().getServerStatsAPI().getPlayed(player);
+                        coreSpigot.getServerManager().getServerStatsAPI().createPlayer(player);
+                        coreSpigot.getServerManager().getServerStatsAPI().getPlayed(player);
                     }
                 }
             }
-        }.runTaskTimer(core, 0L, 20L));
+        }.runTaskTimer(coreSpigot, 0L, 20L));
     }
 }

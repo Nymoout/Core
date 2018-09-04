@@ -7,7 +7,7 @@
 
 package de.mj.BattleBuild.core.utils;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,10 +18,10 @@ public class SetLocations {
 
     private static File file = new File("plugins/BBLobby/", "locations.yml");
     private static YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(file);
-    private final Core core;
+    private final CoreSpigot coreSpigot;
 
-    public SetLocations(Core core) {
-        this.core = core;
+    public SetLocations(CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
     }
 
     private static Location initLocs(String path) {
@@ -35,7 +35,7 @@ public class SetLocations {
     }
 
     void saveLocs() {
-        LocationsUtil locationsUtil = core.getServerManager().getLocationsUtil();
+        LocationsUtil locationsUtil = coreSpigot.getServerManager().getLocationsUtil();
         locationsUtil.setBedwars(initLocs("bedwars"));
         locationsUtil.setCitybuild(initLocs("citybuild"));
         locationsUtil.setGungame(initLocs("gungame"));

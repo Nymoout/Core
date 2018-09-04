@@ -2,19 +2,20 @@ package de.mj.BattleBuild.core.commands;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class GoToServerCommand implements CommandExecutor {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
 
-    public GoToServerCommand(Core core) {
-        this.core = core;
-        core.setCommand(this, "gotoserver");
+    public GoToServerCommand(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        coreSpigot.setCommand(this, "gotoserver");
     }
 
     @Override
@@ -25,7 +26,7 @@ public class GoToServerCommand implements CommandExecutor {
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
                 out.writeUTF("Connect");
                 out.writeUTF(args[0]);
-                player.sendPluginMessage(this.core, "BungeeCord", out.toByteArray());
+                player.sendPluginMessage(this.coreSpigot, "BungeeCord", out.toByteArray());
             }
         }
         return false;

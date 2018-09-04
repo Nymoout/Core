@@ -1,8 +1,8 @@
-name: BBCore
-version: 5.2.5
+name: BBCoreSpigot
+version: 5.2.7
 author: MJ
 
-main: de.mj.BattleBuild.core.Core
+main: de.mj.BattleBuild.core.CoreSpigot
 softdepend: [CoinsAPI, Vault, TimoCloud, VIPHide, LuckPerms, NetworkManagerBridge, FriendsAPIForPartyAndFriends, Clans-Spigot-Part, ProtocolLib, Skript]
 
 commands:

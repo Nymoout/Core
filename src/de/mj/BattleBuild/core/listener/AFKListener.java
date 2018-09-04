@@ -7,7 +7,7 @@
 
 package de.mj.BattleBuild.core.listener;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -16,6 +16,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,13 +28,14 @@ public class AFKListener implements Listener {
     private static HashMap<Player, BukkitTask> runs = new HashMap<>();
     private static HashSet<Player> afkmover = new HashSet<>();
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
 
-    public AFKListener(Core core) {
-        this.core = core;
-        core.setListener(this);
+    public AFKListener(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        coreSpigot.setListener(this);
     }
 
+    @Contract(pure = true)
     public static HashSet<Player> getAfkmover() {
         return afkmover;
     }
@@ -62,7 +65,7 @@ public class AFKListener implements Listener {
                     cancel();
                 }
             }
-        }.runTaskTimer(this.core, 0L, 20L * 60));
+        }.runTaskTimer(this.coreSpigot, 0L, 20L * 60));
     }
 
     public void AFKWorker() {
@@ -93,7 +96,7 @@ public class AFKListener implements Listener {
     }
 
     public void LocationTimer() {
-        core.getServerManager().getSchedulerSaver().createScheduler(
+        coreSpigot.getServerManager().getSchedulerSaver().createScheduler(
                 new BukkitRunnable() {
                     int counter = 2;
 
@@ -107,7 +110,7 @@ public class AFKListener implements Listener {
                         }
                         counter--;
                     }
-                }.runTaskTimer(this.core, 0L, 20L * 10)
+                }.runTaskTimer(this.coreSpigot, 0L, 20L * 10)
         );
     }
 

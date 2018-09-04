@@ -9,7 +9,7 @@ package de.mj.BattleBuild.core.listener;
 
 import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.ServerGroupObject;
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import de.mj.BattleBuild.core.utils.Particle;
 import de.mj.BattleBuild.core.utils.ServerManager;
 import net.minecraft.server.v1_8_R3.EnumParticle;
@@ -28,19 +28,20 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 public class CompassListener implements Listener {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
 
     private ServerManager serverManager;
 
-    public CompassListener(Core core) {
-        this.core = core;
-        core.setListener(this);
-        this.serverManager = core.getServerManager();
+    public CompassListener(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        coreSpigot.setListener(this);
+        this.serverManager = coreSpigot.getServerManager();
     }
 
     @EventHandler
@@ -60,12 +61,12 @@ public class CompassListener implements Listener {
                 Inventory inv = Bukkit.createInventory(null, 54, "§8\u00BB§7§lNavigator§8\u00AB");
 
                 for (int i = 8; i >= 0; i--) {
-                    if (core.getServerManager().getSettingsListener().getDesign().containsKey(player)) {
-                        inv.setItem(i, serverManager.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE,
-                                core.getServerManager().getSettingsListener().getDesign().get(player), 1, null, null));
+                    if (coreSpigot.getServerManager().getSettingsListener().getDesign().containsKey(player)) {
+                        inv.setItem(i, serverManager.getItemCreator().createItemWithMaterial(Material.STAINED_GLASS_PANE,
+                                coreSpigot.getServerManager().getSettingsListener().getDesign().get(player), 1, null, null));
                     } else {
                         inv.setItem(i,
-                                serverManager.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
+                                serverManager.getItemCreator().createItemWithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
                     }
                 }
                 ArrayList<String> BWlore = new ArrayList<>();
@@ -75,7 +76,7 @@ public class CompassListener implements Listener {
                     BWlore.add("§7online.");
                 } else
                     BWlore.add("§cDiese Server sind derzeit offline.");
-                inv.setItem(11, serverManager.getItemCreator().CreateItemwithMaterial(Material.BED, 0, 1, "§3§lBedWars", BWlore));
+                inv.setItem(11, serverManager.getItemCreator().createItemWithMaterial(Material.BED, 0, 1, "§3§lBedWars", BWlore));
 
                 ArrayList<String> CBlore = new ArrayList<>();
                 if (TimoCloudAPI.getUniversalAPI().getServerGroup("CityBuild") != null) {
@@ -85,7 +86,7 @@ public class CompassListener implements Listener {
                 } else
                     CBlore.add("§cDiese Server sind derzeit offline.");
                 inv.setItem(15,
-                        serverManager.getItemCreator().CreateItemwithMaterial(Material.DIAMOND_BLOCK, 0, 1, "§6§lCityBuild", CBlore));
+                        serverManager.getItemCreator().createItemWithMaterial(Material.DIAMOND_BLOCK, 0, 1, "§6§lCityBuild", CBlore));
 
                 ArrayList<String> sPvPlore = new ArrayList<>();
                 if (TimoCloudAPI.getUniversalAPI().getServerGroup("SkyPvP") != null) {
@@ -94,13 +95,13 @@ public class CompassListener implements Listener {
                     sPvPlore.add("§7online.");
                 } else
                     sPvPlore.add("§cDiese Server sind derzeit offline.");
-                inv.setItem(19, serverManager.getItemCreator().CreateItemwithMaterial(Material.GRASS, 0, 1, "§9§lSkyPvP", sPvPlore));
+                inv.setItem(19, serverManager.getItemCreator().createItemWithMaterial(Material.GRASS, 0, 1, "§9§lSkyPvP", sPvPlore));
 
                 ArrayList<String> lobbyLore = new ArrayList<>();
                 ServerGroupObject serverGroupObjectLobby = TimoCloudAPI.getUniversalAPI().getServerGroup("Lobby");
                 lobbyLore.add("§7Derzeit sind §a" + getOnlinePlayerCount(serverGroupObjectLobby) + "§7 Spieler");
                 lobbyLore.add("§7online.");
-                inv.setItem(22, serverManager.getItemCreator().CreateItemwithMaterial(Material.NETHER_STAR, 0, 1, "§a§lSpawn", lobbyLore));
+                inv.setItem(22, serverManager.getItemCreator().createItemWithMaterial(Material.NETHER_STAR, 0, 1, "§a§lSpawn", lobbyLore));
 
                 ArrayList<String> SW8x1lore = new ArrayList<>();
                 if (TimoCloudAPI.getUniversalAPI().getServerGroup("SkyWars8x1") != null) {
@@ -109,18 +110,18 @@ public class CompassListener implements Listener {
                     SW8x1lore.add("§7online.");
                 } else
                     SW8x1lore.add("§cDiese Server sind derzeit offline.");
-                inv.setItem(25, serverManager.getItemCreator().CreateItemwithMaterial(Material.IRON_SWORD, 0, 1, "§f§lSkyWars", SW8x1lore));
+                inv.setItem(25, serverManager.getItemCreator().createItemWithMaterial(Material.IRON_SWORD, 0, 1, "§f§lSkyWars", SW8x1lore));
                 inv.setItem(28,
-                        serverManager.getItemCreator().CreateItemwithMaterial(Material.TNT, 0, 1, "§4§lT§f§lN§4§lT§f§l-§4§lRun", null));
-                inv.setItem(34, serverManager.getItemCreator().CreateItemwithMaterial(Material.SIGN, 0, 1, "§8§lComing Soon", null));
+                        serverManager.getItemCreator().createItemWithMaterial(Material.TNT, 0, 1, "§4§lT§f§lN§4§lT§f§l-§4§lRun", null));
+                inv.setItem(34, serverManager.getItemCreator().createItemWithMaterial(Material.SIGN, 0, 1, "§8§lComing Soon", null));
 
                 for (int a = 53; a >= 45; a--) {
-                    if (core.getServerManager().getSettingsListener().getDesign().containsKey(player)) {
-                        inv.setItem(a, serverManager.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE,
-                                core.getServerManager().getSettingsListener().getDesign().get(player), 1, null, null));
+                    if (coreSpigot.getServerManager().getSettingsListener().getDesign().containsKey(player)) {
+                        inv.setItem(a, serverManager.getItemCreator().createItemWithMaterial(Material.STAINED_GLASS_PANE,
+                                coreSpigot.getServerManager().getSettingsListener().getDesign().get(player), 1, null, null));
                     } else {
                         inv.setItem(a,
-                                serverManager.getItemCreator().CreateItemwithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
+                                serverManager.getItemCreator().createItemWithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
                     }
                 }
                 interactEvent.getPlayer().openInventory(inv);
@@ -225,6 +226,6 @@ public class CompassListener implements Listener {
                 }
                 timer--;
             }
-        }.runTaskTimer(core, 0L, 20L);
+        }.runTaskTimer(coreSpigot, 0L, 20L);
     }
 }

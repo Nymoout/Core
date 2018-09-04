@@ -7,18 +7,18 @@
 
 package de.mj.BattleBuild.core.utils;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 
 public class TabList {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
     static Scoreboard scoreboard;
 
-    public TabList(Core core) {
-        this.core = core;
+    public TabList(CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
     }
 
     public void loadTablist() {

@@ -7,14 +7,14 @@
 
 package de.mj.BattleBuild.core.mysql;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
 public class MySQLLoader {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
     File f = new File("plugins/BBLobby/", "MySQL.yml");
     YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
     private String host;
@@ -23,13 +23,13 @@ public class MySQLLoader {
     private String pw;
     private String db;
 
-    public MySQLLoader(Core core) {
-        this.core = core;
+    public MySQLLoader(CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
         loadMySQL();
     }
 
     public void loadConf() {
-        core.getSender().sendMessage(core.getServerManager().getData().getPrefix() + "§dload config.yml");
+        coreSpigot.getSender().sendMessage(coreSpigot.getServerManager().getData().getPrefix() + "§dload config.yml");
         host = cfg.getString("host");
         port = cfg.getInt("port");
         user = cfg.getString("username");
@@ -39,7 +39,7 @@ public class MySQLLoader {
 
     public void loadMySQL() {
         this.loadConf();
-        core.getSender().sendMessage(core.getServerManager().getData().getPrefix() + "§dconnect to MySQL");
-        new AsyncMySQL(core, host, port, user, pw, db);
+        coreSpigot.getSender().sendMessage(coreSpigot.getServerManager().getData().getPrefix() + "§dconnect to MySQL");
+        new AsyncMySQL(coreSpigot, host, port, user, pw, db);
     }
 }

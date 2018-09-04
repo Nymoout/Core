@@ -7,28 +7,29 @@
 
 package de.mj.BattleBuild.core.commands;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import de.mj.BattleBuild.core.utils.ServerManager;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class SetLocCommand implements CommandExecutor {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
 
-    public SetLocCommand(Core core) {
-        this.core = core;
-        core.setCommand(this, "set");
+    public SetLocCommand(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        coreSpigot.setCommand(this, "set");
     }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            if (player.hasPermission("core.setlocs")) {
+            if (player.hasPermission("coreSpigot.setlocs")) {
                 if (strings.length == 1) {
                     setLocation(strings[0], player);
                 }
@@ -39,7 +40,7 @@ public class SetLocCommand implements CommandExecutor {
 
     public void setLocation(String path, Player player) {
         Location loc = player.getLocation();
-        ServerManager serverManager = core.getServerManager();
+        ServerManager serverManager = coreSpigot.getServerManager();
         serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".world", loc.getWorld().getName());
         serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".world", loc.getWorld().getName());
         serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".x", loc.getX());

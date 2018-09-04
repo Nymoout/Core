@@ -7,7 +7,7 @@
 
 package de.mj.BattleBuild.core.listener;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import me.lucko.luckperms.api.Contexts;
 import me.lucko.luckperms.api.User;
 import me.lucko.luckperms.api.caching.MetaData;
@@ -18,21 +18,22 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class ChatListener implements Listener {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
 
-    public ChatListener(Core core) {
-        this.core = core;
-        core.setListener(this);
+    public ChatListener(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        coreSpigot.setListener(this);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent playerChatEvent) {
         Player player = playerChatEvent.getPlayer();
-        User user = core.getHookManager().getLuckPermsApi().getUser(player.getUniqueId());
-        ContextManager cm = core.getHookManager().getLuckPermsApi().getContextManager();
+        User user = coreSpigot.getHookManager().getLuckPermsApi().getUser(player.getUniqueId());
+        ContextManager cm = coreSpigot.getHookManager().getLuckPermsApi().getContextManager();
         Contexts contexts = cm.lookupApplicableContexts(user).orElse(cm.getStaticContexts());
         MetaData md = user.getCachedData().getMetaData(contexts);
         String msg = playerChatEvent.getMessage();
@@ -51,7 +52,7 @@ public class ChatListener implements Listener {
         if (md.getSuffix() != null) {
             suffix = md.getSuffix();
         }
-        if (!core.getHookManager().getVipHide().isDisguised(player)) {
+        if (!coreSpigot.getHookManager().getVipHide().isDisguised(player)) {
             if (player.hasPermission("chat.color")) {
                 playerChatEvent.setFormat(prefix.replace("&", "§") + player.getName() + suffix.replace("&", "§") + pmsg.replace("&", "§"));
             } else {

@@ -7,27 +7,29 @@
 
 package de.mj.BattleBuild.core.utils;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.Contract;
 
 import java.util.Calendar;
 
 public class PlayerRealTime {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
 
-    public PlayerRealTime(Core core) {
-        this.core = core;
+    public PlayerRealTime(CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
     }
 
+    @Contract(pure = true)
     private static double secToTicks(long sec) {
         return Math.floor(0.2777778F * (float) sec);
     }
 
     public void setPlayerRealTime() {
-        core.getServerManager().getSchedulerSaver().createScheduler(
+        coreSpigot.getServerManager().getSchedulerSaver().createScheduler(
                 new BukkitRunnable() {
 
                     @Override
@@ -43,16 +45,16 @@ public class PlayerRealTime {
                             int s = calendar.get(13);
                             long seconds = h * 60 * 60 + m * 60 + s;
                             long ticks = (long) secToTicks(seconds);
-                            if (core.getServerManager().getSettingsListener().getSrealtime().contains(all)) {
+                            if (coreSpigot.getServerManager().getSettingsListener().getSrealtime().contains(all)) {
                                 all.setPlayerTime(ticks, false);
-                            } else if (core.getServerManager().getSettingsListener().getSday().contains(all)) {
+                            } else if (coreSpigot.getServerManager().getSettingsListener().getSday().contains(all)) {
                                 all.setPlayerTime(6000, false);
                             } else {
                                 all.setPlayerTime(18000, false);
                             }
                         }
                     }
-                }.runTaskTimerAsynchronously(core, 0L, 20L)
+                }.runTaskTimerAsynchronously(coreSpigot, 0L, 20L)
         );
     }
 }

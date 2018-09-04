@@ -7,21 +7,22 @@
 
 package de.mj.BattleBuild.core.commands;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import de.mj.BattleBuild.core.listener.AFKListener;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class AFKCommand implements CommandExecutor {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
 
-    public AFKCommand(Core core) {
-        this.core = core;
-        core.setCommand(this, "afk");
+    public AFKCommand(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        coreSpigot.setCommand(this, "afk");
     }
 
     @Override
@@ -29,13 +30,13 @@ public class AFKCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (!AFKListener.getAfkmover().contains(player)) {
-                core.getServerManager().getAfkListener().setAfkmover(player);
+                coreSpigot.getServerManager().getAfkListener().setAfkmover(player);
                 for (Player all : Bukkit.getOnlinePlayers())
                     all.sendMessage("§a" + player.getName() + " §eist nun AFK!");
             } else
-                player.sendMessage(core.getServerManager().getData().getPrefix() + "§cDu bist bereits AFK!");
+                player.sendMessage(coreSpigot.getServerManager().getData().getPrefix() + "§cDu bist bereits AFK!");
         } else
-            sender.sendMessage(core.getServerManager().getData().getPrefix() + "§cDu musst ein Spieler sein um diesen Befehl ausführen zu können!");
+            sender.sendMessage(coreSpigot.getServerManager().getData().getPrefix() + "§cDu musst ein Spieler sein um diesen Befehl ausführen zu können!");
         return false;
     }
 }

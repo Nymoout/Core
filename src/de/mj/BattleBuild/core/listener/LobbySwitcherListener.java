@@ -12,7 +12,7 @@ import cloud.timo.TimoCloud.api.objects.ServerGroupObject;
 import cloud.timo.TimoCloud.api.objects.ServerObject;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -25,17 +25,18 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 public class LobbySwitcherListener implements Listener {
 
-    private final Core core;
+    private final CoreSpigot coreSpigot;
     private Inventory inv = Bukkit.createInventory(null, 9, "§f§lLobby-Switcher");
 
-    public LobbySwitcherListener(Core core) {
-        this.core = core;
-        core.setListener(this);
+    public LobbySwitcherListener(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        coreSpigot.setListener(this);
     }
 
     @EventHandler
@@ -89,7 +90,7 @@ public class LobbySwitcherListener implements Listener {
                     ByteArrayDataOutput out = ByteStreams.newDataOutput();
                     out.writeUTF("Connect");
                     out.writeUTF(server);
-                    player.sendPluginMessage(this.core, "BungeeCord", out.toByteArray());
+                    player.sendPluginMessage(this.coreSpigot, "BungeeCord", out.toByteArray());
                 }
             }
     }
@@ -104,7 +105,7 @@ public class LobbySwitcherListener implements Listener {
         String o = "§7Online Spieler : §6" + online;
         ArrayList<String> list = new ArrayList<String>();
         list.add(o);
-        list.add("§7Server im §6§lOnlineModus§7.");
+        list.add("§7Server ist §6§lOnline§7.");
         if (size2 == where) {
             list.add("§cDerzeit verbunden!");
         } else {

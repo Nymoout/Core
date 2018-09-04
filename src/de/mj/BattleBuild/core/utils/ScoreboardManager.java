@@ -10,7 +10,7 @@ package de.mj.BattleBuild.core.utils;
 
 import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.PlayerObject;
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import de.mj.BattleBuild.core.listener.SettingsListener;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
 import me.lucko.luckperms.api.Contexts;
@@ -22,17 +22,18 @@ import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 public class ScoreboardManager {
 
     static SettingsListener settingsListener;
-    private final Core core;
+    private final CoreSpigot coreSpigot;
     SchedulerSaver schedulerSaver;
 
-    public ScoreboardManager(Core core) {
-        this.core = core;
-        settingsListener = core.getServerManager().getSettingsListener();
-        schedulerSaver = core.getServerManager().getSchedulerSaver();
+    public ScoreboardManager(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        settingsListener = coreSpigot.getServerManager().getSettingsListener();
+        schedulerSaver = coreSpigot.getServerManager().getSchedulerSaver();
     }
 
     private static void sendPacket(@SuppressWarnings("rawtypes") Packet packet, Player p) {
@@ -40,13 +41,13 @@ public class ScoreboardManager {
     }
 
     public void setScoreboard(Player p) {
-        HookManager lobby = this.core.getHookManager();
+        HookManager lobby = this.coreSpigot.getHookManager();
         Scoreboard scoreboard = new Scoreboard();
         String color;
-        if (core.getServerManager().getSettingsListener().getColor().containsKey(p)) {
-            color = core.getServerManager().getSettingsListener().getColor().get(p);
+        if (coreSpigot.getServerManager().getSettingsListener().getColor().containsKey(p)) {
+            color = coreSpigot.getServerManager().getSettingsListener().getColor().get(p);
         } else {
-            core.getServerManager().getSettingsListener().ItemColToString(p);
+            coreSpigot.getServerManager().getSettingsListener().ItemColToString(p);
             color = "6";
         }
         ScoreboardObjective obj = scoreboard.registerObjective("zagd", IScoreboardCriteria.b);
@@ -164,31 +165,31 @@ public class ScoreboardManager {
         sendPacket(createPacket, p);
         sendPacket(display, p);
 
-        if (core.getServerManager().getSettingsListener().getScoins().contains(p)) {
+        if (coreSpigot.getServerManager().getSettingsListener().getScoins().contains(p)) {
             sendPacket(pa1, p);
             sendPacket(pa2, p);
             sendPacket(pa3, p);
         }
-        if (core.getServerManager().getSettingsListener().getSrang().contains(p)) {
+        if (coreSpigot.getServerManager().getSettingsListener().getSrang().contains(p)) {
             sendPacket(pa4, p);
             sendPacket(pa5, p);
             sendPacket(pa6, p);
         }
-        if (core.getServerManager().getSettingsListener().getSclan().contains(p)) {
+        if (coreSpigot.getServerManager().getSettingsListener().getSclan().contains(p)) {
             sendPacket(pa8, p);
             sendPacket(pa9, p);
             sendPacket(pa7, p);
         }
-        if (core.getServerManager().getSettingsListener().getSserver().contains(p)) {
+        if (coreSpigot.getServerManager().getSettingsListener().getSserver().contains(p)) {
             sendPacket(pa11, p);
             sendPacket(pa12, p);
             sendPacket(pa13, p);
         }
-        if (core.getServerManager().getSettingsListener().getSfriends().contains(p)) {
+        if (coreSpigot.getServerManager().getSettingsListener().getSfriends().contains(p)) {
             sendPacket(pa14, p);
             sendPacket(pa15, p);
         }
-        if (core.getServerManager().getSettingsListener().getSclan().contains(p)) {
+        if (coreSpigot.getServerManager().getSettingsListener().getSclan().contains(p)) {
             sendPacket(pa16, p);
             sendPacket(pa17, p);
             sendPacket(pa18, p);
@@ -204,7 +205,7 @@ public class ScoreboardManager {
                             setScoreboard(all);
                         }
                     }
-                }.runTaskTimerAsynchronously(this.core, 0L, 20L)
+                }.runTaskTimerAsynchronously(this.coreSpigot, 0L, 20L)
         );
     }
 }

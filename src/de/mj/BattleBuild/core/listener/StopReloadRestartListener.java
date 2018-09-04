@@ -7,7 +7,7 @@
 
 package de.mj.BattleBuild.core.listener;
 
-import de.mj.BattleBuild.core.Core;
+import de.mj.BattleBuild.core.CoreSpigot;
 import de.mj.BattleBuild.core.utils.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -21,16 +21,17 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 public class StopReloadRestartListener implements Listener {
 
     private static boolean isrestarting = false;
-    private final Core core;
+    private final CoreSpigot coreSpigot;
     String prefix = new Data().getPrefix();
 
-    public StopReloadRestartListener(Core core) {
-        this.core = core;
-        core.setListener(this);
+    public StopReloadRestartListener(@NotNull CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+        coreSpigot.setListener(this);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -95,6 +96,6 @@ public class StopReloadRestartListener implements Listener {
                 }
 
             }
-        }.runTaskTimer(core, 0L, 20L);
+        }.runTaskTimer(coreSpigot, 0L, 20L);
     }
 }
