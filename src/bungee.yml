@@ -1,6 +1,0 @@
-name: BBCoreBungee
-version: 5.2.5
-author: MJ
-
-main: de.mj.BattleBuild.core.CoreBungee
-softdepend: [TimoCloud, LuckPerms, NetworkManager]

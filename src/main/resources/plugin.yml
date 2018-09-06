@@ -1,0 +1,15 @@
+name: BBCoreSpigot
+version: 5.2.7
+author: MJ
+
+main: main.de.mj.bb.core.CoreSpigot
+softdepend: [CoinsAPI, Vault, TimoCloud, VIPHide, LuckPerms, NetworkManagerBridge, FriendsAPIForPartyAndFriends, Clans-Spigot-Part, ProtocolLib, Skript]
+
+commands:
+   afk:
+   spawn:
+   set:
+   server:
+   setrank:
+   gotoserver:
+   serverinfo:
