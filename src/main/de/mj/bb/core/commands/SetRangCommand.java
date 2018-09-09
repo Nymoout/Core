@@ -35,7 +35,7 @@ public class SetRangCommand implements CommandExecutor {
                 }
             } else return false;
         } else
-            commandSender.sendMessage(coreSpigot.getServerManager().getData().getNoperm());
+            commandSender.sendMessage(coreSpigot.getServerManager().getData().getNoPerm());
         return false;
     }
 }

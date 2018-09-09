@@ -17,18 +17,22 @@ import me.Dunios.NetworkManagerBridge.spigot.NetworkManagerBridge;
 import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.LuckPermsApi;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Iterator;
+import java.util.Map;
 
 @Getter
 public class HookManager {
 
-    private static Economy economy;
     private final CoreSpigot coreSpigot;
     private final ConsoleCommandSender sender;
     private final String prefix = new Data().getPrefix();
+    private Economy economy;
     private ProtocolManager protocolManager;
     private NetworkManagerBridge networkManagerBridge;
     private LuckPermsApi luckPermsApi;
@@ -41,8 +45,7 @@ public class HookManager {
         sender = coreSpigot.getSender();
     }
 
-    @Contract(pure = true)
-    public static Economy getEconomy() {
+    public Economy getEconomy() {
         return economy;
     }
 
@@ -107,6 +110,7 @@ public class HookManager {
                 this.protocolManager = ProtocolLibrary.getProtocolManager();
                 sender.sendMessage(prefix + "§ehooked into: ProtocolLib");
                 blockTabComplete();
+                crashFixer();
                 sender.sendMessage(prefix + "§eBlockTabComplete-Module was successfully enabled!");
             } else {
                 sender.sendMessage(String.format("§c[%s] - ProtocolLib wasn't found - disable TabComplete!", coreSpigot.getDescription().getName()));
@@ -282,6 +286,23 @@ public class HookManager {
                 }
             }
         });
+    }
+
+    private void crashFixer() {
+        this.protocolManager.addPacketListener(new PacketAdapter(coreSpigot, ListenerPriority.HIGHEST, PacketType.Play.Client.CUSTOM_PAYLOAD) {
+
+            public void onPacketReceiving(PacketEvent event) {
+                coreSpigot.getServerManager().getCrashFixer().checkPacket(event);
+            }
+        });
+        Bukkit.getScheduler().runTaskTimer(coreSpigot, () -> {
+            Iterator<Map.Entry<Player, Long>> iterator = coreSpigot.getServerManager().getCrashFixer().getPACKET_USAGE().entrySet().iterator();
+            while (iterator.hasNext()) {
+                Player player = iterator.next().getKey();
+                if (player.isOnline() && player.isValid()) continue;
+                iterator.remove();
+            }
+        }, 20L, 20L);
     }
 
     private boolean setupEconomy() {

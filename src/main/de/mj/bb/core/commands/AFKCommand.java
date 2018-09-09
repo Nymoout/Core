@@ -8,7 +8,6 @@
 package main.de.mj.bb.core.commands;
 
 import main.de.mj.bb.core.CoreSpigot;
-import main.de.mj.bb.core.listener.AFKListener;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,8 +28,8 @@ public class AFKCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (!AFKListener.getAfkmover().contains(player)) {
-                coreSpigot.getServerManager().getAfkListener().setAfkmover(player);
+            if (!coreSpigot.getServerManager().getAfkListener().getAfkMover().contains(player)) {
+                coreSpigot.getServerManager().getAfkListener().setAfkMover(player);
                 for (Player all : Bukkit.getOnlinePlayers())
                     all.sendMessage("§a" + player.getName() + " §eist nun AFK!");
             } else

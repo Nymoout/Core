@@ -24,9 +24,9 @@ import java.util.HashSet;
 
 public class AFKListener implements Listener {
 
-    private static HashMap<Player, Location> locations = new HashMap<>();
-    private static HashMap<Player, BukkitTask> runs = new HashMap<>();
-    private static HashSet<Player> afkmover = new HashSet<>();
+    private HashMap<Player, Location> locations = new HashMap<>();
+    private HashMap<Player, BukkitTask> runs = new HashMap<>();
+    private HashSet<Player> afkMover = new HashSet<>();
 
     private final CoreSpigot coreSpigot;
 
@@ -36,15 +36,15 @@ public class AFKListener implements Listener {
     }
 
     @Contract(pure = true)
-    public static HashSet<Player> getAfkmover() {
-        return afkmover;
+    public HashSet<Player> getAfkMover() {
+        return afkMover;
     }
 
-    public void setAfkmover(Player player) {
-        afkmover.add(player);
+    public void setAfkMover(Player player) {
+        afkMover.add(player);
     }
 
-    public void AFKTimer(Player player) {
+    private void AFKTimer(Player player) {
         runs.put(player, new BukkitRunnable() {
             int counter = 5;
 
@@ -52,9 +52,9 @@ public class AFKListener implements Listener {
             public void run() {
                 if (player.getLocation().equals(locations.get(player))) {
                     if (counter == 0) {
-                        if (!afkmover.contains(player)) {
+                        if (!afkMover.contains(player)) {
                             Bukkit.getServer().broadcastMessage("§a" + player.getName() + " §eist nun AFK!");
-                            afkmover.add(player);
+                            afkMover.add(player);
                             cancel();
                         } else {
                             cancel();
@@ -68,17 +68,17 @@ public class AFKListener implements Listener {
         }.runTaskTimer(this.coreSpigot, 0L, 20L * 60));
     }
 
-    public void AFKWorker() {
+    private void AFKWorker() {
         for (Player all : Bukkit.getOnlinePlayers()) {
             if (all.getLocation().equals(locations.get(all))) {
-                if (!afkmover.contains(all)) {
+                if (!afkMover.contains(all)) {
                     AFKTimer(all);
                 }
             }
         }
     }
 
-    public void saveLocation() {
+    private void saveLocation() {
         for (Player all : Bukkit.getOnlinePlayers()) {
             locations.remove(all);
             locations.put(all, all.getLocation());
@@ -87,8 +87,8 @@ public class AFKListener implements Listener {
 
     @EventHandler
     public void onMove(PlayerMoveEvent moveEvent) {
-        if (afkmover.contains(moveEvent.getPlayer())) {
-            afkmover.remove(moveEvent.getPlayer());
+        if (afkMover.contains(moveEvent.getPlayer())) {
+            afkMover.remove(moveEvent.getPlayer());
             Bukkit.getServer().broadcastMessage("§a" + moveEvent.getPlayer().getName() + " §eist nicht mehr AFK!");
             runs.get(moveEvent.getPlayer()).cancel();
             runs.remove(moveEvent.getPlayer());

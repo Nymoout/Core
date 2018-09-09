@@ -9,6 +9,7 @@ package main.de.mj.bb.core.mysql;
 
 
 import main.de.mj.bb.core.CoreSpigot;
+import main.de.mj.bb.core.utils.PlayerLevel;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -139,7 +140,6 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("RIDE"));
                         }
                         int b = rs.getInt("RIDE");
-                        System.out.println("R" + b);
                         if (b == 1) {
                             coreSpigot.getServerManager().getSettingsListener().getRideState().add(p);
                         } else {
@@ -150,6 +150,27 @@ public class SettingsAPI {
                     }
                 }
         );
+    }
+
+    public void getLevel(Player player) {
+        UUID uuid = player.getUniqueId();
+        amsql.query("SELECT * FROM LobbyConf WHERE UUID='" + uuid + "'", resultSet -> {
+            try {
+                if (resultSet.next()) {
+                    Integer.valueOf(resultSet.getInt("LEVEL"));
+                }
+                int b = resultSet.getInt(("LEVEL"));
+                coreSpigot.getServerManager().getSettingsListener().getPlayerLevel().remove(player);
+                if (b == 0)
+                    coreSpigot.getServerManager().getSettingsListener().getPlayerLevel().put(player, PlayerLevel.LOBBY);
+                else if (b == 1)
+                    coreSpigot.getServerManager().getSettingsListener().getPlayerLevel().put(player, PlayerLevel.SCROLL);
+                else if (b == 2)
+                    coreSpigot.getServerManager().getSettingsListener().getPlayerLevel().put(player, PlayerLevel.YEAR);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void setColor(Player p, short i) {
@@ -192,6 +213,16 @@ public class SettingsAPI {
         AsyncMySQL.update("UPDATE LobbyConf SET DJUMP='" + b + "' WHERE UUID='" + uuid + "'");
     }
 
+    public void setLEVEL(Player player, PlayerLevel playerLevel) {
+        UUID uuid = player.getUniqueId();
+        if (playerLevel.equals(PlayerLevel.LOBBY))
+            AsyncMySQL.update("UPDATE LobbyConf SET LEVEL='" + 0 + "' WHERE UUID='" + uuid + "'");
+        else if (playerLevel.equals(PlayerLevel.SCROLL))
+            AsyncMySQL.update("UPDATE LobbyConf SET LEVEL='" + 1 + "' WHERE UUID='" + uuid + "'");
+        else if (playerLevel.equals(PlayerLevel.YEAR))
+            AsyncMySQL.update("UPDATE LobbyConf SET LEVEL='" + 2 + "' WHERE UUID='" + uuid + "'");
+    }
+
     public void getFriends(Player p) {
         UUID uuid = p.getUniqueId();
         amsql.query("SELECT * FROM ScoreConf WHERE UUID='" + uuid + "'", rs -> {
@@ -201,9 +232,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("FRIENDS"));
                         }
                         if ((b = rs.getInt("FRIENDS")) == 1) {
-                            coreSpigot.getServerManager().getSettingsListener().getSfriends().add(p);
+                            coreSpigot.getServerManager().getSettingsListener().getScoreFriends().add(p);
                         } else {
-                            coreSpigot.getServerManager().getSettingsListener().getSfriends().remove(p);
+                            coreSpigot.getServerManager().getSettingsListener().getScoreFriends().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -221,9 +252,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("RANG"));
                         }
                         if ((b = rs.getInt("RANG")) == 1) {
-                            coreSpigot.getServerManager().getSettingsListener().getSrang().add(p);
+                            coreSpigot.getServerManager().getSettingsListener().getScoreRank().add(p);
                         } else {
-                            coreSpigot.getServerManager().getSettingsListener().getSrang().remove(p);
+                            coreSpigot.getServerManager().getSettingsListener().getScoreRank().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -241,9 +272,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("SERVER"));
                         }
                         if ((b = rs.getInt("SERVER")) == 1) {
-                            coreSpigot.getServerManager().getSettingsListener().getSserver().add(p);
+                            coreSpigot.getServerManager().getSettingsListener().getScoreServer().add(p);
                         } else {
-                            coreSpigot.getServerManager().getSettingsListener().getSserver().remove(p);
+                            coreSpigot.getServerManager().getSettingsListener().getScoreServer().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -261,9 +292,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("CLAN"));
                         }
                         if ((b = rs.getInt("CLAN")) == 1) {
-                            coreSpigot.getServerManager().getSettingsListener().getSclan().add(p);
+                            coreSpigot.getServerManager().getSettingsListener().getScoreClan().add(p);
                         } else {
-                            coreSpigot.getServerManager().getSettingsListener().getSclan().remove(p);
+                            coreSpigot.getServerManager().getSettingsListener().getScoreClan().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -281,9 +312,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("COINS"));
                         }
                         if ((b = rs.getInt("COINS")) == 1) {
-                            coreSpigot.getServerManager().getSettingsListener().getScoins().add(p);
+                            coreSpigot.getServerManager().getSettingsListener().getScoreCoins().add(p);
                         } else {
-                            coreSpigot.getServerManager().getSettingsListener().getScoins().remove(p);
+                            coreSpigot.getServerManager().getSettingsListener().getScoreCoins().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -301,13 +332,13 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("REALTIME"));
                         }
                         if ((b = rs.getInt("REALTIME")) == 1) {
-                            coreSpigot.getServerManager().getSettingsListener().getSrealtime().add(p);
+                            coreSpigot.getServerManager().getSettingsListener().getRealTime().add(p);
                         } else if (b == 2) {
-                            coreSpigot.getServerManager().getSettingsListener().getSrealtime().remove(p);
-                            coreSpigot.getServerManager().getSettingsListener().getSday().add(p);
+                            coreSpigot.getServerManager().getSettingsListener().getRealTime().remove(p);
+                            coreSpigot.getServerManager().getSettingsListener().getDay().add(p);
                         } else {
-                            coreSpigot.getServerManager().getSettingsListener().getSrealtime().remove(p);
-                            coreSpigot.getServerManager().getSettingsListener().getSday().remove(p);
+                            coreSpigot.getServerManager().getSettingsListener().getRealTime().remove(p);
+                            coreSpigot.getServerManager().getSettingsListener().getDay().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -325,9 +356,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("TIME"));
                         }
                         if ((b = rs.getInt("TIME")) == 1) {
-                            coreSpigot.getServerManager().getSettingsListener().getStime().add(p);
+                            coreSpigot.getServerManager().getSettingsListener().getTime().add(p);
                         } else {
-                            coreSpigot.getServerManager().getSettingsListener().getStime().remove(p);
+                            coreSpigot.getServerManager().getSettingsListener().getTime().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -345,9 +376,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("WEATHER"));
                         }
                         if ((b = rs.getInt("WEATHER")) == 1) {
-                            coreSpigot.getServerManager().getSettingsListener().getSweather().add(p);
+                            coreSpigot.getServerManager().getSettingsListener().getWeather().add(p);
                         } else {
-                            coreSpigot.getServerManager().getSettingsListener().getSweather().remove(p);
+                            coreSpigot.getServerManager().getSettingsListener().getWeather().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();

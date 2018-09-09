@@ -7,6 +7,8 @@
 
 package main.de.mj.bb.core.listener;
 
+import lombok.Getter;
+import lombok.Setter;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.utils.Data;
 import org.bukkit.Bukkit;
@@ -23,9 +25,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+@Getter
+@Setter
 public class StopReloadRestartListener implements Listener {
 
-    private static boolean isrestarting = false;
+    private boolean isRestarting = false;
     private final CoreSpigot coreSpigot;
     String prefix = new Data().getPrefix();
 
@@ -39,7 +43,7 @@ public class StopReloadRestartListener implements Listener {
         Player p = e.getPlayer();
         String msg = e.getMessage().toLowerCase();
         if (p.hasPermission("group.administrator")) {
-            if (msg.startsWith("/stop") || msg.startsWith("/reload") || msg.startsWith("/restart")) {
+            if (msg.equalsIgnoreCase("/stop") || msg.equalsIgnoreCase("/reload") || msg.equalsIgnoreCase("/restart")) {
                 e.setCancelled(true);
                 Inventory inv = Bukkit.createInventory(null, 9, "§4§lSERVERNEUSTART?");
                 ItemStack ClayNein = new ItemStack(Material.STAINED_CLAY, 1, (short) 14);
@@ -68,15 +72,15 @@ public class StopReloadRestartListener implements Listener {
             if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aJa")) {
                 p.closeInventory();
                 p.sendMessage("§aDu hast einen Serverneustart initialisiert!");
-                if (!isrestarting) shutdown();
-                isrestarting = true;
+                if (!isRestarting) shutdown();
+                isRestarting = true;
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§cNein")) {
                 p.closeInventory();
             }
         }
     }
 
-    private void shutdown() {
+    public void shutdown() {
         Bukkit.broadcastMessage(prefix + "§c§lDer Server muss neu gestartet werden.");
         Bukkit.broadcastMessage(prefix + "§c" + Bukkit.getServerName() + " wird gleich wieder verf\u00FCgbar sein.");
         new BukkitRunnable() {

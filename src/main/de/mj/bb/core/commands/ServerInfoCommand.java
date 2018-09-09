@@ -37,7 +37,7 @@ public class ServerInfoCommand implements CommandExecutor {
                 return true;
             }
         } else {
-            sender.sendMessage(coreSpigot.getServerManager().getData().getNoperm());
+            sender.sendMessage(coreSpigot.getServerManager().getData().getNoPerm());
         }
         return false;
     }

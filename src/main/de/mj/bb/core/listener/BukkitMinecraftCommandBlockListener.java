@@ -33,7 +33,7 @@ public class BukkitMinecraftCommandBlockListener implements Listener {
         String[] cmd = preprocessEvent.getMessage().substring(1).split(" ");
         if (player.hasPermission("coreSpigot.commands")) {
             if ((cmd[0].startsWith("bukkit") || cmd[0].startsWith("minecraft")) && (!player.isOp())) {
-                player.sendMessage(data.getNoperm());
+                player.sendMessage(data.getNoPerm());
                 preprocessEvent.setCancelled(true);
                 return;
             }
@@ -43,15 +43,15 @@ public class BukkitMinecraftCommandBlockListener implements Listener {
             }
             if (((cmd[0].equalsIgnoreCase("ver")) || (cmd[0].equalsIgnoreCase("version"))
                     || (cmd[0].equalsIgnoreCase("about")))) {
-                player.sendMessage(data.getNoperm());
+                player.sendMessage(data.getNoPerm());
                 preprocessEvent.setCancelled(true);
             }
             if ((cmd[0].equalsIgnoreCase("aac"))) {
-                player.sendMessage(data.getNoperm());
+                player.sendMessage(data.getNoPerm());
                 preprocessEvent.setCancelled(true);
             }
             if (cmd[0].equalsIgnoreCase("tell")) {
-                player.sendMessage(data.getNoperm());
+                player.sendMessage(data.getNoPerm());
                 preprocessEvent.setCancelled(true);
             }
             if (cmd[0].equalsIgnoreCase("plugins") || cmd[0].equalsIgnoreCase("plugin") || cmd[0].equalsIgnoreCase("pl")) {

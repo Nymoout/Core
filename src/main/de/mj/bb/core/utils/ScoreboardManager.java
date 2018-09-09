@@ -56,7 +56,7 @@ public class ScoreboardManager {
         PacketPlayOutScoreboardDisplayObjective display = new PacketPlayOutScoreboardDisplayObjective(1, obj);
         ScoreboardScore s1 = new ScoreboardScore(scoreboard, obj, "§a§lDeine Coins §8:");
         ScoreboardScore s2;
-        s2 = new ScoreboardScore(scoreboard, obj, "§8\u00BB §" + color + String.valueOf(HookManager.getEconomy().getBalance(p)));
+        s2 = new ScoreboardScore(scoreboard, obj, "§8\u00BB §" + color + String.valueOf(coreSpigot.getHookManager().getEconomy().getBalance(p)));
         ScoreboardScore s3 = new ScoreboardScore(scoreboard, obj, "§8§7");
 
         ScoreboardScore s4 = new ScoreboardScore(scoreboard, obj, "§a§lDein Rang §8:");
@@ -165,31 +165,31 @@ public class ScoreboardManager {
         sendPacket(createPacket, p);
         sendPacket(display, p);
 
-        if (coreSpigot.getServerManager().getSettingsListener().getScoins().contains(p)) {
+        if (coreSpigot.getServerManager().getSettingsListener().getScoreCoins().contains(p)) {
             sendPacket(pa1, p);
             sendPacket(pa2, p);
             sendPacket(pa3, p);
         }
-        if (coreSpigot.getServerManager().getSettingsListener().getSrang().contains(p)) {
+        if (coreSpigot.getServerManager().getSettingsListener().getScoreRank().contains(p)) {
             sendPacket(pa4, p);
             sendPacket(pa5, p);
             sendPacket(pa6, p);
         }
-        if (coreSpigot.getServerManager().getSettingsListener().getSclan().contains(p)) {
+        if (coreSpigot.getServerManager().getSettingsListener().getScoreClan().contains(p)) {
             sendPacket(pa8, p);
             sendPacket(pa9, p);
             sendPacket(pa7, p);
         }
-        if (coreSpigot.getServerManager().getSettingsListener().getSserver().contains(p)) {
+        if (coreSpigot.getServerManager().getSettingsListener().getScoreServer().contains(p)) {
             sendPacket(pa11, p);
             sendPacket(pa12, p);
             sendPacket(pa13, p);
         }
-        if (coreSpigot.getServerManager().getSettingsListener().getSfriends().contains(p)) {
+        if (coreSpigot.getServerManager().getSettingsListener().getScoreFriends().contains(p)) {
             sendPacket(pa14, p);
             sendPacket(pa15, p);
         }
-        if (coreSpigot.getServerManager().getSettingsListener().getSclan().contains(p)) {
+        if (coreSpigot.getServerManager().getSettingsListener().getScoreClan().contains(p)) {
             sendPacket(pa16, p);
             sendPacket(pa17, p);
             sendPacket(pa18, p);

@@ -52,6 +52,7 @@ public class ChatListener implements Listener {
         if (md.getSuffix() != null) {
             suffix = md.getSuffix();
         }
+        if (pmsg.contains("%")) pmsg = pmsg.replace("%", "Prozent");
         if (!coreSpigot.getHookManager().getVipHide().isDisguised(player)) {
             if (player.hasPermission("chat.color")) {
                 playerChatEvent.setFormat(prefix.replace("&", "§") + player.getName() + suffix.replace("&", "§") + pmsg.replace("&", "§"));
