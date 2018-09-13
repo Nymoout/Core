@@ -24,7 +24,7 @@ public class BukkitMinecraftCommandBlockListener implements Listener {
     public BukkitMinecraftCommandBlockListener(@NotNull CoreSpigot coreSpigot) {
         this.coreSpigot = coreSpigot;
         coreSpigot.setListener(this);
-        data = coreSpigot.getServerManager().getData();
+        data = coreSpigot.getModuleManager().getData();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

@@ -1,5 +1,5 @@
 name: BBCoreBungee
-version: 5.5.1
+version: ${project.version}
 author: MJ
 
 main: main.de.mj.bb.core.CoreBungee

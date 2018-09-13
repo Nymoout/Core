@@ -21,9 +21,9 @@ public class TPSCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         if (commandSender.hasPermission("server.tps")) {
             DecimalFormat tpsFormat = new DecimalFormat("#.##");
-            commandSender.sendMessage(coreSpigot.getServerManager().getData().getPrefix() + "§cTPS: " + tpsFormat.format(coreSpigot.getServerManager().getTicksPerSecond().getTPS()));
+            commandSender.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§cTPS: " + tpsFormat.format(coreSpigot.getModuleManager().getTicksPerSecond().getTPS()));
         } else {
-            commandSender.sendMessage(coreSpigot.getServerManager().getData().getNoPerm());
+            commandSender.sendMessage(coreSpigot.getModuleManager().getData().getNoPerm());
         }
         return false;
     }

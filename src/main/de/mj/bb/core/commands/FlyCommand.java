@@ -21,20 +21,20 @@ public class FlyCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             if (player.hasPermission("server.fly")) {
-                if (coreSpigot.getServerManager().getFlyListener().getFly().contains(player)) {
+                if (coreSpigot.getModuleManager().getFlyListener().getFly().contains(player)) {
                     player.setAllowFlight(false);
-                    coreSpigot.getServerManager().getFlyListener().getFly().remove(player);
-                    player.sendMessage(coreSpigot.getServerManager().getData().getPrefix() + "§7Du hast Fly §cdeaktiviert!");
+                    coreSpigot.getModuleManager().getFlyListener().getFly().remove(player);
+                    player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§7Du hast Fly §cdeaktiviert!");
                 } else {
                     player.setAllowFlight(true);
-                    coreSpigot.getServerManager().getFlyListener().getFly().add(player);
-                    player.sendMessage(coreSpigot.getServerManager().getData().getPrefix() + "§7Du hast Fly §aaktiviert!");
+                    coreSpigot.getModuleManager().getFlyListener().getFly().add(player);
+                    player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§7Du hast Fly §aaktiviert!");
                 }
             } else {
-                commandSender.sendMessage(coreSpigot.getServerManager().getData().getNoPerm());
+                commandSender.sendMessage(coreSpigot.getModuleManager().getData().getNoPerm());
             }
         } else {
-            commandSender.sendMessage(coreSpigot.getServerManager().getData().getPrefix() + "§cDu musst ein Spieler sein um diesen Befehl nutzen zu können!");
+            commandSender.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§cDu musst ein Spieler sein um diesen Befehl nutzen zu können!");
         }
         return false;
     }

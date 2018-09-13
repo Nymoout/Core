@@ -37,15 +37,15 @@ public class BorderListener implements Listener {
     }
 
     private void loadBorderInventory() {
-        borderInv.setItem(0, coreSpigot.getServerManager().getItemCreator().createItemWithMaterial(Material.STAINED_GLASS_PANE, 0, 1));
-        borderInv.setItem(1, coreSpigot.getServerManager().getItemCreator().createItemWithMaterial(Material.STONE_SLAB2, 0, 1));
-        borderInv.setItem(2, coreSpigot.getServerManager().getItemCreator().createItemWithMaterial(Material.STONE_SLAB2, 1, 1));
-        borderInv.setItem(3, coreSpigot.getServerManager().getItemCreator().createItemWithMaterial(Material.STONE_SLAB2, 3, 1));
-        borderInv.setItem(4, coreSpigot.getServerManager().getItemCreator().createItemWithMaterial(Material.STONE_SLAB2, 4, 1));
-        borderInv.setItem(5, coreSpigot.getServerManager().getItemCreator().createItemWithMaterial(Material.WOOD_STEP, 0, 1));
-        borderInv.setItem(6, coreSpigot.getServerManager().getItemCreator().createItemWithMaterial(Material.EMERALD_BLOCK, 0, 1));
-        borderInv.setItem(7, coreSpigot.getServerManager().getItemCreator().createItemWithMaterial(Material.DIAMOND_BLOCK, 0, 1));
-        borderInv.setItem(8, coreSpigot.getServerManager().getItemCreator().createItemWithMaterial(Material.BEACON, 0, 1));
+        borderInv.setItem(0, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.STAINED_GLASS_PANE, 0, 1));
+        borderInv.setItem(1, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.STONE_SLAB2, 0, 1));
+        borderInv.setItem(2, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.STONE_SLAB2, 1, 1));
+        borderInv.setItem(3, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.STONE_SLAB2, 3, 1));
+        borderInv.setItem(4, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.STONE_SLAB2, 4, 1));
+        borderInv.setItem(5, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.WOOD_STEP, 0, 1));
+        borderInv.setItem(6, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.EMERALD_BLOCK, 0, 1));
+        borderInv.setItem(7, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.DIAMOND_BLOCK, 0, 1));
+        borderInv.setItem(8, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.BEACON, 0, 1));
     }
 
 }

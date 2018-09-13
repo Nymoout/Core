@@ -29,7 +29,7 @@ public class PlayerRealTime {
     }
 
     public void setPlayerRealTime() {
-        coreSpigot.getServerManager().getSchedulerSaver().createScheduler(
+        coreSpigot.getModuleManager().getSchedulerSaver().createScheduler(
                 new BukkitRunnable() {
 
                     @Override
@@ -45,9 +45,9 @@ public class PlayerRealTime {
                             int s = calendar.get(13);
                             long seconds = h * 60 * 60 + m * 60 + s;
                             long ticks = (long) secToTicks(seconds);
-                            if (coreSpigot.getServerManager().getSettingsListener().getRealTime().contains(all)) {
+                            if (coreSpigot.getModuleManager().getSettingsListener().getRealTime().contains(all)) {
                                 all.setPlayerTime(ticks, false);
-                            } else if (coreSpigot.getServerManager().getSettingsListener().getDay().contains(all)) {
+                            } else if (coreSpigot.getModuleManager().getSettingsListener().getDay().contains(all)) {
                                 all.setPlayerTime(6000, false);
                             } else {
                                 all.setPlayerTime(18000, false);

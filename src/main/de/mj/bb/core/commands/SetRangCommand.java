@@ -27,7 +27,7 @@ public class SetRangCommand implements CommandExecutor {
                         for (Group group : coreSpigot.getHookManager().getLuckPermsApi().getGroups()) {
                             if (args[1].equalsIgnoreCase(group.getName())) {
                                 coreSpigot.getHookManager().getLuckPermsApi().getUserManager().getUser(all.getUniqueId()).setPrimaryGroup(args[1]);
-                                commandSender.sendMessage(coreSpigot.getServerManager().getData().getPrefix() + "§aDu hast dem Spieler §e" + all.getName() + "§a die Gruppe §2" + args[1] + "§a erfolgreich gesetzt!");
+                                commandSender.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§aDu hast dem Spieler §e" + all.getName() + "§a die Gruppe §2" + args[1] + "§a erfolgreich gesetzt!");
                                 return true;
                             }
                         }
@@ -35,7 +35,7 @@ public class SetRangCommand implements CommandExecutor {
                 }
             } else return false;
         } else
-            commandSender.sendMessage(coreSpigot.getServerManager().getData().getNoPerm());
+            commandSender.sendMessage(coreSpigot.getModuleManager().getData().getNoPerm());
         return false;
     }
 }

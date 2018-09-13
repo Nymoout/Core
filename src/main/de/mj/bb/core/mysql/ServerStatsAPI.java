@@ -17,7 +17,7 @@ public class ServerStatsAPI {
 
     public ServerStatsAPI(@NotNull CoreSpigot coreSpigot) {
         this.coreSpigot = coreSpigot;
-        this.amsql = coreSpigot.getServerManager().getAsyncMySQL();
+        this.amsql = coreSpigot.getModuleManager().getAsyncMySQL();
     }
 
     public void createTable() {

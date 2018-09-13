@@ -33,11 +33,12 @@ public class ServerInfoCommand implements CommandExecutor {
                 sender.sendMessage("§e§lPort: §6" + Bukkit.getPort());
                 sender.sendMessage("§bServername: §3" + Bukkit.getServerName());
                 sender.sendMessage("§5§lVersion: §b" + Bukkit.getBukkitVersion());
+                sender.sendMessage("§6§lPlugin-Version: §e" + coreSpigot.getDescription().getVersion());
                 sender.sendMessage("§8§m--------------------------------------------§r");
                 return true;
             }
         } else {
-            sender.sendMessage(coreSpigot.getServerManager().getData().getNoPerm());
+            sender.sendMessage(coreSpigot.getModuleManager().getData().getNoPerm());
         }
         return false;
     }

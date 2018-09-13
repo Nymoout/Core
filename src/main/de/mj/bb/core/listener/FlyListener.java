@@ -34,8 +34,8 @@ public class FlyListener implements Listener {
         if (fly.contains(player)) {
             flightEvent.setCancelled(false);
         } else {
-            if (coreSpigot.getServerManager().getServerType().equals(ServerType.LOBBY)) {
-                if (player.getGameMode() != GameMode.CREATIVE && coreSpigot.getServerManager().getSettingsListener().getDoubleJump().contains(player)) {
+            if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
+                if (player.getGameMode() != GameMode.CREATIVE && coreSpigot.getModuleManager().getSettingsListener().getDoubleJump().contains(player)) {
                     player.setAllowFlight(false);
                     player.setFlying(false);
                     player.setVelocity(player.getLocation().getDirection().multiply(0.9D).add(new Vector(0, 0.9, 0)));

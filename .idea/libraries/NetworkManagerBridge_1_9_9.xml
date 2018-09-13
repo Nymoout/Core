@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="NetworkManagerBridge-1.9.9">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../libs/NetworkManagerBridge-1.9.9.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

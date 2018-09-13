@@ -9,8 +9,8 @@ package main.de.mj.bb.core.listener;
 
 import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
+import main.de.mj.bb.core.managers.ModuleManager;
 import main.de.mj.bb.core.utils.PlayerLevel;
-import main.de.mj.bb.core.utils.ServerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -121,14 +121,14 @@ public class SettingsListener implements Listener {
                     player.openInventory(invent1.get(player));
                 }
             } else if (player.getInventory().getName().equals("§8§lMain Menu")) {
-                player.getInventory().setItem(31, coreSpigot.getServerManager().getItemCreator().createItemWithMaterial(Material.ARMOR_STAND, 0, 1,
+                player.getInventory().setItem(31, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.ARMOR_STAND, 0, 1,
                         "§9§lM§e§li§9§ln§e§li§9§lo§e§ln§9§ls", null));
             }
         }
     }
 
     private void setInv(Player player) {
-        ServerManager lobby = this.coreSpigot.getServerManager();
+        ModuleManager lobby = this.coreSpigot.getModuleManager();
         invent1.remove(player);
         player.playSound(player.getLocation(), Sound.NOTE_PIANO, 1, 1);
         Inventory inv = Bukkit.createInventory(null, 54, "§6§lEinstellungen");
@@ -341,7 +341,7 @@ public class SettingsListener implements Listener {
         if (clickEvent.getCurrentItem().getType().equals(Material.AIR) || clickEvent.getCurrentItem().getType() == null)
             return;
         if (clickEvent.getClickedInventory().getType() == null) return;
-        ServerManager lobby = this.coreSpigot.getServerManager();
+        ModuleManager lobby = this.coreSpigot.getModuleManager();
         Player player = (Player) clickEvent.getWhoClicked();
         lobby.getScoreboardManager().setScoreboard(player);
         try {
@@ -498,7 +498,7 @@ public class SettingsListener implements Listener {
                     && !clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Spawn")) {
                 short i = clickEvent.getCurrentItem().getDurability();
                 design.put(player, i);
-                coreSpigot.getServerManager().getSettingsAPI().setColor(player, i);
+                coreSpigot.getModuleManager().getSettingsAPI().setColor(player, i);
                 ItemColToString(player);
                 player.closeInventory();
                 new BukkitRunnable() {
@@ -524,7 +524,7 @@ public class SettingsListener implements Listener {
     @SuppressWarnings("deprecation")
     @EventHandler
     public void onScore(InventoryClickEvent clickEvent) {
-        ServerManager lobby = this.coreSpigot.getServerManager();
+        ModuleManager lobby = this.coreSpigot.getModuleManager();
         Player player = (Player) clickEvent.getWhoClicked();
         try {
             if (clickEvent.getCurrentItem().getTypeId() == 323
@@ -648,7 +648,7 @@ public class SettingsListener implements Listener {
 
     private void setScore(Player player) {
         // Score 1
-        ServerManager lobby = this.coreSpigot.getServerManager();
+        ModuleManager lobby = this.coreSpigot.getModuleManager();
         Inventory inv1 = Bukkit.createInventory(null, 54, "§9§lScoreboard");
 
         for (int i = 8; i >= 0; i--) {
@@ -772,7 +772,7 @@ public class SettingsListener implements Listener {
             if (rideState.contains(horse)) {
                 horse.setPassenger(rider);
             } else {
-                rider.sendMessage(coreSpigot.getServerManager().getData().getPrefix() + "§cDer Spieler hat das Ride on me Feature nicht aktiviert!");
+                rider.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§cDer Spieler hat das Ride on me Feature nicht aktiviert!");
             }
         }
     }
@@ -798,7 +798,7 @@ public class SettingsListener implements Listener {
     }
 
     private Inventory Design() {
-        ServerManager lobby = this.coreSpigot.getServerManager();
+        ModuleManager lobby = this.coreSpigot.getModuleManager();
         Inventory inv = Bukkit.createInventory(null, 18, "§9§lDesign");
         inv.setItem(1, lobby.getItemCreator().createItemWithMaterial(Material.STAINED_GLASS, 0, 1, "§f§lWeiss"));
         inv.setItem(2, lobby.getItemCreator().createItemWithMaterial(Material.STAINED_GLASS, 1, 1, "§6§lOrange"));

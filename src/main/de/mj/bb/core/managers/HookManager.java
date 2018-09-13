@@ -1,4 +1,4 @@
-package main.de.mj.bb.core.utils;
+package main.de.mj.bb.core.managers;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -12,11 +12,13 @@ import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
 import de.simonsator.partyandfriends.spigot.clans.api.ClansManager;
 import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
+import main.de.mj.bb.core.utils.Data;
+import main.de.mj.bb.core.utils.ServerType;
 import me.BukkitPVP.VIPHide.VIPHide;
-import me.Dunios.NetworkManagerBridge.spigot.NetworkManagerBridge;
 import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.LuckPermsApi;
 import net.milkbowl.vault.economy.Economy;
+import nl.chimpgamer.networkmanager.spigot.NetworkManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -34,7 +36,7 @@ public class HookManager {
     private final String prefix = new Data().getPrefix();
     private Economy economy;
     private ProtocolManager protocolManager;
-    private NetworkManagerBridge networkManagerBridge;
+    private NetworkManager networkManagerBridge;
     private LuckPermsApi luckPermsApi;
     private PAFPlayerManager pafPlayerManager;
     private ClansManager clansManager;
@@ -96,10 +98,10 @@ public class HookManager {
                 coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
             }
 
-            sender.sendMessage(prefix + "§atry to hook into NetworkManagerBridge...");
-            if (coreSpigot.getServer().getPluginManager().getPlugin("NetworkManagerBridge") != null) {
-                this.networkManagerBridge = (NetworkManagerBridge) coreSpigot.getServer().getPluginManager().getPlugin("NetworkManagerBridge");
-                sender.sendMessage(prefix + "§ahooked into: NetworkManagerBridge");
+            sender.sendMessage(prefix + "§atry to hook into NetworkManager...");
+            if (coreSpigot.getServer().getPluginManager().getPlugin("NetworkManager") != null) {
+                this.networkManagerBridge = (NetworkManager) coreSpigot.getServer().getPluginManager().getPlugin("NetworkManager");
+                sender.sendMessage(prefix + "§ahooked into: NetworkManager");
             } else {
                 sender.sendMessage(String.format("§c[%s] - NetworkManagerBridge wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
                 coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
@@ -292,11 +294,11 @@ public class HookManager {
         this.protocolManager.addPacketListener(new PacketAdapter(coreSpigot, ListenerPriority.HIGHEST, PacketType.Play.Client.CUSTOM_PAYLOAD) {
 
             public void onPacketReceiving(PacketEvent event) {
-                coreSpigot.getServerManager().getCrashFixer().checkPacket(event);
+                coreSpigot.getModuleManager().getCrashFixer().checkPacket(event);
             }
         });
         Bukkit.getScheduler().runTaskTimer(coreSpigot, () -> {
-            Iterator<Map.Entry<Player, Long>> iterator = coreSpigot.getServerManager().getCrashFixer().getPACKET_USAGE().entrySet().iterator();
+            Iterator<Map.Entry<Player, Long>> iterator = coreSpigot.getModuleManager().getCrashFixer().getPACKET_USAGE().entrySet().iterator();
             while (iterator.hasNext()) {
                 Player player = iterator.next().getKey();
                 if (player.isOnline() && player.isValid()) continue;

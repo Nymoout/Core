@@ -29,7 +29,7 @@ public class MySQLLoader {
     }
 
     public void loadConf() {
-        coreSpigot.getSender().sendMessage(coreSpigot.getServerManager().getData().getPrefix() + "§dload config.yml");
+        coreSpigot.getSender().sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§dload config.yml");
         host = cfg.getString("host");
         port = cfg.getInt("port");
         user = cfg.getString("username");
@@ -39,7 +39,7 @@ public class MySQLLoader {
 
     public void loadMySQL() {
         this.loadConf();
-        coreSpigot.getSender().sendMessage(coreSpigot.getServerManager().getData().getPrefix() + "§dconnect to MySQL");
+        coreSpigot.getSender().sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§dconnect to MySQL");
         new AsyncMySQL(coreSpigot, host, port, user, pw, db);
     }
 }

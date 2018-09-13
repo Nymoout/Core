@@ -5,7 +5,7 @@
  *
  */
 
-package main.de.mj.bb.core.utils;
+package main.de.mj.bb.core.managers;
 
 
 import cloud.timo.TimoCloud.api.TimoCloudAPI;
@@ -13,6 +13,7 @@ import cloud.timo.TimoCloud.api.objects.PlayerObject;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.listener.SettingsListener;
+import main.de.mj.bb.core.utils.SchedulerSaver;
 import me.lucko.luckperms.api.Contexts;
 import me.lucko.luckperms.api.User;
 import me.lucko.luckperms.api.caching.MetaData;
@@ -32,8 +33,8 @@ public class ScoreboardManager {
 
     public ScoreboardManager(@NotNull CoreSpigot coreSpigot) {
         this.coreSpigot = coreSpigot;
-        settingsListener = coreSpigot.getServerManager().getSettingsListener();
-        schedulerSaver = coreSpigot.getServerManager().getSchedulerSaver();
+        settingsListener = coreSpigot.getModuleManager().getSettingsListener();
+        schedulerSaver = coreSpigot.getModuleManager().getSchedulerSaver();
     }
 
     private static void sendPacket(@SuppressWarnings("rawtypes") Packet packet, Player p) {
@@ -44,10 +45,10 @@ public class ScoreboardManager {
         HookManager lobby = this.coreSpigot.getHookManager();
         Scoreboard scoreboard = new Scoreboard();
         String color;
-        if (coreSpigot.getServerManager().getSettingsListener().getColor().containsKey(p)) {
-            color = coreSpigot.getServerManager().getSettingsListener().getColor().get(p);
+        if (coreSpigot.getModuleManager().getSettingsListener().getColor().containsKey(p)) {
+            color = coreSpigot.getModuleManager().getSettingsListener().getColor().get(p);
         } else {
-            coreSpigot.getServerManager().getSettingsListener().ItemColToString(p);
+            coreSpigot.getModuleManager().getSettingsListener().ItemColToString(p);
             color = "6";
         }
         ScoreboardObjective obj = scoreboard.registerObjective("zagd", IScoreboardCriteria.b);
@@ -118,7 +119,7 @@ public class ScoreboardManager {
         }
         ScoreboardScore s16 = new ScoreboardScore(scoreboard, obj, "§7§6 ");
         ScoreboardScore s17 = new ScoreboardScore(scoreboard, obj, "§a§lOnline-Zeit");
-        int playtime = lobby.getNetworkManagerBridge().getPlayer(p.getUniqueId()).getPlaytime();
+        int playtime = lobby.getNetworkManagerBridge().getPlayer(p.getUniqueId()).get().getPlaytime();
         float tosecond = playtime / 1000;
         float tominute = tosecond / 60;
         float tohour = tominute / 60;
@@ -165,31 +166,31 @@ public class ScoreboardManager {
         sendPacket(createPacket, p);
         sendPacket(display, p);
 
-        if (coreSpigot.getServerManager().getSettingsListener().getScoreCoins().contains(p)) {
+        if (coreSpigot.getModuleManager().getSettingsListener().getScoreCoins().contains(p)) {
             sendPacket(pa1, p);
             sendPacket(pa2, p);
             sendPacket(pa3, p);
         }
-        if (coreSpigot.getServerManager().getSettingsListener().getScoreRank().contains(p)) {
+        if (coreSpigot.getModuleManager().getSettingsListener().getScoreRank().contains(p)) {
             sendPacket(pa4, p);
             sendPacket(pa5, p);
             sendPacket(pa6, p);
         }
-        if (coreSpigot.getServerManager().getSettingsListener().getScoreClan().contains(p)) {
+        if (coreSpigot.getModuleManager().getSettingsListener().getScoreClan().contains(p)) {
             sendPacket(pa8, p);
             sendPacket(pa9, p);
             sendPacket(pa7, p);
         }
-        if (coreSpigot.getServerManager().getSettingsListener().getScoreServer().contains(p)) {
+        if (coreSpigot.getModuleManager().getSettingsListener().getScoreServer().contains(p)) {
             sendPacket(pa11, p);
             sendPacket(pa12, p);
             sendPacket(pa13, p);
         }
-        if (coreSpigot.getServerManager().getSettingsListener().getScoreFriends().contains(p)) {
+        if (coreSpigot.getModuleManager().getSettingsListener().getScoreFriends().contains(p)) {
             sendPacket(pa14, p);
             sendPacket(pa15, p);
         }
-        if (coreSpigot.getServerManager().getSettingsListener().getScoreClan().contains(p)) {
+        if (coreSpigot.getModuleManager().getSettingsListener().getScoreClan().contains(p)) {
             sendPacket(pa16, p);
             sendPacket(pa17, p);
             sendPacket(pa18, p);

@@ -8,6 +8,7 @@
 package main.de.mj.bb.core.utils;
 
 import main.de.mj.bb.core.CoreSpigot;
+import main.de.mj.bb.core.managers.ModuleManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -24,7 +25,7 @@ public class ActionbarTimer {
     }
 
     public void setActionBar() {
-        ServerManager lobby = this.coreSpigot.getServerManager();
+        ModuleManager lobby = this.coreSpigot.getModuleManager();
         lobby.getSchedulerSaver().createScheduler(
                 new BukkitRunnable() {
 

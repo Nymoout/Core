@@ -34,8 +34,8 @@ public class SetLocations {
         return loc;
     }
 
-    void saveLocs() {
-        LocationsUtil locationsUtil = coreSpigot.getServerManager().getLocationsUtil();
+    public void saveLocs() {
+        LocationsUtil locationsUtil = coreSpigot.getModuleManager().getLocationsUtil();
         locationsUtil.setBedwars(initLocs("bedwars"));
         locationsUtil.setCitybuild(initLocs("citybuild"));
         locationsUtil.setGungame(initLocs("gungame"));

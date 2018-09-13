@@ -27,8 +27,8 @@ public class SpawnCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            player.teleport(coreSpigot.getServerManager().getLocationsUtil().getSpawn());
-            player.sendMessage(coreSpigot.getServerManager().getData().getPrefix() + "Du wurdest zum Spawn teleportiert!");
+            player.teleport(coreSpigot.getModuleManager().getLocationsUtil().getSpawn());
+            player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "Du wurdest zum Spawn teleportiert!");
         }
         return false;
     }

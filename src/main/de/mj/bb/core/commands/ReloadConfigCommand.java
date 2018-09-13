@@ -18,10 +18,10 @@ public class ReloadConfigCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         if (commandSender.hasPermission("config.reload")) {
-            coreSpigot.getServerManager().getFileManager().reloadConfig();
-            coreSpigot.getServerManager().reInit();
-            commandSender.sendMessage(coreSpigot.getServerManager().getData().getPrefix() + "§aDu hast die Config erfolgreich neugeladen!");
-        } else commandSender.sendMessage(coreSpigot.getServerManager().getData().getNoPerm());
+            coreSpigot.getModuleManager().getFileManager().reloadConfig();
+            coreSpigot.getModuleManager().reInit();
+            commandSender.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§aDu hast die Config erfolgreich neugeladen!");
+        } else commandSender.sendMessage(coreSpigot.getModuleManager().getData().getNoPerm());
         return false;
     }
 }

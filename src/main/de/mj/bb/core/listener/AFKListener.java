@@ -7,6 +7,7 @@
 
 package main.de.mj.bb.core.listener;
 
+import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -16,12 +17,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
+@Getter
 public class AFKListener implements Listener {
 
     private HashMap<Player, Location> locations = new HashMap<>();
@@ -33,11 +34,6 @@ public class AFKListener implements Listener {
     public AFKListener(@NotNull CoreSpigot coreSpigot) {
         this.coreSpigot = coreSpigot;
         coreSpigot.setListener(this);
-    }
-
-    @Contract(pure = true)
-    public HashSet<Player> getAfkMover() {
-        return afkMover;
     }
 
     public void setAfkMover(Player player) {
@@ -96,7 +92,7 @@ public class AFKListener implements Listener {
     }
 
     public void LocationTimer() {
-        coreSpigot.getServerManager().getSchedulerSaver().createScheduler(
+        coreSpigot.getModuleManager().getSchedulerSaver().createScheduler(
                 new BukkitRunnable() {
                     int counter = 2;
 

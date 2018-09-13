@@ -21,10 +21,10 @@ public class BorderCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             if (player.hasPermission("citybuild.border"))
-                player.openInventory(coreSpigot.getServerManager().getBorderListener().getBorderInv());
+                player.openInventory(coreSpigot.getModuleManager().getBorderListener().getBorderInv());
             else
-                player.sendMessage(coreSpigot.getServerManager().getData().getNoPerm());
-        } else commandSender.sendMessage(coreSpigot.getServerManager().getData().getNoPerm());
+                player.sendMessage(coreSpigot.getModuleManager().getData().getNoPerm());
+        } else commandSender.sendMessage(coreSpigot.getModuleManager().getData().getNoPerm());
         return false;
     }
 }

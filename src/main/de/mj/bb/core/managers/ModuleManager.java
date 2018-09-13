@@ -1,4 +1,4 @@
-package main.de.mj.bb.core.utils;
+package main.de.mj.bb.core.managers;
 
 import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
@@ -8,13 +8,14 @@ import main.de.mj.bb.core.mysql.AsyncMySQL;
 import main.de.mj.bb.core.mysql.MySQLLoader;
 import main.de.mj.bb.core.mysql.ServerStatsAPI;
 import main.de.mj.bb.core.mysql.SettingsAPI;
+import main.de.mj.bb.core.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
-public class ServerManager {
+public class ModuleManager {
 
     private final CoreSpigot coreSpigot;
     private final String prefix = new Data().getPrefix();
@@ -25,8 +26,10 @@ public class ServerManager {
     //Commands
     private AFKCommand afkCommand;
     private BorderCommand borderCommand;
+    private CoreRestartCommand coreRestartCommand;
     private FlyCommand flyCommand;
     private SetLocCommand setLocCommand;
+    private SetPortalCommand portalCommand;
     private SetRangCommand setRangCommand;
     private SpawnCommand spawnCommand;
     private TPSCommand tpsCommand;
@@ -43,12 +46,17 @@ public class ServerManager {
     private LobbySwitcherListener lobbySwitcherListener;
     private MinionListener minionListener;
     private PlayerMoveListener playerMoveListener;
+    private PlayerPortalListener playerPortalListener;
     private QuitListener quitListener;
     private ScrollListener scrollListener;
     private ServerListener serverListener;
     private SettingsListener settingsListener;
     private StopReloadRestartListener stopReloadRestartListener;
     private YourProfileListener yourProfileListener;
+    //managers
+    private FileManager fileManager;
+    private PortalManager portalManager;
+    private ScoreboardManager scoreboardManager;
     //mysql
     private AsyncMySQL asyncMySQL;
     private AsyncMySQL.MySQL mySQL;
@@ -59,20 +67,20 @@ public class ServerManager {
     private ActionbarTimer actionbarTimer;
     private AutomaticClearLag automaticClearLag;
     private CrashFixer crashFixer;
-    private FileManager fileManager;
     private ItemCreator itemCreator;
     private LocationsUtil locationsUtil;
     private Particle particle;
     private PlayerRealTime playerRealTime;
+    private Portal portal;
     private SchedulerSaver schedulerSaver;
-    private ScoreboardManager scoreboardManager;
+    private CoreRestartScheduler coreRestartScheduler;
     private SetLocations setLocations;
     private TabList tabList;
     private TicksPerSecond ticksPerSecond;
     private Title title;
     private Data data;
 
-    public ServerManager(@NotNull CoreSpigot coreSpigot, ServerType serverType) {
+    public ModuleManager(@NotNull CoreSpigot coreSpigot, ServerType serverType) {
         this.coreSpigot = coreSpigot;
         this.serverType = serverType;
         sender = coreSpigot.getSender();
@@ -98,6 +106,8 @@ public class ServerManager {
             automaticClearLag.clearLagScheduler();
         }
         new ServerInfoCommand(coreSpigot);
+        coreRestartScheduler = new CoreRestartScheduler(coreSpigot);
+        coreRestartCommand = new CoreRestartCommand(coreSpigot);
 
         crashFixer = new CrashFixer(coreSpigot);
 
@@ -108,6 +118,12 @@ public class ServerManager {
             tpsCommand = new TPSCommand(coreSpigot);
             automaticClearLag = new AutomaticClearLag(coreSpigot);
             automaticClearLag.clearLagScheduler();
+            portalCommand = new SetPortalCommand(coreSpigot);
+            portalManager = new PortalManager(coreSpigot);
+            playerPortalListener = new PlayerPortalListener(coreSpigot);
+            portal = new Portal();
+            fileManager.loadPortalConfig();
+            portalManager.loadPortals();
 
             //init commands
             sender.sendMessage(prefix + "§fload Commands");
@@ -139,6 +155,8 @@ public class ServerManager {
 
             settingsAPI = new SettingsAPI(coreSpigot);
 
+            portalManager = new PortalManager(coreSpigot);
+
             //Utils
             sender.sendMessage(prefix + "§fload Utils");
             itemCreator = new ItemCreator();
@@ -149,6 +167,7 @@ public class ServerManager {
             setLocations = new SetLocations(coreSpigot);
             tabList = new TabList(coreSpigot);
 
+            fileManager.loadPortalConfig();
             afkListener.LocationTimer();
             mySQLLoader.loadConf();
             mySQLLoader.loadMySQL();
@@ -183,11 +202,20 @@ public class ServerManager {
         } else if (serverType.equals(ServerType.BAU_SERVER)) {
             data = new Data();
             tabList = new TabList(coreSpigot);
+            portalCommand = new SetPortalCommand(coreSpigot);
+            portalManager = new PortalManager(coreSpigot);
+            playerPortalListener = new PlayerPortalListener(coreSpigot);
+            portal = new Portal();
             tpsCommand = new TPSCommand(coreSpigot);
             joinListener = new JoinListener(coreSpigot);
             chatListener = new ChatListener(coreSpigot);
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
+            locationsUtil = new LocationsUtil();
+            setLocations = new SetLocations(coreSpigot);
+            setLocCommand = new SetLocCommand(coreSpigot);
+            fileManager.loadPortalConfig();
+            portalManager.loadPortals();
             tabList.loadTablist();
         } else if (serverType.equals(ServerType.BED_WARS)) {
             data = new Data();

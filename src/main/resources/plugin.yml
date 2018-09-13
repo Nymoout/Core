@@ -1,9 +1,9 @@
 name: BBCoreSpigot
-version: 5.5.1
+version: ${project.version}
 author: MJ
 
 main: main.de.mj.bb.core.CoreSpigot
-softdepend: [CoinsAPI, Vault, TimoCloud, VIPHide, LuckPerms, NetworkManagerBridge, FriendsAPIForPartyAndFriends, Clans-Spigot-Part, ProtocolLib, Skript]
+softdepend: [CoinsAPI, Vault, TimoCloud, VIPHide, LuckPerms, NetworkManager, FriendsAPIForPartyAndFriends, Clans-Spigot-Part, ProtocolLib, Skript]
 
 commands:
    afk:
@@ -16,3 +16,5 @@ commands:
    serverinfo:
    tps:
    bbreload:
+   corerestart:
+   setportal:

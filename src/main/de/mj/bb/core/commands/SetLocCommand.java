@@ -8,7 +8,7 @@
 package main.de.mj.bb.core.commands;
 
 import main.de.mj.bb.core.CoreSpigot;
-import main.de.mj.bb.core.utils.ServerManager;
+import main.de.mj.bb.core.managers.ModuleManager;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -40,17 +40,17 @@ public class SetLocCommand implements CommandExecutor {
 
     public void setLocation(String path, Player player) {
         Location loc = player.getLocation();
-        ServerManager serverManager = coreSpigot.getServerManager();
-        serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".world", loc.getWorld().getName());
-        serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".world", loc.getWorld().getName());
-        serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".x", loc.getX());
-        serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".y", loc.getY());
-        serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".z", loc.getZ());
-        serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".yaw", loc.getYaw());
-        serverManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".pitch", loc.getPitch());
+        ModuleManager moduleManager = coreSpigot.getModuleManager();
+        moduleManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".world", loc.getWorld().getName());
+        moduleManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".world", loc.getWorld().getName());
+        moduleManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".x", loc.getX());
+        moduleManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".y", loc.getY());
+        moduleManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".z", loc.getZ());
+        moduleManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".yaw", loc.getYaw());
+        moduleManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".pitch", loc.getPitch());
         try {
-            serverManager.getSetLocations().getYamlConfiguration().save(serverManager.getSetLocations().getFile());
-            player.sendMessage(serverManager.getData().getPrefix() + "§aLocation wurde erfolgreich gespeichert!");
+            moduleManager.getSetLocations().getYamlConfiguration().save(moduleManager.getSetLocations().getFile());
+            player.sendMessage(moduleManager.getData().getPrefix() + "§aLocation wurde erfolgreich gespeichert!");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

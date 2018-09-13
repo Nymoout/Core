@@ -27,18 +27,26 @@ public class QuitListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onQuit(PlayerQuitEvent quitEvent) {
-        coreSpigot.getServerManager().getMinionListener().rmMini(quitEvent.getPlayer());
-        if (coreSpigot.getServerManager().getServerType().equals(ServerType.LOBBY)) {
-            coreSpigot.getServerManager().getAfkListener().getAfkMover().remove(quitEvent.getPlayer());
+        coreSpigot.getModuleManager().getMinionListener().rmMini(quitEvent.getPlayer());
+        if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
+            coreSpigot.getModuleManager().getAfkListener().getAfkMover().remove(quitEvent.getPlayer());
+            if (coreSpigot.getModuleManager().getAfkListener().getRuns().containsKey(quitEvent.getPlayer())) {
+                coreSpigot.getModuleManager().getAfkListener().getRuns().get(quitEvent.getPlayer()).cancel();
+                coreSpigot.getModuleManager().getAfkListener().getRuns().remove(quitEvent.getPlayer());
+            }
         }
         quitEvent.setQuitMessage(null);
     }
 
     @EventHandler
     public void onKick(PlayerKickEvent kickEvent) {
-        coreSpigot.getServerManager().getMinionListener().rmMini(kickEvent.getPlayer());
-        if (coreSpigot.getServerManager().getServerType().equals(ServerType.LOBBY)) {
-            coreSpigot.getServerManager().getAfkListener().getAfkMover().remove(kickEvent.getPlayer());
+        coreSpigot.getModuleManager().getMinionListener().rmMini(kickEvent.getPlayer());
+        if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
+            coreSpigot.getModuleManager().getAfkListener().getAfkMover().remove(kickEvent.getPlayer());
+            if (coreSpigot.getModuleManager().getAfkListener().getRuns().containsKey(kickEvent.getPlayer())) {
+                coreSpigot.getModuleManager().getAfkListener().getRuns().get(kickEvent.getPlayer()).cancel();
+                coreSpigot.getModuleManager().getAfkListener().getRuns().remove(kickEvent.getPlayer());
+            }
         }
         kickEvent.setLeaveMessage(null);
     }

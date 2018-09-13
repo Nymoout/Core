@@ -15,39 +15,39 @@ public class AutomaticClearLag {
     }
 
     public void clearLagScheduler() {
-        coreSpigot.getServerManager().getSchedulerSaver().createScheduler(
+        coreSpigot.getModuleManager().getSchedulerSaver().createScheduler(
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        if (coreSpigot.getServerManager().getServerType().equals(ServerType.BAU_SERVER)) {
-                            if (coreSpigot.getServerManager().getTicksPerSecond().getTPS() < 19) {
+                        if (coreSpigot.getModuleManager().getServerType().equals(ServerType.BAU_SERVER)) {
+                            if (coreSpigot.getModuleManager().getTicksPerSecond().getTPS() < 19) {
                                 coreSpigot.getServer().getLogger().warning("TPS unter 19 ... Ausgewählte Entities werden gelöscht!");
                                 for (World world : Bukkit.getWorlds()) {
                                     for (Entity entity : Bukkit.getWorld(world.getName()).getEntities()) {
-                                        if (coreSpigot.getServerManager().getFileManager().getBooleanFormConfig("Animals")) {
+                                        if (coreSpigot.getModuleManager().getFileManager().getBooleanFormConfig("Animals")) {
                                             if (entity instanceof Animals) entity.remove();
                                         }
-                                        if (coreSpigot.getServerManager().getFileManager().getBooleanFormConfig("Monster")) {
+                                        if (coreSpigot.getModuleManager().getFileManager().getBooleanFormConfig("Monster")) {
                                             if (entity instanceof Monster) entity.remove();
                                         }
-                                        if (coreSpigot.getServerManager().getFileManager().getBooleanFormConfig("PrimedTNT")) {
+                                        if (coreSpigot.getModuleManager().getFileManager().getBooleanFormConfig("PrimedTNT")) {
                                             if (entity instanceof TNTPrimed) entity.remove();
                                         }
-                                        if (coreSpigot.getServerManager().getFileManager().getBooleanFormConfig("Arrows")) {
+                                        if (coreSpigot.getModuleManager().getFileManager().getBooleanFormConfig("Arrows")) {
                                             if (entity instanceof Arrow) entity.remove();
                                         }
-                                        if (coreSpigot.getServerManager().getFileManager().getBooleanFormConfig("Items")) {
+                                        if (coreSpigot.getModuleManager().getFileManager().getBooleanFormConfig("Items")) {
                                             if (entity instanceof Item) entity.remove();
                                         }
                                     }
                                 }
                             }
                         }
-                        if (coreSpigot.getServerManager().getServerType().equals(ServerType.LOBBY)) {
-                            if (coreSpigot.getServerManager().getTicksPerSecond().getTPS() < 18.5) {
-                                if (!coreSpigot.getServerManager().getStopReloadRestartListener().isRestarting()) {
-                                    coreSpigot.getServerManager().getStopReloadRestartListener().setRestarting(true);
-                                    coreSpigot.getServerManager().getStopReloadRestartListener().shutdown();
+                        if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
+                            if (coreSpigot.getModuleManager().getTicksPerSecond().getTPS() < 16) {
+                                if (!coreSpigot.getModuleManager().getStopReloadRestartListener().isRestarting()) {
+                                    coreSpigot.getModuleManager().getStopReloadRestartListener().setRestarting(true);
+                                    coreSpigot.getModuleManager().getStopReloadRestartListener().shutdown();
                                 }
                             }
                         }
