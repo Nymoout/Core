@@ -10,6 +10,7 @@ package main.de.mj.bb.core.listener;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import main.de.mj.bb.core.CoreSpigot;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,10 +27,15 @@ public class ServerListener implements Listener {
     }
 
     @EventHandler
-    public void onServerClick(InventoryClickEvent event) {
-        Player player = (Player) event.getWhoClicked();
-        if (event.getClickedInventory().getTitle().equals("§9§lOnline Server")) {
-            String server = event.getCurrentItem().getItemMeta().getDisplayName();
+    public void onServerClick(InventoryClickEvent clickEvent) {
+        if (clickEvent.getClickedInventory() == null) return;
+        if (clickEvent.getClickedInventory().getType() == null) return;
+        if (clickEvent.getCurrentItem() == null) return;
+        if (clickEvent.getCurrentItem().getType() == null) return;
+        if (clickEvent.getCurrentItem().getType().equals(Material.AIR)) return;
+        Player player = (Player) clickEvent.getWhoClicked();
+        if (clickEvent.getClickedInventory().getTitle().equals("§9§lOnline Server")) {
+            String server = clickEvent.getCurrentItem().getItemMeta().getDisplayName();
             System.out.println(server);
             player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§7§7Du betrittst nun den Server §6§l" + server);
             player.closeInventory();

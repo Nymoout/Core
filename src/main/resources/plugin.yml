@@ -18,3 +18,4 @@ commands:
    bbreload:
    corerestart:
    setportal:
+   autoban:

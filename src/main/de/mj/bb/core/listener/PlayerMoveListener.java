@@ -48,6 +48,19 @@ public class PlayerMoveListener implements Listener {
                     player.playEffect(player.getLocation(), Effect.LAVA_POP, null);
                 }
             }
+            if (player.getLocation().getBlock().getType().equals(Material.GOLD_PLATE)) {
+                if (coreSpigot.getModuleManager().getSettingsListener().getJumpPads().contains(player)) {
+                    if (getPlayerFacing(player).equals(PlayerFacing.SOUTH)) {
+                        Vector vector = player.getLocation().getDirection().setZ(10);
+                        player.setVelocity(vector);
+                        player.playSound(player.getLocation(), Sound.SPIDER_IDLE, 1, 1);
+                    } else if (getPlayerFacing(player).equals(PlayerFacing.NORTH)) {
+                        Vector vector = player.getLocation().getDirection().setZ(-10);
+                        player.setVelocity(vector);
+                        player.playSound(player.getLocation(), Sound.SPIDER_IDLE, 1, 1);
+                    }
+                }
+            }
         }
         if (player.getGameMode().equals(GameMode.CREATIVE)) {
             if (coreSpigot.getModuleManager().getSettingsListener().getWaterJump().contains(player)) {
@@ -66,6 +79,35 @@ public class PlayerMoveListener implements Listener {
                 }
             }
         }
+        if (player.getLocation().add(0, -2, 0).getBlock().getType().equals(Material.BEACON)) {
+            Vector vector = player.getLocation().getDirection().setY(120);
+            player.setVelocity(vector);
+        }
+        if (!(player.getVelocity().getY() < 0)) {
+            if (player.getLocation().getY() >= 90 && player.getLocation().getY() <= 100 && player.getLocation().getX() <= 0.9 && player.getLocation().getZ() <= 0.9 && player.getLocation().getX() >= -0.9 && player.getLocation().getZ() >= -0.9) {
+                player.teleport(new Location(player.getWorld(), -1, 194, -2, 80, 0));
+            }
+        }
+    }
+
+    private PlayerFacing getPlayerFacing(Player player) {
+        float yaw = player.getLocation().getYaw();
+        if (yaw < 0) {
+            yaw += 360;
+        }
+        if (yaw >= 315 || yaw < 45)
+            return PlayerFacing.SOUTH;
+        else if (yaw < 135)
+            return PlayerFacing.WEST;
+        else if (yaw < 225)
+            return PlayerFacing.NORTH;
+        else if (yaw < 315)
+            return PlayerFacing.EAST;
+        return PlayerFacing.NORTH;
+    }
+
+    public enum PlayerFacing {
+        WEST, NORTH, EAST, SOUTH
     }
 
 }

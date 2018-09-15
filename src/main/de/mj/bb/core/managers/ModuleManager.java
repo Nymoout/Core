@@ -45,6 +45,7 @@ public class ModuleManager {
     private JoinListener joinListener;
     private LobbySwitcherListener lobbySwitcherListener;
     private MinionListener minionListener;
+    private MusicListener musicListener;
     private PlayerMoveListener playerMoveListener;
     private PlayerPortalListener playerPortalListener;
     private QuitListener quitListener;
@@ -145,6 +146,7 @@ public class ModuleManager {
             joinListener = new JoinListener(coreSpigot);
             lobbySwitcherListener = new LobbySwitcherListener(coreSpigot);
             minionListener = new MinionListener(coreSpigot);
+            musicListener = new MusicListener(coreSpigot);
             playerMoveListener = new PlayerMoveListener(coreSpigot);
             quitListener = new QuitListener(coreSpigot);
             scrollListener = new ScrollListener(coreSpigot);

@@ -103,12 +103,13 @@ public class JoinListener implements Listener {
             player.getInventory().clear();
 
             player.getInventory().setItem(4,
-                    coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.COMPASS, 0, 1, "§8\u00BB§7§lNavigator§8\u00AB", null));
+                    coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.COMPASS, 0, 1, "§8\u00BB§7§lNavigator§8\u00AB"));
             player.getInventory().setItem(1, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.REDSTONE_COMPARATOR, 0, 1,
-                    "§8\u00BB§6§lEinstellungen§8\u00AB", null));
+                    "§8\u00BB§6§lEinstellungen§8\u00AB"));
+            player.getInventory().setItem(2, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.JUKEBOX, 0, 1, "§8\u00BB§a§lRadio§8\u00AB"));
             player.getInventory().setItem(7,
-                    coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.NETHER_STAR, 0, 1, "§8\u00BB§f§lLobby-Switcher§8\u00AB", null));
-            player.getInventory().setItem(0, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.ARMOR_STAND, 0, 1, "§8\u00BB§3§lDein Minion§8\u00AB", null));
+                    coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.NETHER_STAR, 0, 1, "§8\u00BB§f§lLobby-Switcher§8\u00AB"));
+            player.getInventory().setItem(0, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.ARMOR_STAND, 0, 1, "§8\u00BB§3§lDein Minion§8\u00AB"));
 
             ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
             ItemMeta im = is.getItemMeta();

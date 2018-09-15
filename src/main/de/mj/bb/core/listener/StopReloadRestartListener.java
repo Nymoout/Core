@@ -64,17 +64,20 @@ public class StopReloadRestartListener implements Listener {
     }
 
     @EventHandler
-    public void onClick(InventoryClickEvent e) {
-        if (e.getClickedInventory() == null) return;
-        if (e.getCurrentItem().getType().equals(Material.AIR)) return;
-        if (e.getInventory().getTitle().contains("SERVERNEUSTART")) {
-            Player p = (Player) e.getWhoClicked();
-            if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aJa")) {
+    public void onClick(InventoryClickEvent clickEvent) {
+        if (clickEvent.getClickedInventory() == null) return;
+        if (clickEvent.getClickedInventory().getType() == null) return;
+        if (clickEvent.getCurrentItem() == null) return;
+        if (clickEvent.getCurrentItem().getType() == null) return;
+        if (clickEvent.getCurrentItem().getType().equals(Material.AIR)) return;
+        if (clickEvent.getInventory().getTitle().contains("SERVERNEUSTART")) {
+            Player p = (Player) clickEvent.getWhoClicked();
+            if (clickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aJa")) {
                 p.closeInventory();
                 p.sendMessage("§aDu hast einen Serverneustart initialisiert!");
                 if (!isRestarting) shutdown();
                 isRestarting = true;
-            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§cNein")) {
+            } else if (clickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§cNein")) {
                 p.closeInventory();
             }
         }

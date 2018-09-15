@@ -71,28 +71,31 @@ public class LobbySwitcherListener implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent clickEvent) {
-        if (clickEvent.getWhoClicked() == null) return;
-        if (clickEvent.getCurrentItem().getType().equals(Material.AIR)) return;
+        if (clickEvent.getClickedInventory() == null) return;
         if (clickEvent.getClickedInventory().getType() == null) return;
+        if (clickEvent.getCurrentItem() == null) return;
+        if (clickEvent.getCurrentItem().getType() == null) return;
+        if (clickEvent.getCurrentItem().getType().equals(Material.AIR)) return;
+        if (!clickEvent.getCurrentItem().getType().equals(Material.INK_SACK)) return;
         Player player = (Player) clickEvent.getWhoClicked();
-            if (clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Lobby")
-                    && !clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Silent")) {
-                String[] lobby = clickEvent.getCurrentItem().getItemMeta().getDisplayName().split("-");
-                String server = "Lobby-" + lobby[1];
-                String[] splitserver = player.getServer().getServerName().split("-");
-                int serverid = Integer.parseInt(splitserver[1]);
-                int lobbyid = Integer.parseInt(lobby[1]);
-                if (lobbyid == serverid) {
-                    player.sendMessage("§7[§6§lBattleBuild§7] §7Du bist bereits mit diesem Server verbunden!");
-                } else {
-                    player.sendMessage("§7[§6§lBattleBuild§7] §7§7Du betrittst nun den Server §6§lLobby-" + lobby[1]);
-                    player.closeInventory();
-                    ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                    out.writeUTF("Connect");
-                    out.writeUTF(server);
-                    player.sendPluginMessage(this.coreSpigot, "BungeeCord", out.toByteArray());
-                }
+        if (clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Lobby")
+                && !clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Silent")) {
+            String[] lobby = clickEvent.getCurrentItem().getItemMeta().getDisplayName().split("-");
+            String server = "Lobby-" + lobby[1];
+            String[] splitserver = player.getServer().getServerName().split("-");
+            int serverid = Integer.parseInt(splitserver[1]);
+            int lobbyid = Integer.parseInt(lobby[1]);
+            if (lobbyid == serverid) {
+                player.sendMessage("§7[§6§lBattleBuild§7] §7Du bist bereits mit diesem Server verbunden!");
+            } else {
+                player.sendMessage("§7[§6§lBattleBuild§7] §7§7Du betrittst nun den Server §6§lLobby-" + lobby[1]);
+                player.closeInventory();
+                ByteArrayDataOutput out = ByteStreams.newDataOutput();
+                out.writeUTF("Connect");
+                out.writeUTF(server);
+                player.sendPluginMessage(this.coreSpigot, "BungeeCord", out.toByteArray());
             }
+        } else return;
     }
 
     @SuppressWarnings("deprecation")

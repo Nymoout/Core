@@ -6,7 +6,7 @@
 
     <groupId>de.mj.BattleBuild.core</groupId>
     <artifactId>Core</artifactId>
-    <version>5.5.6.3</version>
+    <version>5.5.8.0</version>
     <packaging>jar</packaging>
 
     <build>
@@ -97,7 +97,7 @@
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>Vault</artifactId>
-            <version>1.6.7</version>
+            <version>1.7.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

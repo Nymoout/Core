@@ -131,6 +131,7 @@ public class CoreSpigot extends JavaPlugin {
                 sender.sendMessage("§bServername: §3" + Bukkit.getServerName());
                 sender.sendMessage("§5§lVersion: §b" + Bukkit.getBukkitVersion());
                 sender.sendMessage("§6§lPlugin-Version: §e" + coreSpigot.getDescription().getVersion());
+                sender.sendMessage("§4§lTPS: §c" + moduleManager.getTicksPerSecond().getTPS());
                 sender.sendMessage("§8§m--------------------------------------------§r");
             }
         }.runTaskTimer(this, 0L, 20L * 60 * 5);

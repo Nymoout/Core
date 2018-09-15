@@ -110,20 +110,22 @@ public class SettingsListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent interactEvent) {
+        if (interactEvent.getItem() == null) return;
+        if (interactEvent.getItem().getType() == null) return;
+        if (interactEvent.getItem().getType().equals(Material.AIR)) return;
+        if (!(interactEvent.getAction().equals(Action.RIGHT_CLICK_AIR) || interactEvent.getAction().equals(Action.RIGHT_CLICK_BLOCK) || interactEvent.getAction().equals(Action.LEFT_CLICK_AIR) || interactEvent.getAction().equals(Action.LEFT_CLICK_BLOCK)))
+            return;
         Player player = interactEvent.getPlayer();
-        if (interactEvent.getAction().equals(Action.LEFT_CLICK_AIR) || interactEvent.getAction().equals(Action.LEFT_CLICK_BLOCK)
-                || interactEvent.getAction().equals(Action.RIGHT_CLICK_AIR) || interactEvent.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-            if (player.getItemInHand().getType().equals(Material.REDSTONE_COMPARATOR) && player.getItemInHand().getItemMeta().getDisplayName().equals("§8\u00BB§6§lEinstellungen§8\u00AB")) {
-                if (invent1.containsKey(player)) {
-                    player.openInventory(invent1.get(player));
-                } else {
-                    setInv(player);
-                    player.openInventory(invent1.get(player));
-                }
-            } else if (player.getInventory().getName().equals("§8§lMain Menu")) {
-                player.getInventory().setItem(31, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.ARMOR_STAND, 0, 1,
-                        "§9§lM§e§li§9§ln§e§li§9§lo§e§ln§9§ls", null));
+        if (player.getItemInHand().getType().equals(Material.REDSTONE_COMPARATOR) && player.getItemInHand().getItemMeta().getDisplayName().equals("§8\u00BB§6§lEinstellungen§8\u00AB")) {
+            if (invent1.containsKey(player)) {
+                player.openInventory(invent1.get(player));
+            } else {
+                setInv(player);
+                player.openInventory(invent1.get(player));
             }
+        } else if (player.getInventory().getName().equals("§8§lMain Menu")) {
+            player.getInventory().setItem(31, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.ARMOR_STAND, 0, 1,
+                    "§9§lM§e§li§9§ln§e§li§9§lo§e§ln§9§ls", null));
         }
     }
 
@@ -338,311 +340,304 @@ public class SettingsListener implements Listener {
 
     @EventHandler
     public void SettingsMenue(InventoryClickEvent clickEvent) {
-        if (clickEvent.getCurrentItem().getType().equals(Material.AIR) || clickEvent.getCurrentItem().getType() == null)
-            return;
+        if (clickEvent.getClickedInventory() == null) return;
         if (clickEvent.getClickedInventory().getType() == null) return;
+        if (clickEvent.getCurrentItem() == null) return;
+        if (clickEvent.getCurrentItem().getType() == null) return;
+        if (clickEvent.getCurrentItem().getType().equals(Material.AIR)) return;
         ModuleManager lobby = this.coreSpigot.getModuleManager();
         Player player = (Player) clickEvent.getWhoClicked();
         lobby.getScoreboardManager().setScoreboard(player);
-        try {
-            if (clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§2§lSilent-Lobby")
-                    && clickEvent.getCurrentItem().getType().equals(Material.ARROW)) {
-                if (player.hasPermission("coreSpigot.silent")) {
-                    if (!silentState.contains(player)) {
-                        silentState.add(player);
-                        lobby.getSettingsAPI().setSilent(player, true);
-                        Inventory inv = invent1.get(player);
-                        inv.setItem(26,
-                                lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
-                        player.updateInventory();
-                        player.sendMessage(lobby.getData().getPrefix() + "§aDu hast die §2Silent-Lobby §abetreten!");
-                    } else {
-                        lobby.getSettingsAPI().setSilent(player, false);
-                        silentState.remove(player);
-                        Inventory inv = invent1.get(player);
-                        inv.setItem(26, lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1,
-                                "§cDEAKTIVIERT", null));
-                        player.updateInventory();
-                        player.sendMessage(lobby.getData().getPrefix() + "§cDu hast die §4Silen-Lobby §cverlassen!");
-                    }
-                } else {
-                    player.sendMessage(lobby.getData().getPrefix()
-                            + "§cDu benötigst mindestens den Rang VIP+, um dieses Feature nutzen zu können!");
-                }
-            } else if (clickEvent.getCursor().getType().equals(Material.BLAZE_ROD)
-                    || clickEvent.getCurrentItem().getType().equals(Material.BLAZE_ROD) && !clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Fun")) {
-                try {
-                    player.playSound(player.getLocation(), Sound.NOTE_PIANO, 1, 1);
-                    player.performCommand("hide");
-                } catch (Exception ex) {
-
-                }
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.STAINED_GLASS)) {
-                player.openInventory(Design());
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.TRIPWIRE_HOOK)
-                    && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§3§lRide on me")) {
-                if (rideState.contains(player)) {
-                    player.sendMessage(lobby.getData().getPrefix() + "§cDu hast das §4Ride on me §cFeature deaktiviert!");
-                    rideState.remove(player);
-                    invent1.get(player).setItem(35,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
-                    lobby.getSettingsAPI().setRide(player, false);
-                    player.updateInventory();
-                } else {
-                    player.sendMessage(lobby.getData().getPrefix() + "§aDu hast das §2Ride on me §aFeature aktiviert!");
-                    rideState.add(player);
-                    invent1.get(player).setItem(35,
+        if (clickEvent.getCurrentItem().getItemMeta().getDisplayName() == null) return;
+        if (!(clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Main"))
+                && clickEvent.getCurrentItem().getType().equals(Material.ARROW)) {
+            if (player.hasPermission("coreSpigot.silent")) {
+                if (!silentState.contains(player)) {
+                    silentState.add(player);
+                    lobby.getSettingsAPI().setSilent(player, true);
+                    Inventory inv = invent1.get(player);
+                    inv.setItem(26,
                             lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
-                    lobby.getSettingsAPI().setRide(player, true);
                     player.updateInventory();
-                }
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.WATCH)
-                    && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§6§lEcht§9§lzeit")) {
-                if (player.getOpenInventory().getItem(26).getItemMeta().getDisplayName().equalsIgnoreCase("§6Echt§9zeit")) {
-                    realTime.remove(player);
-                    day.add(player);
-                    invent2.get(player).setItem(26,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 4, 1, "§6Tag"));
-                    lobby.getSettingsAPI().setRealTime(player, false, true);
-                    player.updateInventory();
-                } else if (player.getOpenInventory().getItem(26).getItemMeta().getDisplayName().equalsIgnoreCase("§6Tag")) {
-                    day.remove(player);
-                    invent2.get(player).setItem(26,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 11, 1, "§9Nacht"));
-                    lobby.getSettingsAPI().setRealTime(player, false, false);
-                    player.updateInventory();
-                } else if (player.getOpenInventory().getItem(26).getItemMeta().getDisplayName().equalsIgnoreCase("§9Nacht")) {
-                    realTime.add(player);
-                    invent2.get(player).setItem(26,
-                            lobby.getItemCreator().createItemWithMaterial(Material.DAYLIGHT_DETECTOR, 0, 1, "§6Echt§9zeit"));
-                    lobby.getSettingsAPI().setRealTime(player, true, false);
-                    player.updateInventory();
-                }
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.SKULL_ITEM)
-                    && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§6Nächste Seite")) {
-                if (player.getOpenInventory().getItem(40).getItemMeta().getDisplayName().equalsIgnoreCase("§6§lSeite §a§l2§6§l/§a§l3")) {
-                    player.openInventory(invent3.get(player));
+                    player.sendMessage(lobby.getData().getPrefix() + "§aDu hast die §2Silent-Lobby §abetreten!");
                 } else {
-                    player.openInventory(invent2.get(player));
+                    lobby.getSettingsAPI().setSilent(player, false);
+                    silentState.remove(player);
+                    Inventory inv = invent1.get(player);
+                    inv.setItem(26, lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1,
+                            "§cDEAKTIVIERT", null));
+                    player.updateInventory();
+                    player.sendMessage(lobby.getData().getPrefix() + "§cDu hast die §4Silen-Lobby §cverlassen!");
                 }
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.SKULL_ITEM)
-                    && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§6Vorherige Seite")) {
-                if (player.getOpenInventory().getItem(40).getItemMeta().getDisplayName().equalsIgnoreCase("§6§lSeite §a§l3§6§l/§a§l3")) {
-                    player.openInventory(invent2.get(player));
-                } else {
-                    player.openInventory(invent1.get(player));
-                }
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.WATER_BUCKET)
-                    && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§b§lWetter")) {
-                if (weather.contains(player)) {
-                    weather.remove(player);
-                    invent2.get(player).setItem(35,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 11, 1, "§9Regen/Schnee"));
-                    player.setPlayerWeather(WeatherType.DOWNFALL);
-                    lobby.getSettingsAPI().setWeather(player, false);
-                    player.updateInventory();
-                } else {
-                    weather.add(player);
-                    invent2.get(player).setItem(35,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 4, 1, "§6Sonne"));
-                    player.setPlayerWeather(WeatherType.CLEAR);
-                    lobby.getSettingsAPI().setWeather(player, true);
-                    player.updateInventory();
-                }
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.LAVA_BUCKET)
-                    && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§2§lJump on Liquid")) {
-                if (waterJump.contains(player)) {
-                    waterJump.remove(player);
-                    invent3.get(player).setItem(35,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
-                    lobby.getSettingsAPI().setWJUMP(player, false);
-                    player.updateInventory();
-                } else {
-                    waterJump.add(player);
-                    invent3.get(player).setItem(35,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
-                    lobby.getSettingsAPI().setWJUMP(player, true);
-                    player.updateInventory();
-                }
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.FEATHER)
-                    && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§f§lDoubleJump")) {
-                if (doubleJump.contains(player)) {
-                    doubleJump.remove(player);
-                    invent3.get(player).setItem(26,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
-                    lobby.getSettingsAPI().setDJUMP(player, false);
-                    player.updateInventory();
-                } else {
-                    doubleJump.add(player);
-                    invent3.get(player).setItem(26,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
-                    lobby.getSettingsAPI().setDJUMP(player, true);
-                    player.updateInventory();
-                }
+            } else {
+                player.sendMessage(lobby.getData().getPrefix()
+                        + "§cDu benötigst mindestens den Rang VIP+, um dieses Feature nutzen zu können!");
             }
-            if (player.getInventory().getName().equals("§8§lMain Menu")) {
-                player.getInventory().setItem(31, lobby.getItemCreator().createItemWithMaterial(Material.ARMOR_STAND, 0, 1,
-                        "§9§lM§e§li§9§ln§e§li§9§lo§e§ln§9§ls", null));
+        } else if (clickEvent.getCursor().getType().equals(Material.BLAZE_ROD)
+                || clickEvent.getCurrentItem().getType().equals(Material.BLAZE_ROD) && !clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Fun")) {
+            player.playSound(player.getLocation(), Sound.NOTE_PIANO, 1, 1);
+            player.performCommand("hide");
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.STAINED_GLASS)) {
+            player.openInventory(Design());
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.TRIPWIRE_HOOK)
+                && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§3§lRide on me")) {
+            if (rideState.contains(player)) {
+                player.sendMessage(lobby.getData().getPrefix() + "§cDu hast das §4Ride on me §cFeature deaktiviert!");
+                rideState.remove(player);
+                invent1.get(player).setItem(35,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
+                lobby.getSettingsAPI().setRide(player, false);
+                player.updateInventory();
+            } else {
+                player.sendMessage(lobby.getData().getPrefix() + "§aDu hast das §2Ride on me §aFeature aktiviert!");
+                rideState.add(player);
+                invent1.get(player).setItem(35,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
+                lobby.getSettingsAPI().setRide(player, true);
+                player.updateInventory();
             }
-        } catch (NullPointerException ex) {
-            ex.printStackTrace();
-        }
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.WATCH)
+                && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§6§lEcht§9§lzeit")) {
+            if (player.getOpenInventory().getItem(26).getItemMeta().getDisplayName().equalsIgnoreCase("§6Echt§9zeit")) {
+                realTime.remove(player);
+                day.add(player);
+                invent2.get(player).setItem(26,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 4, 1, "§6Tag"));
+                lobby.getSettingsAPI().setRealTime(player, false, true);
+                player.updateInventory();
+            } else if (player.getOpenInventory().getItem(26).getItemMeta().getDisplayName().equalsIgnoreCase("§6Tag")) {
+                day.remove(player);
+                invent2.get(player).setItem(26,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 11, 1, "§9Nacht"));
+                lobby.getSettingsAPI().setRealTime(player, false, false);
+                player.updateInventory();
+            } else if (player.getOpenInventory().getItem(26).getItemMeta().getDisplayName().equalsIgnoreCase("§9Nacht")) {
+                realTime.add(player);
+                invent2.get(player).setItem(26,
+                        lobby.getItemCreator().createItemWithMaterial(Material.DAYLIGHT_DETECTOR, 0, 1, "§6Echt§9zeit"));
+                lobby.getSettingsAPI().setRealTime(player, true, false);
+                player.updateInventory();
+            }
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.SKULL_ITEM)
+                && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§6Nächste Seite")) {
+            if (player.getOpenInventory().getItem(40).getItemMeta().getDisplayName().equalsIgnoreCase("§6§lSeite §a§l2§6§l/§a§l3")) {
+                player.openInventory(invent3.get(player));
+            } else {
+                player.openInventory(invent2.get(player));
+            }
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.SKULL_ITEM)
+                && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§6Vorherige Seite")) {
+            if (player.getOpenInventory().getItem(40).getItemMeta().getDisplayName().equalsIgnoreCase("§6§lSeite §a§l3§6§l/§a§l3")) {
+                player.openInventory(invent2.get(player));
+            } else {
+                player.openInventory(invent1.get(player));
+            }
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.WATER_BUCKET)
+                && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§b§lWetter")) {
+            if (weather.contains(player)) {
+                weather.remove(player);
+                invent2.get(player).setItem(35,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 11, 1, "§9Regen/Schnee"));
+                player.setPlayerWeather(WeatherType.DOWNFALL);
+                lobby.getSettingsAPI().setWeather(player, false);
+                player.updateInventory();
+            } else {
+                weather.add(player);
+                invent2.get(player).setItem(35,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 4, 1, "§6Sonne"));
+                player.setPlayerWeather(WeatherType.CLEAR);
+                lobby.getSettingsAPI().setWeather(player, true);
+                player.updateInventory();
+            }
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.LAVA_BUCKET)
+                && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§2§lJump on Liquid")) {
+            if (waterJump.contains(player)) {
+                waterJump.remove(player);
+                invent3.get(player).setItem(35,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
+                lobby.getSettingsAPI().setWJUMP(player, false);
+                player.updateInventory();
+            } else {
+                waterJump.add(player);
+                invent3.get(player).setItem(35,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
+                lobby.getSettingsAPI().setWJUMP(player, true);
+                player.updateInventory();
+            }
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.FEATHER)
+                && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§f§lDoubleJump")) {
+            if (doubleJump.contains(player)) {
+                doubleJump.remove(player);
+                invent3.get(player).setItem(26,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
+                lobby.getSettingsAPI().setDJUMP(player, false);
+                player.updateInventory();
+            } else {
+                doubleJump.add(player);
+                invent3.get(player).setItem(26,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
+                lobby.getSettingsAPI().setDJUMP(player, true);
+                player.updateInventory();
+            }
+        } else return;
     }
 
     @EventHandler
     public void DesingMenue(InventoryClickEvent clickEvent) {
+        if (clickEvent.getClickedInventory() == null) return;
+        if (clickEvent.getClickedInventory().getType() == null) return;
+        if (clickEvent.getCurrentItem() == null) return;
+        if (clickEvent.getCurrentItem().getType() == null) return;
+        if (clickEvent.getCurrentItem().getType().equals(Material.AIR)) return;
         Player player = (Player) clickEvent.getWhoClicked();
-        try {
-            if (clickEvent.getCurrentItem().getType().equals(Material.STAINED_GLASS)
-                    && !clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Design")
-                    && !clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Spawn")) {
-                short i = clickEvent.getCurrentItem().getDurability();
-                design.put(player, i);
-                coreSpigot.getModuleManager().getSettingsAPI().setColor(player, i);
-                ItemColToString(player);
-                player.closeInventory();
-                new BukkitRunnable() {
-                    int a = 1;
+        if (clickEvent.getCurrentItem().getType().equals(Material.STAINED_GLASS)
+                && !clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Design")
+                && !clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Spawn")) {
+            short i = clickEvent.getCurrentItem().getDurability();
+            design.put(player, i);
+            coreSpigot.getModuleManager().getSettingsAPI().setColor(player, i);
+            ItemColToString(player);
+            player.closeInventory();
+            new BukkitRunnable() {
+                int a = 1;
 
-                    @Override
-                    public void run() {
-                        if (a > 0) {
-                            setInv(player);
-                            a--;
-                        } else {
-                            this.cancel();
-                        }
+                @Override
+                public void run() {
+                    if (a > 0) {
+                        setInv(player);
+                        a--;
+                    } else {
+                        this.cancel();
                     }
-                }.runTaskTimer(coreSpigot, 0L, 10L);
-                setInv(player);
-            }
-        } catch (NullPointerException ex) {
-            ex.printStackTrace();
+                }
+            }.runTaskTimer(coreSpigot, 0L, 10L);
+            setInv(player);
         }
     }
 
     @SuppressWarnings("deprecation")
     @EventHandler
     public void onScore(InventoryClickEvent clickEvent) {
+        if (clickEvent.getClickedInventory() == null) return;
+        if (clickEvent.getClickedInventory().getType() == null) return;
+        if (clickEvent.getCurrentItem() == null) return;
+        if (clickEvent.getCurrentItem().getType() == null) return;
+        if (clickEvent.getCurrentItem().getType().equals(Material.AIR)) return;
         ModuleManager lobby = this.coreSpigot.getModuleManager();
         Player player = (Player) clickEvent.getWhoClicked();
-        try {
-            if (clickEvent.getCurrentItem().getTypeId() == 323
-                    && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§5§lScorboard")) {
-                if (score1.containsKey(player)) {
-                    player.openInventory(score1.get(player));
-                } else {
-                    setScore(player);
-                    player.openInventory(score1.get(player));
-                }
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.SKULL_ITEM)
-                    && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§aNächste Seite")) {
-                player.openInventory(score2.get(player));
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.SKULL_ITEM)
-                    && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§aVorherige Seite")) {
+        if (clickEvent.getCurrentItem().getTypeId() == 323
+                && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§5§lScorboard")) {
+            if (score1.containsKey(player)) {
                 player.openInventory(score1.get(player));
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.SKULL_ITEM)
-                    && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§9§lFreunde")) {
-                if (scoreFriends.contains(player)) {
-                    scoreFriends.remove(player);
-                    score1.get(player).setItem(17,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
-                    lobby.getSettingsAPI().setFriends(player, false);
-                    player.updateInventory();
-                } else {
-                    scoreFriends.add(player);
-                    score1.get(player).setItem(17,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
-                    lobby.getSettingsAPI().setFriends(player, true);
-                    player.updateInventory();
-                }
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.GOLD_INGOT)
-                    && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§6§lCoins")) {
-                if (scoreCoins.contains(player)) {
-                    scoreCoins.remove(player);
-                    score1.get(player).setItem(26,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
-                    lobby.getSettingsAPI().setCoins(player, false);
-                    player.updateInventory();
-                } else {
-                    scoreCoins.add(player);
-                    score1.get(player).setItem(26,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
-                    lobby.getSettingsAPI().setCoins(player, true);
-                    player.updateInventory();
-                }
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.REDSTONE)
-                    && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§c§lRang")) {
-                if (scoreRank.contains(player)) {
-                    scoreRank.remove(player);
-                    score1.get(player).setItem(35,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
-                    lobby.getSettingsAPI().setRang(player, false);
-                    player.updateInventory();
-                } else {
-                    scoreRank.add(player);
-                    score1.get(player).setItem(35,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
-                    lobby.getSettingsAPI().setRang(player, true);
-                    player.updateInventory();
-                }
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.ENDER_CHEST)
-                    && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§2§lClan")) {
-                if (scoreClan.contains(player)) {
-                    scoreClan.remove(player);
-                    score2.get(player).setItem(17,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
-                    lobby.getSettingsAPI().setClan(player, false);
-                    player.updateInventory();
-                } else {
-                    scoreClan.add(player);
-                    score2.get(player).setItem(17,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
-                    lobby.getSettingsAPI().setClan(player, true);
-                    player.updateInventory();
-                }
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.NETHER_STAR)
-                    && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§f§lServer")) {
-                if (scoreServer.contains(player)) {
-                    scoreServer.remove(player);
-                    score2.get(player).setItem(26,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
-                    lobby.getSettingsAPI().setServer(player, false);
-                    player.updateInventory();
-                } else {
-                    scoreServer.add(player);
-                    score2.get(player).setItem(26,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
-                    lobby.getSettingsAPI().setServer(player, true);
-                    player.updateInventory();
-                }
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.GOLD_PLATE)
-                    && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§5§lJumpPad")) {
-                if (jumpPads.contains(player)) {
-                    jumpPads.remove(player);
-                    invent3.get(player).setItem(17,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
-                    lobby.getSettingsAPI().setPJUMP(player, false);
-
-                } else {
-                    jumpPads.add(player);
-                    invent3.get(player).setItem(17,
-                            lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
-                    lobby.getSettingsAPI().setPJUMP(player, true);
-                }
-            } else if (clickEvent.getCurrentItem().getType().equals(Material.WATCH) && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§6Online-Zeit")) {
-                if (time.contains(player)) {
-                    time.remove(player);
-                    score2.get(player).setItem(35, lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
-                    lobby.getSettingsAPI().setTime(player, false);
-                } else {
-                    time.add(player);
-                    score2.get(player).setItem(35, lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
-                    lobby.getSettingsAPI().setTime(player, true);
-                }
+            } else {
+                setScore(player);
+                player.openInventory(score1.get(player));
             }
-        } catch (NullPointerException ex) {
-            ex.printStackTrace();
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.SKULL_ITEM)
+                && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§aNächste Seite")) {
+            player.openInventory(score2.get(player));
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.SKULL_ITEM)
+                && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§aVorherige Seite")) {
+            player.openInventory(score1.get(player));
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.SKULL_ITEM)
+                && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§9§lFreunde")) {
+            if (scoreFriends.contains(player)) {
+                scoreFriends.remove(player);
+                score1.get(player).setItem(17,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
+                lobby.getSettingsAPI().setFriends(player, false);
+                player.updateInventory();
+            } else {
+                scoreFriends.add(player);
+                score1.get(player).setItem(17,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
+                lobby.getSettingsAPI().setFriends(player, true);
+                player.updateInventory();
+            }
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.GOLD_INGOT)
+                && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§6§lCoins")) {
+            if (scoreCoins.contains(player)) {
+                scoreCoins.remove(player);
+                score1.get(player).setItem(26,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
+                lobby.getSettingsAPI().setCoins(player, false);
+                player.updateInventory();
+            } else {
+                scoreCoins.add(player);
+                score1.get(player).setItem(26,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
+                lobby.getSettingsAPI().setCoins(player, true);
+                player.updateInventory();
+            }
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.REDSTONE)
+                && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§c§lRang")) {
+            if (scoreRank.contains(player)) {
+                scoreRank.remove(player);
+                score1.get(player).setItem(35,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
+                lobby.getSettingsAPI().setRang(player, false);
+                player.updateInventory();
+            } else {
+                scoreRank.add(player);
+                score1.get(player).setItem(35,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
+                lobby.getSettingsAPI().setRang(player, true);
+                player.updateInventory();
+            }
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.ENDER_CHEST)
+                && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§2§lClan")) {
+            if (scoreClan.contains(player)) {
+                scoreClan.remove(player);
+                score2.get(player).setItem(17,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
+                lobby.getSettingsAPI().setClan(player, false);
+                player.updateInventory();
+            } else {
+                scoreClan.add(player);
+                score2.get(player).setItem(17,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
+                lobby.getSettingsAPI().setClan(player, true);
+                player.updateInventory();
+            }
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.NETHER_STAR)
+                && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§f§lServer")) {
+            if (scoreServer.contains(player)) {
+                scoreServer.remove(player);
+                score2.get(player).setItem(26,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
+                lobby.getSettingsAPI().setServer(player, false);
+                player.updateInventory();
+            } else {
+                scoreServer.add(player);
+                score2.get(player).setItem(26,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
+                lobby.getSettingsAPI().setServer(player, true);
+                player.updateInventory();
+            }
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.GOLD_PLATE)
+                && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§5§lJumpPad")) {
+            if (jumpPads.contains(player)) {
+                jumpPads.remove(player);
+                invent3.get(player).setItem(17,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
+                lobby.getSettingsAPI().setPJUMP(player, false);
+
+            } else {
+                jumpPads.add(player);
+                invent3.get(player).setItem(17,
+                        lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
+                lobby.getSettingsAPI().setPJUMP(player, true);
+            }
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.WATCH) && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§6Online-Zeit")) {
+            if (time.contains(player)) {
+                time.remove(player);
+                score2.get(player).setItem(35, lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 14, 1, "§cDEAKTIVIERT"));
+                lobby.getSettingsAPI().setTime(player, false);
+            } else {
+                time.add(player);
+                score2.get(player).setItem(35, lobby.getItemCreator().createItemWithMaterial(Material.STAINED_CLAY, 5, 1, "§aAKTIVIERT"));
+                lobby.getSettingsAPI().setTime(player, true);
+            }
         }
     }
 
@@ -784,15 +779,13 @@ public class SettingsListener implements Listener {
         if (damageByEntityEvent.getEntity() instanceof Player) {
             Player rider = (Player) damageByEntityEvent.getEntity();
             Player hider = (Player) damageByEntityEvent.getDamager();
-            try {
-                if (hider.getPassenger().equals(rider)) {
-                    Vector v = rider.getLocation().getDirection();
-                    v.setY(1.2);
-                    rider.leaveVehicle();
-                    rider.setVelocity(v);
-                }
-            } catch (NullPointerException ex) {
-                ex.printStackTrace();
+            if (hider.getPassenger() == null) return;
+            if (hider.getPassenger().isEmpty()) return;
+            if (hider.getPassenger().equals(rider)) {
+                Vector v = rider.getLocation().getDirection();
+                v.setY(1.2);
+                rider.leaveVehicle();
+                rider.setVelocity(v);
             }
         }
     }

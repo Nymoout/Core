@@ -44,46 +44,48 @@ public class MinionListener implements Listener {
 
     @EventHandler
     public void createMinion(PlayerInteractEvent interactEvent) {
+        if (interactEvent.getItem() == null) return;
+        if (interactEvent.getItem().getType() == null) return;
+        if (interactEvent.getItem().getType().equals(Material.AIR)) return;
+        if (!(interactEvent.getAction().equals(Action.RIGHT_CLICK_AIR) || interactEvent.getAction().equals(Action.RIGHT_CLICK_BLOCK) || interactEvent.getAction().equals(Action.LEFT_CLICK_AIR) || interactEvent.getAction().equals(Action.LEFT_CLICK_BLOCK)))
+            return;
         Action action = interactEvent.getAction();
         Player player = interactEvent.getPlayer();
-        try {
-            if (interactEvent.getPlayer().getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("§8\u00BB§3§lDein minion§8\u00AB")) {
-                if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK) || action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)) {
-                    player.playSound(player.getLocation(), Sound.NOTE_PIANO, 1, 1);
-                    if (minion.containsKey(player)) {
-                        rmMini(player);
-                    } else {
-                        ArmorStand as = (ArmorStand) player.getLocation().getWorld().spawnEntity(player.getLocation(),
-                                EntityType.ARMOR_STAND);
-                        as.setSmall(true);
-                        as.setGravity(false);
-                        as.setArms(true);
-                        as.setBasePlate(false);
-                        ItemStack helm = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-                        SkullMeta hm = (SkullMeta) helm.getItemMeta();
-                        if (VIPHide.instance.isDisguised(player)) {
-                            hm.setOwner(VIPHide.instance.getName(player));
-                        } else hm.setOwner(player.getName());
-                        helm.setItemMeta(hm);
-                        as.setHelmet(helm);
-                        ItemStack Boots = new ItemStack(Material.LEATHER_BOOTS);
-                        Boots.setItemMeta(setColor(Boots, player));
-                        as.setBoots(Boots);
+        if (interactEvent.getPlayer().getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("§8\u00BB§3§lDein minion§8\u00AB")) {
+            if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK) || action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)) {
+                player.playSound(player.getLocation(), Sound.NOTE_PIANO, 1, 1);
+                if (minion.containsKey(player)) {
+                    rmMini(player);
+                } else {
+                    ArmorStand as = (ArmorStand) player.getLocation().getWorld().spawnEntity(player.getLocation(),
+                            EntityType.ARMOR_STAND);
+                    as.setSmall(true);
+                    as.setGravity(false);
+                    as.setArms(true);
+                    as.setBasePlate(false);
+                    ItemStack helm = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+                    SkullMeta hm = (SkullMeta) helm.getItemMeta();
+                    if (VIPHide.instance.isDisguised(player)) {
+                        hm.setOwner(VIPHide.instance.getName(player));
+                    } else hm.setOwner(player.getName());
+                    helm.setItemMeta(hm);
+                    as.setHelmet(helm);
+                    ItemStack Boots = new ItemStack(Material.LEATHER_BOOTS);
+                    Boots.setItemMeta(setColor(Boots, player));
+                    as.setBoots(Boots);
 
-                        ItemStack Leggins = new ItemStack(Material.LEATHER_LEGGINGS);
-                        Leggins.setItemMeta(setColor(Leggins, player));
-                        as.setLeggings(Leggins);
+                    ItemStack Leggins = new ItemStack(Material.LEATHER_LEGGINGS);
+                    Leggins.setItemMeta(setColor(Leggins, player));
+                    as.setLeggings(Leggins);
 
-                        ItemStack Chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
-                        Chestplate.setItemMeta(setColor(Chestplate, player));
-                        as.setChestplate(Chestplate);
-                        minion.put(player, as);
-                        player.sendMessage(
-                                prefix + "§9§lM§e§li§9§ln§e§li§9§lo§e§ln §7wurde ausger\u00FCstet.");
-                    }
+                    ItemStack Chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+                    Chestplate.setItemMeta(setColor(Chestplate, player));
+                    as.setChestplate(Chestplate);
+                    minion.put(player, as);
+                    player.sendMessage(
+                            prefix + "§9§lM§e§li§9§ln§e§li§9§lo§e§ln §7wurde ausger\u00FCstet.");
                 }
             }
-        } catch (NullPointerException ex) {
         }
     }
 
