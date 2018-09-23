@@ -15,16 +15,23 @@
     <orderEntry type="library" name="VIPHide" level="project" />
     <orderEntry type="library" name="Clans-Spigot-Part-1.0.11" level="project" />
     <orderEntry type="library" name="Plugin-2.5.0" level="project" />
+    <orderEntry type="library" name="BlockParticles[v1.9.7.2]" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot:1.8.8" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: me.lucko.luckperms:luckperms-api:4.2" level="project" />
     <orderEntry type="library" name="Maven: cloud.timo.TimoCloud:TimoCloud:5.3.5" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.milkbowl.vault:Vault:1.7.1" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains:annotations:16.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains:annotations:16.0.3" level="project" />
     <orderEntry type="library" name="Maven: com.plotsquared:plotsquared-api:latest" level="project" />
     <orderEntry type="library" name="Maven: com.sk89q.worldedit:worldedit-core:6.1.3-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.google.guava:guava:10.0" level="project" />
+    <orderEntry type="library" name="Maven: de.schlichtherle:truezip:6.8.3" level="project" />
+    <orderEntry type="library" name="Maven: rhino:js:1.7R2" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.findbugs:jsr305:1.3.9" level="project" />
+    <orderEntry type="library" name="Maven: com.thoughtworks.paranamer:paranamer:2.6" level="project" />
+    <orderEntry type="library" name="Maven: com.sk89q.lib:jlibnoise:1.0.0" level="project" />
+    <orderEntry type="library" name="Maven: com.sk89q:jchronic:0.2.4a" level="project" />
+    <orderEntry type="library" name="Maven: junit:junit:4.8.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:10.0" level="project" />
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.16" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.2.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.md-5:bungeecord-api:1.13-SNAPSHOT" level="project" />
@@ -38,5 +45,12 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-common:4.1.25.Final" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-resolver:4.1.25.Final" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.sf.trove4j:trove4j:3.0.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-universal:2.4.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-bukkit:2.4.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-common:2.4.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-handler:4.1.16.Final" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-bungeecord:2.4.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-sponge:2.4.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-velocity:2.4.1-SNAPSHOT" level="project" />
   </component>
 </module>

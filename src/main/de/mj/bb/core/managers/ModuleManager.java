@@ -36,6 +36,7 @@ public class ModuleManager {
 
     //Listener
     private AFKListener afkListener;
+    private BlockRedstoneListener blockRedstoneListener;
     private BorderListener borderListener;
     private BukkitMinecraftCommandBlockListener commandBlockListener;
     private CancelListener cancelListener;
@@ -54,21 +55,25 @@ public class ModuleManager {
     private SettingsListener settingsListener;
     private StopReloadRestartListener stopReloadRestartListener;
     private YourProfileListener yourProfileListener;
+
     //managers
     private FileManager fileManager;
     private PortalManager portalManager;
     private ScoreboardManager scoreboardManager;
+
     //mysql
     private AsyncMySQL asyncMySQL;
     private AsyncMySQL.MySQL mySQL;
     private MySQLLoader mySQLLoader;
     private ServerStatsAPI serverStatsAPI;
     private SettingsAPI settingsAPI;
+
     //Utlis
     private ActionbarTimer actionbarTimer;
     private AutomaticClearLag automaticClearLag;
     private CrashFixer crashFixer;
     private ItemCreator itemCreator;
+    private LobbyParticle lobbyParticle;
     private LocationsUtil locationsUtil;
     private Particle particle;
     private PlayerRealTime playerRealTime;
@@ -111,6 +116,7 @@ public class ModuleManager {
         coreRestartCommand = new CoreRestartCommand(coreSpigot);
 
         crashFixer = new CrashFixer(coreSpigot);
+        blockRedstoneListener = new BlockRedstoneListener(coreSpigot);
 
         if (serverType.equals(ServerType.LOBBY)) {
 
@@ -162,6 +168,7 @@ public class ModuleManager {
             //Utils
             sender.sendMessage(prefix + "§fload Utils");
             itemCreator = new ItemCreator();
+            lobbyParticle = new LobbyParticle(coreSpigot);
             locationsUtil = new LocationsUtil();
             particle = new Particle();
             playerRealTime = new PlayerRealTime(coreSpigot);
@@ -173,10 +180,12 @@ public class ModuleManager {
             afkListener.LocationTimer();
             mySQLLoader.loadConf();
             mySQLLoader.loadMySQL();
-            tabList.loadTablist();
+            tabList.loadTabList();
             setLocations.saveLocs();
             playerRealTime.setPlayerRealTime();
             scoreboardManager.ScoreboardActu();
+            lobbyParticle.playEnderSignal();
+            lobbyParticle.playEnchantment();
         } else if (serverType.equals(ServerType.DEFAULT)) {
             data = new Data();
             tabList = new TabList(coreSpigot);
@@ -184,7 +193,7 @@ public class ModuleManager {
             chatListener = new ChatListener(coreSpigot);
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
-            tabList.loadTablist();
+            tabList.loadTabList();
         } else if (serverType.equals(ServerType.SKY_PVP)) {
             data = new Data();
             tabList = new TabList(coreSpigot);
@@ -192,7 +201,7 @@ public class ModuleManager {
             chatListener = new ChatListener(coreSpigot);
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
-            tabList.loadTablist();
+            tabList.loadTabList();
         } else if (serverType.equals(ServerType.CITY_BUILD)) {
             data = new Data();
             tabList = new TabList(coreSpigot);
@@ -200,7 +209,7 @@ public class ModuleManager {
             chatListener = new ChatListener(coreSpigot);
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
-            tabList.loadTablist();
+            tabList.loadTabList();
         } else if (serverType.equals(ServerType.BAU_SERVER)) {
             data = new Data();
             tabList = new TabList(coreSpigot);
@@ -218,7 +227,7 @@ public class ModuleManager {
             setLocCommand = new SetLocCommand(coreSpigot);
             fileManager.loadPortalConfig();
             portalManager.loadPortals();
-            tabList.loadTablist();
+            tabList.loadTabList();
         } else if (serverType.equals(ServerType.BED_WARS)) {
             data = new Data();
             joinListener = new JoinListener(coreSpigot);

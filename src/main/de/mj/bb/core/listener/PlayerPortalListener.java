@@ -43,6 +43,7 @@ public class PlayerPortalListener implements Listener {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 DataOutputStream out = new DataOutputStream(outputStream);
                 try {
+
                     out.writeUTF("Connect");
                     out.writeUTF(locationEntry1.getKey());
                     player.sendPluginMessage(this.coreSpigot, "BungeeCord", outputStream.toByteArray());

@@ -48,7 +48,7 @@ public class JoinListener implements Listener {
         if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
             welcomeScheduler(player);
             player.teleport(coreSpigot.getModuleManager().getLocationsUtil().getSpawn());
-            if (!player.hasPlayedBefore()) {
+            if (!coreSpigot.getModuleManager().getSettingsAPI().checkPlayer(player)) {
                 coreSpigot.getModuleManager().getSettingsListener().getRideState().add(player);
                 coreSpigot.getModuleManager().getSettingsListener().getColor().put(player, "6");
                 coreSpigot.getModuleManager().getSettingsListener().getScoreClan().add(player);

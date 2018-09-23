@@ -13,7 +13,9 @@ import main.de.mj.bb.core.utils.PlayerLevel;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.UUID;
 
 public class SettingsAPI {
@@ -34,6 +36,19 @@ public class SettingsAPI {
     public void createScorePlayer(Player p) {
         UUID uuid = p.getUniqueId();
         AsyncMySQL.update("INSERT INTO ScoreConf (UUID, FRIENDS, RANG, SERVER, CLAN, COINS, TIME, REALTIME, WEATHER) SELECT '" + uuid + "', '1', '1', '1', '1', '1', '1', '1', '1' FROM DUAL WHERE NOT EXISTS (SELECT '*' FROM ScoreConf WHERE UUID = '" + uuid + "');");
+    }
+
+    public boolean checkPlayer(Player player) {
+        UUID uuid = player.getUniqueId();
+        String query = "SELECT UUID FROM LobbyConf WHERE UUID='" + uuid + "'";
+        try {
+            Statement statement = amsql.getMySQL().getConnection().prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery(query);
+            return resultSet != null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return true;
+        }
     }
 
     public void getColor(Player p) {

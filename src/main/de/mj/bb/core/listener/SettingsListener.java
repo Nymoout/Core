@@ -17,6 +17,7 @@ import org.bukkit.Sound;
 import org.bukkit.WeatherType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -772,7 +773,7 @@ public class SettingsListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void hitRider(EntityDamageByEntityEvent damageByEntityEvent) {
         if (damageByEntityEvent.getDamager() == null) return;
         if (!(damageByEntityEvent.getEntity() instanceof Player)) return;
@@ -780,7 +781,6 @@ public class SettingsListener implements Listener {
             Player rider = (Player) damageByEntityEvent.getEntity();
             Player hider = (Player) damageByEntityEvent.getDamager();
             if (hider.getPassenger() == null) return;
-            if (hider.getPassenger().isEmpty()) return;
             if (hider.getPassenger().equals(rider)) {
                 Vector v = rider.getLocation().getDirection();
                 v.setY(1.2);
@@ -788,6 +788,7 @@ public class SettingsListener implements Listener {
                 rider.setVelocity(v);
             }
         }
+        damageByEntityEvent.setCancelled(true);
     }
 
     private Inventory Design() {

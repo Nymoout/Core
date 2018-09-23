@@ -20,6 +20,9 @@ public class AutomaticClearLag {
                     @Override
                     public void run() {
                         if (coreSpigot.getModuleManager().getServerType().equals(ServerType.BAU_SERVER)) {
+                            if (coreSpigot.getModuleManager().getTicksPerSecond().getTPS() > 19)
+                                if (coreSpigot.getModuleManager().getBlockRedstoneListener().isBlockRedStone())
+                                    coreSpigot.getModuleManager().getBlockRedstoneListener().setBlockRedStone(false);
                             if (coreSpigot.getModuleManager().getTicksPerSecond().getTPS() < 19) {
                                 coreSpigot.getServer().getLogger().warning("TPS unter 19 ... Ausgewählte Entities werden gelöscht!");
                                 for (World world : Bukkit.getWorlds()) {
@@ -41,10 +44,13 @@ public class AutomaticClearLag {
                                         }
                                     }
                                 }
+                            } else if (coreSpigot.getModuleManager().getTicksPerSecond().getTPS() < 18) {
+                                coreSpigot.getServer().getLogger().warning("TPS unter 18 ... Redstone wird vorrübergehen deaktiviert!");
+                                coreSpigot.getModuleManager().getBlockRedstoneListener().setBlockRedStone(true);
                             }
                         }
                         if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
-                            if (coreSpigot.getModuleManager().getTicksPerSecond().getTPS() < 16) {
+                            if (coreSpigot.getModuleManager().getTicksPerSecond().getTPS() < 15) {
                                 if (!coreSpigot.getModuleManager().getStopReloadRestartListener().isRestarting()) {
                                     coreSpigot.getModuleManager().getStopReloadRestartListener().setRestarting(true);
                                     coreSpigot.getModuleManager().getStopReloadRestartListener().shutdown();
@@ -52,7 +58,7 @@ public class AutomaticClearLag {
                             }
                         }
                     }
-                }.runTaskTimer(coreSpigot, 0L, 20L)
+                }.runTaskTimerAsynchronously(coreSpigot, 0L, 10L)
         );
     }
 }

@@ -39,12 +39,12 @@ public class StopReloadRestartListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void OverrideCommand(PlayerCommandPreprocessEvent e) {
-        Player p = e.getPlayer();
-        String msg = e.getMessage().toLowerCase();
+    public void OverrideCommand(PlayerCommandPreprocessEvent preprocessEvent) {
+        Player p = preprocessEvent.getPlayer();
+        String msg = preprocessEvent.getMessage().toLowerCase();
         if (p.hasPermission("group.administrator")) {
             if (msg.equalsIgnoreCase("/stop") || msg.equalsIgnoreCase("/reload") || msg.equalsIgnoreCase("/restart")) {
-                e.setCancelled(true);
+                preprocessEvent.setCancelled(true);
                 Inventory inv = Bukkit.createInventory(null, 9, "§4§lSERVERNEUSTART?");
                 ItemStack ClayNein = new ItemStack(Material.STAINED_CLAY, 1, (short) 14);
                 ItemMeta ClayNeinMeta = ClayNein.getItemMeta();

@@ -52,15 +52,15 @@ public class ScoreboardManager {
             color = "6";
         }
         ScoreboardObjective obj = scoreboard.registerObjective("zagd", IScoreboardCriteria.b);
-        obj.setDisplayName("§" + color + "§lBattleBuild");
+        obj.setDisplayName("§7§l× §" + color + "§lBattleBuild§7§l ×");
         PacketPlayOutScoreboardObjective createPacket = new PacketPlayOutScoreboardObjective(obj, 0);
         PacketPlayOutScoreboardDisplayObjective display = new PacketPlayOutScoreboardDisplayObjective(1, obj);
-        ScoreboardScore s1 = new ScoreboardScore(scoreboard, obj, "§a§lDeine Coins §8:");
+        ScoreboardScore s1 = new ScoreboardScore(scoreboard, obj, "§a§lDeine Coins");
         ScoreboardScore s2;
-        s2 = new ScoreboardScore(scoreboard, obj, "§8\u00BB §" + color + String.valueOf(coreSpigot.getHookManager().getEconomy().getBalance(p)));
+        s2 = new ScoreboardScore(scoreboard, obj, "§7➟ §" + color + String.valueOf(coreSpigot.getHookManager().getEconomy().getBalance(p)));
         ScoreboardScore s3 = new ScoreboardScore(scoreboard, obj, "§8§7");
 
-        ScoreboardScore s4 = new ScoreboardScore(scoreboard, obj, "§a§lDein Rang §8:");
+        ScoreboardScore s4 = new ScoreboardScore(scoreboard, obj, "§a§lDein Rang");
         ScoreboardScore s5;
         User user = lobby.getLuckPermsApi().getUser(p.getUniqueId());
         ContextManager cm = lobby.getLuckPermsApi().getContextManager();
@@ -72,10 +72,10 @@ public class ScoreboardManager {
         } else {
             prefix = "";
         }
-        s5 = new ScoreboardScore(scoreboard, obj, "§8» §" + color + prefix);
+        s5 = new ScoreboardScore(scoreboard, obj, "§7➟ §" + color + prefix);
         ScoreboardScore s6 = new ScoreboardScore(scoreboard, obj, "§7§9 ");
 
-        ScoreboardScore s8 = new ScoreboardScore(scoreboard, obj, "§a§lDein Clan §8:");
+        ScoreboardScore s8 = new ScoreboardScore(scoreboard, obj, "§a§lDein Clan");
         ScoreboardScore s9;
         PAFPlayer pafp = lobby.getPafPlayerManager().getPlayer(p.getUniqueId());
         int i = 0;
@@ -91,15 +91,15 @@ public class ScoreboardManager {
         }
         if (lobby.getClansManager().getClan(pafp) != null) {
             s9 = new ScoreboardScore(scoreboard, obj,
-                    "§8» §" + color + lobby.getClansManager().getClan(pafp).getClanTag() + "§f [§" + color + i
-                            + "§f/" + lobby.getClansManager().getClan(pafp).getAllPlayers().size() + "]");
+                    "§7➟ §" + color + lobby.getClansManager().getClan(pafp).getClanTag() + "§7 [§" + color + i
+                            + "§7§k|§r§" + color + lobby.getClansManager().getClan(pafp).getAllPlayers().size() + "§7]");
         } else {
-            s9 = new ScoreboardScore(scoreboard, obj, "§8» §7");
+            s9 = new ScoreboardScore(scoreboard, obj, "§7➟ §7");
         }
         ScoreboardScore s7 = new ScoreboardScore(scoreboard, obj, "§7§f ");
 
         ScoreboardScore s11 = new ScoreboardScore(scoreboard, obj, "§a§lServer");
-        ScoreboardScore s12 = new ScoreboardScore(scoreboard, obj, "§8» §" + color + p.getServer().getServerName());
+        ScoreboardScore s12 = new ScoreboardScore(scoreboard, obj, "§7➟ §" + color + p.getServer().getServerName());
         ScoreboardScore s13 = new ScoreboardScore(scoreboard, obj, "§7§5 ");
 
         ScoreboardScore s14 = new ScoreboardScore(scoreboard, obj, "§a§lOnline Freunde");
@@ -113,9 +113,9 @@ public class ScoreboardManager {
             }
         }
         if (pafp.getFriends() != null) {
-            s15 = new ScoreboardScore(scoreboard, obj, "§8» §" + color + f + "§f/§" + color + pafp.getFriends().size());
+            s15 = new ScoreboardScore(scoreboard, obj, "§7➟ §" + color + f + "§7§k|§r§" + color + pafp.getFriends().size());
         } else {
-            s15 = new ScoreboardScore(scoreboard, obj, "§8» §" + color + "0§f/§" + color + "0");
+            s15 = new ScoreboardScore(scoreboard, obj, "§7➟ §" + color + "0§7§k|§r§" + color + "0");
         }
         ScoreboardScore s16 = new ScoreboardScore(scoreboard, obj, "§7§6 ");
         ScoreboardScore s17 = new ScoreboardScore(scoreboard, obj, "§a§lOnline-Zeit");
@@ -124,7 +124,7 @@ public class ScoreboardManager {
         float tominute = tosecond / 60;
         float tohour = tominute / 60;
         int finalhour = (int) Math.floor(tohour);
-        ScoreboardScore s18 = new ScoreboardScore(scoreboard, obj, "§8» §" + color + finalhour + "h");
+        ScoreboardScore s18 = new ScoreboardScore(scoreboard, obj, "§7➟ §" + color + finalhour + "h");
         s1.setScore(16);
         s2.setScore(15);
         s3.setScore(14);

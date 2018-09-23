@@ -9,10 +9,14 @@ package main.de.mj.bb.core.listener;
 
 import main.de.mj.bb.core.CoreSpigot;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
+import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerFishEvent;
@@ -49,9 +53,24 @@ public class CancelListener implements Listener {
         pickupItemEvent.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void damage(EntityDamageEvent damageEvent) {
         damageEvent.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void damageByBlock(EntityDamageByBlockEvent entityDamageByBlockEvent) {
+        entityDamageByBlockEvent.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void hangingBreakEvent(HangingBreakEvent hangingBreakEvent) {
+        hangingBreakEvent.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void hangingBreakEventEnity(HangingBreakByEntityEvent breakByEntityEvent) {
+        breakByEntityEvent.setCancelled(true);
     }
 
     @EventHandler

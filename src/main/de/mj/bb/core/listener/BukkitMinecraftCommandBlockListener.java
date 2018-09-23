@@ -31,7 +31,7 @@ public class BukkitMinecraftCommandBlockListener implements Listener {
     public void onCMD(PlayerCommandPreprocessEvent preprocessEvent) {
         Player player = preprocessEvent.getPlayer();
         String[] cmd = preprocessEvent.getMessage().substring(1).split(" ");
-        if (player.hasPermission("coreSpigot.commands")) {
+        if (!player.hasPermission("coreSpigot.commands")) {
             if ((cmd[0].startsWith("bukkit") || cmd[0].startsWith("minecraft")) && (!player.isOp())) {
                 player.sendMessage(data.getNoPerm());
                 preprocessEvent.setCancelled(true);

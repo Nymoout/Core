@@ -15,17 +15,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.List;
 
+/*
+ * @author MJ
+ * Created in 25.08.2018
+ * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
+ */
 
 @Getter
 @Setter
 public class CoreSpigot extends JavaPlugin {
-
-    /*
-     * @author MJ
-     * Created in 25.08.2018
-     * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
-     */
 
     private CoreSpigot coreSpigot;
     private ConsoleCommandSender sender;
@@ -36,6 +36,7 @@ public class CoreSpigot extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        setCoreSpigot(this);
         setSender(Bukkit.getConsoleSender());
 
         sender.sendMessage("§6  ____        _   _   _      ____        _ _     _         _____               ");
@@ -47,7 +48,6 @@ public class CoreSpigot extends JavaPlugin {
 
         sender.sendMessage(prefix + "§eis starting...");
         hookManager = new HookManager(this);
-        this.setCoreSpigot(this);
 
         sender.sendMessage(prefix + "§edetect server version...");
         sender.sendMessage(prefix + "§adetected server §6" + Bukkit.getServerName());
@@ -122,10 +122,8 @@ public class CoreSpigot extends JavaPlugin {
                 sender.sendMessage("§8§m---------------§8[§9ServerInfo§8]§8§m---------------§r");
                 long cram = Runtime.getRuntime().freeMemory() / 1048576L;
                 long mram = Runtime.getRuntime().maxMemory() / 1048576L;
-                ArrayList<String> names = new ArrayList<>();
-                for (Player all : Bukkit.getOnlinePlayers()) {
-                    names.add(all.getName());
-                }
+                List<String> names = new ArrayList<>();
+                for (Player all : Bukkit.getOnlinePlayers()) names.add(all.getName());
                 sender.sendMessage("§9§lCurrent RAM-Usage: §a" + cram + " MB §9 of §3" + mram + " MB");
                 sender.sendMessage("§e§lPort: §6" + Bukkit.getPort());
                 sender.sendMessage("§bServername: §3" + Bukkit.getServerName());
@@ -136,4 +134,5 @@ public class CoreSpigot extends JavaPlugin {
             }
         }.runTaskTimer(this, 0L, 20L * 60 * 5);
     }
+
 }
