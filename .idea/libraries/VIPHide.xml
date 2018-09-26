@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="VIPHide">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../libs/VIPHide.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

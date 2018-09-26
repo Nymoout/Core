@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import main.de.mj.bb.core.managers.HookManager;
 import main.de.mj.bb.core.managers.ModuleManager;
+import main.de.mj.bb.core.managers.NickManager;
 import main.de.mj.bb.core.utils.Data;
 import main.de.mj.bb.core.utils.ServerType;
 import org.bukkit.Bukkit;
@@ -28,15 +29,64 @@ import java.util.List;
 public class CoreSpigot extends JavaPlugin {
 
     private CoreSpigot coreSpigot;
+    private static CoreSpigot instance;
     private ConsoleCommandSender sender;
     private ModuleManager moduleManager;
     private HookManager hookManager;
+    private NickManager nickManager;
 
     private String prefix = new Data().getPrefix();
+
+    public static CoreSpigot getInstance() {
+        return instance;
+    }
+
+    public void onDisable() {
+        moduleManager.stopServer();
+    }
+
+    public static void setInstance(CoreSpigot instance) {
+        CoreSpigot.instance = instance;
+    }
+
+    public void setListener(Listener listener) {
+        Bukkit.getPluginManager().registerEvents(listener, this);
+    }
+
+    public void setCommand(CommandExecutor commandExecutor, String command) {
+        getCommand(command).setExecutor(commandExecutor);
+    }
+
+    private void infoScheduler() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                sender.sendMessage("§6  ____        _   _   _      ____        _ _     _         _____               ");
+                sender.sendMessage("§6 |  _ \\      | | | | | |    |  _ \\      (_) |   | |       / ____|              ");
+                sender.sendMessage("§6 | |_) | __ _| |_| |_| | ___| |_) |_   _ _| | __| |______| |     ___  _ __ ___ ");
+                sender.sendMessage("§6 |  _ < / _` | __| __| |/ _ \\  _ <| | | | | |/ _` |______| |    / _ \\| '__/ _ \\");
+                sender.sendMessage("§6 | |_) | (_| | |_| |_| |  __/ |_) | |_| | | | (_| |      | |___| (_) | | |  __/");
+                sender.sendMessage("§6 |____/ \\__,_|\\__|\\__|_|\\___|____/ \\__,_|_|_|\\__,_|       \\_____\\___/|_|  \\___|");
+                sender.sendMessage("§8§m---------------§8[§9ServerInfo§8]§8§m---------------§r");
+                long cram = Runtime.getRuntime().freeMemory() / 1048576L;
+                long mram = Runtime.getRuntime().maxMemory() / 1048576L;
+                List<String> names = new ArrayList<>();
+                for (Player all : Bukkit.getOnlinePlayers()) names.add(all.getName());
+                sender.sendMessage("§9§lCurrent RAM-Usage: §a" + cram + " MB §9 of §3" + mram + " MB");
+                sender.sendMessage("§e§lPort: §6" + Bukkit.getPort());
+                sender.sendMessage("§bServername: §3" + Bukkit.getServerName());
+                sender.sendMessage("§5§lVersion: §b" + Bukkit.getBukkitVersion());
+                sender.sendMessage("§6§lPlugin-Version: §e" + coreSpigot.getDescription().getVersion());
+                sender.sendMessage("§4§lTPS: §c" + moduleManager.getTicksPerSecond().getTPS());
+                sender.sendMessage("§8§m--------------------------------------------§r");
+            }
+        }.runTaskTimer(this, 0L, 20L * 60 * 5);
+    }
 
     @Override
     public void onEnable() {
         setCoreSpigot(this);
+        setInstance(this);
         setSender(Bukkit.getConsoleSender());
 
         sender.sendMessage("§6  ____        _   _   _      ____        _ _     _         _____               ");
@@ -57,10 +107,6 @@ public class CoreSpigot extends JavaPlugin {
 
         infoScheduler();
         sender.sendMessage(prefix + "§awas successfully started!");
-    }
-
-    public void onDisable() {
-        moduleManager.stopServer();
     }
 
     private void preInit() {
@@ -99,40 +145,6 @@ public class CoreSpigot extends JavaPlugin {
         moduleManager = new ModuleManager(this, ServerType.DEFAULT);
         hookManager.hook(ServerType.DEFAULT);
         moduleManager.init();
+        nickManager = new NickManager(coreSpigot);
     }
-
-    public void setListener(Listener listener) {
-        Bukkit.getPluginManager().registerEvents(listener, this);
-    }
-
-    public void setCommand(CommandExecutor commandExecutor, String command) {
-        getCommand(command).setExecutor(commandExecutor);
-    }
-
-    private void infoScheduler() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                sender.sendMessage("§6  ____        _   _   _      ____        _ _     _         _____               ");
-                sender.sendMessage("§6 |  _ \\      | | | | | |    |  _ \\      (_) |   | |       / ____|              ");
-                sender.sendMessage("§6 | |_) | __ _| |_| |_| | ___| |_) |_   _ _| | __| |______| |     ___  _ __ ___ ");
-                sender.sendMessage("§6 |  _ < / _` | __| __| |/ _ \\  _ <| | | | | |/ _` |______| |    / _ \\| '__/ _ \\");
-                sender.sendMessage("§6 | |_) | (_| | |_| |_| |  __/ |_) | |_| | | | (_| |      | |___| (_) | | |  __/");
-                sender.sendMessage("§6 |____/ \\__,_|\\__|\\__|_|\\___|____/ \\__,_|_|_|\\__,_|       \\_____\\___/|_|  \\___|");
-                sender.sendMessage("§8§m---------------§8[§9ServerInfo§8]§8§m---------------§r");
-                long cram = Runtime.getRuntime().freeMemory() / 1048576L;
-                long mram = Runtime.getRuntime().maxMemory() / 1048576L;
-                List<String> names = new ArrayList<>();
-                for (Player all : Bukkit.getOnlinePlayers()) names.add(all.getName());
-                sender.sendMessage("§9§lCurrent RAM-Usage: §a" + cram + " MB §9 of §3" + mram + " MB");
-                sender.sendMessage("§e§lPort: §6" + Bukkit.getPort());
-                sender.sendMessage("§bServername: §3" + Bukkit.getServerName());
-                sender.sendMessage("§5§lVersion: §b" + Bukkit.getBukkitVersion());
-                sender.sendMessage("§6§lPlugin-Version: §e" + coreSpigot.getDescription().getVersion());
-                sender.sendMessage("§4§lTPS: §c" + moduleManager.getTicksPerSecond().getTPS());
-                sender.sendMessage("§8§m--------------------------------------------§r");
-            }
-        }.runTaskTimer(this, 0L, 20L * 60 * 5);
-    }
-
 }

@@ -19,3 +19,6 @@ commands:
    corerestart:
    setportal:
    autoban:
+   gm:
+   nick:
+   unnick:

@@ -14,7 +14,6 @@ import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.utils.Data;
 import main.de.mj.bb.core.utils.ServerType;
-import me.BukkitPVP.VIPHide.VIPHide;
 import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.LuckPermsApi;
 import net.milkbowl.vault.economy.Economy;
@@ -40,7 +39,6 @@ public class HookManager {
     private LuckPermsApi luckPermsApi;
     private PAFPlayerManager pafPlayerManager;
     private ClansManager clansManager;
-    private VIPHide vipHide;
 
     public HookManager(@NotNull CoreSpigot coreSpigot) {
         this.coreSpigot = coreSpigot;
@@ -119,14 +117,6 @@ public class HookManager {
                 coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
             }
 
-            sender.sendMessage(prefix + "§btry to hook into VIPHide...");
-            if (coreSpigot.getServer().getPluginManager().getPlugin("VIPHide") != null) {
-                this.vipHide = VIPHide.instance;
-                sender.sendMessage(prefix + "§bhooked into: VIPHide");
-            } else {
-                sender.sendMessage(String.format("§c[%s] - VIPHide wasn't found - disable Plugin", coreSpigot.getDescription().getName()));
-                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
-            }
         }
         if (serverType.equals(ServerType.SKY_PVP)) {
             sender.sendMessage(prefix + "§dtry to hook into LuckPerms...");
@@ -135,14 +125,6 @@ public class HookManager {
                 sender.sendMessage(prefix + "§dhooked into: LuckPerms");
             } else {
                 sender.sendMessage(String.format("§c[%s] - LuckPerms wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
-                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
-            }
-            sender.sendMessage(prefix + "§btry to hook into VIPHide...");
-            if (coreSpigot.getServer().getPluginManager().getPlugin("VIPHide") != null) {
-                this.vipHide = VIPHide.instance;
-                sender.sendMessage(prefix + "§bhooked into: VIPHide");
-            } else {
-                sender.sendMessage(String.format("§c[%s] - VIPHide wasn't found - disable Plugin", coreSpigot.getDescription().getName()));
                 coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
             }
             sender.sendMessage(prefix + "§etry to hook into ProtocolLib...");
@@ -165,14 +147,6 @@ public class HookManager {
                 sender.sendMessage(String.format("§c[%s] - LuckPerms wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
                 coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
             }
-            sender.sendMessage(prefix + "§btry to hook into VIPHide...");
-            if (coreSpigot.getServer().getPluginManager().getPlugin("VIPHide") != null) {
-                this.vipHide = VIPHide.instance;
-                sender.sendMessage(prefix + "§bhooked into: VIPHide");
-            } else {
-                sender.sendMessage(String.format("§c[%s] - VIPHide wasn't found - disable Plugin", coreSpigot.getDescription().getName()));
-                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
-            }
             sender.sendMessage(prefix + "§etry to hook into ProtocolLib...");
             if (coreSpigot.getServer().getPluginManager().getPlugin("ProtocolLib") != null) {
                 this.protocolManager = ProtocolLibrary.getProtocolManager();
@@ -193,14 +167,6 @@ public class HookManager {
                 sender.sendMessage(String.format("§c[%s] - LuckPerms wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
                 coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
             }
-            sender.sendMessage(prefix + "§btry to hook into VIPHide...");
-            if (coreSpigot.getServer().getPluginManager().getPlugin("VIPHide") != null) {
-                this.vipHide = VIPHide.instance;
-                sender.sendMessage(prefix + "§bhooked into: VIPHide");
-            } else {
-                sender.sendMessage(String.format("§c[%s] - VIPHide wasn't found - disable Plugin", coreSpigot.getDescription().getName()));
-                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
-            }
             sender.sendMessage(prefix + "§etry to hook into ProtocolLib...");
             if (coreSpigot.getServer().getPluginManager().getPlugin("ProtocolLib") != null) {
                 this.protocolManager = ProtocolLibrary.getProtocolManager();
@@ -219,14 +185,6 @@ public class HookManager {
                 sender.sendMessage(prefix + "§dhooked into: LuckPerms");
             } else {
                 sender.sendMessage(String.format("§c[%s] - LuckPerms wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
-                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
-            }
-            sender.sendMessage(prefix + "§btry to hook into VIPHide...");
-            if (coreSpigot.getServer().getPluginManager().getPlugin("VIPHide") != null) {
-                this.vipHide = VIPHide.instance;
-                sender.sendMessage(prefix + "§bhooked into: VIPHide");
-            } else {
-                sender.sendMessage(String.format("§c[%s] - VIPHide wasn't found - disable Plugin", coreSpigot.getDescription().getName()));
                 coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
             }
             sender.sendMessage(prefix + "§etry to hook into ProtocolLib...");
@@ -250,13 +208,6 @@ public class HookManager {
                 coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
             }
             sender.sendMessage(prefix + "§btry to hook into VIPHide...");
-            if (coreSpigot.getServer().getPluginManager().getPlugin("VIPHide") != null) {
-                this.vipHide = VIPHide.instance;
-                sender.sendMessage(prefix + "§bhooked into: VIPHide");
-            } else {
-                sender.sendMessage(String.format("§c[%s] - VIPHide wasn't found - disable Plugin", coreSpigot.getDescription().getName()));
-                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
-            }
             sender.sendMessage(prefix + "§etry to hook into ProtocolLib...");
             if (coreSpigot.getServer().getPluginManager().getPlugin("ProtocolLib") != null) {
                 this.protocolManager = ProtocolLibrary.getProtocolManager();

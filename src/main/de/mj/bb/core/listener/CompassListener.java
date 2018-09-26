@@ -151,31 +151,31 @@ public class CompassListener implements Listener {
             if (!(displayName.contains("Spawn") || displayName.contains("CityBuild") || displayName.contains("BedWars") || displayName.contains("SkyPvP") || displayName.contains("SkyWars") || displayName.contains("Rund") || displayName.contains("Soon")))
                 return;
             if (displayName.contains("§a§lSpawn")) {
-                scheduler(player, moduleManager.getLocationsUtil().getSpawn().add(0, 1, 0));
+                scheduler(player, moduleManager.getLocationsUtil().getSpawn().clone().add(0, 1, 0));
                 player.sendMessage(moduleManager.getData().getPrefix() + "Du wurdest zum §6Server-Spawn §7teleportiert.");
                 Particle particle = new Particle(EnumParticle.FLAME, player.getLocation().add(0, 2.25, 0), true, 0.25f, 0.25f, 0.25f, 0, 10000);
                 particle.sendAll();
                 player.closeInventory();
             } else if (displayName.contains("§6§lCityBuild")) {
-                scheduler(player, moduleManager.getLocationsUtil().getCitybuild().add(0, 1, 0));
+                scheduler(player, moduleManager.getLocationsUtil().getCitybuild().clone().add(0, 1, 0));
                 player.sendMessage(moduleManager.getData().getPrefix() + "Du wurdest zu §6Citybuild §7teleportiert.");
                 Particle particle = new Particle(EnumParticle.FLAME, player.getLocation().add(0, 2.25, 0), true, 0.25f, 0.25f, 0.25f, 0, 10000);
                 particle.sendAll();
                 player.closeInventory();
             } else if (displayName.contains("§3§lBedWars")) {
-                scheduler(player, moduleManager.getLocationsUtil().getBedwars().add(0, 1, 0));
+                scheduler(player, moduleManager.getLocationsUtil().getBedwars().clone().add(0, 1, 0));
                 player.sendMessage(moduleManager.getData().getPrefix() + "Du wurdest zu §6Bedwars §7teleportiert.");
                 Particle particle = new Particle(EnumParticle.FLAME, player.getLocation().add(0, 2.25, 0), true, 0.25f, 0.25f, 0.25f, 0, 10000);
                 particle.sendAll();
                 player.closeInventory();
             } else if (displayName.contains("§9§lSkyPvP")) {
-                scheduler(player, moduleManager.getLocationsUtil().getGungame().add(0, 1, 0));
+                scheduler(player, moduleManager.getLocationsUtil().getGungame().clone().add(0, 1, 0));
                 player.sendMessage(moduleManager.getData().getPrefix() + "Du wurdest zu §6SkyPvP §7teleportiert.");
                 Particle particle = new Particle(EnumParticle.FLAME, player.getLocation().add(0, 2.25, 0), true, 0.25f, 0.25f, 0.25f, 0, 10000);
                 particle.sendAll();
                 player.closeInventory();
             } else if (displayName.contains("§f§lSkyWars")) {
-                scheduler(player, moduleManager.getLocationsUtil().getSkywars().add(0, 1, 0));
+                scheduler(player, moduleManager.getLocationsUtil().getSkywars().clone().add(0, 1, 0));
                 player.sendMessage(moduleManager.getData().getPrefix() + "Du wurdest zu §6SkyWars §7teleportiert.");
                 Particle particle = new Particle(EnumParticle.FLAME, player.getLocation().add(0, 2.25, 0), true, 0.25f, 0.25f, 0.25f, 0, 10000);
                 particle.sendAll();

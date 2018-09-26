@@ -22,7 +22,6 @@ public class TabList {
 
     public void loadTabList() {
         scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-
         scoreboard.registerNewTeam("a").setPrefix("§4§lAdmin §8|§7 ");
         scoreboard.registerNewTeam("b").setPrefix("§c§lSrMod §8|§7 ");
         scoreboard.registerNewTeam("c").setPrefix("§c§lMod §8|§7 ");
@@ -53,7 +52,7 @@ public class TabList {
 
     public void setPrefix(Player player) {
         String team = "p";
-        if (!coreSpigot.getHookManager().getVipHide().isDisguised(player)) {
+        if (!coreSpigot.getNickManager().isDisguised(player)) {
             if (!(coreSpigot.getModuleManager().getServerType().equals(ServerType.CITY_BUILD) || coreSpigot.getModuleManager().getServerType().equals(ServerType.SKY_PVP))) {
                 if (player.hasPermission("group." + "administrator"))
                     team = "a";
@@ -85,7 +84,6 @@ public class TabList {
                     team = "n";
                 else if (player.hasPermission("group." + "gold"))
                     team = "o";
-                else team = "p";
             } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.CITY_BUILD)) {
                 if (player.hasPermission("group." + "administrator"))
                     team = "a";
@@ -117,7 +115,6 @@ public class TabList {
                     team = "n";
                 else if (player.hasPermission("group." + "premium"))
                     team = "o";
-                else team = "p";
             } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.SKY_PVP)) {
                 if (player.hasPermission("group." + "administrator"))
                     team = "a";
@@ -149,12 +146,13 @@ public class TabList {
                     team = "n";
                 else if (player.hasPermission("group." + "ultra"))
                     team = "o";
-                else team = "p";
             }
         }
 
         scoreboard.getTeam(team).addEntry(player.getName());
         String name = scoreboard.getTeam(team).getPrefix() + player.getName() + " ";
+        if (coreSpigot.getNickManager().isDisguised(player))
+            name = scoreboard.getTeam(team).getPrefix() + coreSpigot.getNickManager().getPlayerName().get(player) + " ";
         if (name.length() > 16) {
             String subName = name.substring(0, 16);
             player.setDisplayName(subName);

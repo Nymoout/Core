@@ -75,6 +75,7 @@ public class ModuleManager {
     private ItemCreator itemCreator;
     private LobbyParticle lobbyParticle;
     private LocationsUtil locationsUtil;
+    private LotterySystem lotterySystem;
     private Particle particle;
     private PlayerRealTime playerRealTime;
     private Portal portal;
@@ -217,6 +218,7 @@ public class ModuleManager {
             portalManager = new PortalManager(coreSpigot);
             playerPortalListener = new PlayerPortalListener(coreSpigot);
             portal = new Portal();
+            new GMCommand(coreSpigot);
             tpsCommand = new TPSCommand(coreSpigot);
             joinListener = new JoinListener(coreSpigot);
             chatListener = new ChatListener(coreSpigot);
@@ -239,6 +241,9 @@ public class ModuleManager {
 
     public void stopServer() {
         for (Player all : Bukkit.getOnlinePlayers()) {
+            //if (nickManager.isDisguised(all)) {
+            //    nickManager.undisguise(all, false, true);
+            //}
             all.kickPlayer("");
         }
         schedulerSaver.cancelSchedulers();
@@ -253,4 +258,5 @@ public class ModuleManager {
             automaticClearLag.clearLagScheduler();
         }
     }
+
 }
