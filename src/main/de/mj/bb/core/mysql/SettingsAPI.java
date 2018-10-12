@@ -180,7 +180,7 @@ public class SettingsAPI {
                     coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().put(player, PlayerLevel.LOBBY);
                 else if (b == 1)
                     coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().put(player, PlayerLevel.SCROLL);
-                else if (b == 2)
+                else
                     coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().put(player, PlayerLevel.YEAR);
             } catch (SQLException e) {
                 e.printStackTrace();

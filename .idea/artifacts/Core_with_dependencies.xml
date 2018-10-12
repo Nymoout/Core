@@ -13,7 +13,6 @@
       <element id="library" level="project" name="Maven: org.projectlombok:lombok:1.18.2" />
       <element id="library" level="project" name="Maven: org.yaml:snakeyaml:1.16" />
       <element id="library" level="project" name="Party-and-Friends-MySQL-Edition-Spigot-API-1.4.1" />
-      <element id="library" level="project" name="Plugin-2.5.0" />
       <element id="library" level="project" name="ProtocolLib" />
     </root>
   </artifact>

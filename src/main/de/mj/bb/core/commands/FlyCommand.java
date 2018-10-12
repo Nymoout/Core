@@ -34,7 +34,7 @@ public class FlyCommand implements CommandExecutor {
                 commandSender.sendMessage(coreSpigot.getModuleManager().getData().getNoPerm());
             }
         } else {
-            commandSender.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§cDu musst ein Spieler sein um diesen Befehl nutzen zu können!");
+            commandSender.sendMessage(coreSpigot.getModuleManager().getData().getOnlyPlayer());
         }
         return false;
     }

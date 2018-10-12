@@ -32,37 +32,36 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 @Getter
 public class SettingsListener implements Listener {
 
-    private ArrayList<Player> silentState = new ArrayList<>();
-    private ArrayList<Player> rideState = new ArrayList<>();
-    private HashMap<Player, Short> design = new HashMap<>();
-    private HashMap<Player, String> color = new HashMap<>();
-    private ArrayList<Player> jumpPads = new ArrayList<>();
-    private ArrayList<Player> doubleJump = new ArrayList<>();
-    private ArrayList<Player> waterJump = new ArrayList<>();
-    private HashMap<Player, PlayerLevel> playerLevel = new HashMap<>();
+    private Set<Player> silentState = new HashSet<>();
+    private Set<Player> rideState = new HashSet<>();
+    private Map<Player, Short> design = new HashMap<>();
+    private Map<Player, String> color = new HashMap<>();
+    private Set<Player> jumpPads = new HashSet<>();
+    private Set<Player> doubleJump = new HashSet<>();
+    private Set<Player> waterJump = new HashSet<>();
+    private Map<Player, PlayerLevel> playerLevel = new HashMap<>();
 
-    private ArrayList<Player> scoreFriends = new ArrayList<>();
-    private ArrayList<Player> scoreRank = new ArrayList<>();
-    private ArrayList<Player> scoreServer = new ArrayList<>();
-    private ArrayList<Player> scoreClan = new ArrayList<>();
-    private ArrayList<Player> scoreCoins = new ArrayList<>();
-    private ArrayList<Player> time = new ArrayList<>();
-    private ArrayList<Player> realTime = new ArrayList<>();
-    private ArrayList<Player> day = new ArrayList<>();
-    private ArrayList<Player> weather = new ArrayList<>();
+    private Set<Player> scoreFriends = new HashSet<>();
+    private Set<Player> scoreRank = new HashSet<>();
+    private Set<Player> scoreServer = new HashSet<>();
+    private Set<Player> scoreClan = new HashSet<>();
+    private Set<Player> scoreCoins = new HashSet<>();
+    private Set<Player> time = new HashSet<>();
+    private Set<Player> realTime = new HashSet<>();
+    private Set<Player> day = new HashSet<>();
+    private Set<Player> weather = new HashSet<>();
 
-    private HashMap<Player, Inventory> invent1 = new HashMap<>();
-    private HashMap<Player, Inventory> invent2 = new HashMap<>();
-    private HashMap<Player, Inventory> invent3 = new HashMap<>();
-    private HashMap<Player, Inventory> invent4 = new HashMap<>();
-    private HashMap<Player, Inventory> score1 = new HashMap<>();
-    private HashMap<Player, Inventory> score2 = new HashMap<>();
+    private Map<Player, Inventory> invent1 = new HashMap<>();
+    private Map<Player, Inventory> invent2 = new HashMap<>();
+    private Map<Player, Inventory> invent3 = new HashMap<>();
+    private Map<Player, Inventory> invent4 = new HashMap<>();
+    private Map<Player, Inventory> score1 = new HashMap<>();
+    private Map<Player, Inventory> score2 = new HashMap<>();
 
     private final CoreSpigot coreSpigot;
 
@@ -117,16 +116,13 @@ public class SettingsListener implements Listener {
         if (!(interactEvent.getAction().equals(Action.RIGHT_CLICK_AIR) || interactEvent.getAction().equals(Action.RIGHT_CLICK_BLOCK) || interactEvent.getAction().equals(Action.LEFT_CLICK_AIR) || interactEvent.getAction().equals(Action.LEFT_CLICK_BLOCK)))
             return;
         Player player = interactEvent.getPlayer();
-        if (player.getItemInHand().getType().equals(Material.REDSTONE_COMPARATOR) && player.getItemInHand().getItemMeta().getDisplayName().equals("§8\u00BB§6§lEinstellungen§8\u00AB")) {
+        if (player.getItemInHand().getType().equals(Material.REDSTONE_COMPARATOR) && player.getItemInHand().getItemMeta().getDisplayName().equals("§8\u00BB§c§lEinstellungen§8\u00AB")) {
             if (invent1.containsKey(player)) {
                 player.openInventory(invent1.get(player));
             } else {
                 setInv(player);
                 player.openInventory(invent1.get(player));
             }
-        } else if (player.getInventory().getName().equals("§8§lMain Menu")) {
-            player.getInventory().setItem(31, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.ARMOR_STAND, 0, 1,
-                    "§9§lM§e§li§9§ln§e§li§9§lo§e§ln§9§ls", null));
         }
     }
 
@@ -134,10 +130,10 @@ public class SettingsListener implements Listener {
         ModuleManager lobby = this.coreSpigot.getModuleManager();
         invent1.remove(player);
         player.playSound(player.getLocation(), Sound.NOTE_PIANO, 1, 1);
-        Inventory inv = Bukkit.createInventory(null, 54, "§6§lEinstellungen");
-        Inventory inv2 = Bukkit.createInventory(null, 54, "§6§lEinstellungen");
-        Inventory inv3 = Bukkit.createInventory(null, 54, "§6§lEinstellungen");
-        Inventory inv4 = Bukkit.createInventory(null, 54, "§6§lEinstellungen");
+        Inventory inv = Bukkit.createInventory(null, 54, "§8\u00BB§c§lEinstellungen§8\u00AB");
+        Inventory inv2 = Bukkit.createInventory(null, 54, "§8\u00BB§c§lEinstellungen§8\u00AB");
+        Inventory inv3 = Bukkit.createInventory(null, 54, "§8\u00BB§c§lEinstellungen§8\u00AB");
+        Inventory inv4 = Bukkit.createInventory(null, 54, "§8\u00BB§c§lEinstellungen§8\u00AB");
         for (int i = 8; i >= 0; i--) {
             if (design.containsKey(player)) {
                 inv.setItem(i,
@@ -321,11 +317,11 @@ public class SettingsListener implements Listener {
         inv4.setItem(9, lobby.getItemCreator().createItemWithMaterial(Material.EXP_BOTTLE, 0, 1, "§a§lLevelleiste", levelLore));
         if (playerLevel.containsKey(player)) {
             if (playerLevel.get(player).equals(PlayerLevel.LOBBY))
-                inv4.setItem(17, lobby.getItemCreator().createItemWithMaterial(Material.NETHER_STAR, 0, 1, "§9LOBBY"));
+                inv4.setItem(17, lobby.getItemCreator().createItemWithMaterial(Material.NETHER_STAR, 0, 1, "§fLobby"));
             else if (playerLevel.get(player).equals(PlayerLevel.SCROLL))
-                inv4.setItem(17, lobby.getItemCreator().createItemWithMaterial(Material.STAINED_GLASS_PANE, 15, 1, "§eSLOT"));
+                inv4.setItem(17, lobby.getItemCreator().createItemWithMaterial(Material.STAINED_GLASS_PANE, 15, 1, "§aSlot"));
             else if (playerLevel.get(player).equals(PlayerLevel.YEAR))
-                inv4.setItem(17, lobby.getItemCreator().createItemWithMaterial(Material.FIREWORK, 0, 1, "§cJAHR"));
+                inv4.setItem(17, lobby.getItemCreator().createItemWithMaterial(Material.FIREWORK, 0, 1, "§cJahr"));
         }
 
         for (int a = 53; a >= 45; a--) {
@@ -421,18 +417,24 @@ public class SettingsListener implements Listener {
             }
         } else if (clickEvent.getCurrentItem().getType().equals(Material.SKULL_ITEM)
                 && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§6Nächste Seite")) {
-            if (player.getOpenInventory().getItem(40).getItemMeta().getDisplayName().equalsIgnoreCase("§6§lSeite §a§l2§6§l/§a§l3")) {
-                player.openInventory(invent3.get(player));
-            } else {
+            if (player.getOpenInventory().getItem(40).getItemMeta().getDisplayName().equalsIgnoreCase("§6§lSeite §a§l1§6§l/§a§l4"))
                 player.openInventory(invent2.get(player));
-            }
+            else if (player.getOpenInventory().getItem(40).getItemMeta().getDisplayName().equalsIgnoreCase("§6§lSeite §a§l2§6§l/§a§l4"))
+                player.openInventory(invent3.get(player));
+            else if (player.getOpenInventory().getItem(40).getItemMeta().getDisplayName().equalsIgnoreCase("§6§lSeite §a§l3§6§l/§a§l4"))
+                player.openInventory(invent4.get(player));
+            else
+                player.openInventory(invent1.get(player));
         } else if (clickEvent.getCurrentItem().getType().equals(Material.SKULL_ITEM)
                 && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§6Vorherige Seite")) {
-            if (player.getOpenInventory().getItem(40).getItemMeta().getDisplayName().equalsIgnoreCase("§6§lSeite §a§l3§6§l/§a§l3")) {
-                player.openInventory(invent2.get(player));
-            } else {
+            if (player.getOpenInventory().getItem(40).getItemMeta().getDisplayName().equalsIgnoreCase("§6§lSeite §a§l2§6§l/§a§l4"))
                 player.openInventory(invent1.get(player));
-            }
+            else if (player.getOpenInventory().getItem(40).getItemMeta().getDisplayName().equalsIgnoreCase("§6§lSeite §a§l3§6§l/§a§l4"))
+                player.openInventory(invent2.get(player));
+            else if (player.getOpenInventory().getItem(40).getItemMeta().getDisplayName().equalsIgnoreCase("§6§lSeite §a§l4§6§l/§a§l4"))
+                player.openInventory(invent3.get(player));
+            else
+                player.openInventory(invent4.get(player));
         } else if (clickEvent.getCurrentItem().getType().equals(Material.WATER_BUCKET)
                 && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§b§lWetter")) {
             if (weather.contains(player)) {
@@ -480,7 +482,29 @@ public class SettingsListener implements Listener {
                 lobby.getSettingsAPI().setDJUMP(player, true);
                 player.updateInventory();
             }
-        } else return;
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.EXP_BOTTLE) && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equals("§a§lLevelleiste")) {
+            if (playerLevel.get(player).equals(PlayerLevel.LOBBY)) {
+                playerLevel.replace(player, PlayerLevel.YEAR);
+                lobby.getSettingsAPI().setLEVEL(player, PlayerLevel.YEAR);
+                invent4.get(player).setItem(17, lobby.getItemCreator().createItemWithMaterial(Material.FIREWORK, 0, 1, "§cJahr"));
+                player.setLevel(Calendar.getInstance().get(Calendar.YEAR));
+                player.updateInventory();
+            } else if (playerLevel.get(player).equals(PlayerLevel.YEAR)) {
+                playerLevel.replace(player, PlayerLevel.SCROLL);
+                lobby.getSettingsAPI().setLEVEL(player, PlayerLevel.SCROLL);
+                invent4.get(player).setItem(17, lobby.getItemCreator().createItemWithMaterial(Material.STAINED_GLASS_PANE, 15, 1, "§aSlot"));
+                player.setLevel(1);
+                player.updateInventory();
+            } else if (playerLevel.get(player).equals(PlayerLevel.SCROLL)) {
+                playerLevel.replace(player, PlayerLevel.LOBBY);
+                lobby.getSettingsAPI().setLEVEL(player, PlayerLevel.LOBBY);
+                invent4.get(player).setItem(17, lobby.getItemCreator().createItemWithMaterial(Material.NETHER_STAR, 0, 1, "§fLobby"));
+                String[] serverName = player.getServer().getServerName().split("-");
+                int server = Integer.parseInt(serverName[1]);
+                player.setLevel(server);
+                player.updateInventory();
+            }
+        }
     }
 
     @EventHandler

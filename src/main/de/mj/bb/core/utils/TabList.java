@@ -52,7 +52,7 @@ public class TabList {
 
     public void setPrefix(Player player) {
         String team = "p";
-        if (!coreSpigot.getNickManager().isDisguised(player)) {
+        //if (!coreSpigot.getNickManager().isDisguised(player)) {
             if (!(coreSpigot.getModuleManager().getServerType().equals(ServerType.CITY_BUILD) || coreSpigot.getModuleManager().getServerType().equals(ServerType.SKY_PVP))) {
                 if (player.hasPermission("group." + "administrator"))
                     team = "a";
@@ -147,12 +147,12 @@ public class TabList {
                 else if (player.hasPermission("group." + "ultra"))
                     team = "o";
             }
-        }
+        //}
 
         scoreboard.getTeam(team).addEntry(player.getName());
         String name = scoreboard.getTeam(team).getPrefix() + player.getName() + " ";
-        if (coreSpigot.getNickManager().isDisguised(player))
-            name = scoreboard.getTeam(team).getPrefix() + coreSpigot.getNickManager().getPlayerName().get(player) + " ";
+        //if (coreSpigot.getNickManager().isDisguised(player))
+        //name = scoreboard.getTeam(team).getPrefix() + coreSpigot.getNickManager().getPlayerName().get(player) + " ";
         if (name.length() > 16) {
             String subName = name.substring(0, 16);
             player.setDisplayName(subName);

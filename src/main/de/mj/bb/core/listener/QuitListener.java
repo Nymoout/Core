@@ -9,6 +9,7 @@ package main.de.mj.bb.core.listener;
 
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.utils.ServerType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -27,27 +28,25 @@ public class QuitListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onQuit(PlayerQuitEvent quitEvent) {
-        coreSpigot.getModuleManager().getMinionListener().rmMini(quitEvent.getPlayer());
-        if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
-            coreSpigot.getModuleManager().getAfkListener().getAfkMover().remove(quitEvent.getPlayer());
-            if (coreSpigot.getModuleManager().getAfkListener().getRuns().containsKey(quitEvent.getPlayer())) {
-                coreSpigot.getModuleManager().getAfkListener().getRuns().get(quitEvent.getPlayer()).cancel();
-                coreSpigot.getModuleManager().getAfkListener().getRuns().remove(quitEvent.getPlayer());
-            }
-        }
+        clearPlayer(quitEvent.getPlayer());
         quitEvent.setQuitMessage(null);
     }
 
     @EventHandler
     public void onKick(PlayerKickEvent kickEvent) {
-        coreSpigot.getModuleManager().getMinionListener().rmMini(kickEvent.getPlayer());
-        if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
-            coreSpigot.getModuleManager().getAfkListener().getAfkMover().remove(kickEvent.getPlayer());
-            if (coreSpigot.getModuleManager().getAfkListener().getRuns().containsKey(kickEvent.getPlayer())) {
-                coreSpigot.getModuleManager().getAfkListener().getRuns().get(kickEvent.getPlayer()).cancel();
-                coreSpigot.getModuleManager().getAfkListener().getRuns().remove(kickEvent.getPlayer());
-            }
-        }
+        clearPlayer(kickEvent.getPlayer());
         kickEvent.setLeaveMessage(null);
+    }
+
+    private void clearPlayer(Player player) {
+        if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
+            coreSpigot.getModuleManager().getMinionListener().rmMini(player);
+            coreSpigot.getModuleManager().getAfkListener().getAfkMover().remove(player);
+            if (coreSpigot.getModuleManager().getAfkListener().getRuns().containsKey(player)) {
+                coreSpigot.getModuleManager().getAfkListener().getRuns().get(player).cancel();
+                coreSpigot.getModuleManager().getAfkListener().getRuns().remove(player);
+            }
+            coreSpigot.getModuleManager().getFlyListener().getFly().remove(player);
+        }
     }
 }

@@ -71,6 +71,10 @@
             <name>ParallelBlock Public Repository</name>
             <url>https://repo.parallelblock.com/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>NetworkManager</id>
+            <url>file://${basedir}/lib/repo</url>
+        </repository>
     </repositories>
 
     <dependencies>

@@ -12,6 +12,7 @@ import cloud.timo.TimoCloud.api.objects.PlayerObject;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
 import main.de.mj.bb.core.CoreSpigot;
+import main.de.mj.bb.core.utils.PlayerLevel;
 import main.de.mj.bb.core.utils.ServerType;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
@@ -30,6 +31,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 
 public class JoinListener implements Listener {
@@ -58,6 +60,7 @@ public class JoinListener implements Listener {
                 coreSpigot.getModuleManager().getSettingsListener().getScoreServer().add(player);
                 coreSpigot.getModuleManager().getSettingsListener().getJumpPads().add(player);
                 coreSpigot.getModuleManager().getSettingsListener().getWeather().add(player);
+                coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().put(player, PlayerLevel.YEAR);
                 player.setPlayerWeather(WeatherType.CLEAR);
                 coreSpigot.getHookManager().getEconomy().depositPlayer(player, 1000);
             }
@@ -80,6 +83,7 @@ public class JoinListener implements Listener {
                 coreSpigot.getModuleManager().getSettingsAPI().getWjump(player);
                 coreSpigot.getModuleManager().getSettingsAPI().getJumPlate(player);
                 coreSpigot.getModuleManager().getSettingsAPI().getTime(player);
+                coreSpigot.getModuleManager().getSettingsAPI().getLevel(player);
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -105,7 +109,7 @@ public class JoinListener implements Listener {
             player.getInventory().setItem(4,
                     coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.COMPASS, 0, 1, "§8\u00BB§7§lNavigator§8\u00AB"));
             player.getInventory().setItem(1, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.REDSTONE_COMPARATOR, 0, 1,
-                    "§8\u00BB§6§lEinstellungen§8\u00AB"));
+                    "§8\u00BB§c§lEinstellungen§8\u00AB"));
             player.getInventory().setItem(2, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.JUKEBOX, 0, 1, "§8\u00BB§a§lRadio§8\u00AB"));
             player.getInventory().setItem(7,
                     coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.NETHER_STAR, 0, 1, "§8\u00BB§f§lLobby-Switcher§8\u00AB"));
@@ -160,13 +164,21 @@ public class JoinListener implements Listener {
             @Override
             public void run() {
                 if (serverType.equals(ServerType.LOBBY)) {
-                    if (coreSpigot.getModuleManager().getServerStatsAPI().getMaxServer().containsKey(player) && coreSpigot.getModuleManager().getServerStatsAPI().getMaxServer().get(player) != null) {
+                    if (coreSpigot.getModuleManager().getServerStatsAPI().getMaxServer().containsKey(player) && coreSpigot.getModuleManager().getServerStatsAPI().getMaxServer().get(player) != null && coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().containsKey(player) && coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player) != null) {
                         net.minecraft.server.v1_8_R3.IChatBaseComponent icb = net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer
                                 .a("{\"text\":\"§2Du spielst öfters auf dem Server\",\"extra\":[{\"text\":\"§b "
                                         + coreSpigot.getModuleManager().getServerStatsAPI().getMaxServer().get(player)
                                         + ". §2Wenn §2du §2dich §2mit §2diesem §2verbinden §2willst, §2dann §2klick §2einfach §2hier!\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"§aKlicke hier um diesen Server zu betreten!\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gotoserver " + coreSpigot.getModuleManager().getServerStatsAPI().getMaxServer().get(player) + "\"}}]}");
                         net.minecraft.server.v1_8_R3.PacketPlayOutChat packet = new net.minecraft.server.v1_8_R3.PacketPlayOutChat(icb);
                         ((org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+                        if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.LOBBY)) {
+                            String[] serverName = player.getServer().getServerName().split("-");
+                            int server = Integer.parseInt(serverName[1]);
+                            player.setLevel(server);
+                        } else if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.SCROLL))
+                            player.setLevel(1);
+                        else if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.YEAR))
+                            player.setLevel(Calendar.getInstance().get(Calendar.YEAR));
                         cancel();
                     } else {
                         coreSpigot.getModuleManager().getServerStatsAPI().getMaxPlayed(player);

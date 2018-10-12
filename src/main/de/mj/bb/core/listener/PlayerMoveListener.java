@@ -106,7 +106,7 @@ public class PlayerMoveListener implements Listener {
         return PlayerFacing.NORTH;
     }
 
-    public enum PlayerFacing {
+    private enum PlayerFacing {
         WEST, NORTH, EAST, SOUTH
     }
 

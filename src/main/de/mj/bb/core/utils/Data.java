@@ -12,14 +12,7 @@ import lombok.Getter;
 @Getter
 public class Data {
 
-    private static String prefix = "§7[§6§lBattleBuild§7] §7";
-    private static String noPerm = prefix + "§cDir fehlt die ben\u00F6tigte Berechtigung.";
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public String getNoPerm() {
-        return noPerm;
-    }
+    private String prefix = "§7[§6§lBattleBuild§7] §7";
+    private String noPerm = prefix + "§cDir fehlt die ben\u00F6tigte Berechtigung!";
+    private String onlyPlayer = prefix + "Du musst ein Spieler sein um diesen Befehl nutzen zu können!";
 }

@@ -119,7 +119,7 @@ public class ScoreboardManager {
         }
         ScoreboardScore s16 = new ScoreboardScore(scoreboard, obj, "§7§6 ");
         ScoreboardScore s17 = new ScoreboardScore(scoreboard, obj, "§a§lOnline-Zeit");
-        int playtime = lobby.getNetworkManagerBridge().getPlayer(p.getUniqueId()).get().getPlaytime();
+        int playtime = lobby.getNetworkManagerPlugin().getPlayer(p.getUniqueId()).getPlaytime();
         float tosecond = playtime / 1000;
         float tominute = tosecond / 60;
         float tohour = tominute / 60;

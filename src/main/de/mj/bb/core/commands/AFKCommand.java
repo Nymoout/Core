@@ -35,7 +35,7 @@ public class AFKCommand implements CommandExecutor {
             } else
                 player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§cDu bist bereits AFK!");
         } else
-            sender.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§cDu musst ein Spieler sein um diesen Befehl ausführen zu können!");
+            sender.sendMessage(coreSpigot.getModuleManager().getData().getOnlyPlayer());
         return false;
     }
 }

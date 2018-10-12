@@ -35,7 +35,7 @@ public class GMCommand implements CommandExecutor {
                     player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "Bitte benutze /gm <0-3>");
             }
         } else
-            commandSender.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "Du musst ein Spieler sein um diesen Befehl nutzen zu können!");
+            commandSender.sendMessage(coreSpigot.getModuleManager().getData().getOnlyPlayer());
         return false;
     }
 

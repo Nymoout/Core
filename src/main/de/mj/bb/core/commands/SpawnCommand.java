@@ -29,7 +29,7 @@ public class SpawnCommand implements CommandExecutor {
             Player player = (Player) commandSender;
             player.teleport(coreSpigot.getModuleManager().getLocationsUtil().getSpawn());
             player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "Du wurdest zum Spawn teleportiert!");
-        }
+        } else commandSender.sendMessage(coreSpigot.getModuleManager().getData().getOnlyPlayer());
         return false;
     }
 }

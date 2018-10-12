@@ -17,7 +17,7 @@ import main.de.mj.bb.core.utils.ServerType;
 import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.LuckPermsApi;
 import net.milkbowl.vault.economy.Economy;
-import nl.chimpgamer.networkmanager.spigot.NetworkManager;
+import nl.chimpgamer.networkmanagerapi.NetworkManagerPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -35,7 +35,7 @@ public class HookManager {
     private final String prefix = new Data().getPrefix();
     private Economy economy;
     private ProtocolManager protocolManager;
-    private NetworkManager networkManagerBridge;
+    private NetworkManagerPlugin networkManagerPlugin;
     private LuckPermsApi luckPermsApi;
     private PAFPlayerManager pafPlayerManager;
     private ClansManager clansManager;
@@ -98,7 +98,7 @@ public class HookManager {
 
             sender.sendMessage(prefix + "§atry to hook into NetworkManager...");
             if (coreSpigot.getServer().getPluginManager().getPlugin("NetworkManager") != null) {
-                this.networkManagerBridge = (NetworkManager) coreSpigot.getServer().getPluginManager().getPlugin("NetworkManager");
+                this.networkManagerPlugin = (NetworkManagerPlugin) coreSpigot.getServer().getPluginManager().getPlugin("NetworkManager");
                 sender.sendMessage(prefix + "§ahooked into: NetworkManager");
             } else {
                 sender.sendMessage(String.format("§c[%s] - NetworkManagerBridge wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
@@ -117,6 +117,13 @@ public class HookManager {
                 coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
             }
 
+            sender.sendMessage(prefix + "§dtry to hook into HolographicDisplays...");
+            if (coreSpigot.getServer().getPluginManager().getPlugin("HolographicDisplays") != null) {
+                sender.sendMessage(prefix + "§dhooked into: HolographicDisplays");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - HolographicDisplays wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
+                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
+            }
         }
         if (serverType.equals(ServerType.SKY_PVP)) {
             sender.sendMessage(prefix + "§dtry to hook into LuckPerms...");

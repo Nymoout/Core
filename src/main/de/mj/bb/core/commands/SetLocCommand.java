@@ -33,12 +33,12 @@ public class SetLocCommand implements CommandExecutor {
                 if (strings.length == 1) {
                     setLocation(strings[0], player);
                 }
-            }
-        }
+            } else commandSender.sendMessage(coreSpigot.getModuleManager().getData().getNoPerm());
+        } else commandSender.sendMessage(coreSpigot.getModuleManager().getData().getOnlyPlayer());
         return false;
     }
 
-    public void setLocation(String path, Player player) {
+    private void setLocation(String path, Player player) {
         Location loc = player.getLocation();
         ModuleManager moduleManager = coreSpigot.getModuleManager();
         moduleManager.getSetLocations().getYamlConfiguration().set("bb." + path + ".world", loc.getWorld().getName());

@@ -29,10 +29,11 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class MinionListener implements Listener {
 
-    private static HashMap<Player, ArmorStand> minion = new HashMap<Player, ArmorStand>();
+    private static Map<Player, ArmorStand> minion = new HashMap<>();
     private final CoreSpigot coreSpigot;
     private String prefix = new Data().getPrefix();
 

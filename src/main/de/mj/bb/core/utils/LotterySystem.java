@@ -8,6 +8,7 @@ import java.util.Set;
 
 public class LotterySystem {
 
+    /* TODO */
     private final CoreSpigot coreSpigot;
     private int timer = 10;
     private Set<Player> player = new HashSet<>();
