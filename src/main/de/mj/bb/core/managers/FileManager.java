@@ -12,7 +12,9 @@ public class FileManager {
 
     private final CoreSpigot coreSpigot;
     private File portalFile = new File("plugins/BBCoreSpigot/", "portal.yml");
+    private File logBlockFile = new File("plugins/BBCoreSpigot/", "logBlock.yml");
     private YamlConfiguration portalConfig = YamlConfiguration.loadConfiguration(portalFile);
+    private YamlConfiguration logBlockConfig = YamlConfiguration.loadConfiguration(logBlockFile);
 
     public FileManager(CoreSpigot coreSpigot) {
         this.coreSpigot = coreSpigot;
@@ -28,6 +30,18 @@ public class FileManager {
             portalConfig.createSection("Portals");
         try {
             portalConfig.save(portalFile);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void setBlockConfig(String dateTime, String player, String blockName, int x, int y, int z, boolean placed) {
+        if (placed)
+            logBlockConfig.set(dateTime, player + " hat den Block " + blockName + " an der Position X: " + x + ", Y: " + y + ", Z:" + z + " gesetzt!");
+        else
+            logBlockConfig.set(dateTime, player + " hat den Block " + blockName + " an der Position X: " + x + ", Y: " + y + ", Z:" + z + " entfernt!");
+        try {
+            logBlockConfig.save(logBlockFile);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

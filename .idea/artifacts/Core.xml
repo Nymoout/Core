@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Core</output-path>
     <root id="archive" name="Core.jar">
       <element id="module-output" name="Core" />
+      <element id="library" level="project" name="JDA-3.8.0_436-withDependencies" />
     </root>
   </artifact>
 </component>

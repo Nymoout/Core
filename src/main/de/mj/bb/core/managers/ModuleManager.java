@@ -45,6 +45,7 @@ public class ModuleManager {
     private FlyListener flyListener;
     private JoinListener joinListener;
     private LobbySwitcherListener lobbySwitcherListener;
+    private LogBlockListener logBlockListener;
     private MinionListener minionListener;
     private MusicListener musicListener;
     private PlayerMoveListener playerMoveListener;
@@ -210,6 +211,8 @@ public class ModuleManager {
             chatListener = new ChatListener(coreSpigot);
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
+            fileManager = new FileManager(coreSpigot);
+            logBlockListener = new LogBlockListener(coreSpigot);
             tabList.loadTabList();
         } else if (serverType.equals(ServerType.BAU_SERVER)) {
             data = new Data();

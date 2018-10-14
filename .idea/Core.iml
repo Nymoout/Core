@@ -17,6 +17,7 @@
     <orderEntry type="library" name="BlockParticles[v1.9.7.2]" level="project" />
     <orderEntry type="library" name="HolographicDisplays" level="project" />
     <orderEntry type="library" name="plugin-2.5.01" level="project" />
+    <orderEntry type="library" name="JDA-3.8.0_436-withDependencies" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot:1.8.8" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: me.lucko.luckperms:luckperms-api:4.2" level="project" />
     <orderEntry type="library" name="Maven: cloud.timo.TimoCloud:TimoCloud:5.3.5" level="project" />
@@ -53,5 +54,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-bungeecord:2.4.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-sponge:2.4.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-velocity:2.4.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.github.theholywaffle:teamspeak3-api:1.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
   </component>
 </module>

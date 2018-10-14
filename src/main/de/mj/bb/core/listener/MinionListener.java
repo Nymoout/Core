@@ -65,9 +65,10 @@ public class MinionListener implements Listener {
                     as.setBasePlate(false);
                     ItemStack helm = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
                     SkullMeta hm = (SkullMeta) helm.getItemMeta();
-                    if (coreSpigot.getNickManager().isDisguised(player)) {
-                        hm.setOwner(coreSpigot.getNickManager().getPlayerName().get(player));
-                    } else hm.setOwner(player.getName());
+                    hm.setOwner(player.getName());
+                    //if (coreSpigot.getNickManager().isDisguised(player)) {
+                    //    hm.setOwner(coreSpigot.getNickManager().getPlayerName().get(player));
+                    //} else hm.setOwner(player.getName());
                     helm.setItemMeta(hm);
                     as.setHelmet(helm);
                     ItemStack Boots = new ItemStack(Material.LEATHER_BOOTS);
@@ -83,7 +84,7 @@ public class MinionListener implements Listener {
                     as.setChestplate(Chestplate);
                     minion.put(player, as);
                     player.sendMessage(
-                            prefix + "§9§lM§e§li§9§ln§e§li§9§lo§e§ln §7wurde ausger\u00FCstet.");
+                            prefix + "Dein §3§lMinion §7wurde ausger\u00FCstet!");
                 }
             }
         }
@@ -91,7 +92,7 @@ public class MinionListener implements Listener {
 
     private ItemMeta setColor(ItemStack itemStack, Player player) {
         LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) itemStack.getItemMeta();
-        if (coreSpigot.getNickManager().isDisguised(player)) return null;
+        //if (coreSpigot.getNickManager().isDisguised(player)) return null;
         if (player.hasPermission("group.administrator")) {
             leatherArmorMeta.setColor(Color.fromRGB(170, 2, 0));
             return leatherArmorMeta;
@@ -154,10 +155,10 @@ public class MinionListener implements Listener {
             as.setChestplate(chest);
             ItemStack helm = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
             SkullMeta hm = (SkullMeta) helm.getItemMeta();
-            if (coreSpigot.getNickManager().isDisguised(player)) {
-                hm.setOwner(coreSpigot.getNickManager().getPlayerName().get(player));
-                as.setHelmet(helm);
-            }
+            //if (coreSpigot.getNickManager().isDisguised(player)) {
+            //    hm.setOwner(coreSpigot.getNickManager().getPlayerName().get(player));
+            //    as.setHelmet(helm);
+            //}
         }
     }
 
@@ -166,6 +167,8 @@ public class MinionListener implements Listener {
             ArmorStand armorStand = minion.get(player);
             armorStand.remove();
             minion.remove(player);
+            player.sendMessage(
+                    prefix + "Dein §3§lMinion §7wurde entfernt!");
         }
     }
 
