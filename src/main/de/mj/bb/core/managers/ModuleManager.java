@@ -106,10 +106,10 @@ public class ModuleManager {
         schedulerSaver = new SchedulerSaver();
         fileManager = new FileManager(coreSpigot);
         fileManager.loadConfigFile();
+        ticksPerSecond = new TicksPerSecond();
+        tpsCommand = new TPSCommand(coreSpigot);
         if (fileManager.getBooleanFormConfig("Clearlag")) {
-            ticksPerSecond = new TicksPerSecond();
             Bukkit.getScheduler().scheduleSyncRepeatingTask(coreSpigot, ticksPerSecond, 100L, 1L);
-            tpsCommand = new TPSCommand(coreSpigot);
             automaticClearLag = new AutomaticClearLag(coreSpigot);
             automaticClearLag.clearLagScheduler();
         }

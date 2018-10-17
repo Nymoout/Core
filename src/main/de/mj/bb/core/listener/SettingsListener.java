@@ -837,5 +837,3 @@ public class SettingsListener implements Listener {
         return inv;
     }
 }
-
-
