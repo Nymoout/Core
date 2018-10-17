@@ -28,6 +28,7 @@ public class ModuleManager {
     private BorderCommand borderCommand;
     private CoreRestartCommand coreRestartCommand;
     private FlyCommand flyCommand;
+    private GMCommand gmCommand;
     private SetLocCommand setLocCommand;
     private SetPortalCommand portalCommand;
     private SetRangCommand setRangCommand;
@@ -221,7 +222,7 @@ public class ModuleManager {
             portalManager = new PortalManager(coreSpigot);
             playerPortalListener = new PlayerPortalListener(coreSpigot);
             portal = new Portal();
-            new GMCommand(coreSpigot);
+            gmCommand = new GMCommand(coreSpigot);
             tpsCommand = new TPSCommand(coreSpigot);
             joinListener = new JoinListener(coreSpigot);
             chatListener = new ChatListener(coreSpigot);
@@ -239,6 +240,18 @@ public class ModuleManager {
             chatListener = new ChatListener(coreSpigot);
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
+        } else if (serverType.equals(ServerType.VORBAUEN)) {
+            data = new Data();
+            tabList = new TabList(coreSpigot);
+            new GMCommand(coreSpigot);
+            tpsCommand = new TPSCommand(coreSpigot);
+            new ChestCommand(coreSpigot);
+            new BlockPlaceChestListener(coreSpigot);
+            joinListener = new JoinListener(coreSpigot);
+            chatListener = new ChatListener(coreSpigot);
+            commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
+            stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
+            tabList.loadTabList();
         }
     }
 

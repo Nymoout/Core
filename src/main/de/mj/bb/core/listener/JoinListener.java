@@ -158,7 +158,6 @@ public class JoinListener implements Listener {
         waitMySQL(player, coreSpigot.getModuleManager().getServerType());
         coreSpigot.getModuleManager().getTabList().setPrefix(player);
     }
-
     private void waitMySQL(Player player, ServerType serverType) {
         coreSpigot.getModuleManager().getSchedulerSaver().createScheduler(new BukkitRunnable() {
             @Override

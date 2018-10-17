@@ -75,6 +75,10 @@
             <id>NetworkManager</id>
             <url>file://${basedir}/lib/repo</url>
         </repository>
+        <repository>
+            <id>TimoCloud-API</id>
+            <url>https://maven.timo.cloud/repository/TimoCloud-API/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -93,11 +97,11 @@
             <scope>provided</scope>
         </dependency>
         <!--TimoCloud-API-->
-        <dependency>
+        <!-- <dependency>
             <groupId>cloud.timo.TimoCloud</groupId>
             <artifactId>TimoCloud</artifactId>
             <version>5.3.5</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
