@@ -97,11 +97,11 @@
             <scope>provided</scope>
         </dependency>
         <!--TimoCloud-API-->
-        <!-- <dependency>
+        <dependency>
             <groupId>cloud.timo.TimoCloud</groupId>
             <artifactId>TimoCloud</artifactId>
-            <version>5.3.5</version>
-        </dependency> -->
+            <version>5.3.1</version>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

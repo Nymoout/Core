@@ -79,12 +79,16 @@ public class ChestCommand implements CommandExecutor {
                     inventar.setItem(5, darkoak);
                     user.openInventory(inventar);
                 } else if (args.length == 1 && args[0].equals("clear")) {
-                    for (ItemStack is : user.getInventory().getContents()) {
-                        if (is.getType().equals(Material.CHEST)) {
-                            is.setType(Material.AIR);
-                            user.sendMessage(data.getPrefix() + "§aDie Chest: §b " + is.getItemMeta().getDisplayName() + " §awurde erfolgreich gecleart.");
+                    Inventory inventory = user.getInventory();
+                    int i = inventory.getSize() - 1;
+                    while (i >= 0) {
+                        System.out.println(i + "/" + inventory.getSize());
+                        if (inventory.getItem(i).getItemMeta().getDisplayName().equalsIgnoreCase("BIRCH")) {
+                            inventory.clear(i);
                         }
+                        i--;
                     }
+                    user.sendMessage(data.getPrefix() + "§aDie Chest's wurden erfolgreich gecleart.");
                 } else {
                     user.sendMessage(data.getPrefix() + "§cBenutze: </chest> <Chest-Name>");
                 }

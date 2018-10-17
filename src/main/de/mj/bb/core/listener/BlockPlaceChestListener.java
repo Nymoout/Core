@@ -4,6 +4,7 @@ import main.de.mj.bb.core.CoreSpigot;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
@@ -13,6 +14,7 @@ public class BlockPlaceChestListener implements Listener {
         coreSpigot.setListener(this);
     }
 
+    @EventHandler
     public void onPlaceChest(BlockPlaceEvent placeEvent) {
         Player user = placeEvent.getPlayer();
         if (user.getItemInHand().getType().equals(Material.CHEST)) {

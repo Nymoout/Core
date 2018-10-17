@@ -144,7 +144,7 @@ public class CoreSpigot extends JavaPlugin {
         }
         if (server.equalsIgnoreCase("Vorbauen")) {
             moduleManager = new ModuleManager(this, ServerType.VORBAUEN);
-            hookManager.hook(ServerType.VORBAUEN);
+            hookManager.hook(ServerType.DEFAULT);
             moduleManager.init();
             return;
         }
