@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="ProtocolLib">
+  <library name="ActionBarAPI-1.5.4">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../libs/ProtocolLib.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/ActionBarAPI-1.5.4.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

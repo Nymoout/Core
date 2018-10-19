@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="Party-and-Friends-MySQL-Edition-Spigot-API-1.4.1">
     <CLASSES>
-      <root url="jar://$USER_HOME$/Downloads/Party-and-Friends-MySQL-Edition-Spigot-API-1.4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../libs/Party-and-Friends-MySQL-Edition-Spigot-API-1.4.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

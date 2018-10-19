@@ -25,8 +25,6 @@ public class ModuleManager {
 
     //Commands
     private AFKCommand afkCommand;
-    private BorderCommand borderCommand;
-    private CoreRestartCommand coreRestartCommand;
     private FlyCommand flyCommand;
     private GMCommand gmCommand;
     private SetLocCommand setLocCommand;
@@ -38,7 +36,6 @@ public class ModuleManager {
     //Listener
     private AFKListener afkListener;
     private BlockRedstoneListener blockRedstoneListener;
-    private BorderListener borderListener;
     private BukkitMinecraftCommandBlockListener commandBlockListener;
     private CancelListener cancelListener;
     private ChatListener chatListener;
@@ -71,22 +68,18 @@ public class ModuleManager {
     private SettingsAPI settingsAPI;
 
     //Utlis
-    private ActionbarTimer actionbarTimer;
     private AutomaticClearLag automaticClearLag;
     private CrashFixer crashFixer;
     private ItemCreator itemCreator;
     private LobbyParticle lobbyParticle;
     private LocationsUtil locationsUtil;
-    private LotterySystem lotterySystem;
     private Particle particle;
     private PlayerRealTime playerRealTime;
     private Portal portal;
     private SchedulerSaver schedulerSaver;
-    private CoreRestartScheduler coreRestartScheduler;
     private SetLocations setLocations;
     private TabList tabList;
     private TicksPerSecond ticksPerSecond;
-    private Title title;
     private Data data;
 
     public ModuleManager(@NotNull CoreSpigot coreSpigot, ServerType serverType) {
@@ -115,8 +108,6 @@ public class ModuleManager {
             automaticClearLag.clearLagScheduler();
         }
         new ServerInfoCommand(coreSpigot);
-        coreRestartScheduler = new CoreRestartScheduler(coreSpigot);
-        coreRestartCommand = new CoreRestartCommand(coreSpigot);
 
         crashFixer = new CrashFixer(coreSpigot);
         blockRedstoneListener = new BlockRedstoneListener(coreSpigot);
@@ -189,6 +180,7 @@ public class ModuleManager {
             scoreboardManager.ScoreboardActu();
             lobbyParticle.playEnderSignal();
             lobbyParticle.playEnchantment();
+            settingsListener.invTimer();
         } else if (serverType.equals(ServerType.DEFAULT)) {
             data = new Data();
             tabList = new TabList(coreSpigot);

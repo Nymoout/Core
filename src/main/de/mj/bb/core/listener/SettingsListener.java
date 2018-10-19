@@ -7,6 +7,7 @@
 
 package main.de.mj.bb.core.listener;
 
+import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.managers.ModuleManager;
@@ -789,6 +790,7 @@ public class SettingsListener implements Listener {
         if (interactAtEntityEvent.getRightClicked() instanceof Player) {
             Player horse = (Player) interactAtEntityEvent.getRightClicked();
             Player rider = interactAtEntityEvent.getPlayer();
+            ActionBarAPI.sendActionBar(horse, "§6§l" + rider.getName() + " §f§lsitzt nun auf dir!");
             if (rideState.contains(horse)) {
                 horse.setPassenger(rider);
             } else {
@@ -835,5 +837,29 @@ public class SettingsListener implements Listener {
         inv.setItem(16, lobby.getItemCreator().createItemWithMaterial(Material.STAINED_GLASS, 14, 1, "§c§lRot"));
         inv.setItem(17, lobby.getItemCreator().createItemWithMaterial(Material.STAINED_GLASS, 15, 1, "§0§lSchwarz"));
         return inv;
+    }
+
+    public void invTimer() {
+        coreSpigot.getModuleManager().getSchedulerSaver().createScheduler(new BukkitRunnable() {
+            int place = 0;
+
+            @Override
+            public void run() {
+                for (Player all : Bukkit.getOnlinePlayers()) {
+                    if (all.getOpenInventory().getTitle().contains("Einstellungen") || all.getOpenInventory().getTitle().contains("Navigator")) {
+                        int des = design.get(all) - 1;
+                        if (des < 0) des = 15;
+                        ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) des);
+                        if (place == 8)
+                            all.getOpenInventory().setItem(place - 1, new ItemStack(Material.STAINED_GLASS_PANE, 1, design.get(all)));
+                        if (place == 0)
+                            all.getOpenInventory().setItem(8, new ItemStack(Material.STAINED_GLASS_PANE, 1, design.get(all)));
+                        all.getOpenInventory().setItem(place, glass);
+                    }
+                }
+                if (place == 8) place = 0;
+                place++;
+            }
+        }.runTaskTimer(coreSpigot, 0L, 20L));
     }
 }
