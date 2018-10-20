@@ -2,6 +2,7 @@ package main.de.mj.bb.core;
 
 import lombok.Getter;
 import lombok.Setter;
+import main.de.mj.bb.core.gameapi.GameAPI;
 import main.de.mj.bb.core.managers.HookManager;
 import main.de.mj.bb.core.managers.ModuleManager;
 import main.de.mj.bb.core.managers.NickManager;
@@ -30,6 +31,7 @@ public class CoreSpigot extends JavaPlugin {
 
     private CoreSpigot coreSpigot;
     private static CoreSpigot instance;
+    private GameAPI gameAPI;
     private ConsoleCommandSender sender;
     private ModuleManager moduleManager;
     private HookManager hookManager;
@@ -106,6 +108,7 @@ public class CoreSpigot extends JavaPlugin {
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         infoScheduler();
+        if (this.getModuleManager().getFileManager().getBooleanFormConfig("GameAPI")) gameAPI = new GameAPI(this);
         sender.sendMessage(prefix + "§awas successfully started!");
     }
 

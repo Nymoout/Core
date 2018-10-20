@@ -6,3 +6,5 @@ PrimedTNT: true
 Arrows: true
 Items: true
 ####################
+
+GameAPI: false

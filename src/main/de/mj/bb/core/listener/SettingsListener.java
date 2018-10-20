@@ -790,9 +790,9 @@ public class SettingsListener implements Listener {
         if (interactAtEntityEvent.getRightClicked() instanceof Player) {
             Player horse = (Player) interactAtEntityEvent.getRightClicked();
             Player rider = interactAtEntityEvent.getPlayer();
-            ActionBarAPI.sendActionBar(horse, "§6§l" + rider.getName() + " §f§lsitzt nun auf dir!");
             if (rideState.contains(horse)) {
                 horse.setPassenger(rider);
+                ActionBarAPI.sendActionBar(horse, "§6§l" + rider.getName() + " §f§lsitzt nun auf dir!");
             } else {
                 rider.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§cDer Spieler hat das Ride on me Feature nicht aktiviert!");
             }
@@ -841,7 +841,8 @@ public class SettingsListener implements Listener {
 
     public void invTimer() {
         coreSpigot.getModuleManager().getSchedulerSaver().createScheduler(new BukkitRunnable() {
-            int place = -1;
+            int topPlace = -1;
+            int downPlace = 44;
 
             @Override
             public void run() {
@@ -849,16 +850,25 @@ public class SettingsListener implements Listener {
                     if (all.getOpenInventory().getTitle().contains("Einstellungen") || all.getOpenInventory().getTitle().contains("Navigator")) {
                         int des = design.get(all) - 1;
                         if (des < 0) des = 15;
-                        ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) des);
-                        if (place == 0)
+                        ItemStack topGlass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) des);
+                        if (topPlace == 0)
                             all.getOpenInventory().setItem(8, new ItemStack(Material.STAINED_GLASS_PANE, 1, design.get(all)));
                         else
-                            all.getOpenInventory().setItem(place - 1, new ItemStack(Material.STAINED_GLASS_PANE, 1, design.get(all)));
-                        all.getOpenInventory().setItem(place, glass);
+                            all.getOpenInventory().setItem(topPlace - 1, new ItemStack(Material.STAINED_GLASS_PANE, 1, design.get(all)));
+                        all.getOpenInventory().setItem(topPlace, topGlass);
+
+                        ItemStack downGlass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) des);
+                        if (downPlace == 45)
+                            all.getOpenInventory().setItem(53, new ItemStack(Material.STAINED_GLASS_PANE, 1, design.get(all)));
+                        else
+                            all.getOpenInventory().setItem(downPlace - 1, new ItemStack(Material.STAINED_GLASS_PANE, 1, design.get(all)));
+                        all.getOpenInventory().setItem(downPlace, downGlass);
                     }
                 }
-                if (place == 8) place = -1;
-                place++;
+                if (topPlace == 8) topPlace = -1;
+                if (downPlace == 53) downPlace = 44;
+                topPlace++;
+                downPlace++;
             }
         }.runTaskTimer(coreSpigot, 0L, 10L));
     }

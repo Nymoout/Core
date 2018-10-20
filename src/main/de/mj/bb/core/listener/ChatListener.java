@@ -55,9 +55,9 @@ public class ChatListener implements Listener {
         if (pmsg.contains("%")) pmsg = pmsg.replace("%", "Prozent");
         //if (!coreSpigot.getNickManager().isDisguised(player)) {
             if (player.hasPermission("chat.color")) {
-                playerChatEvent.setFormat(prefix.replace("&", "§") + player.getName() + suffix.replace("&", "§") + pmsg.replace("&", "§").replace("<3", "❤").replace(":3", "❤"));
+                playerChatEvent.setFormat(prefix.replace("&", "§") + player.getName() + suffix.replace("&", "§") + pmsg.replace("&", "§").replace("<3", "\u2764").replace(":3", "\u2764"));
             } else {
-                playerChatEvent.setFormat(prefix.replace("&", "§") + player.getName() + suffix.replace("&", "§") + pmsg.replace("<3", "❤").replace(":3", "❤"));
+                playerChatEvent.setFormat(prefix.replace("&", "§") + player.getName() + suffix.replace("&", "§") + pmsg.replace("<3", "\u2764").replace(":3", "\u2764"));
             }
         //}
     }
