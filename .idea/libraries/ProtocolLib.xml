@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="ProtocolLib">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../libs/ProtocolLib.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/ProtocolLib.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

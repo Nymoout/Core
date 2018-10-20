@@ -79,18 +79,16 @@ public class ChestCommand implements CommandExecutor {
                     inventar.setItem(5, darkoak);
                     user.openInventory(inventar);
                 } else if (args.length == 1 && args[0].equals("clear")) {
-                    Inventory inventory = user.getInventory();
-                    int i = inventory.getSize() - 1;
-                    while (i >= 0) {
-                        System.out.println(i + "/" + inventory.getSize());
-                        if (inventory.getItem(i).getItemMeta().getDisplayName().equalsIgnoreCase("BIRCH")) {
-                            inventory.clear(i);
-                        }
-                        i--;
-                    }
+                    Inventory inv = Bukkit.createInventory(user, 9, "Clear");
+                    user.openInventory(inv);
                     user.sendMessage(data.getPrefix() + "§aDie Chest's wurden erfolgreich gecleart.");
+                } else if (args.length == 1 && args[0].equals("list")) {
+                    user.sendMessage("§7Benutze;");
+                    user.sendMessage("§cOAK,Birch,DarkOak,Akazia,Jungle,Spruce");
+
                 } else {
                     user.sendMessage(data.getPrefix() + "§cBenutze: </chest> <Chest-Name>");
+                    user.sendMessage(data.getPrefix() + "Du kannst auch </chest list> benutzen, um eine Liste mit den verfügbaren Eingaben zu erhalten!");
                 }
             } else
                 user.sendMessage(data.getNoPerm());

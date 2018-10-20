@@ -841,7 +841,7 @@ public class SettingsListener implements Listener {
 
     public void invTimer() {
         coreSpigot.getModuleManager().getSchedulerSaver().createScheduler(new BukkitRunnable() {
-            int place = 0;
+            int place = -1;
 
             @Override
             public void run() {
@@ -850,16 +850,16 @@ public class SettingsListener implements Listener {
                         int des = design.get(all) - 1;
                         if (des < 0) des = 15;
                         ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) des);
-                        if (place == 8)
-                            all.getOpenInventory().setItem(place - 1, new ItemStack(Material.STAINED_GLASS_PANE, 1, design.get(all)));
                         if (place == 0)
                             all.getOpenInventory().setItem(8, new ItemStack(Material.STAINED_GLASS_PANE, 1, design.get(all)));
+                        else
+                            all.getOpenInventory().setItem(place - 1, new ItemStack(Material.STAINED_GLASS_PANE, 1, design.get(all)));
                         all.getOpenInventory().setItem(place, glass);
                     }
                 }
-                if (place == 8) place = 0;
+                if (place == 8) place = -1;
                 place++;
             }
-        }.runTaskTimer(coreSpigot, 0L, 20L));
+        }.runTaskTimer(coreSpigot, 0L, 10L));
     }
 }
