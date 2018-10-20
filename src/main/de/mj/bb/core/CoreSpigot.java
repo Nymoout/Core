@@ -6,6 +6,7 @@ import main.de.mj.bb.core.gameapi.GameAPI;
 import main.de.mj.bb.core.managers.HookManager;
 import main.de.mj.bb.core.managers.ModuleManager;
 import main.de.mj.bb.core.managers.NickManager;
+import main.de.mj.bb.core.mysql.ColumnType;
 import main.de.mj.bb.core.utils.Data;
 import main.de.mj.bb.core.utils.ServerType;
 import org.bukkit.Bukkit;
@@ -30,8 +31,8 @@ import java.util.List;
 public class CoreSpigot extends JavaPlugin {
 
     private CoreSpigot coreSpigot;
-    private static CoreSpigot instance;
     private GameAPI gameAPI;
+    private ColumnType columnType;
     private ConsoleCommandSender sender;
     private ModuleManager moduleManager;
     private HookManager hookManager;
@@ -39,16 +40,8 @@ public class CoreSpigot extends JavaPlugin {
 
     private String prefix = new Data().getPrefix();
 
-    public static CoreSpigot getInstance() {
-        return instance;
-    }
-
     public void onDisable() {
         moduleManager.stopServer();
-    }
-
-    public static void setInstance(CoreSpigot instance) {
-        CoreSpigot.instance = instance;
     }
 
     public void setListener(Listener listener) {
@@ -88,7 +81,6 @@ public class CoreSpigot extends JavaPlugin {
     @Override
     public void onEnable() {
         setCoreSpigot(this);
-        setInstance(this);
         setSender(Bukkit.getConsoleSender());
 
         sender.sendMessage("§6  ____        _   _   _      ____        _ _     _         _____               ");
@@ -155,5 +147,9 @@ public class CoreSpigot extends JavaPlugin {
         hookManager.hook(ServerType.DEFAULT);
         moduleManager.init();
         nickManager = new NickManager(coreSpigot);
+    }
+
+    public static final CoreSpigot getInstance() {
+        return (CoreSpigot) Bukkit.getPluginManager().getPlugin("CoreSpigot");
     }
 }
