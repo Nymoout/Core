@@ -165,6 +165,8 @@ public class JoinListener implements Listener {
             player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§aWillkommen auf dem Vorbau Server!");
             player.sendMessage("§aZeige Dein können!");
 
+            joinEvent.setJoinMessage(null);
+
         }
 
         summonFireWork(player);
