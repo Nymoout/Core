@@ -86,6 +86,27 @@ public class ChestCommand implements CommandExecutor {
                     user.sendMessage("§7Benutze;");
                     user.sendMessage("§cOAK,Birch,DarkOak,Akazia,Jungle,Spruce");
 
+                } else if (args.length >= 1 && args[0].equalsIgnoreCase("help")) {
+                    if (args.length == 2 && args[1].equalsIgnoreCase("chest")) {
+                        user.sendMessage("§7List of chest Commands:");
+                        user.sendMessage("§7/chest");
+                        user.sendMessage("§7/chest list");
+                        user.sendMessage("§7/chest help");
+                        user.sendMessage("§7/chest help <chest/Permissions");
+                    } else if (args.length == 2 && args[1].equalsIgnoreCase("Permissions")) {
+                        if (user.hasPermission("vorbau.getpermlist") || user.isOp()) {
+                            user.sendMessage("§7=====(§cPermissions§7)=====");
+                            user.sendMessage("§7GrundPerm: §bvorbau");
+                            user.sendMessage("§7OpPerm: §avorbau.*");
+                            user.sendMessage("§7GustPerm: §avorbau.chest");
+                            user.sendMessage("§7PermissionsPerm: §avorbau.getpermlist");
+                        }
+                    } else {
+                        user.sendMessage("=====Help=====");
+                        user.sendMessage("/chest list » Zeigt dir eine Liste von Verfügbaren Eingaben an.");
+                        user.sendMessage("/chest help » Zeigt dir diese Liste an!");
+                        user.sendMessage("/chest help <Permissions> » Zeigt dir eine Liste von Permissions an.");
+                    }
                 } else {
                     user.sendMessage(data.getPrefix() + "§cBenutze: </chest> <Chest-Name>");
                     user.sendMessage(data.getPrefix() + "Du kannst auch </chest list> benutzen, um eine Liste mit den verfügbaren Eingaben zu erhalten!");
