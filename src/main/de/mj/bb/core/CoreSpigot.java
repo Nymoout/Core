@@ -1,7 +1,5 @@
 package main.de.mj.bb.core;
 
-import lombok.Getter;
-import lombok.Setter;
 import main.de.mj.bb.core.gameapi.GameAPI;
 import main.de.mj.bb.core.managers.HookManager;
 import main.de.mj.bb.core.managers.ModuleManager;
@@ -26,11 +24,10 @@ import java.util.List;
  * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
  */
 
-@Getter
-@Setter
 public class CoreSpigot extends JavaPlugin {
 
     private CoreSpigot coreSpigot;
+    private static CoreSpigot instance;
     private GameAPI gameAPI;
     private ColumnType columnType;
     private ConsoleCommandSender sender;
@@ -40,8 +37,8 @@ public class CoreSpigot extends JavaPlugin {
 
     private String prefix = new Data().getPrefix();
 
-    public void onDisable() {
-        moduleManager.stopServer();
+    public static CoreSpigot getInstance() {
+        return instance;
     }
 
     public void setListener(Listener listener) {
@@ -78,30 +75,8 @@ public class CoreSpigot extends JavaPlugin {
         }.runTaskTimer(this, 0L, 20L * 60 * 5);
     }
 
-    @Override
-    public void onEnable() {
-        setCoreSpigot(this);
-        setSender(Bukkit.getConsoleSender());
-
-        sender.sendMessage("§6  ____        _   _   _      ____        _ _     _         _____               ");
-        sender.sendMessage("§6 |  _ \\      | | | | | |    |  _ \\      (_) |   | |       / ____|              ");
-        sender.sendMessage("§6 | |_) | __ _| |_| |_| | ___| |_) |_   _ _| | __| |______| |     ___  _ __ ___ ");
-        sender.sendMessage("§6 |  _ < / _` | __| __| |/ _ \\  _ <| | | | | |/ _` |______| |    / _ \\| '__/ _ \\");
-        sender.sendMessage("§6 | |_) | (_| | |_| |_| |  __/ |_) | |_| | | | (_| |      | |___| (_) | | |  __/");
-        sender.sendMessage("§6 |____/ \\__,_|\\__|\\__|_|\\___|____/ \\__,_|_|_|\\__,_|       \\_____\\___/|_|  \\___|");
-
-        sender.sendMessage(prefix + "§eis starting...");
-        hookManager = new HookManager(this);
-
-        sender.sendMessage(prefix + "§edetect server version...");
-        sender.sendMessage(prefix + "§adetected server §6" + Bukkit.getServerName());
-        preInit();
-
-        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-
-        infoScheduler();
-        if (this.getModuleManager().getFileManager().getBooleanFormConfig("GameAPI")) gameAPI = new GameAPI(this);
-        sender.sendMessage(prefix + "§awas successfully started!");
+    public static void setInstance(CoreSpigot instance) {
+        CoreSpigot.instance = instance;
     }
 
     private void preInit() {
@@ -149,7 +124,99 @@ public class CoreSpigot extends JavaPlugin {
         nickManager = new NickManager(coreSpigot);
     }
 
-    public static final CoreSpigot getInstance() {
-        return (CoreSpigot) Bukkit.getPluginManager().getPlugin("CoreSpigot");
+    @Override
+    public void onDisable() {
+        moduleManager.stopServer();
+    }
+
+    @Override
+    public void onEnable() {
+        setCoreSpigot(this);
+        setSender(Bukkit.getConsoleSender());
+        setInstance(this);
+
+        sender.sendMessage("§6  ____        _   _   _      ____        _ _     _         _____               ");
+        sender.sendMessage("§6 |  _ \\      | | | | | |    |  _ \\      (_) |   | |       / ____|              ");
+        sender.sendMessage("§6 | |_) | __ _| |_| |_| | ___| |_) |_   _ _| | __| |______| |     ___  _ __ ___ ");
+        sender.sendMessage("§6 |  _ < / _` | __| __| |/ _ \\  _ <| | | | | |/ _` |______| |    / _ \\| '__/ _ \\");
+        sender.sendMessage("§6 | |_) | (_| | |_| |_| |  __/ |_) | |_| | | | (_| |      | |___| (_) | | |  __/");
+        sender.sendMessage("§6 |____/ \\__,_|\\__|\\__|_|\\___|____/ \\__,_|_|_|\\__,_|       \\_____\\___/|_|  \\___|");
+
+        sender.sendMessage(prefix + "§eis starting...");
+        hookManager = new HookManager(this);
+
+        sender.sendMessage(prefix + "§edetect server...");
+        sender.sendMessage(prefix + "§adetected server §6" + Bukkit.getServerName());
+        preInit();
+
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
+        infoScheduler();
+        if (this.getModuleManager().getFileManager().getBooleanFormConfig("GameAPI")) gameAPI = new GameAPI(this);
+        sender.sendMessage(prefix + "§awas successfully started!");
+    }
+
+    public CoreSpigot getCoreSpigot() {
+        return coreSpigot;
+    }
+
+    public void setCoreSpigot(CoreSpigot coreSpigot) {
+        this.coreSpigot = coreSpigot;
+    }
+
+    public GameAPI getGameAPI() {
+        return gameAPI;
+    }
+
+    public void setGameAPI(GameAPI gameAPI) {
+        this.gameAPI = gameAPI;
+    }
+
+    public ColumnType getColumnType() {
+        return columnType;
+    }
+
+    public void setColumnType(ColumnType columnType) {
+        this.columnType = columnType;
+    }
+
+    public ConsoleCommandSender getSender() {
+        return sender;
+    }
+
+    public void setSender(ConsoleCommandSender sender) {
+        this.sender = sender;
+    }
+
+    public ModuleManager getModuleManager() {
+        return moduleManager;
+    }
+
+    public void setModuleManager(ModuleManager moduleManager) {
+        this.moduleManager = moduleManager;
+    }
+
+    public HookManager getHookManager() {
+        return hookManager;
+    }
+
+    public void setHookManager(HookManager hookManager) {
+        this.hookManager = hookManager;
+    }
+
+    public NickManager getNickManager() {
+        return nickManager;
+    }
+
+    public void setNickManager(NickManager nickManager) {
+        this.nickManager = nickManager;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 }

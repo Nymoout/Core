@@ -11,7 +11,9 @@ import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.PlayerObject;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
+import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
+import main.de.mj.bb.core.playerobject.User;
 import main.de.mj.bb.core.utils.PlayerLevel;
 import main.de.mj.bb.core.utils.ServerType;
 import org.bukkit.*;
@@ -30,13 +32,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Random;
+import java.util.*;
 
+@Getter
 public class JoinListener implements Listener {
 
     private final CoreSpigot coreSpigot;
+    private final Set<User> userlist = new HashSet<>();
 
     public JoinListener(@NotNull CoreSpigot coreSpigot) {
         this.coreSpigot = coreSpigot;
@@ -46,6 +48,22 @@ public class JoinListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent joinEvent) {
         Player player = joinEvent.getPlayer();
+        userlist.add(new User() {
+            @Override
+            public String getName() {
+                return player.getName();
+            }
+
+            @Override
+            public UUID getUUID() {
+                return player.getUniqueId();
+            }
+
+            @Override
+            public boolean isAFK() {
+                return false;
+            }
+        });
         System.out.println(coreSpigot.getModuleManager().getServerType());
         if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
             welcomeScheduler(player);
@@ -158,6 +176,7 @@ public class JoinListener implements Listener {
         waitMySQL(player, coreSpigot.getModuleManager().getServerType());
         coreSpigot.getModuleManager().getTabList().setPrefix(player);
     }
+
     private void waitMySQL(Player player, ServerType serverType) {
         coreSpigot.getModuleManager().getSchedulerSaver().createScheduler(new BukkitRunnable() {
             @Override
