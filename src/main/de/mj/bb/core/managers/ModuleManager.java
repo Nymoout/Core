@@ -238,6 +238,7 @@ public class ModuleManager {
             new GMCommand(coreSpigot);
             tpsCommand = new TPSCommand(coreSpigot);
             new ChestCommand(coreSpigot);
+            new TippCommand(coreSpigot);
             new BlockPlaceChestListener(coreSpigot);
             joinListener = new JoinListener(coreSpigot);
             chatListener = new ChatListener(coreSpigot);

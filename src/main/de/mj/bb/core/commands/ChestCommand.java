@@ -91,6 +91,7 @@ public class ChestCommand implements CommandExecutor {
                         user.sendMessage("§7List of chest Commands:");
                         user.sendMessage("§7/chest");
                         user.sendMessage("§7/chest list");
+                        user.sendMessage("§7/chest all");
                         user.sendMessage("§7/chest help");
                         user.sendMessage("§7/chest help <chest/Permissions");
                     } else if (args.length == 2 && args[1].equalsIgnoreCase("Permissions")) {
@@ -102,10 +103,10 @@ public class ChestCommand implements CommandExecutor {
                             user.sendMessage("§7PermissionsPerm: §avorbau.getpermlist");
                         }
                     } else {
-                        user.sendMessage("=====Help=====");
-                        user.sendMessage("/chest list » Zeigt dir eine Liste von Verfügbaren Eingaben an.");
-                        user.sendMessage("/chest help » Zeigt dir diese Liste an!");
-                        user.sendMessage("/chest help <Permissions> » Zeigt dir eine Liste von Permissions an.");
+                        user.sendMessage("§7=====§aHelp§7=====");
+                        user.sendMessage("§7/chest list » Zeigt dir eine Liste von Verfügbaren Eingaben an.");
+                        user.sendMessage("§7/chest help » Zeigt dir diese Liste an!");
+                        user.sendMessage("§7/chest help <Permissions> » Zeigt dir eine Liste von Permissions an.");
                     }
                 } else {
                     user.sendMessage(data.getPrefix() + "§cBenutze: </chest> <Chest-Name>");
