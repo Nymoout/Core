@@ -161,7 +161,12 @@ public class JoinListener implements Listener {
             }
         } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.DEFAULT)) {
             coreSpigot.getModuleManager().getTabList().setPrefix(player);
+        } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.VORBAUEN)) {
+            player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§aWillkommen auf dem Vorbau Server!");
+            player.sendMessage("§aZeige Dein können!");
+
         }
+
         summonFireWork(player);
         waitMySQL(player, coreSpigot.getModuleManager().getServerType());
         coreSpigot.getModuleManager().getTabList().setPrefix(player);

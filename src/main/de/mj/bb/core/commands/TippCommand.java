@@ -17,7 +17,6 @@ public class TippCommand implements CommandExecutor {
         prefix = coreSpigot.getModuleManager().getData().getPrefix();
         noPerm = coreSpigot.getModuleManager().getData().getNoPerm();
         coreSpigot.setCommand(this, "tipp");
-
     }
 
     @Override
@@ -33,18 +32,24 @@ public class TippCommand implements CommandExecutor {
                             switch (tipp) {
                                 case 1:
                                     target.sendMessage(prefixt + "Baue mehr Strukturen mit ein, um eine höhere Chance auf eine Annahme zu bekommen!");
+                                    user.sendMessage(prefix + "§aDu hast den Spieler: §b" + target.getName() + " §aden tipp: §b" + tipp + " §agegeben!");
                                     break;
                                 case 2:
                                     target.sendMessage(prefixt + "Baue mehr Formen mit ein, damit dein Gebäude natürlicher Aussieht!");
+                                    user.sendMessage(prefix + "§aDu hast den Spieler: §b" + target.getName() + " §aden tipp: §b" + tipp + " §agegeben!");
+
                                     break;
                                 case 3:
                                     target.sendMessage(prefixt + "Füge mehr Terra hinzu, sonst sieht es zu unnatürlich aus!");
+                                    user.sendMessage(prefix + "§aDu hast den Spieler: §b" + target.getName() + " §aden tipp: §b" + tipp + " §agegeben!");
                                     break;
                                 case 4:
                                     target.sendMessage(prefixt + "Baue mehr Details mit ein, um eine höhere Chance auf eine Annahme zu bekommen!");
+                                    user.sendMessage(prefix + "§aDu hast den Spieler: §b" + target.getName() + " §aden tipp: §b" + tipp + " §agegeben!");
                                     break;
                                 case 5:
                                     target.sendMessage(prefixt + "Benutze das komplette Plot.");
+                                    user.sendMessage(prefix + "§aDu hast den Spieler: §b" + target.getName() + " §aden tipp: §b" + tipp + " §agegeben!");
                                     break;
                                 default:
                                     user.sendMessage(prefixt + "Kannst du keine Zahlen von 1-5 verwenden?!");
@@ -58,13 +63,18 @@ public class TippCommand implements CommandExecutor {
                             user.sendMessage("§cVerwende eine gültige Zahl.");
                     } else
                         user.sendMessage(prefix + "§csry dein Bro, §b" + args[0] + " §cist nicht Online!");
+                } else if (args.length == 1 && args[0].equalsIgnoreCase("list")) {
+                    user.sendMessage("§b1 §a» §7Mehr Strukturen.");
+                    user.sendMessage("§b2 §a» §7Mehr Formen.");
+                    user.sendMessage("§b3 §a» §7Mehr Terra.");
+                    user.sendMessage("§b4 §a» §7Mehr Details.");
+                    user.sendMessage("§b5 §a» §7Use the Plot.");
                 } else
-                    user.sendMessage(prefix + "Benutze: </tipp> <1-5>");
+                    user.sendMessage(prefix + "Benutze: </tipp> <player> <1-5>");
             } else
                 user.sendMessage(noPerm);
         } else
             sender.sendMessage("Nein Nein Nein! Das geht nur Ingame!");
-
         return false;
     }
 
