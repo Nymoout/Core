@@ -32,13 +32,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Random;
 
 @Getter
 public class JoinListener implements Listener {
 
     private final CoreSpigot coreSpigot;
-    private final Set<User> userlist = new HashSet<>();
 
     public JoinListener(@NotNull CoreSpigot coreSpigot) {
         this.coreSpigot = coreSpigot;
@@ -48,22 +49,11 @@ public class JoinListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent joinEvent) {
         Player player = joinEvent.getPlayer();
-        userlist.add(new User() {
-            @Override
-            public String getName() {
-                return player.getName();
-            }
-
-            @Override
-            public UUID getUUID() {
-                return player.getUniqueId();
-            }
-
-            @Override
-            public boolean isAFK() {
-                return false;
-            }
-        });
+        User user = new User();
+        user.setAfk(false);
+        user.setName(player.getName());
+        user.setUuid(player.getUniqueId());
+        user.setUsers(user);
         System.out.println(coreSpigot.getModuleManager().getServerType());
         if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
             welcomeScheduler(player);

@@ -32,7 +32,7 @@ public class MySQL {
      * @throws SQLException you'll need a try-catch-block
      */
     public void createTable(String tableName, Map<String, ColumnType> column) throws SQLException {
-        String tableCreate = "CREATE TABLE IF NOT EXIST " + tableName + "(UUID VARCHAR(100));";
+        String tableCreate = "CREATE TABLE IF NOT EXIST '" + tableName + "' (UUID VARCHAR(100));";
         Statement statement = asyncMySQL.getMySQL().getConnection().createStatement();
         statement.executeQuery(tableCreate);
         addColumn(tableName, column);
@@ -44,7 +44,7 @@ public class MySQL {
         while (iterator.hasNext()) {
             Map.Entry<String, ColumnType> entry = (Map.Entry) iterator.next();
             if (!columnExist(tableName, entry.getKey())) {
-                String rowCreate = "ALTER TABLE " + tableName + " ADD " + entry.getKey() + " " + entry.getValue() + ";";
+                String rowCreate = "ALTER TABLE '" + tableName + "' ADD '" + entry.getKey() + "' " + entry.getValue() + ";";
             }
             iterator.remove();
         }
