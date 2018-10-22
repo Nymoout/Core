@@ -2,6 +2,11 @@
   <library name="ActionBarAPI-1.5.4">
     <CLASSES>
       <root url="jar://$USER_HOME$/Downloads/ActionBarAPI-1.5.4.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/BlockParticles[v1.9.7.2].jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/Clans-Spigot-Part-1.0.11.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/NetworkManager.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/Party-and-Friends-MySQL-Edition-Spigot-API-1.4.1.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/ProtocolLib.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

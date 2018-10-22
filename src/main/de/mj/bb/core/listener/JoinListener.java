@@ -14,6 +14,8 @@ import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
 import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.playerobject.User;
+import main.de.mj.bb.core.utils.ImageChar;
+import main.de.mj.bb.core.utils.ImageMessage;
 import main.de.mj.bb.core.utils.PlayerLevel;
 import main.de.mj.bb.core.utils.ServerType;
 import org.bukkit.*;
@@ -32,6 +34,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
@@ -133,6 +138,14 @@ public class JoinListener implements Listener {
             player.getInventory().setItem(8, is);
 
             coreSpigot.getModuleManager().getScoreboardManager().setScoreboard(player);
+
+            try {
+                URL head = new URL("https://minotar.net/avatar/" + player.getName() + "/8.png");
+                BufferedImage image = ImageIO.read(head);
+                new ImageMessage(image, 8, ImageChar.BLOCK.getChar()).appendText(" ", " ", " ", "§f[§9§kl§f] §a§lWILLKOMMEN! §f[§9§kl§f]", "§8§l" + player.getName(), " ", " ", " ").sendToPlayer(player);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
 
             ArrayList<String> friends = new ArrayList<>();
             PAFPlayer pafp = PAFPlayerManager.getInstance().getPlayer(player.getUniqueId());

@@ -205,7 +205,6 @@ public class ModuleManager {
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
             fileManager = new FileManager(coreSpigot);
-            logBlockListener = new LogBlockListener(coreSpigot);
             tabList.loadTabList();
         } else if (serverType.equals(ServerType.BAU_SERVER)) {
             data = new Data();
