@@ -18,7 +18,7 @@ public class BanCommand extends Command {
     public BanCommand(CoreBungee coreBungee) {
         super("rban");
         this.coreBungee = coreBungee;
-        coreBungee.setCommand(this);
+        coreBungee.registerCommand(this);
     }
 
     @Override

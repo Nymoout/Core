@@ -2,9 +2,11 @@ package main.de.mj.bb.core;
 
 import lombok.Getter;
 import main.de.mj.bb.core.commands.BanCommand;
+import main.de.mj.bb.core.listener.LoginListener;
 import main.de.mj.bb.core.managers.BungeeHookManager;
 import main.de.mj.bb.core.utils.Data;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.util.logging.Logger;
@@ -19,9 +21,14 @@ public class CoreBungee extends Plugin {
     public void onEnable() {
         hookManager = new BungeeHookManager(this);
         new BanCommand(this);
+        new LoginListener(this);
     }
 
-    public void setCommand(Command command) {
+    public void registerListener(Listener listener) {
+        getProxy().getPluginManager().registerListener(this, listener);
+    }
+
+    public void registerCommand(Command command) {
         getProxy().getPluginManager().registerCommand(this, command);
     }
 }
