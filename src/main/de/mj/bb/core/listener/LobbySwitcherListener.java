@@ -10,8 +10,6 @@ package main.de.mj.bb.core.listener;
 import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.ServerGroupObject;
 import cloud.timo.TimoCloud.api.objects.ServerObject;
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import main.de.mj.bb.core.CoreSpigot;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -27,6 +25,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class LobbySwitcherListener implements Listener {
@@ -90,10 +91,15 @@ public class LobbySwitcherListener implements Listener {
             } else {
                 player.sendMessage("§7[§6§lBattleBuild§7] §7§7Du betrittst nun den Server §6§lLobby-" + lobby[1]);
                 player.closeInventory();
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("Connect");
-                out.writeUTF(server);
-                player.sendPluginMessage(this.coreSpigot, "BungeeCord", out.toByteArray());
+                try {
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
+                    dataOutputStream.writeUTF("Connect");
+                    dataOutputStream.writeUTF(server);
+                    player.sendPluginMessage(this.coreSpigot, "BungeeCord", byteArrayOutputStream.toByteArray());
+                } catch (IOException ex) {
+                    player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + " §cDies ist derzeit leider nicht möglich!");
+                }
             }
         } else return;
     }

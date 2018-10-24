@@ -7,8 +7,6 @@
 
 package main.de.mj.bb.core.listener;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import main.de.mj.bb.core.CoreSpigot;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,6 +14,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class ServerListener implements Listener {
 
@@ -39,10 +41,15 @@ public class ServerListener implements Listener {
             System.out.println(server);
             player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§7§7Du betrittst nun den Server §6§l" + server);
             player.closeInventory();
-            ByteArrayDataOutput out = ByteStreams.newDataOutput();
-            out.writeUTF("Connect");
-            out.writeUTF(server);
-            player.sendPluginMessage(this.coreSpigot, "BungeeCord", out.toByteArray());
+            try {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
+                dataOutputStream.writeUTF("Connect");
+                dataOutputStream.writeUTF(server);
+                player.sendPluginMessage(this.coreSpigot, "BungeeCord", byteArrayOutputStream.toByteArray());
+            } catch (IOException ex) {
+                player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + " §cDies ist derzeit leider nicht möglich!");
+            }
         }
         return;
     }
