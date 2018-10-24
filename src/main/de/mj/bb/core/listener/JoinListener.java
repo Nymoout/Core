@@ -51,7 +51,7 @@ public class JoinListener implements Listener {
         coreSpigot.setListener(this);
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent joinEvent) {
         Player player = joinEvent.getPlayer();
         User user = new User();
@@ -59,7 +59,6 @@ public class JoinListener implements Listener {
         user.setName(player.getName());
         user.setUuid(player.getUniqueId());
         user.setUsers(user);
-        System.out.println(coreSpigot.getModuleManager().getServerType());
         if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
             welcomeScheduler(player);
             player.teleport(coreSpigot.getModuleManager().getLocationsUtil().getSpawn());
