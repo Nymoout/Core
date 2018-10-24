@@ -175,11 +175,12 @@ public class JoinListener implements Listener {
         } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.DEFAULT)) {
             coreSpigot.getModuleManager().getTabList().setPrefix(player);
         } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.VORBAUEN)) {
+            joinEvent.setJoinMessage(null);
             player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§aWillkommen auf dem Vorbau Server!");
             player.sendMessage("§aZeige Dein können!");
-
-            joinEvent.setJoinMessage(null);
-
+            player.getInventory().clear();
+            player.teleport(coreSpigot.getModuleManager().getLocationsUtil().getSpawn());
+            player.setGameMode(GameMode.CREATIVE);
         }
 
         summonFireWork(player);

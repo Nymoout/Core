@@ -68,7 +68,7 @@ public class ScoreboardManager {
         MetaData md = user.getCachedData().getMetaData(contexts);
         String prefix;
         if (md.getPrefix() != null) {
-            prefix = md.getPrefix().replace("&", "§").replace("»", " ");
+            prefix = md.getPrefix().replace("&", "§").replace("|", " ");
         } else {
             prefix = "";
         }

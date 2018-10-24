@@ -41,6 +41,12 @@ public class SetLocations {
         locationsUtil.setGungame(initLocs("gungame"));
         locationsUtil.setSkywars(initLocs("skywars"));
         locationsUtil.setSpawn(initLocs("spawn"));
+        locationsUtil.setVorbauen(initLocs("vorbauen"));
+    }
+
+    public void saveSpawn() {
+        LocationsUtil locationsUtil = coreSpigot.getModuleManager().getLocationsUtil();
+        locationsUtil.setSpawn(initLocs("spawn"));
     }
 
     public File getFile() {

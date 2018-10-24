@@ -243,6 +243,11 @@ public class ModuleManager {
             chatListener = new ChatListener(coreSpigot);
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
+            locationsUtil = new LocationsUtil();
+            setLocations = new SetLocations(coreSpigot);
+            setLocCommand = new SetLocCommand(coreSpigot);
+            spawnCommand = new SpawnCommand(coreSpigot);
+            setLocations.saveSpawn();
             tabList.loadTabList();
         }
     }

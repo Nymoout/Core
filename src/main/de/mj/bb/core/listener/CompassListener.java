@@ -9,6 +9,7 @@ package main.de.mj.bb.core.listener;
 
 import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.ServerGroupObject;
+import cloud.timo.TimoCloud.api.objects.ServerObject;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.managers.ModuleManager;
 import main.de.mj.bb.core.utils.Particle;
@@ -109,8 +110,13 @@ public class CompassListener implements Listener {
             inv.setItem(25, moduleManager.getItemCreator().createItemWithMaterial(Material.IRON_SWORD, 0, 1, "§f§lSkyWars", SW8x1lore));
             inv.setItem(28,
                     moduleManager.getItemCreator().createItemWithMaterial(Material.TNT, 0, 1, "§4§lT§f§lN§4§lT§f§l-§4§lRun", null));
-            inv.setItem(34, moduleManager.getItemCreator().createItemWithMaterial(Material.SIGN, 0, 1, "§8§lComing Soon", null));
-
+            ArrayList<String> VBlore = new ArrayList<>();
+            if ( TimoCloudAPI.getUniversalAPI().getServer("Vorbauen") != null) {
+                ServerObject serverObject = TimoCloudAPI.getUniversalAPI().getServer("Vorbauen");
+                VBlore.add("§7Derzeit sind §a" + getOnlinePlayerCount(serverObject) + "§7 Spieler");
+                VBlore.add("§7online.");
+            }
+            inv.setItem(34, moduleManager.getItemCreator().createItemWithMaterial(Material.DIAMOND_PICKAXE, 0, 1, "§b§lVorbauen", VBlore));
             for (int a = 53; a >= 45; a--) {
                 if (coreSpigot.getModuleManager().getSettingsListener().getDesign().containsKey(player)) {
                     inv.setItem(a, moduleManager.getItemCreator().createItemWithMaterial(Material.STAINED_GLASS_PANE,
@@ -129,6 +135,9 @@ public class CompassListener implements Listener {
         final Integer[] playerCount = {0};
         serverGroupObject.getServers().forEach(serverObject -> playerCount[0] += serverObject.getOnlinePlayerCount());
         return playerCount[0];
+    }
+    private Integer getOnlinePlayerCount(ServerObject serverObject) {
+        return serverObject.getOnlinePlayerCount();
     }
 
     @EventHandler
@@ -185,12 +194,17 @@ public class CompassListener implements Listener {
                 Particle particle = new Particle(EnumParticle.FLAME, player.getLocation().add(0, 2.25, 0), true, 0.25f, 0.25f, 0.25f, 0, 10000);
                 particle.sendAll();
                 player.closeInventory();
+            } else if (displayName.contains("Vorbauen")) {
+                scheduler(player, moduleManager.getLocationsUtil().getVorbauen().clone().add(0, 1, 0));
+                player.sendMessage(moduleManager.getData().getPrefix() + "Du wurdest zu §6Vorbauen §7teleportiert.");
+                player.sendTitle("§8»§b§lVorbauen§8«", "");
+                Particle particle = new Particle(EnumParticle.FLAME, player.getLocation().add(0, 2.25, 0), true, 0.25f, 0.25f, 0.25f, 0, 10000);
+                particle.sendAll();
+                player.closeInventory();
             } else if (displayName.contains("§4§lT§f§lN§4§lT§f§l-§4§lRun")) {
                 player.sendMessage(moduleManager.getData().getPrefix() + "Dieser Modus ist noch nicht verfügbar!");
                 Particle particle = new Particle(EnumParticle.FLAME, player.getLocation().add(0, 2.25, 0), true, 0.25f, 0.25f, 0.25f, 0, 10000);
                 particle.sendAll();
-            } else if (displayName.contains("§8Coming Soon")) {
-                player.sendMessage(moduleManager.getData().getPrefix() + "Dieser Modus ist noch nicht verfügbar!");
             }
         }
     }

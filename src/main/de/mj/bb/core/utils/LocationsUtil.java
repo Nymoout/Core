@@ -14,6 +14,7 @@ public class LocationsUtil {
     private static Location gungame;
     private static Location skywars;
     private static Location spawn;
+    private static Location vorbauen;
 
     public LocationsUtil() {
     }
@@ -56,5 +57,13 @@ public class LocationsUtil {
 
     public void setSpawn(Location spawn) {
         LocationsUtil.spawn = spawn;
+    }
+
+    public Location getVorbauen() {
+        return vorbauen;
+    }
+
+    public void setVorbauen(Location vorbauen) {
+        LocationsUtil.vorbauen = vorbauen;
     }
 }

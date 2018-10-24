@@ -93,7 +93,7 @@ public class AFKListener implements Listener {
                                 cancel();
                             } else cancel();
                         } else cancel();
-                    } else if (!locations.get(player).equals(player.getLocation())) cancel();
+                    }
                     counter--;
                 } else cancel();
             }
