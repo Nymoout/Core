@@ -1,6 +1,7 @@
 package main.de.mj.bb.core.listener;
 
 import main.de.mj.bb.core.CoreSpigot;
+import main.de.mj.bb.core.utils.ServerType;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -22,6 +23,9 @@ public class PlayerMoveListener implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent moveEvent) {
         Player player = moveEvent.getPlayer();
+        if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY))
+            if(player.getLocation().getY() <50)
+                player.teleport(coreSpigot.getModuleManager().getLocationsUtil().getSpawn());
         if (player.getGameMode() != GameMode.CREATIVE) {
             if (coreSpigot.getModuleManager().getSettingsListener().getWaterJump().contains(player)) {
                 Location loc = player.getLocation();
@@ -34,7 +38,9 @@ public class PlayerMoveListener implements Listener {
             }
             if (coreSpigot.getModuleManager().getSettingsListener().getDoubleJump().contains(player)) {
                 if (player.getLocation().add(0, -1, 0).getBlock().getType() != Material.AIR || player.getLocation().add(0, -1, 0).getBlock().getType() != Material.WATER) {
-                    if (player.isOnGround()) {
+                    Location location = new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 1, player.getLocation().getZ());
+                    Block block = location.getBlock();
+                    if (!block.getType().equals(Material.AIR)) {
                         player.setAllowFlight(true);
                         player.setFlying(false);
                     }
