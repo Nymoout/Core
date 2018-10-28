@@ -11,6 +11,9 @@ import nl.chimpgamer.networkmanagerapi.modules.punishments.Punishment;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class BanCommand extends Command {
@@ -35,108 +38,73 @@ public class BanCommand extends Command {
                             switch (reasonInt) {
                                 case 1:
                                     sendToServer(player, "Test:" + sender.getName() + ":10000");
+                                    punish(player, (ProxiedPlayer) sender, "Hacking", 1000);
                                     break;
                                 case 2:
+                                    sendToServer(player, "Test:" + sender.getName() + ":10000");
+                                    punish(player, (ProxiedPlayer) sender, "Trolling", 1000);
+                                    break;
+                                case 3:
+                                    sendToServer(player, "Test:" + sender.getName() + ":10000");
+                                    punish(player, (ProxiedPlayer) sender, "Name", 1000);
+                                    break;
+                                case 4:
+                                    sendToServer(player, "Test:" + sender.getName() + ":10000");
+                                    punish(player, (ProxiedPlayer) sender, "Skin", 1000 );
+                                    break;
+                                case 5:
+                                    sendToServer(player, "Test:" + sender.getName() + ":10000");
+                                    punish(player, (ProxiedPlayer) sender, "Bug-Using", 1000);
+                                    break;
+                                case 6:
+                                    sendToServer(player, "Test:" + sender.getName() + ":10000");
+                                    punish(player, (ProxiedPlayer) sender, "Rassismus", 1000);
+                                    break;
+                                case 7:
+                                    sendToServer(player, "Test:" + sender.getName() + ":10000");
+                                    punish(player, (ProxiedPlayer) sender, "Sexsismus", 1000);
                                     break;
                                 default:
-                                    sender.sendMessage(new TextComponent("---------- " + coreBungee.getData().getPrefix() + " ----------"));
-                                    sender.sendMessage(new TextComponent("Folgende Gründe existieren:"));
-                                    sender.sendMessage(new TextComponent("1 ➟ "));
+                                    reasons(sender);
                             }
+
                         } else {
-                            //TODO Zahl<1-x>!
+                            sender.sendMessage(new TextComponent(coreBungee.getData().getPrefix() + "§7Bitte verwende: </rban> <Player> <Zahl>"));
+                            reasons(sender);
                         }
                     } else {
-                        //TODO exist nicht
+                        sender.sendMessage(new TextComponent(coreBungee.getData().getPrefix() + "§7Die Zahl: §b" + args[1] + " §7Existiert nicht!"));
+                        reasons(sender);
                     }
                 } else {
-                    //TODO not enough args
+                    sender.sendMessage(new TextComponent(coreBungee.getData().getPrefix() + "§7Du benutzt zu wenige Argumente! Verwende: </rban> <player> <Zahl>"));
+                    reasons(sender);
                 }
             }
         }
     }
 
     private void sendToServer (ProxiedPlayer player, String message) {
-        byte[] bytes = message.getBytes();
-        player.sendData("ban", bytes);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
+        try {
+            dataOutputStream.writeUTF(message);
+            player.getServer().sendData("ban", byteArrayOutputStream.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void punish(ProxiedPlayer player, ProxiedPlayer punisher, String reason, long time) {
-        if (coreBungee.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()).isOnline()) {
-            Punishment punishment = new Punishment() {
-                @Override
-                public void punish() {
-
-                }
-
-                @Override
-                public void unban(UUID uuid) {
-                    coreBungee.getHookManager().getNetworkManagerPlugin().getPlayer(uuid).getActiveBan().unban(uuid);
-                }
-
-                @Override
-                public int getId() {
-                    return 0;
-                }
-
-                @Override
-                public Type getType() {
-                    return Type.GBAN;
-                }
-
-                @Override
-                public UUID getUuid() {
-                    return player.getUniqueId();
-                }
-
-                @Override
-                public UUID getPunisher() {
-                    return punisher.getUniqueId();
-                }
-
-                @Override
-                public UUID getUnbanner() {
-                    return null;
-                }
-
-                @Override
-                public long getTime() {
-                    return time;
-                }
-
-                @Override
-                public long getEnd() {
-                    return 0;
-                }
-
-                @Override
-                public String getIp() {
-                    return player.getAddress().toString();
-                }
-
-                @Override
-                public String getServer() {
-                    return null;
-                }
-
-                @Override
-                public String getReason() {
-                    return reason;
-                }
-
-                @Override
-                public boolean isActive() {
-                    return true;
-                }
-
-                @Override
-                public NetworkManagerPlugin getNetworkManagerPlugin() {
-                    return coreBungee.getHookManager().getNetworkManagerPlugin();
-                }
-            };
-            coreBungee.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()).generateBanMessage(punishment);
-            punishment.punish();
-        }
+        Map<ProxiedPlayer, String> map1 = new HashMap<>();
+        map1.put(player, reason);
+        Map<ProxiedPlayer, Long> longMap = new HashMap<>();
+        longMap.put(player, time);
+        Map<ProxiedPlayer, ProxiedPlayer> playerMap = new HashMap<>();
+        playerMap.put(player, punisher);
+        coreBungee.getFinalBan().setPunisher(playerMap);
+        coreBungee.getFinalBan().setReason(map1);
+        coreBungee.getFinalBan().setTime(longMap);
     }
 
     private boolean isInteger(Object object) {
@@ -151,5 +119,16 @@ public class BanCommand extends Command {
             }
         }
         return true;
+    }
+    private void reasons(CommandSender sender){
+        sender.sendMessage(new TextComponent("---------- " + coreBungee.getData().getPrefix() + " ----------"));
+        sender.sendMessage(new TextComponent("§7Folgende Gründe existieren:"));
+        sender.sendMessage(new TextComponent("§71 §a➟ §7Hacking"));
+        sender.sendMessage(new TextComponent("§72 §a➟ §7Trolling"));
+        sender.sendMessage(new TextComponent("§73 §a➟ §7Name"));
+        sender.sendMessage(new TextComponent("§74 §a➟ §7Skin"));
+        sender.sendMessage(new TextComponent("§75 §a➟ §7Bug-Using"));
+        sender.sendMessage(new TextComponent("§76 §a➟ §7Rassismus"));
+        sender.sendMessage(new TextComponent("§77 §a➟ §7Sexsismus"));
     }
 }

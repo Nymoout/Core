@@ -12,9 +12,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class BanProcess implements PluginMessageListener {
 
@@ -30,8 +28,7 @@ public class BanProcess implements PluginMessageListener {
     public synchronized void onPluginMessageReceived(String channel, Player player, byte[] message) {
         DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(message));
         try {
-            String dataCombined = dataInputStream.readUTF();
-            String[] data = dataCombined.split(":");
+            String[] data = dataInputStream.readUTF().split(":");
             player.setAllowFlight(true);
             Vector vector = new Vector(0, 0.1, 0);
             new BukkitRunnable() {
@@ -52,14 +49,19 @@ public class BanProcess implements PluginMessageListener {
                         block.setType(Material.BARRIER);
                         player.setAllowFlight(false);
                         player.playSound(player.getLocation(), Sound.LEVEL_UP, 1F, 1F);
-                        player.sendTitle(data[0], data[1]);
                     }
                     if (time == 0) {
                         time = 110;
                         block = player.getWorld().getBlockAt(new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 1, player.getLocation().getZ()));
-                        player.sendMessage(data[2]);
                         block.setType(Material.AIR);
-                        //send ban
+                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                        DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
+                        try {
+                            dataOutputStream.writeUTF("finalBan");
+                            player.sendPluginMessage(coreSpigot, "BungeeCord", byteArrayOutputStream.toByteArray());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         cancel();
                     }
                     time--;
