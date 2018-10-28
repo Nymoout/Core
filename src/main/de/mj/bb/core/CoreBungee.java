@@ -23,6 +23,7 @@ public class CoreBungee extends Plugin {
 
     public void onEnable() {
         hookManager = new BungeeHookManager(this);
+        hookManager.hook();
         new BanCommand(this);
         new LoginListener(this);
         bungeeTablist = new BungeeTabList(this);

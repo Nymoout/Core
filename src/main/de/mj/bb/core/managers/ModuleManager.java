@@ -2,7 +2,6 @@ package main.de.mj.bb.core.managers;
 
 import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
-import main.de.mj.bb.core.anticheat.Events;
 import main.de.mj.bb.core.commands.*;
 import main.de.mj.bb.core.listener.*;
 import main.de.mj.bb.core.mysql.AsyncMySQL;
@@ -23,9 +22,6 @@ public class ModuleManager {
     private final ConsoleCommandSender sender;
 
     private final ServerType serverType;
-
-    //anticheat
-    private Events events;
 
     //Commands
     private AFKCommand afkCommand;
@@ -192,7 +188,6 @@ public class ModuleManager {
             chatListener = new ChatListener(coreSpigot);
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
-            events = new Events(coreSpigot);
             tabList.loadTabList();
         } else if (serverType.equals(ServerType.SKY_PVP)) {
             data = new Data();
@@ -210,8 +205,6 @@ public class ModuleManager {
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
             fileManager = new FileManager(coreSpigot);
-            events = new Events(coreSpigot);
-            new SetSpeedCommand(coreSpigot);
             tabList.loadTabList();
         } else if (serverType.equals(ServerType.BAU_SERVER)) {
             data = new Data();

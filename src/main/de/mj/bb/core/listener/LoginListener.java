@@ -21,9 +21,19 @@ public class LoginListener implements Listener {
     public void onLogin(PostLoginEvent loginEvent) {
         ProxiedPlayer player = loginEvent.getPlayer();
         ServerGroupObject serverGroupObject = TimoCloudAPI.getUniversalAPI().getServerGroup("Lobby");
+        if (coreBungee.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()) == null) {
+            System.out.println("Player " + player.getName() + " is null");
+            return;
+        }
         if (!(serverGroupObject.getOnlineAmount() > 0)) {
             player.disconnect(new TextComponent("§7[§6§lBattleBuild§7] \n §cUnser System wird gerade hochgefahren, \n §3bitte warte einen Moment \n §3bevor du dich erneut verbindest!"));
+            return;
         }
+        if (coreBungee.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()).isGlobalBanned()) {
+            player.disconnect(new TextComponent(coreBungee.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()).getActiveBan().getReason()));
+            return;
+        }
+
         coreBungee.getBungeeTablist().setTabList();
     }
 }

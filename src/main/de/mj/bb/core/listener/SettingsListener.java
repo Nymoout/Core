@@ -847,7 +847,7 @@ public class SettingsListener implements Listener {
             @Override
             public void run() {
                 for (Player all : Bukkit.getOnlinePlayers()) {
-                    if (all.getOpenInventory().getTitle().contains("Einstellungen") || all.getOpenInventory().getTitle().contains("Navigator")) {
+                    if (all.getOpenInventory().getTitle().contains("§c§lEinstellungen") || all.getOpenInventory().getTitle().contains("Navigator")) {
                         int des = design.get(all) - 1;
                         if (des < 0) des = 15;
                         ItemStack topGlass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) des);
