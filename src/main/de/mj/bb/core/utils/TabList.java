@@ -153,12 +153,8 @@ public class TabList {
         String name = scoreboard.getTeam(team).getPrefix() + player.getName() + " ";
         //if (coreSpigot.getNickManager().isDisguised(player))
         //name = scoreboard.getTeam(team).getPrefix() + coreSpigot.getNickManager().getPlayerName().get(player) + " ";
-        if (name.length() > 16) {
-            String subName = name.substring(0, 16);
-            player.setDisplayName(subName);
-        } else {
-            player.setDisplayName(name);
-        }
+        player.setDisplayName(scoreboard.getTeam(team).getPrefix().split("§")[1] + player.getName());
+        player.setPlayerListName(name);
 
         for (Player all : Bukkit.getOnlinePlayers()) {
             all.setScoreboard(scoreboard);
