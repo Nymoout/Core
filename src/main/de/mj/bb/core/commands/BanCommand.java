@@ -9,6 +9,8 @@ import net.md_5.bungee.api.plugin.Command;
 import nl.chimpgamer.networkmanagerapi.NetworkManagerPlugin;
 import nl.chimpgamer.networkmanagerapi.modules.punishments.Punishment;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.util.UUID;
 
 public class BanCommand extends Command {
@@ -32,7 +34,7 @@ public class BanCommand extends Command {
                             ProxiedPlayer player = ProxyServer.getInstance().getPlayer(args[0]);
                             switch (reasonInt) {
                                 case 1:
-                                    punish(player, (ProxiedPlayer) sender, "Du bist dumm", 10000);
+                                    sendToServer(player, "Test:" + sender.getName() + ":10000");
                                     break;
                                 case 2:
                                     break;
@@ -54,12 +56,17 @@ public class BanCommand extends Command {
         }
     }
 
+    private void sendToServer (ProxiedPlayer player, String message) {
+        byte[] bytes = message.getBytes();
+        player.sendData("ban", bytes);
+    }
+
     private void punish(ProxiedPlayer player, ProxiedPlayer punisher, String reason, long time) {
         if (coreBungee.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()).isOnline()) {
             Punishment punishment = new Punishment() {
                 @Override
                 public void punish() {
-                    player.disconnect(new TextComponent(reason));
+
                 }
 
                 @Override

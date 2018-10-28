@@ -7,6 +7,7 @@ import main.de.mj.bb.core.listener.ServerSwitchListener;
 import main.de.mj.bb.core.managers.BungeeHookManager;
 import main.de.mj.bb.core.utils.BungeeTabList;
 import main.de.mj.bb.core.utils.Data;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -23,6 +24,7 @@ public class CoreBungee extends Plugin {
 
     public void onEnable() {
         hookManager = new BungeeHookManager(this);
+        ProxyServer.getInstance().registerChannel("ban");
         new BanCommand(this);
         new LoginListener(this);
         bungeeTablist = new BungeeTabList(this);

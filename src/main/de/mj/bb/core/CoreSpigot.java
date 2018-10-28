@@ -5,6 +5,7 @@ import main.de.mj.bb.core.managers.HookManager;
 import main.de.mj.bb.core.managers.ModuleManager;
 import main.de.mj.bb.core.managers.NickManager;
 import main.de.mj.bb.core.mysql.ColumnType;
+import main.de.mj.bb.core.utils.BanProcess;
 import main.de.mj.bb.core.utils.Data;
 import main.de.mj.bb.core.utils.ServerType;
 import org.bukkit.Bukkit;
@@ -150,6 +151,7 @@ public class CoreSpigot extends JavaPlugin {
         preInit();
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, "ban", new BanProcess(this));
 
         infoScheduler();
         if (this.getModuleManager().getFileManager().getBooleanFormConfig("GameAPI")) gameAPI = new GameAPI(this);
