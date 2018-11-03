@@ -1,11 +1,9 @@
 package main.de.mj.bb.core.utils;
 
-import lombok.Getter;
 import org.bukkit.Location;
 
 import java.util.HashMap;
 
-@Getter
 public class Portal {
 
     private static HashMap<String, Location> portalLocation1 = new HashMap<>();

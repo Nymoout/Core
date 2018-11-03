@@ -3,7 +3,6 @@ package main.de.mj.bb.core.managers;
 import main.de.mj.bb.core.CoreBungee;
 import main.de.mj.bb.core.commands.BanCommand;
 import main.de.mj.bb.core.listener.LoginListener;
-import main.de.mj.bb.core.listener.ServerSwitchListener;
 import main.de.mj.bb.core.utils.BungeeTabList;
 import main.de.mj.bb.core.utils.Data;
 import main.de.mj.bb.core.utils.FinalBan;
@@ -24,7 +23,22 @@ public class BungeeModuleManager {
         new LoginListener(coreBungee);
         bungeeTablist = new BungeeTabList(coreBungee);
         bungeeTablist.schedule();
-        new ServerSwitchListener(coreBungee);
         finalBan = new FinalBan(coreBungee);
+    }
+
+    public CoreBungee getCoreBungee() {
+        return coreBungee;
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public BungeeTabList getBungeeTablist() {
+        return bungeeTablist;
+    }
+
+    public FinalBan getFinalBan() {
+        return finalBan;
     }
 }

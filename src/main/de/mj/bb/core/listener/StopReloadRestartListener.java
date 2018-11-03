@@ -7,8 +7,6 @@
 
 package main.de.mj.bb.core.listener;
 
-import lombok.Getter;
-import lombok.Setter;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.utils.Data;
 import org.bukkit.Bukkit;
@@ -25,8 +23,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-@Getter
-@Setter
 public class StopReloadRestartListener implements Listener {
 
     private boolean isRestarting = false;
@@ -104,5 +100,25 @@ public class StopReloadRestartListener implements Listener {
 
             }
         }.runTaskTimer(coreSpigot, 0L, 20L);
+    }
+
+    public boolean isRestarting() {
+        return this.isRestarting;
+    }
+
+    public void setRestarting(boolean isRestarting) {
+        this.isRestarting = isRestarting;
+    }
+
+    public CoreSpigot getCoreSpigot() {
+        return this.coreSpigot;
+    }
+
+    public String getPrefix() {
+        return this.prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 }

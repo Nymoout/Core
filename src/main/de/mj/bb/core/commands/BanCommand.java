@@ -6,15 +6,12 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
-import nl.chimpgamer.networkmanagerapi.NetworkManagerPlugin;
-import nl.chimpgamer.networkmanagerapi.modules.punishments.Punishment;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class BanCommand extends Command {
 
@@ -102,9 +99,9 @@ public class BanCommand extends Command {
         longMap.put(player, time);
         Map<ProxiedPlayer, ProxiedPlayer> playerMap = new HashMap<>();
         playerMap.put(player, punisher);
-        coreBungee.getFinalBan().setPunisher(playerMap);
-        coreBungee.getFinalBan().setReason(map1);
-        coreBungee.getFinalBan().setTime(longMap);
+        coreBungee.getModuleManager().getFinalBan().setPunisher(playerMap);
+        coreBungee.getModuleManager().getFinalBan().setReason(map1);
+        coreBungee.getModuleManager().getFinalBan().setTime(longMap);
     }
 
     private boolean isInteger(Object object) {

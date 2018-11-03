@@ -7,7 +7,6 @@ import com.comphenix.protocol.wrappers.nbt.NbtCompound;
 import com.comphenix.protocol.wrappers.nbt.NbtFactory;
 import com.comphenix.protocol.wrappers.nbt.NbtList;
 import io.netty.buffer.ByteBuf;
-import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
 import org.apache.commons.io.Charsets;
 import org.bukkit.Bukkit;
@@ -20,7 +19,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Getter
 public class CrashFixer {
 
     private final Map<Player, Long> PACKET_USAGE = new ConcurrentHashMap<>();
@@ -129,5 +127,21 @@ public class CrashFixer {
 
     private boolean elapsed(long from, long required) {
         return from == -1L || System.currentTimeMillis() - from > required;
+    }
+
+    public Map<Player, Long> getPACKET_USAGE() {
+        return this.PACKET_USAGE;
+    }
+
+    public String getKickMessage() {
+        return this.kickMessage;
+    }
+
+    public String getDispatchCommand() {
+        return this.dispatchCommand;
+    }
+
+    public CoreSpigot getCoreSpigot() {
+        return this.coreSpigot;
     }
 }

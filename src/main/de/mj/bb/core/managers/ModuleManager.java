@@ -1,6 +1,5 @@
 package main.de.mj.bb.core.managers;
 
-import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.commands.*;
 import main.de.mj.bb.core.listener.*;
@@ -14,7 +13,6 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-@Getter
 public class ModuleManager {
 
     private final CoreSpigot coreSpigot;
@@ -272,4 +270,215 @@ public class ModuleManager {
         }
     }
 
+    public CoreSpigot getCoreSpigot() {
+        return this.coreSpigot;
+    }
+
+    public String getPrefix() {
+        return this.prefix;
+    }
+
+    public ConsoleCommandSender getSender() {
+        return this.sender;
+    }
+
+    public ServerType getServerType() {
+        return this.serverType;
+    }
+
+    public AFKCommand getAfkCommand() {
+        return this.afkCommand;
+    }
+
+    public FlyCommand getFlyCommand() {
+        return this.flyCommand;
+    }
+
+    public GMCommand getGmCommand() {
+        return this.gmCommand;
+    }
+
+    public SetLocCommand getSetLocCommand() {
+        return this.setLocCommand;
+    }
+
+    public SetPortalCommand getPortalCommand() {
+        return this.portalCommand;
+    }
+
+    public SetRangCommand getSetRangCommand() {
+        return this.setRangCommand;
+    }
+
+    public SpawnCommand getSpawnCommand() {
+        return this.spawnCommand;
+    }
+
+    public TPSCommand getTpsCommand() {
+        return this.tpsCommand;
+    }
+
+    public AFKListener getAfkListener() {
+        return this.afkListener;
+    }
+
+    public BlockRedstoneListener getBlockRedstoneListener() {
+        return this.blockRedstoneListener;
+    }
+
+    public BukkitMinecraftCommandBlockListener getCommandBlockListener() {
+        return this.commandBlockListener;
+    }
+
+    public CancelListener getCancelListener() {
+        return this.cancelListener;
+    }
+
+    public ChatListener getChatListener() {
+        return this.chatListener;
+    }
+
+    public CompassListener getCompassListener() {
+        return this.compassListener;
+    }
+
+    public FlyListener getFlyListener() {
+        return this.flyListener;
+    }
+
+    public JoinListener getJoinListener() {
+        return this.joinListener;
+    }
+
+    public LobbySwitcherListener getLobbySwitcherListener() {
+        return this.lobbySwitcherListener;
+    }
+
+    public LogBlockListener getLogBlockListener() {
+        return this.logBlockListener;
+    }
+
+    public MinionListener getMinionListener() {
+        return this.minionListener;
+    }
+
+    public MusicListener getMusicListener() {
+        return this.musicListener;
+    }
+
+    public PlayerMoveListener getPlayerMoveListener() {
+        return this.playerMoveListener;
+    }
+
+    public PlayerPortalListener getPlayerPortalListener() {
+        return this.playerPortalListener;
+    }
+
+    public QuitListener getQuitListener() {
+        return this.quitListener;
+    }
+
+    public ScrollListener getScrollListener() {
+        return this.scrollListener;
+    }
+
+    public ServerListener getServerListener() {
+        return this.serverListener;
+    }
+
+    public SettingsListener getSettingsListener() {
+        return this.settingsListener;
+    }
+
+    public StopReloadRestartListener getStopReloadRestartListener() {
+        return this.stopReloadRestartListener;
+    }
+
+    public YourProfileListener getYourProfileListener() {
+        return this.yourProfileListener;
+    }
+
+    public FileManager getFileManager() {
+        return this.fileManager;
+    }
+
+    public PortalManager getPortalManager() {
+        return this.portalManager;
+    }
+
+    public ScoreboardManager getScoreboardManager() {
+        return this.scoreboardManager;
+    }
+
+    public AsyncMySQL getAsyncMySQL() {
+        return this.asyncMySQL;
+    }
+
+    public AsyncMySQL.MySQL getMySQL() {
+        return this.mySQL;
+    }
+
+    public MySQLLoader getMySQLLoader() {
+        return this.mySQLLoader;
+    }
+
+    public ServerStatsAPI getServerStatsAPI() {
+        return this.serverStatsAPI;
+    }
+
+    public SettingsAPI getSettingsAPI() {
+        return this.settingsAPI;
+    }
+
+    public AutomaticClearLag getAutomaticClearLag() {
+        return this.automaticClearLag;
+    }
+
+    public CrashFixer getCrashFixer() {
+        return this.crashFixer;
+    }
+
+    public ItemCreator getItemCreator() {
+        return this.itemCreator;
+    }
+
+    public LobbyParticle getLobbyParticle() {
+        return this.lobbyParticle;
+    }
+
+    public LocationsUtil getLocationsUtil() {
+        return this.locationsUtil;
+    }
+
+    public Particle getParticle() {
+        return this.particle;
+    }
+
+    public PlayerRealTime getPlayerRealTime() {
+        return this.playerRealTime;
+    }
+
+    public Portal getPortal() {
+        return this.portal;
+    }
+
+    public SchedulerSaver getSchedulerSaver() {
+        return this.schedulerSaver;
+    }
+
+    public SetLocations getSetLocations() {
+        return this.setLocations;
+    }
+
+    public TabList getTabList() {
+        return this.tabList;
+    }
+
+    public TicksPerSecond getTicksPerSecond() {
+        return this.ticksPerSecond;
+    }
+
+    public Data getData() {
+        return this.data;
+    }
 }

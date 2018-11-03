@@ -10,7 +10,6 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.reflect.FieldAccessException;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
 import de.simonsator.partyandfriends.spigot.clans.api.ClansManager;
-import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.utils.Data;
 import main.de.mj.bb.core.utils.ServerType;
@@ -27,7 +26,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Iterator;
 import java.util.Map;
 
-@Getter
 public class HookManager {
 
     private final CoreSpigot coreSpigot;
@@ -277,5 +275,37 @@ public class HookManager {
         }
         economy = rsp.getProvider();
         return economy != null;
+    }
+
+    public CoreSpigot getCoreSpigot() {
+        return this.coreSpigot;
+    }
+
+    public ConsoleCommandSender getSender() {
+        return this.sender;
+    }
+
+    public String getPrefix() {
+        return this.prefix;
+    }
+
+    public ProtocolManager getProtocolManager() {
+        return this.protocolManager;
+    }
+
+    public NetworkManagerPlugin getNetworkManagerPlugin() {
+        return this.networkManagerPlugin;
+    }
+
+    public LuckPermsApi getLuckPermsApi() {
+        return this.luckPermsApi;
+    }
+
+    public PAFPlayerManager getPafPlayerManager() {
+        return this.pafPlayerManager;
+    }
+
+    public ClansManager getClansManager() {
+        return this.clansManager;
     }
 }

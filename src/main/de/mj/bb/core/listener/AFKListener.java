@@ -7,7 +7,6 @@
 
 package main.de.mj.bb.core.listener;
 
-import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -24,7 +23,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-@Getter
 public class AFKListener implements Listener {
 
     private Map<Player, Location> locations = new HashMap<>();
@@ -110,4 +108,19 @@ public class AFKListener implements Listener {
         }
     }
 
+    public Map<Player, Location> getLocations() {
+        return this.locations;
+    }
+
+    public Map<Player, BukkitTask> getRuns() {
+        return this.runs;
+    }
+
+    public Set<Player> getAfkMover() {
+        return this.afkMover;
+    }
+
+    public CoreSpigot getCoreSpigot() {
+        return this.coreSpigot;
+    }
 }

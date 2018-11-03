@@ -1,13 +1,11 @@
 package main.de.mj.bb.core.managers;
 
-import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
 
-@Getter
 public class FileManager {
 
     private final CoreSpigot coreSpigot;
@@ -53,5 +51,25 @@ public class FileManager {
 
     public boolean getBooleanFormConfig(String path) {
         return coreSpigot.getConfig().getBoolean(path);
+    }
+
+    public CoreSpigot getCoreSpigot() {
+        return this.coreSpigot;
+    }
+
+    public File getPortalFile() {
+        return this.portalFile;
+    }
+
+    public File getLogBlockFile() {
+        return this.logBlockFile;
+    }
+
+    public YamlConfiguration getPortalConfig() {
+        return this.portalConfig;
+    }
+
+    public YamlConfiguration getLogBlockConfig() {
+        return this.logBlockConfig;
     }
 }

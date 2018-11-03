@@ -1,7 +1,5 @@
 package main.de.mj.bb.core.managers;
 
-import lombok.Getter;
-import lombok.Setter;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.commands.NickCommand;
 import main.de.mj.bb.core.events.NickEvent;
@@ -22,8 +20,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-@Getter
-@Setter
 public class NickManager {
 
     private final CoreSpigot coreSpigot;
@@ -154,5 +150,57 @@ public class NickManager {
         }
         int rand = getRandomNumber(0, this.lines.size() - 1);
         return this.lines.get(rand);
+    }
+
+    public CoreSpigot getCoreSpigot() {
+        return this.coreSpigot;
+    }
+
+    public Map<Player, String> getPlayerName() {
+        return this.playerName;
+    }
+
+    public void setPlayerName(Map<Player, String> playerName) {
+        this.playerName = playerName;
+    }
+
+    public Set<UUID> getCooldown() {
+        return this.cooldown;
+    }
+
+    public void setCooldown(Set<UUID> cooldown) {
+        this.cooldown = cooldown;
+    }
+
+    public List<String> getLines() {
+        return this.lines;
+    }
+
+    public void setLines(List<String> lines) {
+        this.lines = lines;
+    }
+
+    public File getFile() {
+        return this.file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
+    public NickAPI getNickAPI() {
+        return this.nickAPI;
+    }
+
+    public void setNickAPI(NickAPI nickAPI) {
+        this.nickAPI = nickAPI;
+    }
+
+    public NickCommand getNickCommand() {
+        return this.nickCommand;
+    }
+
+    public void setNickCommand(NickCommand nickCommand) {
+        this.nickCommand = nickCommand;
     }
 }

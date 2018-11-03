@@ -8,7 +8,6 @@
 package main.de.mj.bb.core.listener;
 
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
-import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.managers.ModuleManager;
 import main.de.mj.bb.core.utils.PlayerLevel;
@@ -35,7 +34,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-@Getter
 public class SettingsListener implements Listener {
 
     private Set<Player> silentState = new HashSet<>();
@@ -871,5 +869,101 @@ public class SettingsListener implements Listener {
                 downPlace++;
             }
         }.runTaskTimer(coreSpigot, 0L, 10L));
+    }
+
+    public Set<Player> getSilentState() {
+        return this.silentState;
+    }
+
+    public Set<Player> getRideState() {
+        return this.rideState;
+    }
+
+    public Map<Player, Short> getDesign() {
+        return this.design;
+    }
+
+    public Map<Player, String> getColor() {
+        return this.color;
+    }
+
+    public Set<Player> getJumpPads() {
+        return this.jumpPads;
+    }
+
+    public Set<Player> getDoubleJump() {
+        return this.doubleJump;
+    }
+
+    public Set<Player> getWaterJump() {
+        return this.waterJump;
+    }
+
+    public Map<Player, PlayerLevel> getPlayerLevel() {
+        return this.playerLevel;
+    }
+
+    public Set<Player> getScoreFriends() {
+        return this.scoreFriends;
+    }
+
+    public Set<Player> getScoreRank() {
+        return this.scoreRank;
+    }
+
+    public Set<Player> getScoreServer() {
+        return this.scoreServer;
+    }
+
+    public Set<Player> getScoreClan() {
+        return this.scoreClan;
+    }
+
+    public Set<Player> getScoreCoins() {
+        return this.scoreCoins;
+    }
+
+    public Set<Player> getTime() {
+        return this.time;
+    }
+
+    public Set<Player> getRealTime() {
+        return this.realTime;
+    }
+
+    public Set<Player> getDay() {
+        return this.day;
+    }
+
+    public Set<Player> getWeather() {
+        return this.weather;
+    }
+
+    public Map<Player, Inventory> getInvent1() {
+        return this.invent1;
+    }
+
+    public Map<Player, Inventory> getInvent2() {
+        return this.invent2;
+    }
+
+    public Map<Player, Inventory> getInvent3() {
+        return this.invent3;
+    }
+
+    public Map<Player, Inventory> getInvent4() {
+        return this.invent4;
+    }
+
+    public Map<Player, Inventory> getScore1() {
+        return this.score1;
+    }
+
+    public Map<Player, Inventory> getScore2() {
+        return this.score2;
+    }
+
+    public CoreSpigot getCoreSpigot() {
+        return this.coreSpigot;
     }
 }

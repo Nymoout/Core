@@ -11,7 +11,6 @@ import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.PlayerObject;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
-import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.playerobject.User;
 import main.de.mj.bb.core.utils.ImageChar;
@@ -41,7 +40,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
-@Getter
 public class JoinListener implements Listener {
 
     private final CoreSpigot coreSpigot;
@@ -317,5 +315,9 @@ public class JoinListener implements Listener {
                 time++;
             }
         }.runTaskTimer(coreSpigot, 0L, 5L);
+    }
+
+    public CoreSpigot getCoreSpigot() {
+        return this.coreSpigot;
     }
 }

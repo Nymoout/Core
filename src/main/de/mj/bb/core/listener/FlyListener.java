@@ -1,6 +1,5 @@
 package main.de.mj.bb.core.listener;
 
-import lombok.Getter;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.utils.Particle;
 import main.de.mj.bb.core.utils.ServerType;
@@ -17,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 
-@Getter
 public class FlyListener implements Listener {
 
     private final CoreSpigot coreSpigot;
@@ -46,6 +44,14 @@ public class FlyListener implements Listener {
             }
             flightEvent.setCancelled(true);
         }
+    }
+
+    public CoreSpigot getCoreSpigot() {
+        return this.coreSpigot;
+    }
+
+    public HashSet<Player> getFly() {
+        return this.fly;
     }
 }
 

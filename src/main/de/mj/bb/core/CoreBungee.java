@@ -1,6 +1,5 @@
 package main.de.mj.bb.core;
 
-import lombok.Getter;
 import main.de.mj.bb.core.managers.BungeeHookManager;
 import main.de.mj.bb.core.managers.BungeeModuleManager;
 import main.de.mj.bb.core.utils.Data;
@@ -11,7 +10,6 @@ import net.md_5.bungee.api.plugin.Plugin;
 
 import java.util.logging.Logger;
 
-@Getter
 public class CoreBungee extends Plugin {
 
     private Logger logger = this.getLogger();
@@ -22,6 +20,7 @@ public class CoreBungee extends Plugin {
     public void onEnable() {
         hookManager = new BungeeHookManager(this);
         hookManager.hook();
+        moduleManager = new BungeeModuleManager(this);
         moduleManager.init();
         ProxyServer.getInstance().registerChannel("ban");
     }
@@ -32,5 +31,21 @@ public class CoreBungee extends Plugin {
 
     public void registerCommand(Command command) {
         getProxy().getPluginManager().registerCommand(this, command);
+    }
+
+    public Logger getLogger() {
+        return this.logger;
+    }
+
+    public Data getData() {
+        return this.data;
+    }
+
+    public BungeeHookManager getHookManager() {
+        return this.hookManager;
+    }
+
+    public BungeeModuleManager getModuleManager() {
+        return this.moduleManager;
     }
 }
