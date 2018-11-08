@@ -145,6 +145,7 @@ public class CoreSpigot extends JavaPlugin {
 
         sender.sendMessage(prefix + "§eis starting...");
         hookManager = new HookManager(this);
+        gameAPI = new GameAPI(this);
 
         sender.sendMessage(prefix + "§edetect server...");
         sender.sendMessage(prefix + "§adetected server §6" + Bukkit.getServerName());
@@ -154,7 +155,6 @@ public class CoreSpigot extends JavaPlugin {
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "ban", new BanProcess(this));
 
         infoScheduler();
-        if (this.getModuleManager().getFileManager().getBooleanFormConfig("GameAPI")) gameAPI = new GameAPI(this);
         sender.sendMessage(prefix + "§awas successfully started!");
     }
 
