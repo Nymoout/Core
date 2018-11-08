@@ -81,7 +81,7 @@ public class FinalBan implements Listener {
 
                             @Override
                             public long getEnd() {
-                                return 0;
+                                return System.currentTimeMillis() + time.get(player);
                             }
 
                             @Override

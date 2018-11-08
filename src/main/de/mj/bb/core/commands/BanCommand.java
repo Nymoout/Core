@@ -35,31 +35,31 @@ public class BanCommand extends Command {
                             switch (reasonInt) {
                                 case 1:
                                     sendToServer(player, "Test:" + sender.getName() + ":10000");
-                                    punish(player, (ProxiedPlayer) sender, "Hacking", 1000);
+                                    punish(player, (ProxiedPlayer) sender, "Hacking", 30);
                                     break;
                                 case 2:
                                     sendToServer(player, "Test:" + sender.getName() + ":10000");
-                                    punish(player, (ProxiedPlayer) sender, "Trolling", 1000);
+                                    punish(player, (ProxiedPlayer) sender, "Trolling", 14);
                                     break;
                                 case 3:
                                     sendToServer(player, "Test:" + sender.getName() + ":10000");
-                                    punish(player, (ProxiedPlayer) sender, "Name", 1000);
+                                    punish(player, (ProxiedPlayer) sender, "Name", 7);
                                     break;
                                 case 4:
                                     sendToServer(player, "Test:" + sender.getName() + ":10000");
-                                    punish(player, (ProxiedPlayer) sender, "Skin", 1000 );
+                                    punish(player, (ProxiedPlayer) sender, "Skin", 14);
                                     break;
                                 case 5:
                                     sendToServer(player, "Test:" + sender.getName() + ":10000");
-                                    punish(player, (ProxiedPlayer) sender, "Bug-Using", 1000);
+                                    punish(player, (ProxiedPlayer) sender, "Bug-Using", 14);
                                     break;
                                 case 6:
                                     sendToServer(player, "Test:" + sender.getName() + ":10000");
-                                    punish(player, (ProxiedPlayer) sender, "Rassismus", 1000);
+                                    punish(player, (ProxiedPlayer) sender, "Rassismus", 80);
                                     break;
                                 case 7:
                                     sendToServer(player, "Test:" + sender.getName() + ":10000");
-                                    punish(player, (ProxiedPlayer) sender, "Sexsismus", 1000);
+                                    punish(player, (ProxiedPlayer) sender, "Sexsismus", 14);
                                     break;
                                 default:
                                     reasons(sender);
@@ -92,7 +92,8 @@ public class BanCommand extends Command {
         }
     }
 
-    private void punish(ProxiedPlayer player, ProxiedPlayer punisher, String reason, long time) {
+    private void punish(ProxiedPlayer player, ProxiedPlayer punisher, String reason, int days) {
+        long time = days * 1000 * 60 * 60 * 60 * 24;
         Map<ProxiedPlayer, String> map1 = new HashMap<>();
         map1.put(player, reason);
         Map<ProxiedPlayer, Long> longMap = new HashMap<>();

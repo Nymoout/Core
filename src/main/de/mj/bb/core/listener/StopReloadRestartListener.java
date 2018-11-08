@@ -41,7 +41,7 @@ public class StopReloadRestartListener implements Listener {
         if (p.hasPermission("group.administrator")) {
             if (msg.equalsIgnoreCase("/stop") || msg.equalsIgnoreCase("/reload") || msg.equalsIgnoreCase("/restart")) {
                 preprocessEvent.setCancelled(true);
-                Inventory inv = Bukkit.createInventory(null, 9, "§4§lSERVERNEUSTART?");
+                Inventory inv = Bukkit.createInventory(null, 9, "§c§lSERVERNEUSTART?");
                 ItemStack ClayNein = new ItemStack(Material.STAINED_CLAY, 1, (short) 14);
                 ItemMeta ClayNeinMeta = ClayNein.getItemMeta();
                 ClayNeinMeta.setDisplayName("§cNein");
@@ -88,8 +88,7 @@ public class StopReloadRestartListener implements Listener {
             @Override
             public void run() {
                 if (time == 10) Bukkit.broadcastMessage(prefix + "§7Neustart in §6§l" + time + " Sekunden§7.");
-                if (time == 5) Bukkit.broadcastMessage(prefix + "§7Neustart in §6§l" + time + " Sekunden§7.");
-                if (time <= 3 && time != 1)
+                if (time <= 5 && time != 1)
                     Bukkit.broadcastMessage(prefix + "§7Neustart in §6§l" + time + " Sekunden§7.");
                 if (time == 1) Bukkit.broadcastMessage(prefix + "§7Neustart in §6§l" + time + " Sekunde§7.");
                 time--;
