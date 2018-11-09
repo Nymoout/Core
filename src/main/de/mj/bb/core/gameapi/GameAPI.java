@@ -1,6 +1,7 @@
 package main.de.mj.bb.core.gameapi;
 
 import main.de.mj.bb.core.CoreSpigot;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 public class GameAPI {
@@ -21,6 +22,7 @@ public class GameAPI {
         return mySQL;
     }
 
+    @Contract(value = "null -> false", pure = true)
     public boolean equals(Object o) {
         if (o == this) return true;
         if (!(o instanceof GameAPI)) return false;

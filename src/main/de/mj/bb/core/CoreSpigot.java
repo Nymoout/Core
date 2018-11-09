@@ -122,7 +122,6 @@ public class CoreSpigot extends JavaPlugin {
         moduleManager = new ModuleManager(this, ServerType.DEFAULT);
         hookManager.hook(ServerType.DEFAULT);
         moduleManager.init();
-        nickManager = new NickManager(coreSpigot);
     }
 
     @Override
@@ -152,9 +151,9 @@ public class CoreSpigot extends JavaPlugin {
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "ban", new BanProcess(this));
-
+        gameAPI = new GameAPI(this);
         infoScheduler();
-        if (this.getModuleManager().getFileManager().getBooleanFormConfig("GameAPI")) gameAPI = new GameAPI(this);
+        //if (this.getModuleManager().getFileManager().getBooleanFormConfig("GameAPI")) gameAPI = new GameAPI(this);
         sender.sendMessage(prefix + "§awas successfully started!");
     }
 

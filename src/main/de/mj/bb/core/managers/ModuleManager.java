@@ -187,6 +187,7 @@ public class ModuleManager {
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
             tabList.loadTabList();
+            mySQLLoader.loadMySQL();
         } else if (serverType.equals(ServerType.SKY_PVP)) {
             data = new Data();
             tabList = new TabList(coreSpigot);

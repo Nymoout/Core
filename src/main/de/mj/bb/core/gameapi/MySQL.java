@@ -3,6 +3,7 @@ package main.de.mj.bb.core.gameapi;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.mysql.AsyncMySQL;
 import main.de.mj.bb.core.mysql.ColumnType;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -16,7 +17,7 @@ public class MySQL {
 
     private final AsyncMySQL asyncMySQL;
 
-    public MySQL(CoreSpigot coreSpigot) {
+    public MySQL(@NotNull CoreSpigot coreSpigot) {
         this.asyncMySQL = coreSpigot.getModuleManager().getAsyncMySQL();
     }
 
@@ -39,7 +40,7 @@ public class MySQL {
     }
 
 
-    private void addColumn(String tableName, Map<String, ColumnType> column) throws SQLException {
+    private void addColumn(String tableName, @NotNull Map<String, ColumnType> column) throws SQLException {
         Iterator iterator = column.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, ColumnType> entry = (Map.Entry) iterator.next();
