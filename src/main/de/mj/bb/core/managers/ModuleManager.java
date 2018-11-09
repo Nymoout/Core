@@ -205,6 +205,8 @@ public class ModuleManager {
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
             fileManager = new FileManager(coreSpigot);
             tabList.loadTabList();
+            new ChestCommand(coreSpigot);
+            new BlockPlaceChestListener(coreSpigot);
         } else if (serverType.equals(ServerType.BAU_SERVER)) {
             data = new Data();
             tabList = new TabList(coreSpigot);
