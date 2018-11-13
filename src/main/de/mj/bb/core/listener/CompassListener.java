@@ -81,7 +81,7 @@ public class CompassListener implements Listener {
                 CBlore.add("§7Derzeit sind §a" + getOnlinePlayerCount(serverGroupObjectCityBuild) + "§7 Spieler");
                 CBlore.add("§7online.");
                 CBlore.add("§7Verbinde dich optional mit");
-                CBlore.add("§7➟§6citybuild.battlebuild.net");
+                CBlore.add("§7➟ §6citybuild.battlebuild.net");
             } else
                 CBlore.add("§cDiese Server sind derzeit offline.");
             inv.setItem(15,
@@ -93,7 +93,7 @@ public class CompassListener implements Listener {
                 sPvPlore.add("§7Derzeit sind §a" + getOnlinePlayerCount(serverGroupObjectCityBuild) + "§7 Spieler");
                 sPvPlore.add("§7online.");
                 sPvPlore.add("§7Verbinde dich optional mit");
-                sPvPlore.add("§7➟§6skypvp.battlebuild.net");
+                sPvPlore.add("§7➟ §6skypvp.battlebuild.net");
             } else
                 sPvPlore.add("§cDiese Server sind derzeit offline.");
             inv.setItem(19, moduleManager.getItemCreator().createItemWithMaterial(Material.GRASS, 0, 1, "§9§lSkyPvP", sPvPlore));
