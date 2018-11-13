@@ -110,7 +110,7 @@ public class ChestCommand implements CommandExecutor {
                     }
                 } else {
                     user.sendMessage(data.getPrefix() + "§cBenutze: </chest> <Chest-Name>");
-                    user.sendMessage(data.getPrefix() + "Du kannst auch </chest list> benutzen, um eine Liste mit den verfügbaren Eingaben zu erhalten!");
+                    user.sendMessage(data.getPrefix() + "Du kannst auch </chest all> benutzen, um eine Liste mit den verfügbaren Eingaben zu erhalten!");
                 }
             } else
                 user.sendMessage(data.getNoPerm());

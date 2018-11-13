@@ -8,11 +8,13 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
+import org.jetbrains.annotations.NotNull;
 
 public class LoginListener implements Listener {
 
     private final CoreBungee coreBungee;
-    public LoginListener(CoreBungee coreBungee) {
+
+    public LoginListener(@NotNull CoreBungee coreBungee) {
         this.coreBungee = coreBungee;
         coreBungee.registerListener(this);
     }
@@ -32,5 +34,6 @@ public class LoginListener implements Listener {
         if (coreBungee.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()).isGlobalBanned()) {
             player.disconnect(new TextComponent(coreBungee.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()).getActiveBan().getReason()));
         }
+        coreBungee.getModuleManager().getBungeeTablist().setTabList(player);
     }
 }

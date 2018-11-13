@@ -167,6 +167,26 @@ public class SettingsAPI {
         );
     }
 
+    public void getRadio(Player p) {
+        UUID uuid = p.getUniqueId();
+        amsql.query("SELECT * FROM LobbyConf WHERE UUID='" + uuid + "'", rs -> {
+                    try {
+                        if (rs.next()) {
+                            rs.getInt("RADIO");
+                        }
+                        int b = rs.getInt("RADIO");
+                        if (b == 0) {
+                            coreSpigot.getModuleManager().getMusicListener().getRadioOff().add(p);
+                        } else {
+                            coreSpigot.getModuleManager().getMusicListener().getRadioOff().remove(p);
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
+    }
+
     public void getLevel(Player player) {
         UUID uuid = player.getUniqueId();
         amsql.query("SELECT * FROM LobbyConf WHERE UUID='" + uuid + "'", resultSet -> {
@@ -226,6 +246,13 @@ public class SettingsAPI {
         int b = 0;
         b = djump ? 1 : 0;
         AsyncMySQL.update("UPDATE LobbyConf SET DJUMP='" + b + "' WHERE UUID='" + uuid + "'");
+    }
+
+    public void setRadio(Player p, boolean radio) {
+        UUID uuid = p.getUniqueId();
+        int b = 0;
+        b = radio ? 1 : 0;
+        AsyncMySQL.update("UPDATE LobbyConf SET RADIO='" + b + "' WHERE UUID='" + uuid + "'");
     }
 
     public void setLEVEL(Player player, PlayerLevel playerLevel) {

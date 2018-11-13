@@ -216,6 +216,8 @@ public class ModuleManager {
             portal = new Portal();
             gmCommand = new GMCommand(coreSpigot);
             tpsCommand = new TPSCommand(coreSpigot);
+            new ChestCommand(coreSpigot);
+            new BlockPlaceChestListener(coreSpigot);
             joinListener = new JoinListener(coreSpigot);
             chatListener = new ChatListener(coreSpigot);
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
@@ -239,8 +241,11 @@ public class ModuleManager {
             tpsCommand = new TPSCommand(coreSpigot);
             new ChestCommand(coreSpigot);
             new TippCommand(coreSpigot);
+            new VorbauenFinishCommand(coreSpigot);
+            new VorbauenListener(coreSpigot);
             new BlockPlaceChestListener(coreSpigot);
             joinListener = new JoinListener(coreSpigot);
+            quitListener = new QuitListener(coreSpigot);
             chatListener = new ChatListener(coreSpigot);
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);

@@ -161,7 +161,7 @@ public class CompassListener implements Listener {
         if (clickEvent.getInventory().getName().contains("§8\u00BB§7§lNavigator§8\u00AB")) {
             String displayName = clickEvent.getCurrentItem().getItemMeta().getDisplayName();
             if (displayName == null) return;
-            if (!(displayName.contains("Spawn") || displayName.contains("CityBuild") || displayName.contains("BedWars") || displayName.contains("SkyPvP") || displayName.contains("SkyWars") || displayName.contains("Rund") || displayName.contains("Soon")))
+            if (!(displayName.contains("Spawn") || displayName.contains("CityBuild") || displayName.contains("BedWars") || displayName.contains("SkyPvP") || displayName.contains("SkyWars") || displayName.contains("§4§lT§f§lN§4§lT§f§l-§4§lRun") || displayName.contains("Vorbauen")))
                 return;
             if (displayName.contains("§a§lSpawn")) {
                 scheduler(player, moduleManager.getLocationsUtil().getSpawn().clone().add(0, 1, 0));
@@ -199,6 +199,7 @@ public class CompassListener implements Listener {
                 particle.sendAll();
                 player.closeInventory();
             } else if (displayName.contains("Vorbauen")) {
+                System.out.println("Vorbauen");
                 scheduler(player, moduleManager.getLocationsUtil().getVorbauen().clone().add(0, 1, 0));
                 player.sendMessage(moduleManager.getData().getPrefix() + "Du wurdest zu §6Vorbauen §7teleportiert.");
                 player.sendTitle("§8»§b§lVorbauen§8«", "");
@@ -206,6 +207,7 @@ public class CompassListener implements Listener {
                 particle.sendAll();
                 player.closeInventory();
             } else if (displayName.contains("§4§lT§f§lN§4§lT§f§l-§4§lRun")) {
+                System.out.println("TNT");
                 player.sendMessage(moduleManager.getData().getPrefix() + "Dieser Modus ist noch nicht verfügbar!");
                 Particle particle = new Particle(EnumParticle.FLAME, player.getLocation().add(0, 2.25, 0), true, 0.25f, 0.25f, 0.25f, 0, 10000);
                 particle.sendAll();

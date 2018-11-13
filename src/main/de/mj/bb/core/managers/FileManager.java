@@ -11,8 +11,10 @@ public class FileManager {
     private final CoreSpigot coreSpigot;
     private File portalFile = new File("plugins/BBCoreSpigot/", "portal.yml");
     private File logBlockFile = new File("plugins/BBCoreSpigot/", "logBlock.yml");
+    private File finishFile = new File("plugins/BBCoreSpigot/", "finished.yml");
     private YamlConfiguration portalConfig = YamlConfiguration.loadConfiguration(portalFile);
     private YamlConfiguration logBlockConfig = YamlConfiguration.loadConfiguration(logBlockFile);
+    private YamlConfiguration finishConfig = YamlConfiguration.loadConfiguration(finishFile);
 
     public FileManager(CoreSpigot coreSpigot) {
         this.coreSpigot = coreSpigot;
@@ -71,5 +73,13 @@ public class FileManager {
 
     public YamlConfiguration getLogBlockConfig() {
         return this.logBlockConfig;
+    }
+
+    public File getFinishFile() {
+        return finishFile;
+    }
+
+    public YamlConfiguration getFinishConfig() {
+        return finishConfig;
     }
 }

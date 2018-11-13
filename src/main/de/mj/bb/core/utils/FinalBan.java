@@ -1,7 +1,6 @@
 package main.de.mj.bb.core.utils;
 
 import main.de.mj.bb.core.CoreBungee;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -23,7 +22,7 @@ public class FinalBan implements Listener {
     private Map<ProxiedPlayer, Long> time = new HashMap<>();
     private Map<ProxiedPlayer, ProxiedPlayer> punisher = new HashMap<>();
 
-    public FinalBan (CoreBungee coreBungee) {
+    public FinalBan(CoreBungee coreBungee) {
         this.coreBungee = coreBungee;
         coreBungee.registerListener(this);
     }
@@ -39,14 +38,10 @@ public class FinalBan implements Listener {
                     ProxiedPlayer player = entry.getKey();
                     if (coreBungee.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()).isOnline()) {
                         Punishment punishment = new Punishment() {
-                            @Override
                             public void punish() {
-                                player.disconnect(new TextComponent(reason.get(player)));
                             }
 
-                            @Override
                             public void unban(UUID uuid) {
-                                coreBungee.getHookManager().getNetworkManagerPlugin().getPlayer(uuid).getActiveBan().unban(uuid);
                             }
 
                             @Override

@@ -8,6 +8,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.reflect.FieldAccessException;
+import com.intellectualcrafters.plot.api.PlotAPI;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
 import de.simonsator.partyandfriends.spigot.clans.api.ClansManager;
 import main.de.mj.bb.core.CoreSpigot;
@@ -37,6 +38,7 @@ public class HookManager {
     private LuckPermsApi luckPermsApi;
     private PAFPlayerManager pafPlayerManager;
     private ClansManager clansManager;
+    private PlotAPI plotAPI;
 
     public HookManager(@NotNull CoreSpigot coreSpigot) {
         this.coreSpigot = coreSpigot;
@@ -223,6 +225,25 @@ public class HookManager {
                 sender.sendMessage(String.format("§c[%s] - ProtocolLib wasn't found - disable TabComplete!", coreSpigot.getDescription().getName()));
                 coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
             }
+            return;
+        }
+        if (serverType.equals(ServerType.VORBAUEN)) {
+            sender.sendMessage(prefix + "§dtry to hook into PlotSquared...");
+            if (coreSpigot.getServer().getPluginManager().getPlugin("PlotSquared") != null) {
+                this.protocolManager = ProtocolLibrary.getProtocolManager();
+                sender.sendMessage(prefix + "§ehooked into: PlotSquared");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - PlotSquared wasn't found - disable Core!", coreSpigot.getDescription().getName()));
+                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
+            }
+            sender.sendMessage(prefix + "§dtry to hook into LuckPerms...");
+            if (coreSpigot.getServer().getPluginManager().getPlugin("LuckPerms") != null) {
+                this.luckPermsApi = LuckPerms.getApi();
+                sender.sendMessage(prefix + "§dhooked into: LuckPerms");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - LuckPerms wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
+                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
+            }
         }
     }
 
@@ -307,5 +328,9 @@ public class HookManager {
 
     public ClansManager getClansManager() {
         return this.clansManager;
+    }
+
+    public PlotAPI getPlotAPI() {
+        return plotAPI;
     }
 }
