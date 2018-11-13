@@ -21,9 +21,9 @@ public class BungeeTabList implements Listener {
         coreBungee.registerListener(this);
     }
 
-    private void setTabList(ProxiedPlayer proxiedPlayer) {
+    private void setTabList(ProxiedPlayer proxiedPlayer, String color) {
         TextComponent header = new TextComponent();
-        header.setText("\n§8✘ §7Willkommen auf §6§lBattlebuild§7 §8✘ \n §8» §7Spieler §8➵ §e" + coreBungee.getProxy().getOnlineCount() + " §7| §e" + coreBungee.getProxy().getConfig().getPlayerLimit() + " §8« \n");
+        header.setText("\n§8✘ §" + color + "§lBattleBuild.net - Dein Netzwerk§7 §8✘ \n §8» §7Spieler §8➵ §e" + coreBungee.getProxy().getOnlineCount() + " §7| §e" + coreBungee.getProxy().getConfig().getPlayerLimit() + " §8« \n");
         TextComponent footer = new TextComponent();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         Date date = new Date();
@@ -33,13 +33,17 @@ public class BungeeTabList implements Listener {
     }
 
     public void schedule() {
-        ProxyServer.getInstance().getScheduler().schedule(coreBungee, new Runnable() {
+        coreBungee.getProxy().getScheduler().schedule(coreBungee, new Runnable() {
+            String[] colors = {"0", "1", "9", "3", "b", "a", "2", "6", "e", "c", "4", "5", "d", "f", "7", "8"};
+            int i = colors.length - 1;
             @Override
             public void run() {
                 for (ProxiedPlayer all : ProxyServer.getInstance().getPlayers()) {
-                    setTabList(all);
+                    setTabList(all, colors[i]);
                 }
+                if (i == 0) i = colors.length - 1;
+                else i--;
             }
-        }, 2L, TimeUnit.SECONDS);
+        }, 0L, 1L, TimeUnit.SECONDS);
     }
 }
