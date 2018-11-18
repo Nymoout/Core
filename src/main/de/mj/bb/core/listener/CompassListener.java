@@ -60,10 +60,10 @@ public class CompassListener implements Listener {
             for (int i = 8; i >= 0; i--) {
                 if (coreSpigot.getModuleManager().getSettingsListener().getDesign().containsKey(player)) {
                     inv.setItem(i, moduleManager.getItemCreator().createItemWithMaterial(Material.STAINED_GLASS_PANE,
-                            coreSpigot.getModuleManager().getSettingsListener().getDesign().get(player), 1, null, null));
+                            coreSpigot.getModuleManager().getSettingsListener().getDesign().get(player), 1));
                 } else {
                     inv.setItem(i,
-                            moduleManager.getItemCreator().createItemWithMaterial(Material.STAINED_GLASS_PANE, 0, 1, null, null));
+                            moduleManager.getItemCreator().createItemWithMaterial(Material.STAINED_GLASS_PANE, 0, 1));
                 }
             }
             ArrayList<String> BWlore = new ArrayList<>();
@@ -119,6 +119,8 @@ public class CompassListener implements Listener {
                 ServerObject serverObject = TimoCloudAPI.getUniversalAPI().getServer("Vorbauen");
                 VBlore.add("§7Derzeit sind §a" + getOnlinePlayerCount(serverObject) + "§7 Spieler");
                 VBlore.add("§7online.");
+                VBlore.add("§7Verbinde dich optional mit");
+                VBlore.add("§7➟ §6vorbauen.battlebuild.net");
             }
             inv.setItem(34, moduleManager.getItemCreator().createItemWithMaterial(Material.DIAMOND_PICKAXE, 0, 1, "§b§lVorbauen", VBlore));
             for (int a = 53; a >= 45; a--) {

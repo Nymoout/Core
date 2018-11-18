@@ -190,7 +190,7 @@ public class ScoreboardManager {
             sendPacket(pa14, p);
             sendPacket(pa15, p);
         }
-        if (coreSpigot.getModuleManager().getSettingsListener().getScoreClan().contains(p)) {
+        if (coreSpigot.getModuleManager().getSettingsListener().getScoreTime().contains(p)) {
             sendPacket(pa16, p);
             sendPacket(pa17, p);
             sendPacket(pa18, p);

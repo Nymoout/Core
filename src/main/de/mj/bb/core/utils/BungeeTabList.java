@@ -23,12 +23,12 @@ public class BungeeTabList implements Listener {
 
     private void setTabList(ProxiedPlayer proxiedPlayer, String color) {
         TextComponent header = new TextComponent();
-        header.setText("\n§8✘ §" + color + "§lBattleBuild.net - Dein Netzwerk§7 §8✘ \n §8» §7Spieler §8➵ §e" + coreBungee.getProxy().getOnlineCount() + " §7| §e" + coreBungee.getProxy().getConfig().getPlayerLimit() + " §8« \n");
+        header.setText("\n §7§7§m------------------------------ \n§8✘ §" + color + "§lBattleBuild.net - Dein Netzwerk§7 §8✘ \n §8» §7Spieler §8➵ §e" + coreBungee.getProxy().getOnlineCount() + " §7| §e" + coreBungee.getProxy().getConfig().getPlayerLimit() + " §8« \n");
         TextComponent footer = new TextComponent();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         Date date = new Date();
         String server = proxiedPlayer.getServer().getInfo().getName();
-        footer.setText("\n §7Uhrzeit §8➵ §b" + dateFormat.format(date) + "Uhr §8✕ §7Server §8➵ §b" + server + " \n §7TS §8➵ §3battlebuild.net §8✕ §7Discord §8➵ §3discord.battlebuild.net \n §7Forum §8➵ §3forum.battlebuild.net \n ");
+        footer.setText("\n §7Uhrzeit §8➵ §b" + dateFormat.format(date) + "Uhr §8✕ §7Server §8➵ §b" + server + " \n §7TS §8➵ §3battlebuild.net §8✕ §7Discord §8➵ §3discord.battlebuild.net \n §7Forum §8➵ §3forum.battlebuild.net \n §7§m------------------------------ \n");
         proxiedPlayer.setTabHeader(header, footer);
     }
 

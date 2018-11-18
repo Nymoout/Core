@@ -178,7 +178,7 @@ public class ModuleManager {
             scoreboardManager.ScoreboardActu();
             lobbyParticle.playEnderSignal();
             lobbyParticle.playEnchantment();
-            settingsListener.invTimer();
+            //settingsListener.invTimer();
         } else if (serverType.equals(ServerType.DEFAULT)) {
             data = new Data();
             tabList = new TabList(coreSpigot);

@@ -57,8 +57,14 @@ public class JoinListener implements Listener {
         user.setName(player.getName());
         user.setUuid(player.getUniqueId());
         user.setUsers(user);
+        if (coreSpigot.getModuleManager().getServerType().equals(ServerType.BAU_SERVER)) {
+            if (!player.hasPermission("player.team")) {
+                player.kickPlayer("");
+            }
+        }
         if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
             welcomeScheduler(player);
+            coreSpigot.getModuleManager().getSettingsListener().loadSkulls(player);
             player.teleport(coreSpigot.getModuleManager().getLocationsUtil().getSpawn());
             if (!coreSpigot.getModuleManager().getSettingsAPI().checkPlayer(player)) {
                 coreSpigot.getModuleManager().getSettingsListener().getRideState().add(player);
@@ -94,6 +100,7 @@ public class JoinListener implements Listener {
                 coreSpigot.getModuleManager().getSettingsAPI().getJumPlate(player);
                 coreSpigot.getModuleManager().getSettingsAPI().getTime(player);
                 coreSpigot.getModuleManager().getSettingsAPI().getLevel(player);
+                coreSpigot.getModuleManager().getSettingsAPI().getRadio(player);
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -181,6 +188,7 @@ public class JoinListener implements Listener {
         }
 
         summonFireWork(player);
+        player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§6Bitte warte einen Moment, deine §cEinstellungen §6werden geladen!");
         waitMySQL(player, coreSpigot.getModuleManager().getServerType());
         coreSpigot.getModuleManager().getTabList().setPrefix(player);
     }
@@ -206,6 +214,8 @@ public class JoinListener implements Listener {
                         else if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.YEAR))
                             player.setLevel(Calendar.getInstance().get(Calendar.YEAR));
                         cancel();
+                        if (coreSpigot.getModuleManager().getMusicListener().getRadioOff().contains(player))
+                            player.performCommand("radio");
                     } else {
                         coreSpigot.getModuleManager().getServerStatsAPI().getMaxPlayed(player);
                     }
@@ -305,11 +315,11 @@ public class JoinListener implements Listener {
                 if (time == 12)
                     player.sendTitle("§c✘ §6BattleBuild§c ✘", "");
                 if (time == 13)
-                    player.sendTitle("§c✘ §6BattleBuild§c ✘", "✘ Willkommen ✘");
+                    player.sendTitle("§c✘ §6BattleBuild§c ✘", "✘ Willkommen " + player.getName() + " ✘");
                 if (time == 14)
-                    player.sendTitle("§c✘ §6BattleBuild§c ✘", "✘ Willkommen ✘");
+                    player.sendTitle("§c✘ §6BattleBuild§c ✘", "✘ Willkommen " + player.getName() + " ✘");
                 if (time == 15) {
-                    player.sendTitle("§c✘ §6BattleBuild§c ✘", "✘ Willkommen ✘");
+                    player.sendTitle("§c✘ §6BattleBuild§c ✘", "✘ Willkommen " + player.getName() + " ✘");
                     cancel();
                 }
                 time++;

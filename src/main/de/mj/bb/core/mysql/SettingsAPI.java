@@ -398,9 +398,9 @@ public class SettingsAPI {
                             Integer.valueOf(rs.getInt("TIME"));
                         }
                         if ((b = rs.getInt("TIME")) == 1) {
-                            coreSpigot.getModuleManager().getSettingsListener().getTime().add(p);
+                            coreSpigot.getModuleManager().getSettingsListener().getScoreTime().add(p);
                         } else {
-                            coreSpigot.getModuleManager().getSettingsListener().getTime().remove(p);
+                            coreSpigot.getModuleManager().getSettingsListener().getScoreTime().remove(p);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
