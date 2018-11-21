@@ -2,6 +2,7 @@ package main.de.mj.bb.core.managers;
 
 import main.de.mj.bb.core.CoreBungee;
 import main.de.mj.bb.core.commands.BanCommand;
+import main.de.mj.bb.core.commands.LobbyCommand;
 import main.de.mj.bb.core.listener.LoginListener;
 import main.de.mj.bb.core.utils.BungeeTabList;
 import main.de.mj.bb.core.utils.Data;
@@ -21,6 +22,7 @@ public class BungeeModuleManager {
     public void init() {
         new BanCommand(coreBungee);
         new LoginListener(coreBungee);
+        new LobbyCommand(coreBungee);
         bungeeTablist = new BungeeTabList(coreBungee);
         bungeeTablist.schedule();
         finalBan = new FinalBan(coreBungee);

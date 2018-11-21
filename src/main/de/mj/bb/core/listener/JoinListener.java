@@ -12,7 +12,6 @@ import cloud.timo.TimoCloud.api.objects.PlayerObject;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
 import main.de.mj.bb.core.CoreSpigot;
-import main.de.mj.bb.core.playerobject.User;
 import main.de.mj.bb.core.utils.ImageChar;
 import main.de.mj.bb.core.utils.ImageMessage;
 import main.de.mj.bb.core.utils.PlayerLevel;
@@ -52,18 +51,13 @@ public class JoinListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent joinEvent) {
         Player player = joinEvent.getPlayer();
-        User user = new User();
-        user.setAfk(false);
-        user.setName(player.getName());
-        user.setUuid(player.getUniqueId());
-        user.setUsers(user);
         if (coreSpigot.getModuleManager().getServerType().equals(ServerType.BAU_SERVER)) {
             if (!player.hasPermission("player.team")) {
                 player.kickPlayer("");
             }
         }
         if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
-            welcomeScheduler(player);
+            player.sendTitle("§c✘ §6BattleBuild§c ✘", "✘ Willkommen " + player.getName() + " ✘");
             coreSpigot.getModuleManager().getSettingsListener().loadSkulls(player);
             player.teleport(coreSpigot.getModuleManager().getLocationsUtil().getSpawn());
             if (!coreSpigot.getModuleManager().getSettingsAPI().checkPlayer(player)) {
@@ -162,17 +156,17 @@ public class JoinListener implements Listener {
             }
             if (friends.size() == 1) {
                 net.minecraft.server.v1_8_R3.IChatBaseComponent icb = net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer
-                        .a("{\"text\":\"§6Derzeit ist folgender deiner Freunde online:\",\"extra\":[{\"text\":\"§a§l "
-                                + friends
-                                + "\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"§9Klicke hier für mehr Informationen!\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/friendsgui\"}}]}");
+                        .a("{\"text\":\"§7[§6§lBattleBuild§7] §7Derzeit ist folgender deiner Freunde online:\",\"extra\":[{\"text\":\"§a§l "
+                                + friends.get(0)
+                                + "\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"§7Klicke hier für mehr Informationen!\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/friendsgui\"}}]}");
                 net.minecraft.server.v1_8_R3.PacketPlayOutChat packet = new net.minecraft.server.v1_8_R3.PacketPlayOutChat(icb);
                 ((org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
             }
             if (friends.size() > 1) {
                 net.minecraft.server.v1_8_R3.IChatBaseComponent icb = net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer
-                        .a("{\"text\":\"§6Derzeit sind folgende deiner Freunde online:\",\"extra\":[{\"text\":\"§a§l "
-                                + friends
-                                + "\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"§9Klicke hier für mehr Informationen!\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/friendsgui\"}}]}");
+                        .a("{\"text\":\"§7[§6§lBattleBuild§7] §7Derzeit sind folgende deiner Freunde online:\",\"extra\":[{\"text\":\" "
+                                + friendBuilder(friends)
+                                + "\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"§7Klicke hier für mehr Informationen!\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/friendsgui\"}}]}");
                 net.minecraft.server.v1_8_R3.PacketPlayOutChat packet = new net.minecraft.server.v1_8_R3.PacketPlayOutChat(icb);
                 ((org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
             }
@@ -188,9 +182,17 @@ public class JoinListener implements Listener {
         }
 
         summonFireWork(player);
-        player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§6Bitte warte einen Moment, deine §cEinstellungen §6werden geladen!");
+        player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "Bitte warte einen Moment, deine §eEinstellungen §7werden geladen!");
         waitMySQL(player, coreSpigot.getModuleManager().getServerType());
         coreSpigot.getModuleManager().getTabList().setPrefix(player);
+    }
+
+    private String friendBuilder(ArrayList<String> friends) {
+        String finalFriends = null;
+        for (String friend : friends) {
+            finalFriends = " §6" + friend;
+        }
+        return finalFriends;
     }
 
     private void waitMySQL(Player player, ServerType serverType) {
@@ -200,9 +202,9 @@ public class JoinListener implements Listener {
                 if (serverType.equals(ServerType.LOBBY)) {
                     if (coreSpigot.getModuleManager().getServerStatsAPI().getMaxServer().containsKey(player) && coreSpigot.getModuleManager().getServerStatsAPI().getMaxServer().get(player) != null && coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().containsKey(player) && coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player) != null) {
                         net.minecraft.server.v1_8_R3.IChatBaseComponent icb = net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer
-                                .a("{\"text\":\"§2Du spielst öfters auf dem Server\",\"extra\":[{\"text\":\"§b "
+                                .a("{\"text\":\"§7[§6§lBattleBuild§7] §7Du spielst öfters auf dem Server\",\"extra\":[{\"text\":\"§b "
                                         + coreSpigot.getModuleManager().getServerStatsAPI().getMaxServer().get(player)
-                                        + ". §2Wenn §2du §2dich §2mit §2diesem §2verbinden §2willst, §2dann §2klick §2einfach §2hier!\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"§aKlicke hier um diesen Server zu betreten!\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gotoserver " + coreSpigot.getModuleManager().getServerStatsAPI().getMaxServer().get(player) + "\"}}]}");
+                                        + ". §7Wenn §7du §7dich §7mit §7diesem §7verbinden §7willst, §7dann §7klick §7einfach §7hier!\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"§aKlicke hier um diesen Server zu betreten!\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gotoserver " + coreSpigot.getModuleManager().getServerStatsAPI().getMaxServer().get(player) + "\"}}]}");
                         net.minecraft.server.v1_8_R3.PacketPlayOutChat packet = new net.minecraft.server.v1_8_R3.PacketPlayOutChat(icb);
                         ((org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
                         if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.LOBBY)) {
@@ -283,51 +285,4 @@ public class JoinListener implements Listener {
         return c;
     }
 
-    @Deprecated
-    private void welcomeScheduler(Player player) {
-        new BukkitRunnable() {
-            int time = 1;
-
-            @Override
-            public void run() {
-                if (time == 1)
-                    player.sendTitle("§c✘✘", "");
-                if (time == 2)
-                    player.sendTitle("§c✘ §6B§c ✘", "");
-                if (time == 3)
-                    player.sendTitle("§c✘ §6Ba§c ✘", "");
-                if (time == 4)
-                    player.sendTitle("§c✘ §6Bat§c ✘", "");
-                if (time == 5)
-                    player.sendTitle("§c✘ §6Batt§c ✘", "");
-                if (time == 6)
-                    player.sendTitle("§c✘ §6Battl§c ✘", "");
-                if (time == 7)
-                    player.sendTitle("§c✘ §6Battle§c ✘", "");
-                if (time == 8)
-                    player.sendTitle("§c✘ §6BattleB§c ✘", "");
-                if (time == 9)
-                    player.sendTitle("§c✘ §6BattleBu§c ✘", "");
-                if (time == 10)
-                    player.sendTitle("§c✘ §6BattleBui§c ✘", "");
-                if (time == 11)
-                    player.sendTitle("§c✘ §6BattleBuil§c ✘", "");
-                if (time == 12)
-                    player.sendTitle("§c✘ §6BattleBuild§c ✘", "");
-                if (time == 13)
-                    player.sendTitle("§c✘ §6BattleBuild§c ✘", "✘ Willkommen " + player.getName() + " ✘");
-                if (time == 14)
-                    player.sendTitle("§c✘ §6BattleBuild§c ✘", "✘ Willkommen " + player.getName() + " ✘");
-                if (time == 15) {
-                    player.sendTitle("§c✘ §6BattleBuild§c ✘", "✘ Willkommen " + player.getName() + " ✘");
-                    cancel();
-                }
-                time++;
-            }
-        }.runTaskTimer(coreSpigot, 0L, 5L);
-    }
-
-    public CoreSpigot getCoreSpigot() {
-        return this.coreSpigot;
-    }
 }

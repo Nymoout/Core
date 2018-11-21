@@ -100,6 +100,7 @@ public class ModuleManager {
         fileManager.loadConfigFile();
         ticksPerSecond = new TicksPerSecond();
         tpsCommand = new TPSCommand(coreSpigot);
+        setRangCommand = new SetRangCommand(coreSpigot);
         if (fileManager.getBooleanFormConfig("Clearlag")) {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(coreSpigot, ticksPerSecond, 100L, 1L);
             automaticClearLag = new AutomaticClearLag(coreSpigot);
@@ -138,6 +139,7 @@ public class ModuleManager {
             afkListener = new AFKListener(coreSpigot);
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             cancelListener = new CancelListener(coreSpigot);
+            new CancelWeatherListener(coreSpigot);
             chatListener = new ChatListener(coreSpigot);
             compassListener = new CompassListener(coreSpigot);
             flyListener = new FlyListener(coreSpigot);
@@ -208,6 +210,8 @@ public class ModuleManager {
             new ChestCommand(coreSpigot);
             new BlockPlaceChestListener(coreSpigot);
         } else if (serverType.equals(ServerType.BAU_SERVER)) {
+            new CancelWeatherListener(coreSpigot);
+            new FlyWalkSpeedCommand(coreSpigot);
             data = new Data();
             tabList = new TabList(coreSpigot);
             portalCommand = new SetPortalCommand(coreSpigot);
@@ -229,12 +233,14 @@ public class ModuleManager {
             portalManager.loadPortals();
             tabList.loadTabList();
         } else if (serverType.equals(ServerType.BED_WARS)) {
+            new CancelWeatherListener(coreSpigot);
             data = new Data();
             joinListener = new JoinListener(coreSpigot);
             chatListener = new ChatListener(coreSpigot);
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
         } else if (serverType.equals(ServerType.VORBAUEN)) {
+            new CancelWeatherListener(coreSpigot);
             data = new Data();
             tabList = new TabList(coreSpigot);
             new GMCommand(coreSpigot);

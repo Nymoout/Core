@@ -38,7 +38,7 @@ public class UUIDFetcher {
         pool.execute(() -> action.accept(UUIDFetcher.getUUIDAt(name, timestamp)));
     }
 
-    public static UUID getUUIDAt(String name, long timestamp) {
+    private static UUID getUUIDAt(String name, long timestamp) {
         if (uuidCache.containsKey(name = name.toLowerCase())) {
             return uuidCache.get(name);
         }

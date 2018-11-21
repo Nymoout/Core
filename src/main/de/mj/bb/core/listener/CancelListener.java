@@ -21,15 +21,11 @@ import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.event.weather.WeatherChangeEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class CancelListener implements Listener {
 
-    private final CoreSpigot coreSpigot;
-
     public CancelListener(@NotNull CoreSpigot coreSpigot) {
-        this.coreSpigot = coreSpigot;
         coreSpigot.setListener(this);
     }
 
@@ -83,10 +79,5 @@ public class CancelListener implements Listener {
         if (spawnEvent.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL || spawnEvent.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CHUNK_GEN) {
             spawnEvent.setCancelled(true);
         }
-    }
-
-    @EventHandler
-    public void wetter(WeatherChangeEvent weatherChangeEvent) {
-        weatherChangeEvent.setCancelled(true);
     }
 }

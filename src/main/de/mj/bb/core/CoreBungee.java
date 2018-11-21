@@ -17,6 +17,7 @@ public class CoreBungee extends Plugin {
     private BungeeHookManager hookManager;
     private BungeeModuleManager moduleManager;
 
+    @Override
     public void onEnable() {
         hookManager = new BungeeHookManager(this);
         hookManager.hook();

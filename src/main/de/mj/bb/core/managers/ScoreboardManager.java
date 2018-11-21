@@ -55,12 +55,12 @@ public class ScoreboardManager {
         obj.setDisplayName("§7§l× §" + color + "§lBattleBuild§7§l ×");
         PacketPlayOutScoreboardObjective createPacket = new PacketPlayOutScoreboardObjective(obj, 0);
         PacketPlayOutScoreboardDisplayObjective display = new PacketPlayOutScoreboardDisplayObjective(1, obj);
-        ScoreboardScore s1 = new ScoreboardScore(scoreboard, obj, "§a§lDeine Coins");
+        ScoreboardScore s1 = new ScoreboardScore(scoreboard, obj, "● §7Coins");
         ScoreboardScore s2;
         s2 = new ScoreboardScore(scoreboard, obj, "§7➟ §" + color + String.valueOf(coreSpigot.getHookManager().getEconomy().getBalance(p)));
         ScoreboardScore s3 = new ScoreboardScore(scoreboard, obj, "§8§7");
 
-        ScoreboardScore s4 = new ScoreboardScore(scoreboard, obj, "§a§lDein Rang");
+        ScoreboardScore s4 = new ScoreboardScore(scoreboard, obj, "● §7Rang");
         ScoreboardScore s5;
         User user = lobby.getLuckPermsApi().getUser(p.getUniqueId());
         ContextManager cm = lobby.getLuckPermsApi().getContextManager();
@@ -75,7 +75,7 @@ public class ScoreboardManager {
         s5 = new ScoreboardScore(scoreboard, obj, "§7➟ §" + color + prefix);
         ScoreboardScore s6 = new ScoreboardScore(scoreboard, obj, "§7§9 ");
 
-        ScoreboardScore s8 = new ScoreboardScore(scoreboard, obj, "§a§lDein Clan");
+        ScoreboardScore s8 = new ScoreboardScore(scoreboard, obj, "● §7Clan");
         ScoreboardScore s9;
         PAFPlayer pafp = lobby.getPafPlayerManager().getPlayer(p.getUniqueId());
         int i = 0;
@@ -92,17 +92,17 @@ public class ScoreboardManager {
         if (lobby.getClansManager().getClan(pafp) != null) {
             s9 = new ScoreboardScore(scoreboard, obj,
                     "§7➟ §" + color + lobby.getClansManager().getClan(pafp).getClanTag() + "§7 [§" + color + i
-                            + "§7§k|§r§" + color + lobby.getClansManager().getClan(pafp).getAllPlayers().size() + "§7]");
+                            + "§7┊§r§" + color + lobby.getClansManager().getClan(pafp).getAllPlayers().size() + "§7]");
         } else {
             s9 = new ScoreboardScore(scoreboard, obj, "§7➟ §7");
         }
         ScoreboardScore s7 = new ScoreboardScore(scoreboard, obj, "§7§f ");
 
-        ScoreboardScore s11 = new ScoreboardScore(scoreboard, obj, "§a§lServer");
+        ScoreboardScore s11 = new ScoreboardScore(scoreboard, obj, "● §7Server");
         ScoreboardScore s12 = new ScoreboardScore(scoreboard, obj, "§7➟ §" + color + p.getServer().getServerName());
         ScoreboardScore s13 = new ScoreboardScore(scoreboard, obj, "§7§5 ");
 
-        ScoreboardScore s14 = new ScoreboardScore(scoreboard, obj, "§a§lOnline Freunde");
+        ScoreboardScore s14 = new ScoreboardScore(scoreboard, obj, "● §7Freunde");
         ScoreboardScore s15;
         int f = 0;
         for (PAFPlayer friends : pafp.getFriends()) {
@@ -113,12 +113,12 @@ public class ScoreboardManager {
             }
         }
         if (pafp.getFriends() != null) {
-            s15 = new ScoreboardScore(scoreboard, obj, "§7➟ §" + color + f + "§7§k|§r§" + color + pafp.getFriends().size());
+            s15 = new ScoreboardScore(scoreboard, obj, "§7➟ §" + color + f + "§7┊§r§" + color + pafp.getFriends().size());
         } else {
-            s15 = new ScoreboardScore(scoreboard, obj, "§7➟ §" + color + "0§7§k|§r§" + color + "0");
+            s15 = new ScoreboardScore(scoreboard, obj, "§7➟ §" + color + "0§7┊§r§" + color + "0");
         }
         ScoreboardScore s16 = new ScoreboardScore(scoreboard, obj, "§7§6 ");
-        ScoreboardScore s17 = new ScoreboardScore(scoreboard, obj, "§a§lOnline-Zeit");
+        ScoreboardScore s17 = new ScoreboardScore(scoreboard, obj, "● §7Spielzeit");
         int playtime = lobby.getNetworkManagerPlugin().getPlayer(p.getUniqueId()).getPlaytime();
         float tosecond = playtime / 1000;
         float tominute = tosecond / 60;
