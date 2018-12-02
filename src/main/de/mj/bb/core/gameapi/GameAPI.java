@@ -8,10 +8,12 @@ public class GameAPI {
 
     private final CoreSpigot coreSpigot;
     private final MySQL mySQL;
+    private final CoinsAPI coinsAPI;
 
     public GameAPI(@NotNull CoreSpigot coreSpigot) {
         this.coreSpigot = coreSpigot;
         this.mySQL = new MySQL(coreSpigot);
+        this.coinsAPI = new CoinsAPI(coreSpigot);
     }
 
     public CoreSpigot getCoreSpigot() {
@@ -53,5 +55,9 @@ public class GameAPI {
 
     public String toString() {
         return "GameAPI(coreSpigot=" + this.getCoreSpigot() + ", mySQL=" + this.getMySQL() + ")";
+    }
+
+    public CoinsAPI getCoinsAPI() {
+        return this.coinsAPI;
     }
 }

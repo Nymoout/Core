@@ -211,16 +211,15 @@ public class JoinListener implements Listener {
                             player.setLevel(1);
                         else if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.YEAR))
                             player.setLevel(Calendar.getInstance().get(Calendar.YEAR));
-                        cancel();
                         if (coreSpigot.getModuleManager().getMusicListener().getRadioOff().contains(player))
                             player.performCommand("radio");
+                        cancel();
                     } else {
                         coreSpigot.getModuleManager().getServerStatsAPI().getMaxPlayed(player);
                     }
                 } else {
                     try {
                         coreSpigot.getModuleManager().getServerStatsAPI().updatePlayed(player, coreSpigot.getModuleManager().getServerStatsAPI().getPlayedInt(player, Bukkit.getServerName()) + 1, Bukkit.getServerName());
-                        cancel();
                     } catch (NullPointerException e) {
                         coreSpigot.getModuleManager().getServerStatsAPI().createPlayer(player);
                         coreSpigot.getModuleManager().getServerStatsAPI().getPlayed(player);
