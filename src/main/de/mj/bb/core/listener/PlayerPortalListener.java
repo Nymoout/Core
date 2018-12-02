@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -23,8 +23,8 @@ public class PlayerPortalListener implements Listener {
     }
 
     @EventHandler
-    public void onPortal(PlayerPortalEvent portalEvent) {
-        Player player = portalEvent.getPlayer();
+    public void onPortal(PlayerMoveEvent moveEvent) {
+        Player player = moveEvent.getPlayer();
         Map<String, Location> location1 = Portal.getPortalLocation1();
         Map<String, Location> location2 = Portal.getPortalLocation2();
         int playerX = player.getLocation().getBlockX();
@@ -50,7 +50,7 @@ public class PlayerPortalListener implements Listener {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                portalEvent.setCancelled(true);
+                moveEvent.setCancelled(true);
                 break;
             }
         }

@@ -260,7 +260,7 @@ public class SettingsListener implements Listener {
         if (clickEvent.getCurrentItem().getItemMeta().getDisplayName() == null) return;
         ModuleManager lobby = this.coreSpigot.getModuleManager();
         Player player = (Player) clickEvent.getWhoClicked();
-        lobby.getScoreboardManager().setScoreboard(player);
+        //lobby.getScoreboardManager().setScoreboard(player);
         player.playSound(player.getLocation(), Sound.SHEEP_WALK, 1, 1);
         if (clickEvent.getCursor().getType().equals(Material.BLAZE_ROD)
                 || clickEvent.getCurrentItem().getType().equals(Material.BLAZE_ROD) && !clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Fun")) {

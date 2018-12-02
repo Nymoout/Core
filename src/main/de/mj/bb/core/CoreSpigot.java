@@ -65,15 +65,24 @@ public class CoreSpigot extends JavaPlugin {
                 long mram = Runtime.getRuntime().maxMemory() / 1048576L;
                 List<String> names = new ArrayList<>();
                 for (Player all : Bukkit.getOnlinePlayers()) names.add(all.getName());
-                sender.sendMessage("§9§lCurrent RAM-Usage: §a" + cram + " MB §9 of §3" + mram + " MB");
+                sender.sendMessage("§9§lCurrent RAM-Usage: §a" + cram + " MB §9 of §3" + mram + " MB " + "(" + mram / 100 * cram / 100 + "%)");
                 sender.sendMessage("§e§lPort: §6" + Bukkit.getPort());
                 sender.sendMessage("§bServername: §3" + Bukkit.getServerName());
                 sender.sendMessage("§5§lVersion: §b" + Bukkit.getBukkitVersion());
                 sender.sendMessage("§6§lPlugin-Version: §e" + coreSpigot.getDescription().getVersion());
                 sender.sendMessage("§4§lTPS: §c" + moduleManager.getTicksPerSecond().getTPS());
+                sender.sendMessage("§6§lOnline: §e" + getOnlinePlayersNameList(names));
                 sender.sendMessage("§8§m--------------------------------------------§r");
             }
         }.runTaskTimer(this, 0L, 20L * 60 * 5);
+    }
+
+    private String getOnlinePlayersNameList(List<String> names) {
+        String finalList = "";
+        for (String name : names) {
+            finalList += " §e" + name;
+        }
+        return finalList;
     }
 
     public static void setInstance(CoreSpigot instance) {
@@ -122,7 +131,7 @@ public class CoreSpigot extends JavaPlugin {
         moduleManager = new ModuleManager(this, ServerType.DEFAULT);
         hookManager.hook(ServerType.DEFAULT);
         moduleManager.init();
-        nickManager = new NickManager(coreSpigot);
+        setNickManager(new NickManager(this));
     }
 
     @Override
@@ -170,16 +179,8 @@ public class CoreSpigot extends JavaPlugin {
         return gameAPI;
     }
 
-    public void setGameAPI(GameAPI gameAPI) {
-        this.gameAPI = gameAPI;
-    }
-
     public ColumnType getColumnType() {
         return columnType;
-    }
-
-    public void setColumnType(ColumnType columnType) {
-        this.columnType = columnType;
     }
 
     public ConsoleCommandSender getSender() {
@@ -194,16 +195,8 @@ public class CoreSpigot extends JavaPlugin {
         return moduleManager;
     }
 
-    public void setModuleManager(ModuleManager moduleManager) {
-        this.moduleManager = moduleManager;
-    }
-
     public HookManager getHookManager() {
         return hookManager;
-    }
-
-    public void setHookManager(HookManager hookManager) {
-        this.hookManager = hookManager;
     }
 
     public NickManager getNickManager() {
@@ -216,9 +209,5 @@ public class CoreSpigot extends JavaPlugin {
 
     public String getPrefix() {
         return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
     }
 }

@@ -41,7 +41,6 @@ public class ModuleManager {
     private FlyListener flyListener;
     private JoinListener joinListener;
     private LobbySwitcherListener lobbySwitcherListener;
-    private LogBlockListener logBlockListener;
     private MinionListener minionListener;
     private MusicListener musicListener;
     private PlayerMoveListener playerMoveListener;
@@ -98,9 +97,11 @@ public class ModuleManager {
         schedulerSaver = new SchedulerSaver();
         fileManager = new FileManager(coreSpigot);
         fileManager.loadConfigFile();
+        fileManager.loadColorConfig();
         ticksPerSecond = new TicksPerSecond();
         tpsCommand = new TPSCommand(coreSpigot);
         setRangCommand = new SetRangCommand(coreSpigot);
+        settingsAPI = new SettingsAPI(coreSpigot);
         if (fileManager.getBooleanFormConfig("Clearlag")) {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(coreSpigot, ticksPerSecond, 100L, 1L);
             automaticClearLag = new AutomaticClearLag(coreSpigot);
@@ -110,6 +111,7 @@ public class ModuleManager {
 
         crashFixer = new CrashFixer(coreSpigot);
         blockRedstoneListener = new BlockRedstoneListener(coreSpigot);
+        settingsListener = new SettingsListener(coreSpigot);
 
         if (serverType.equals(ServerType.LOBBY)) {
 
@@ -151,7 +153,6 @@ public class ModuleManager {
             quitListener = new QuitListener(coreSpigot);
             scrollListener = new ScrollListener(coreSpigot);
             serverListener = new ServerListener(coreSpigot);
-            settingsListener = new SettingsListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
             yourProfileListener = new YourProfileListener(coreSpigot);
 
@@ -169,18 +170,17 @@ public class ModuleManager {
             scoreboardManager = new ScoreboardManager(coreSpigot);
             setLocations = new SetLocations(coreSpigot);
             tabList = new TabList(coreSpigot);
+            tabList.createTabList();
 
             fileManager.loadPortalConfig();
             afkListener.LocationTimer();
             mySQLLoader.loadConf();
             mySQLLoader.loadMySQL();
-            tabList.loadTabList();
             setLocations.saveLocs();
             playerRealTime.setPlayerRealTime();
             scoreboardManager.ScoreboardActu();
             lobbyParticle.playEnderSignal();
             lobbyParticle.playEnchantment();
-            //settingsListener.invTimer();
         } else if (serverType.equals(ServerType.DEFAULT)) {
             data = new Data();
             tabList = new TabList(coreSpigot);
@@ -188,7 +188,6 @@ public class ModuleManager {
             chatListener = new ChatListener(coreSpigot);
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
-            tabList.loadTabList();
             mySQLLoader.loadMySQL();
         } else if (serverType.equals(ServerType.SKY_PVP)) {
             data = new Data();
@@ -197,7 +196,6 @@ public class ModuleManager {
             chatListener = new ChatListener(coreSpigot);
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
-            tabList.loadTabList();
         } else if (serverType.equals(ServerType.CITY_BUILD)) {
             data = new Data();
             tabList = new TabList(coreSpigot);
@@ -206,9 +204,9 @@ public class ModuleManager {
             commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
             fileManager = new FileManager(coreSpigot);
-            tabList.loadTabList();
             new ChestCommand(coreSpigot);
             new BlockPlaceChestListener(coreSpigot);
+            tabList.createTabList();
         } else if (serverType.equals(ServerType.BAU_SERVER)) {
             new CancelWeatherListener(coreSpigot);
             new FlyWalkSpeedCommand(coreSpigot);
@@ -231,7 +229,6 @@ public class ModuleManager {
             setLocCommand = new SetLocCommand(coreSpigot);
             fileManager.loadPortalConfig();
             portalManager.loadPortals();
-            tabList.loadTabList();
         } else if (serverType.equals(ServerType.BED_WARS)) {
             new CancelWeatherListener(coreSpigot);
             data = new Data();
@@ -260,15 +257,14 @@ public class ModuleManager {
             setLocCommand = new SetLocCommand(coreSpigot);
             spawnCommand = new SpawnCommand(coreSpigot);
             setLocations.saveSpawn();
-            tabList.loadTabList();
         }
     }
 
     public void stopServer() {
         for (Player all : Bukkit.getOnlinePlayers()) {
-            //if (nickManager.isDisguised(all)) {
-            //    nickManager.undisguise(all, false, true);
-            //}
+            if (coreSpigot.getNickManager().isDisguised(all)) {
+                coreSpigot.getNickManager().undisguise(all, false, true);
+            }
             all.kickPlayer("");
         }
         schedulerSaver.cancelSchedulers();
@@ -368,9 +364,6 @@ public class ModuleManager {
         return this.lobbySwitcherListener;
     }
 
-    public LogBlockListener getLogBlockListener() {
-        return this.logBlockListener;
-    }
 
     public MinionListener getMinionListener() {
         return this.minionListener;
@@ -495,4 +488,5 @@ public class ModuleManager {
     public Data getData() {
         return this.data;
     }
+
 }

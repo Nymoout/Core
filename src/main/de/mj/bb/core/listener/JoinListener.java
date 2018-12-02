@@ -34,6 +34,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,6 +61,7 @@ public class JoinListener implements Listener {
             player.sendTitle("§c✘ §6BattleBuild§c ✘", "✘ Willkommen " + player.getName() + " ✘");
             coreSpigot.getModuleManager().getSettingsListener().loadSkulls(player);
             player.teleport(coreSpigot.getModuleManager().getLocationsUtil().getSpawn());
+            player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "Bitte warte einen Moment, deine §eEinstellungen §7werden geladen!");
             if (!coreSpigot.getModuleManager().getSettingsAPI().checkPlayer(player)) {
                 coreSpigot.getModuleManager().getSettingsListener().getRideState().add(player);
                 coreSpigot.getModuleManager().getSettingsListener().getColor().put(player, "6");
@@ -135,8 +137,6 @@ public class JoinListener implements Listener {
             is.setItemMeta(sm);
             player.getInventory().setItem(8, is);
 
-            coreSpigot.getModuleManager().getScoreboardManager().setScoreboard(player);
-
             try {
                 URL head = new URL("https://minotar.net/avatar/" + player.getName() + "/8.png");
                 BufferedImage image = ImageIO.read(head);
@@ -170,8 +170,6 @@ public class JoinListener implements Listener {
                 net.minecraft.server.v1_8_R3.PacketPlayOutChat packet = new net.minecraft.server.v1_8_R3.PacketPlayOutChat(icb);
                 ((org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
             }
-        } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.DEFAULT)) {
-            coreSpigot.getModuleManager().getTabList().setPrefix(player);
         } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.VORBAUEN)) {
             joinEvent.setJoinMessage(null);
             player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§aWillkommen auf dem Vorbau Server!");
@@ -182,15 +180,13 @@ public class JoinListener implements Listener {
         }
 
         summonFireWork(player);
-        player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "Bitte warte einen Moment, deine §eEinstellungen §7werden geladen!");
         waitMySQL(player, coreSpigot.getModuleManager().getServerType());
-        coreSpigot.getModuleManager().getTabList().setPrefix(player);
     }
 
     private String friendBuilder(ArrayList<String> friends) {
         String finalFriends = null;
         for (String friend : friends) {
-            finalFriends = " §6" + friend;
+            finalFriends += " §6" + friend;
         }
         return finalFriends;
     }
@@ -229,9 +225,16 @@ public class JoinListener implements Listener {
                         coreSpigot.getModuleManager().getServerStatsAPI().createPlayer(player);
                         coreSpigot.getModuleManager().getServerStatsAPI().getPlayed(player);
                     }
+                    try {
+                        coreSpigot.getModuleManager().getFileManager().getColorConfig().set(player.getUniqueId().toString(), getFinalColor(coreSpigot.getModuleManager().getSettingsAPI().getColorString(player)));
+                        coreSpigot.getModuleManager().getFileManager().getColorConfig().save(coreSpigot.getModuleManager().getFileManager().getColorFile());
+                    } catch (IOException io) {
+                        io.printStackTrace();
+                    }
                 }
             }
         }.runTaskTimer(coreSpigot, 0L, 20L));
+        coreSpigot.getModuleManager().getTabList().setTabList(player);
     }
 
     private void summonFireWork(Player player) {
@@ -285,4 +288,39 @@ public class JoinListener implements Listener {
         return c;
     }
 
+    public String getFinalColor(Short color) {
+        if (color == 0)
+            return "f";
+        if (color == 1)
+            return "6";
+        if (color == 2)
+            return "5";
+        if (color == 3)
+            return "b";
+        if (color == 4)
+            return "e";
+        if (color == 5)
+            return "a";
+        if (color == 6)
+            return "d";
+        if (color == 7)
+            return "8";
+        if (color == 8)
+            return "7";
+        if (color == 9)
+            return "3";
+        if (color == 10)
+            return "5";
+        if (color == 11)
+            return "9";
+        if (color == 12)
+            return "f";
+        if (color == 13)
+            return "2";
+        if (color == 14)
+            return "c";
+        if (color == 15)
+            return "0";
+        return "6";
+    }
 }

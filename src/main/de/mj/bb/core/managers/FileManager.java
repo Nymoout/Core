@@ -12,9 +12,11 @@ public class FileManager {
     private File portalFile = new File("plugins/BBCoreSpigot/", "portal.yml");
     private File logBlockFile = new File("plugins/BBCoreSpigot/", "logBlock.yml");
     private File finishFile = new File("plugins/BBCoreSpigot/", "finished.yml");
+    private File colorFile = new File("plugins/BBCoreSpigot/", "colors.yml");
     private YamlConfiguration portalConfig = YamlConfiguration.loadConfiguration(portalFile);
     private YamlConfiguration logBlockConfig = YamlConfiguration.loadConfiguration(logBlockFile);
     private YamlConfiguration finishConfig = YamlConfiguration.loadConfiguration(finishFile);
+    private YamlConfiguration colorConfig = YamlConfiguration.loadConfiguration(colorFile);
 
     public FileManager(CoreSpigot coreSpigot) {
         this.coreSpigot = coreSpigot;
@@ -30,6 +32,16 @@ public class FileManager {
             portalConfig.createSection("Portals");
         try {
             portalConfig.save(portalFile);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void loadColorConfig() {
+        if (colorConfig.getConfigurationSection("Colors") == null)
+            colorConfig.createSection("Colors");
+        try {
+            colorConfig.save(colorFile);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -81,5 +93,13 @@ public class FileManager {
 
     public YamlConfiguration getFinishConfig() {
         return finishConfig;
+    }
+
+    public File getColorFile() {
+        return colorFile;
+    }
+
+    public YamlConfiguration getColorConfig() {
+        return colorConfig;
     }
 }

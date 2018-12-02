@@ -67,6 +67,20 @@ public class SettingsAPI {
         );
     }
 
+    public Short getColorString(Player p) {
+        UUID uuid = p.getUniqueId();
+        String query = "SELECT UUID, COLOR FROM LobbyConf WHERE UUID='" + uuid + "'";
+        try {
+            Statement statement = amsql.getMySQL().getConnection().prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery(query);
+            resultSet.next();
+            return resultSet.getShort("COLOR");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void getSilent(Player p) {
         UUID uuid = p.getUniqueId();
         amsql.query("SELECT * FROM LobbyConf WHERE UUID='" + uuid + "'", rs -> {

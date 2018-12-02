@@ -11,14 +11,14 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ItemCreator {
 
     public ItemCreator() {
     }
 
-    public ItemStack createItemWithMaterial(Material m, int subid, int ammount, String DisplayName, ArrayList<String> lore) {
+    public ItemStack createItemWithMaterial(Material m, int subid, int ammount, String DisplayName, List<String> lore) {
         ItemStack is = new ItemStack(m, ammount, (short) subid);
         ItemMeta im = is.getItemMeta();
         im.setDisplayName(DisplayName);

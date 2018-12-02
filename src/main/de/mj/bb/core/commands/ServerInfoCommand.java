@@ -29,7 +29,7 @@ public class ServerInfoCommand implements CommandExecutor {
                 for (Player all : Bukkit.getOnlinePlayers()) {
                     names.add(all.getName());
                 }
-                sender.sendMessage("§9§lCurrent RAM-Usage: §a" + cram + " MB §9 of §3" + mram + " MB");
+                sender.sendMessage("§9§lCurrent RAM-Usage: §a" + cram + " MB §9 of §3" + mram + " MB " + "(" + mram / 100 * cram / 100 + "%)");
                 sender.sendMessage("§e§lPort: §6" + Bukkit.getPort());
                 sender.sendMessage("§bServername: §3" + Bukkit.getServerName());
                 sender.sendMessage("§5§lVersion: §b" + Bukkit.getBukkitVersion());

@@ -83,7 +83,7 @@ public class NickManager {
                         @Override
                         public void run() {
                             if (timer == 0) {
-                                coreSpigot.getModuleManager().getTabList().setPrefix(player);
+                                coreSpigot.getModuleManager().getTabList().setTabList(player);
                                 cancel();
                             } else timer--;
                         }
@@ -128,7 +128,7 @@ public class NickManager {
             @Override
             public void run() {
                 if (timer == 0) {
-                    coreSpigot.getModuleManager().getTabList().setPrefix(player);
+                    coreSpigot.getModuleManager().getTabList().setTabList(player);
                     cancel();
                 } else timer--;
             }
@@ -203,4 +203,6 @@ public class NickManager {
     public void setNickCommand(NickCommand nickCommand) {
         this.nickCommand = nickCommand;
     }
+
+
 }
