@@ -7,10 +7,6 @@
 
 package main.de.mj.bb.core.listener;
 
-import cloud.timo.TimoCloud.api.TimoCloudAPI;
-import cloud.timo.TimoCloud.api.objects.PlayerObject;
-import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
-import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.utils.ImageChar;
 import main.de.mj.bb.core.utils.ImageMessage;
@@ -36,8 +32,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 public class JoinListener implements Listener {
@@ -52,6 +48,7 @@ public class JoinListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent joinEvent) {
         Player player = joinEvent.getPlayer();
+        //coreSpigot.getGameAPI().getCoinsAPI().registerPlayer(player.getUniqueId());
         if (coreSpigot.getModuleManager().getServerType().equals(ServerType.BAU_SERVER)) {
             if (!player.hasPermission("player.team")) {
                 player.kickPlayer("");
@@ -72,6 +69,7 @@ public class JoinListener implements Listener {
                 coreSpigot.getModuleManager().getSettingsListener().getScoreServer().add(player);
                 coreSpigot.getModuleManager().getSettingsListener().getJumpPads().add(player);
                 coreSpigot.getModuleManager().getSettingsListener().getWeather().add(player);
+                coreSpigot.getModuleManager().getSettingsListener().getSpawnLocation().add(player);
                 coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().put(player, PlayerLevel.YEAR);
                 player.setPlayerWeather(WeatherType.CLEAR);
                 coreSpigot.getHookManager().getEconomy().depositPlayer(player, 1000);
@@ -97,6 +95,7 @@ public class JoinListener implements Listener {
                 coreSpigot.getModuleManager().getSettingsAPI().getTime(player);
                 coreSpigot.getModuleManager().getSettingsAPI().getLevel(player);
                 coreSpigot.getModuleManager().getSettingsAPI().getRadio(player);
+                coreSpigot.getModuleManager().getSettingsAPI().getSpawn(player);
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -144,36 +143,9 @@ public class JoinListener implements Listener {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-
-            ArrayList<String> friends = new ArrayList<>();
-            PAFPlayer pafp = PAFPlayerManager.getInstance().getPlayer(player.getUniqueId());
-            for (PlayerObject all : TimoCloudAPI.getUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
-                for (PAFPlayer fr : pafp.getFriends()) {
-                    if (fr.getUniqueId().equals(all.getUuid())) {
-                        friends.add(all.getName());
-                    }
-                }
-            }
-            if (friends.size() == 1) {
-                net.minecraft.server.v1_8_R3.IChatBaseComponent icb = net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer
-                        .a("{\"text\":\"§7[§6§lBattleBuild§7] §7Derzeit ist folgender deiner Freunde online:\",\"extra\":[{\"text\":\"§a§l "
-                                + friends.get(0)
-                                + "\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"§7Klicke hier für mehr Informationen!\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/friendsgui\"}}]}");
-                net.minecraft.server.v1_8_R3.PacketPlayOutChat packet = new net.minecraft.server.v1_8_R3.PacketPlayOutChat(icb);
-                ((org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
-            }
-            if (friends.size() > 1) {
-                net.minecraft.server.v1_8_R3.IChatBaseComponent icb = net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer
-                        .a("{\"text\":\"§7[§6§lBattleBuild§7] §7Derzeit sind folgende deiner Freunde online:\",\"extra\":[{\"text\":\" "
-                                + friendBuilder(friends)
-                                + "\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"§7Klicke hier für mehr Informationen!\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/friendsgui\"}}]}");
-                net.minecraft.server.v1_8_R3.PacketPlayOutChat packet = new net.minecraft.server.v1_8_R3.PacketPlayOutChat(icb);
-                ((org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
-            }
         } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.VORBAUEN)) {
             joinEvent.setJoinMessage(null);
             player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§aWillkommen auf dem Vorbau Server!");
-            player.sendMessage("§aZeige Dein können!");
             player.getInventory().clear();
             player.teleport(coreSpigot.getModuleManager().getLocationsUtil().getSpawn());
             player.setGameMode(GameMode.CREATIVE);
@@ -183,39 +155,28 @@ public class JoinListener implements Listener {
         waitMySQL(player, coreSpigot.getModuleManager().getServerType());
     }
 
-    private String friendBuilder(ArrayList<String> friends) {
-        String finalFriends = null;
-        for (String friend : friends) {
-            finalFriends += " §6" + friend;
-        }
-        return finalFriends;
-    }
-
     private void waitMySQL(Player player, ServerType serverType) {
         coreSpigot.getModuleManager().getSchedulerSaver().createScheduler(new BukkitRunnable() {
             @Override
             public void run() {
                 if (serverType.equals(ServerType.LOBBY)) {
-                    if (coreSpigot.getModuleManager().getServerStatsAPI().getMaxServer().containsKey(player) && coreSpigot.getModuleManager().getServerStatsAPI().getMaxServer().get(player) != null && coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().containsKey(player) && coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player) != null) {
-                        net.minecraft.server.v1_8_R3.IChatBaseComponent icb = net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer
-                                .a("{\"text\":\"§7[§6§lBattleBuild§7] §7Du spielst öfters auf dem Server\",\"extra\":[{\"text\":\"§b "
-                                        + coreSpigot.getModuleManager().getServerStatsAPI().getMaxServer().get(player)
-                                        + ". §7Wenn §7du §7dich §7mit §7diesem §7verbinden §7willst, §7dann §7klick §7einfach §7hier!\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"§aKlicke hier um diesen Server zu betreten!\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gotoserver " + coreSpigot.getModuleManager().getServerStatsAPI().getMaxServer().get(player) + "\"}}]}");
-                        net.minecraft.server.v1_8_R3.PacketPlayOutChat packet = new net.minecraft.server.v1_8_R3.PacketPlayOutChat(icb);
-                        ((org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+                    if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().containsKey(player) && coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player) != null) {
                         if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.LOBBY)) {
                             String[] serverName = player.getServer().getServerName().split("-");
                             int server = Integer.parseInt(serverName[1]);
                             player.setLevel(server);
                         } else if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.SCROLL))
                             player.setLevel(1);
-                        else if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.YEAR))
-                            player.setLevel(Calendar.getInstance().get(Calendar.YEAR));
+                        else if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.YEAR)) {
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy#DDD");
+                            String[] yeardata = format.format(new Date(System.currentTimeMillis())).split("#");
+                            player.setExp(Float.valueOf(yeardata[1]) / 365f);
+                            player.setLevel(Integer.valueOf(yeardata[0]));
+                        } else if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.COINS))
+                            player.setLevel(coreSpigot.getGameAPI().getCoinsAPI().getCoins(player.getUniqueId()));
                         if (coreSpigot.getModuleManager().getMusicListener().getRadioOff().contains(player))
                             player.performCommand("radio");
                         cancel();
-                    } else {
-                        coreSpigot.getModuleManager().getServerStatsAPI().getMaxPlayed(player);
                     }
                 } else {
                     try {
@@ -231,6 +192,8 @@ public class JoinListener implements Listener {
                         io.printStackTrace();
                     }
                 }
+                if (coreSpigot.getModuleManager().getSettingsListener().getSpawnLocation().contains(player))
+                    player.teleport(coreSpigot.getModuleManager().getSpawnLocationAPI().getSpawnLocation(player.getUniqueId()));
             }
         }.runTaskTimer(coreSpigot, 0L, 20L));
         coreSpigot.getModuleManager().getTabList().setTabList(player);
@@ -287,7 +250,7 @@ public class JoinListener implements Listener {
         return c;
     }
 
-    public String getFinalColor(Short color) {
+    private String getFinalColor(Short color) {
         if (color == 0)
             return "f";
         if (color == 1)

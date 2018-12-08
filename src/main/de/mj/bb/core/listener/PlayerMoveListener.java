@@ -58,7 +58,10 @@ public class PlayerMoveListener implements Listener {
                 if (coreSpigot.getModuleManager().getSettingsListener().getJumpPads().contains(player)) {
                     if (getPlayerFacing(player).equals(PlayerFacing.SOUTH)) {
                         Vector vector = player.getLocation().getDirection().setZ(10);
-                        player.setVelocity(vector);
+                        try {
+                            player.setVelocity(vector);
+                        } catch (Exception e) {
+                        }
                         player.playSound(player.getLocation(), Sound.SPIDER_IDLE, 1, 1);
                     } else if (getPlayerFacing(player).equals(PlayerFacing.NORTH)) {
                         Vector vector = player.getLocation().getDirection().setZ(-10);

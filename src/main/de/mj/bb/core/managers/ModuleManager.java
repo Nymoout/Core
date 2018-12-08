@@ -3,10 +3,7 @@ package main.de.mj.bb.core.managers;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.commands.*;
 import main.de.mj.bb.core.listener.*;
-import main.de.mj.bb.core.mysql.AsyncMySQL;
-import main.de.mj.bb.core.mysql.MySQLLoader;
-import main.de.mj.bb.core.mysql.ServerStatsAPI;
-import main.de.mj.bb.core.mysql.SettingsAPI;
+import main.de.mj.bb.core.mysql.*;
 import main.de.mj.bb.core.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
@@ -63,6 +60,7 @@ public class ModuleManager {
     private MySQLLoader mySQLLoader;
     private ServerStatsAPI serverStatsAPI;
     private SettingsAPI settingsAPI;
+    private SpawnLocationAPI spawnLocationAPI;
 
     //Utlis
     private AutomaticClearLag automaticClearLag;
@@ -102,6 +100,7 @@ public class ModuleManager {
         tpsCommand = new TPSCommand(coreSpigot);
         setRangCommand = new SetRangCommand(coreSpigot);
         settingsAPI = new SettingsAPI(coreSpigot);
+        new InvseeCommand(coreSpigot);
         if (fileManager.getBooleanFormConfig("Clearlag")) {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(coreSpigot, ticksPerSecond, 100L, 1L);
             automaticClearLag = new AutomaticClearLag(coreSpigot);
@@ -111,8 +110,6 @@ public class ModuleManager {
 
         crashFixer = new CrashFixer(coreSpigot);
         blockRedstoneListener = new BlockRedstoneListener(coreSpigot);
-        settingsListener = new SettingsListener(coreSpigot);
-
         if (serverType.equals(ServerType.LOBBY)) {
 
             ticksPerSecond = new TicksPerSecond();
@@ -155,8 +152,10 @@ public class ModuleManager {
             serverListener = new ServerListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
             yourProfileListener = new YourProfileListener(coreSpigot);
+            settingsListener = new SettingsListener(coreSpigot);
 
             settingsAPI = new SettingsAPI(coreSpigot);
+            spawnLocationAPI = new SpawnLocationAPI(coreSpigot);
 
             portalManager = new PortalManager(coreSpigot);
 
@@ -214,7 +213,6 @@ public class ModuleManager {
             tabList = new TabList(coreSpigot);
             portalCommand = new SetPortalCommand(coreSpigot);
             portalManager = new PortalManager(coreSpigot);
-            playerPortalListener = new PlayerPortalListener(coreSpigot);
             portal = new Portal();
             gmCommand = new GMCommand(coreSpigot);
             tpsCommand = new TPSCommand(coreSpigot);
@@ -489,4 +487,7 @@ public class ModuleManager {
         return this.data;
     }
 
+    public SpawnLocationAPI getSpawnLocationAPI() {
+        return spawnLocationAPI;
+    }
 }

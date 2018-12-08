@@ -31,7 +31,7 @@ public class CoinsAPI {
 
     public void registerPlayer(UUID uuid) {
         if (!PlayerExistCoins(uuid)) {
-            AsyncMySQL.update("INSERT INTO Coins (UUID, COINS) VALUES ('" + uuid.toString() + "', '0')");
+            AsyncMySQL.update("INSERT INTO Coins (UUID, COINS) SELECT '" + uuid.toString() + "', '0' FROM DUAL WHERE NOT EXISTS (SELECT '*' FROM Coins WHERE UUID='" + uuid.toString() + "');");
         }
     }
 

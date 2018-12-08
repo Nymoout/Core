@@ -21,14 +21,13 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LobbySwitcherListener implements Listener {
 
@@ -77,7 +76,7 @@ public class LobbySwitcherListener implements Listener {
         if (clickEvent.getCurrentItem() == null) return;
         if (clickEvent.getCurrentItem().getType() == null) return;
         if (clickEvent.getCurrentItem().getType().equals(Material.AIR)) return;
-        if (!clickEvent.getCurrentItem().getType().equals(Material.INK_SACK)) return;
+        if (!clickEvent.getCurrentItem().getType().equals(Material.SKULL_ITEM)) return;
         Player player = (Player) clickEvent.getWhoClicked();
         if (clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Lobby")
                 && !clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Silent")) {
@@ -108,11 +107,8 @@ public class LobbySwitcherListener implements Listener {
     private void Inv(String name, int online, int where, String curServer) {
         String[] name2 = curServer.split("-");
         int size2 = Integer.parseInt(name2[1]);
-        ItemStack emer = new ItemStack(351, 1, (short) 10);
-        ItemMeta emerm = emer.getItemMeta();
-        emerm.setDisplayName("§a" + name);
         String o = "§7Online Spieler : §6" + online;
-        ArrayList<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add(o);
         list.add("§7Server ist §6§lOnline§7.");
         if (size2 == where) {
@@ -120,21 +116,14 @@ public class LobbySwitcherListener implements Listener {
         } else {
             list.add("§aKlicke zum verbinden!");
         }
-        emerm.setLore(list);
-        emer.setItemMeta(emerm);
         where--;
-        this.inv.setItem(where, emer);
+        this.inv.setItem(where, coreSpigot.getModuleManager().getItemCreator().createItemWithSkull("4ef4874eb050a3d3e46f69ae40c3b59a3596f71664a0db6ca600d5c67f47e4", online, "§a" + name, list, true));
     }
 
     private void starting(String name, int where) {
-        ItemStack emer = new ItemStack(Material.INK_SACK, 1, (short) 8);
-        ItemMeta emerm = emer.getItemMeta();
-        emerm.setDisplayName("§c" + name);
-        ArrayList<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("§7Server wird §e§lgestartet§7.");
-        emerm.setLore(list);
-        emer.setItemMeta(emerm);
         where--;
-        this.inv.setItem(where, emer);
+        this.inv.setItem(where, coreSpigot.getModuleManager().getItemCreator().createItemWithSkull("4d48e75ff55cb57533c7b904be887a374925f93832f7ae16b7923987e970", 1, "§c" + name, list, false));
     }
 }

@@ -36,25 +36,28 @@ public class StopReloadRestartListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void OverrideCommand(PlayerCommandPreprocessEvent preprocessEvent) {
-        Player p = preprocessEvent.getPlayer();
+        Player player = preprocessEvent.getPlayer();
         String msg = preprocessEvent.getMessage().toLowerCase();
-        if (p.hasPermission("group.administrator")) {
+        if (player.hasPermission("group.administrator")) {
             if (msg.equalsIgnoreCase("/stop") || msg.equalsIgnoreCase("/reload") || msg.equalsIgnoreCase("/restart")) {
                 preprocessEvent.setCancelled(true);
-                Inventory inv = Bukkit.createInventory(null, 9, "§c§lSERVERNEUSTART?");
-                ItemStack ClayNein = new ItemStack(Material.STAINED_CLAY, 1, (short) 14);
+                Inventory inv = Bukkit.createInventory(null, 9, "§cServer neustarten?");
+                //for (int i = inv.getSize()-1; i >= 0; i--) {
+                //    inv.setItem(i, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.STAINED_GLASS_PANE, coreSpigot.getModuleManager().getSettingsListener().getDesign().get(player), 1));
+                //}
+                ItemStack ClayNein = new ItemStack(Material.INK_SACK, 1, (short) 1);
                 ItemMeta ClayNeinMeta = ClayNein.getItemMeta();
                 ClayNeinMeta.setDisplayName("§cNein");
                 ClayNein.setItemMeta(ClayNeinMeta);
-                inv.setItem(0, ClayNein);
+                inv.setItem(3, ClayNein);
 
-                ItemStack ClayJa = new ItemStack(Material.STAINED_CLAY, 1, (short) 5);
+                ItemStack ClayJa = new ItemStack(Material.INK_SACK, 1, (short) 10);
                 ItemMeta ClayJaMeta = ClayJa.getItemMeta();
                 ClayJaMeta.setDisplayName("§aJa");
                 ClayJa.setItemMeta(ClayJaMeta);
-                inv.setItem(8, ClayJa);
+                inv.setItem(5, ClayJa);
 
-                p.openInventory(inv);
+                player.openInventory(inv);
             }
         }
     }
@@ -66,15 +69,15 @@ public class StopReloadRestartListener implements Listener {
         if (clickEvent.getCurrentItem() == null) return;
         if (clickEvent.getCurrentItem().getType() == null) return;
         if (clickEvent.getCurrentItem().getType().equals(Material.AIR)) return;
-        if (clickEvent.getInventory().getTitle().contains("SERVERNEUSTART")) {
-            Player p = (Player) clickEvent.getWhoClicked();
+        if (clickEvent.getInventory().getTitle().contains("Server neustarten")) {
+            Player player = (Player) clickEvent.getWhoClicked();
             if (clickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aJa")) {
-                p.closeInventory();
-                p.sendMessage("§aDu hast einen Serverneustart initialisiert!");
+                player.closeInventory();
+                player.sendMessage("§aDu hast einen Serverneustart initialisiert!");
                 if (!isRestarting) shutdown();
                 isRestarting = true;
             } else if (clickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§cNein")) {
-                p.closeInventory();
+                player.closeInventory();
             }
         }
     }

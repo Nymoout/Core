@@ -30,12 +30,12 @@ public class SettingsAPI {
 
     public void createPlayer(Player p) {
         UUID uuid = p.getUniqueId();
-        AsyncMySQL.update("INSERT INTO LobbyConf (UUID, COLOR, WJUMP, PJUMP, SILENT, RIDE, DJUMP) SELECT '" + uuid + "', '1', '1', '1', '1', '1', '1' FROM DUAL WHERE NOT EXISTS (SELECT '*' FROM LobbyConf WHERE UUID = '" + uuid + "');");
+        AsyncMySQL.update("INSERT INTO LobbyConf (UUID, COLOR, WJUMP, PJUMP, SILENT, RIDE, DJUMP, SPAWN) SELECT '" + uuid + "', '1', '1', '1', '1', '1', '1', '0' FROM DUAL WHERE NOT EXISTS (SELECT '*' FROM LobbyConf WHERE UUID = '" + uuid + "');");
     }
 
     public void createScorePlayer(Player p) {
         UUID uuid = p.getUniqueId();
-        AsyncMySQL.update("INSERT INTO ScoreConf (UUID, FRIENDS, RANG, SERVER, CLAN, COINS, TIME, REALTIME, WEATHER) SELECT '" + uuid + "', '1', '1', '1', '1', '1', '1', '1', '1' FROM DUAL WHERE NOT EXISTS (SELECT '*' FROM ScoreConf WHERE UUID = '" + uuid + "');");
+        AsyncMySQL.update("INSERT INTO ScoreConf (UUID, FRIENDS, RANG, SERVER, CLAN, COINS, TIME, REALTIME, WEATHER) SELECT '" + uuid + "', '1', '0', '0', '0', '1', '1', '1', '1' FROM DUAL WHERE NOT EXISTS (SELECT '*' FROM ScoreConf WHERE UUID = '" + uuid + "');");
     }
 
     public boolean checkPlayer(Player player) {
@@ -99,6 +99,23 @@ public class SettingsAPI {
                     }
                 }
         );
+    }
+
+    public void getSpawn(Player player) {
+        UUID uuid = player.getUniqueId();
+        amsql.query("SELECT * FROM LobbyConf WHERE UUID ='" + uuid + "'", rs -> {
+            try {
+                int b;
+                if (rs.next()) {
+                    Integer.valueOf(rs.getInt("SPAWN"));
+                }
+                if ((b = rs.getInt("SPAWN")) == 1)
+                    coreSpigot.getModuleManager().getSettingsListener().getSpawnLocation().add(player);
+                else coreSpigot.getModuleManager().getSettingsListener().getSpawnLocation().remove(player);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     public void getWjump(Player p) {
@@ -267,6 +284,13 @@ public class SettingsAPI {
         int b = 0;
         b = radio ? 1 : 0;
         AsyncMySQL.update("UPDATE LobbyConf SET RADIO='" + b + "' WHERE UUID='" + uuid + "'");
+    }
+
+    public void setSpawn(Player player, boolean spawn) {
+        UUID uuid = player.getUniqueId();
+        int b = 0;
+        b = spawn ? 1 : 0;
+        AsyncMySQL.update("UPDATE LobbyConf SET SPAWN='" + b + "' WHERE UUID='" + uuid + "'");
     }
 
     public void setLEVEL(Player player, PlayerLevel playerLevel) {

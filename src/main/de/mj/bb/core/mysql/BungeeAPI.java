@@ -47,4 +47,23 @@ public class BungeeAPI {
             e.printStackTrace();
         }
     }
+
+    public boolean isMaintenance() {
+        String query = "SELECT STATE FROM maintenance_state WHERE SERVER='" + coreBungee.getModuleManager().getBungeeType() + "'";
+        try {
+            Statement statement = coreBungee.getModuleManager().getAsyncBungeeSQL().getMySQL().getConnection().prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery(query);
+            resultSet.next();
+            return resultSet.getInt("STATE") == 1;
+        } catch (SQLException sql) {
+            sql.printStackTrace();
+        }
+        return false;
+    }
+
+    public void setMaintenance(boolean maintenance) {
+        AsyncBungeeSQL.update("INSERT INTO maintenance_state (STATE, SERVER) SELECT '0', '" + coreBungee.getModuleManager().getBungeeType() + "' FROM DUAL WHERE NOT EXISTS (SELECT '*' FROM maintenance_state WHERE SERVER='" + coreBungee.getModuleManager().getBungeeType() + "');");
+        int b = maintenance ? 1 : 0;
+        AsyncBungeeSQL.update("UPDATE maintenance_state SET STATE='" + b + "' WHERE SERVER='" + coreBungee.getModuleManager().getBungeeType() + "'");
+    }
 }

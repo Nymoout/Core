@@ -40,6 +40,7 @@ public class QuitListener implements Listener {
 
     private void clearPlayer(Player player) {
         if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
+            coreSpigot.getModuleManager().getSpawnLocationAPI().setSpawnLocation(player.getUniqueId(), player.getLocation().getBlockX(), player.getLocation().getBlockY() + 1, player.getLocation().getBlockZ());
             coreSpigot.getModuleManager().getMinionListener().rmMini(player);
             coreSpigot.getModuleManager().getAfkListener().getAfkMover().remove(player);
             if (coreSpigot.getModuleManager().getAfkListener().getRuns().containsKey(player)) {

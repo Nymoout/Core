@@ -1,5 +1,5 @@
 package main.de.mj.bb.core.utils;
 
 public enum PlayerLevel {
-    SCROLL, LOBBY, YEAR
+    SCROLL, LOBBY, YEAR, COINS
 }
