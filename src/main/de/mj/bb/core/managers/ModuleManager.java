@@ -1,14 +1,21 @@
 package main.de.mj.bb.core.managers;
 
+import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.commands.*;
 import main.de.mj.bb.core.listener.*;
-import main.de.mj.bb.core.mysql.*;
+import main.de.mj.bb.core.sql.*;
 import main.de.mj.bb.core.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ModuleManager {
 
@@ -18,46 +25,26 @@ public class ModuleManager {
 
     private final ServerType serverType;
 
-    //Commands
-    private AFKCommand afkCommand;
-    private FlyCommand flyCommand;
-    private GMCommand gmCommand;
-    private SetLocCommand setLocCommand;
-    private SetPortalCommand portalCommand;
-    private SetRangCommand setRangCommand;
-    private SpawnCommand spawnCommand;
     private TPSCommand tpsCommand;
+    private NickCommand nickCommand;
 
     //Listener
     private AFKListener afkListener;
     private BlockRedstoneListener blockRedstoneListener;
-    private BukkitMinecraftCommandBlockListener commandBlockListener;
-    private CancelListener cancelListener;
-    private ChatListener chatListener;
-    private CompassListener compassListener;
     private FlyListener flyListener;
-    private JoinListener joinListener;
-    private LobbySwitcherListener lobbySwitcherListener;
     private MinionListener minionListener;
     private MusicListener musicListener;
-    private PlayerMoveListener playerMoveListener;
-    private PlayerPortalListener playerPortalListener;
-    private QuitListener quitListener;
-    private ScrollListener scrollListener;
-    private ServerListener serverListener;
     private SettingsListener settingsListener;
     private StopReloadRestartListener stopReloadRestartListener;
-    private YourProfileListener yourProfileListener;
 
     //managers
     private FileManager fileManager;
     private PortalManager portalManager;
-    private ScoreboardManager scoreboardManager;
+    private NickManager nickManager;
 
-    //mysql
+    //sql
     private AsyncMySQL asyncMySQL;
-    private AsyncMySQL.MySQL mySQL;
-    private MySQLLoader mySQLLoader;
+    private NickAPI nickAPI;
     private ServerStatsAPI serverStatsAPI;
     private SettingsAPI settingsAPI;
     private SpawnLocationAPI spawnLocationAPI;
@@ -68,9 +55,7 @@ public class ModuleManager {
     private ItemCreator itemCreator;
     private LobbyParticle lobbyParticle;
     private LocationsUtil locationsUtil;
-    private Particle particle;
     private PlayerRealTime playerRealTime;
-    private Portal portal;
     private SchedulerSaver schedulerSaver;
     private SetLocations setLocations;
     private TabList tabList;
@@ -88,8 +73,7 @@ public class ModuleManager {
         sender.sendMessage(prefix + "§fload Data");
         data = new Data();
         asyncMySQL = new AsyncMySQL(coreSpigot);
-        mySQL = new AsyncMySQL.MySQL();
-        mySQLLoader = new MySQLLoader(coreSpigot);
+        MySQLLoader mySQLLoader = new MySQLLoader(coreSpigot);
         serverStatsAPI = new ServerStatsAPI(coreSpigot);
         serverStatsAPI.createTable();
         schedulerSaver = new SchedulerSaver();
@@ -98,7 +82,7 @@ public class ModuleManager {
         fileManager.loadColorConfig();
         ticksPerSecond = new TicksPerSecond();
         tpsCommand = new TPSCommand(coreSpigot);
-        setRangCommand = new SetRangCommand(coreSpigot);
+        new SetRangCommand(coreSpigot);
         settingsAPI = new SettingsAPI(coreSpigot);
         new InvseeCommand(coreSpigot);
         if (fileManager.getBooleanFormConfig("Clearlag")) {
@@ -110,6 +94,11 @@ public class ModuleManager {
 
         crashFixer = new CrashFixer(coreSpigot);
         blockRedstoneListener = new BlockRedstoneListener(coreSpigot);
+        new UnknownCommandListener(coreSpigot);
+        nickAPI = new NickAPI(coreSpigot);
+        itemCreator = new ItemCreator(coreSpigot);
+        nickCommand = new NickCommand(coreSpigot);
+        nickManager = new NickManager(coreSpigot);
         if (serverType.equals(ServerType.LOBBY)) {
 
             ticksPerSecond = new TicksPerSecond();
@@ -117,41 +106,40 @@ public class ModuleManager {
             tpsCommand = new TPSCommand(coreSpigot);
             automaticClearLag = new AutomaticClearLag(coreSpigot);
             automaticClearLag.clearLagScheduler();
-            portalCommand = new SetPortalCommand(coreSpigot);
+            new SetPortalCommand(coreSpigot);
             portalManager = new PortalManager(coreSpigot);
-            playerPortalListener = new PlayerPortalListener(coreSpigot);
-            portal = new Portal();
+            new PlayerPortalListener(coreSpigot);
+            new Portal();
             fileManager.loadPortalConfig();
             portalManager.loadPortals();
 
             //init commands
             sender.sendMessage(prefix + "§fload Commands");
-            new GoToServerCommand(coreSpigot);
-            afkCommand = new AFKCommand(coreSpigot);
-            flyCommand = new FlyCommand(coreSpigot);
-            setLocCommand = new SetLocCommand(coreSpigot);
-            setRangCommand = new SetRangCommand(coreSpigot);
-            spawnCommand = new SpawnCommand(coreSpigot);
+            //Commands
+            new AFKCommand(coreSpigot);
+            new FlyCommand(coreSpigot);
+            new SetLocCommand(coreSpigot);
+            new SetRangCommand(coreSpigot);
+            new SpawnCommand(coreSpigot);
 
             //init listener
             sender.sendMessage(prefix + "§fLoad Listener");
             afkListener = new AFKListener(coreSpigot);
-            commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
-            cancelListener = new CancelListener(coreSpigot);
+            new CancelListener(coreSpigot);
             new CancelWeatherListener(coreSpigot);
-            chatListener = new ChatListener(coreSpigot);
-            compassListener = new CompassListener(coreSpigot);
+            new ChatListener(coreSpigot);
+            new CompassListener(coreSpigot);
             flyListener = new FlyListener(coreSpigot);
-            joinListener = new JoinListener(coreSpigot);
-            lobbySwitcherListener = new LobbySwitcherListener(coreSpigot);
+            new JoinListener(coreSpigot);
+            new LobbySwitcherListener(coreSpigot);
             minionListener = new MinionListener(coreSpigot);
             musicListener = new MusicListener(coreSpigot);
-            playerMoveListener = new PlayerMoveListener(coreSpigot);
-            quitListener = new QuitListener(coreSpigot);
-            scrollListener = new ScrollListener(coreSpigot);
-            serverListener = new ServerListener(coreSpigot);
+            new PlayerMoveListener(coreSpigot);
+            new QuitListener(coreSpigot);
+            new ScrollListener(coreSpigot);
+            new ServerListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
-            yourProfileListener = new YourProfileListener(coreSpigot);
+            new YourProfileListener(coreSpigot);
             settingsListener = new SettingsListener(coreSpigot);
 
             settingsAPI = new SettingsAPI(coreSpigot);
@@ -161,16 +149,23 @@ public class ModuleManager {
 
             //Utils
             sender.sendMessage(prefix + "§fload Utils");
-            itemCreator = new ItemCreator();
+            itemCreator = new ItemCreator(coreSpigot);
             lobbyParticle = new LobbyParticle(coreSpigot);
             locationsUtil = new LocationsUtil();
-            particle = new Particle();
+            new Particle();
             playerRealTime = new PlayerRealTime(coreSpigot);
-            scoreboardManager = new ScoreboardManager(coreSpigot);
+            ScoreboardManager scoreboardManager = new ScoreboardManager(coreSpigot);
             setLocations = new SetLocations(coreSpigot);
             tabList = new TabList(coreSpigot);
             tabList.createTabList();
-
+            getSchedulerSaver().createScheduler(
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            Bukkit.getOnlinePlayers().forEach(all -> tabList.setTabList(all));
+                        }
+                    }.runTaskTimer(coreSpigot, 0L, 20L * 5)
+            );
             fileManager.loadPortalConfig();
             afkListener.LocationTimer();
             mySQLLoader.loadConf();
@@ -180,90 +175,116 @@ public class ModuleManager {
             scoreboardManager.ScoreboardActu();
             lobbyParticle.playEnderSignal();
             lobbyParticle.playEnchantment();
-        } else if (serverType.equals(ServerType.DEFAULT)) {
+        } else if (serverType.equals(ServerType.DEFAULT) || serverType.equals(ServerType.PLUGIN_TEST_SERVER)) {
             data = new Data();
             tabList = new TabList(coreSpigot);
-            joinListener = new JoinListener(coreSpigot);
-            chatListener = new ChatListener(coreSpigot);
-            commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
+            tabList.createTabList();
+            new JoinListener(coreSpigot);
+            new ChatListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
             mySQLLoader.loadMySQL();
+            getSchedulerSaver().createScheduler(
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            Bukkit.getOnlinePlayers().forEach(all -> tabList.setTabList(all));
+                        }
+                    }.runTaskTimer(coreSpigot, 0L, 20L)
+            );
         } else if (serverType.equals(ServerType.SKY_PVP)) {
             data = new Data();
             tabList = new TabList(coreSpigot);
-            joinListener = new JoinListener(coreSpigot);
-            chatListener = new ChatListener(coreSpigot);
-            commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
+            tabList.createTabList();
+            new JoinListener(coreSpigot);
+            new ChatListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
         } else if (serverType.equals(ServerType.CITY_BUILD)) {
             data = new Data();
             tabList = new TabList(coreSpigot);
-            joinListener = new JoinListener(coreSpigot);
-            chatListener = new ChatListener(coreSpigot);
-            commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
+            tabList.createTabList();
+            new JoinListener(coreSpigot);
+            new ChatListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
             fileManager = new FileManager(coreSpigot);
             new ChestCommand(coreSpigot);
             new BlockPlaceChestListener(coreSpigot);
-            tabList.createTabList();
+            getSchedulerSaver().createScheduler(
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            Bukkit.getOnlinePlayers().forEach(all -> tabList.setTabList(all));
+                        }
+                    }.runTaskTimer(coreSpigot, 0L, 20L * 5)
+            );
         } else if (serverType.equals(ServerType.BAU_SERVER)) {
             new CancelWeatherListener(coreSpigot);
             new FlyWalkSpeedCommand(coreSpigot);
             data = new Data();
             tabList = new TabList(coreSpigot);
-            portalCommand = new SetPortalCommand(coreSpigot);
+            tabList.createTabList();
+            new SetPortalCommand(coreSpigot);
             portalManager = new PortalManager(coreSpigot);
-            portal = new Portal();
-            gmCommand = new GMCommand(coreSpigot);
+            new Portal();
+            new GMCommand(coreSpigot);
             tpsCommand = new TPSCommand(coreSpigot);
             new ChestCommand(coreSpigot);
             new BlockPlaceChestListener(coreSpigot);
-            joinListener = new JoinListener(coreSpigot);
-            chatListener = new ChatListener(coreSpigot);
-            commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
+            new HeadCommand(coreSpigot);
+            new JoinListener(coreSpigot);
+            new ChatListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
             locationsUtil = new LocationsUtil();
             setLocations = new SetLocations(coreSpigot);
-            setLocCommand = new SetLocCommand(coreSpigot);
+            new SetLocCommand(coreSpigot);
             fileManager.loadPortalConfig();
             portalManager.loadPortals();
+            getSchedulerSaver().createScheduler(
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            Bukkit.getOnlinePlayers().forEach(all -> tabList.setTabList(all));
+                        }
+                    }.runTaskTimer(coreSpigot, 0L, 20L * 5)
+            );
         } else if (serverType.equals(ServerType.BED_WARS)) {
             new CancelWeatherListener(coreSpigot);
             data = new Data();
-            joinListener = new JoinListener(coreSpigot);
-            chatListener = new ChatListener(coreSpigot);
-            commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
+            new JoinListener(coreSpigot);
+            new ChatListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
         } else if (serverType.equals(ServerType.VORBAUEN)) {
             new CancelWeatherListener(coreSpigot);
             data = new Data();
             tabList = new TabList(coreSpigot);
+            tabList.createTabList();
             new GMCommand(coreSpigot);
             tpsCommand = new TPSCommand(coreSpigot);
             new ChestCommand(coreSpigot);
             new TippCommand(coreSpigot);
-            new VorbauenFinishCommand(coreSpigot);
-            new VorbauenListener(coreSpigot);
             new BlockPlaceChestListener(coreSpigot);
-            joinListener = new JoinListener(coreSpigot);
-            quitListener = new QuitListener(coreSpigot);
-            chatListener = new ChatListener(coreSpigot);
-            commandBlockListener = new BukkitMinecraftCommandBlockListener(coreSpigot);
+            new JoinListener(coreSpigot);
+            new QuitListener(coreSpigot);
+            new ChatListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
             locationsUtil = new LocationsUtil();
             setLocations = new SetLocations(coreSpigot);
-            setLocCommand = new SetLocCommand(coreSpigot);
-            spawnCommand = new SpawnCommand(coreSpigot);
+            new SetLocCommand(coreSpigot);
+            new SpawnCommand(coreSpigot);
             setLocations.saveSpawn();
         }
     }
 
     public void stopServer() {
         for (Player all : Bukkit.getOnlinePlayers()) {
-            if (coreSpigot.getNickManager().isDisguised(all)) {
-                coreSpigot.getNickManager().undisguise(all, false, true);
+            int online = ThreadLocalRandom.current().nextInt(1, TimoCloudAPI.getUniversalAPI().getServerGroup("Lobby").getOnlineAmount() + 1);
+            try {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
+                dataOutputStream.writeUTF("Connect");
+                dataOutputStream.writeUTF("Lobby-" + online);
+                all.sendPluginMessage(this.coreSpigot, "BungeeCord", byteArrayOutputStream.toByteArray());
+            } catch (IOException ignored) {
             }
-            all.kickPlayer("");
         }
         schedulerSaver.cancelSchedulers();
     }
@@ -278,216 +299,103 @@ public class ModuleManager {
         }
     }
 
-    public CoreSpigot getCoreSpigot() {
-        return this.coreSpigot;
-    }
-
-    public String getPrefix() {
-        return this.prefix;
-    }
-
-    public ConsoleCommandSender getSender() {
-        return this.sender;
-    }
-
     public ServerType getServerType() {
-        return this.serverType;
+        return serverType;
     }
 
-    public AFKCommand getAfkCommand() {
-        return this.afkCommand;
-    }
-
-    public FlyCommand getFlyCommand() {
-        return this.flyCommand;
-    }
-
-    public GMCommand getGmCommand() {
-        return this.gmCommand;
-    }
-
-    public SetLocCommand getSetLocCommand() {
-        return this.setLocCommand;
-    }
-
-    public SetPortalCommand getPortalCommand() {
-        return this.portalCommand;
-    }
-
-    public SetRangCommand getSetRangCommand() {
-        return this.setRangCommand;
-    }
-
-    public SpawnCommand getSpawnCommand() {
-        return this.spawnCommand;
-    }
-
-    public TPSCommand getTpsCommand() {
-        return this.tpsCommand;
+    public NickCommand getNickCommand() {
+        return nickCommand;
     }
 
     public AFKListener getAfkListener() {
-        return this.afkListener;
+        return afkListener;
     }
 
     public BlockRedstoneListener getBlockRedstoneListener() {
-        return this.blockRedstoneListener;
-    }
-
-    public BukkitMinecraftCommandBlockListener getCommandBlockListener() {
-        return this.commandBlockListener;
-    }
-
-    public CancelListener getCancelListener() {
-        return this.cancelListener;
-    }
-
-    public ChatListener getChatListener() {
-        return this.chatListener;
-    }
-
-    public CompassListener getCompassListener() {
-        return this.compassListener;
+        return blockRedstoneListener;
     }
 
     public FlyListener getFlyListener() {
-        return this.flyListener;
+        return flyListener;
     }
-
-    public JoinListener getJoinListener() {
-        return this.joinListener;
-    }
-
-    public LobbySwitcherListener getLobbySwitcherListener() {
-        return this.lobbySwitcherListener;
-    }
-
 
     public MinionListener getMinionListener() {
-        return this.minionListener;
+        return minionListener;
     }
 
     public MusicListener getMusicListener() {
-        return this.musicListener;
-    }
-
-    public PlayerMoveListener getPlayerMoveListener() {
-        return this.playerMoveListener;
-    }
-
-    public PlayerPortalListener getPlayerPortalListener() {
-        return this.playerPortalListener;
-    }
-
-    public QuitListener getQuitListener() {
-        return this.quitListener;
-    }
-
-    public ScrollListener getScrollListener() {
-        return this.scrollListener;
-    }
-
-    public ServerListener getServerListener() {
-        return this.serverListener;
+        return musicListener;
     }
 
     public SettingsListener getSettingsListener() {
-        return this.settingsListener;
+        return settingsListener;
     }
 
     public StopReloadRestartListener getStopReloadRestartListener() {
-        return this.stopReloadRestartListener;
-    }
-
-    public YourProfileListener getYourProfileListener() {
-        return this.yourProfileListener;
+        return stopReloadRestartListener;
     }
 
     public FileManager getFileManager() {
-        return this.fileManager;
+        return fileManager;
     }
 
     public PortalManager getPortalManager() {
-        return this.portalManager;
+        return portalManager;
     }
 
-    public ScoreboardManager getScoreboardManager() {
-        return this.scoreboardManager;
+    public NickManager getNickManager() {
+        return nickManager;
     }
 
     public AsyncMySQL getAsyncMySQL() {
-        return this.asyncMySQL;
+        return asyncMySQL;
     }
 
-    public AsyncMySQL.MySQL getMySQL() {
-        return this.mySQL;
-    }
-
-    public MySQLLoader getMySQLLoader() {
-        return this.mySQLLoader;
+    public NickAPI getNickAPI() {
+        return nickAPI;
     }
 
     public ServerStatsAPI getServerStatsAPI() {
-        return this.serverStatsAPI;
+        return serverStatsAPI;
     }
 
     public SettingsAPI getSettingsAPI() {
-        return this.settingsAPI;
-    }
-
-    public AutomaticClearLag getAutomaticClearLag() {
-        return this.automaticClearLag;
-    }
-
-    public CrashFixer getCrashFixer() {
-        return this.crashFixer;
-    }
-
-    public ItemCreator getItemCreator() {
-        return this.itemCreator;
-    }
-
-    public LobbyParticle getLobbyParticle() {
-        return this.lobbyParticle;
-    }
-
-    public LocationsUtil getLocationsUtil() {
-        return this.locationsUtil;
-    }
-
-    public Particle getParticle() {
-        return this.particle;
-    }
-
-    public PlayerRealTime getPlayerRealTime() {
-        return this.playerRealTime;
-    }
-
-    public Portal getPortal() {
-        return this.portal;
-    }
-
-    public SchedulerSaver getSchedulerSaver() {
-        return this.schedulerSaver;
-    }
-
-    public SetLocations getSetLocations() {
-        return this.setLocations;
-    }
-
-    public TabList getTabList() {
-        return this.tabList;
-    }
-
-    public TicksPerSecond getTicksPerSecond() {
-        return this.ticksPerSecond;
-    }
-
-    public Data getData() {
-        return this.data;
+        return settingsAPI;
     }
 
     public SpawnLocationAPI getSpawnLocationAPI() {
         return spawnLocationAPI;
+    }
+
+    public CrashFixer getCrashFixer() {
+        return crashFixer;
+    }
+
+    public ItemCreator getItemCreator() {
+        return itemCreator;
+    }
+
+    public LocationsUtil getLocationsUtil() {
+        return locationsUtil;
+    }
+
+    public SchedulerSaver getSchedulerSaver() {
+        return schedulerSaver;
+    }
+
+    public SetLocations getSetLocations() {
+        return setLocations;
+    }
+
+    public TabList getTabList() {
+        return tabList;
+    }
+
+    public TicksPerSecond getTicksPerSecond() {
+        return ticksPerSecond;
+    }
+
+    public Data getData() {
+        return data;
     }
 }

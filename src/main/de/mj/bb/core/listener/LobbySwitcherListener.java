@@ -77,6 +77,7 @@ public class LobbySwitcherListener implements Listener {
         if (clickEvent.getCurrentItem().getType() == null) return;
         if (clickEvent.getCurrentItem().getType().equals(Material.AIR)) return;
         if (!clickEvent.getCurrentItem().getType().equals(Material.SKULL_ITEM)) return;
+        if (clickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§8\u00BB§f§lLobby-Switcher§8\u00AB")) return;
         Player player = (Player) clickEvent.getWhoClicked();
         if (clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Lobby")
                 && !clickEvent.getCurrentItem().getItemMeta().getDisplayName().contains("Silent")) {

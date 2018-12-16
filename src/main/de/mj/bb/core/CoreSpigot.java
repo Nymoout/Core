@@ -4,7 +4,8 @@ import main.de.mj.bb.core.gameapi.GameAPI;
 import main.de.mj.bb.core.managers.HookManager;
 import main.de.mj.bb.core.managers.ModuleManager;
 import main.de.mj.bb.core.managers.NickManager;
-import main.de.mj.bb.core.mysql.ColumnType;
+import main.de.mj.bb.core.sql.ColumnType;
+import main.de.mj.bb.core.managers.MongoManager;
 import main.de.mj.bb.core.utils.BanProcess;
 import main.de.mj.bb.core.utils.Data;
 import main.de.mj.bb.core.utils.ServerType;
@@ -35,6 +36,7 @@ public class CoreSpigot extends JavaPlugin {
     private ModuleManager moduleManager;
     private HookManager hookManager;
     private NickManager nickManager;
+    private MongoManager mongoManager;
 
     private String prefix = new Data().getPrefix();
 
@@ -92,6 +94,8 @@ public class CoreSpigot extends JavaPlugin {
     private void preInit() {
         String server = Bukkit.getServerName();
         sender.sendMessage(prefix + "§eload hooks and modules for Server " + server + " ...");
+        this.mongoManager = new MongoManager();
+        this.mongoManager.connect();
         if (server.contains("Lobby")) {
             moduleManager = new ModuleManager(this, ServerType.LOBBY);
             hookManager.hook(ServerType.LOBBY);
@@ -124,6 +128,12 @@ public class CoreSpigot extends JavaPlugin {
         }
         if (server.equalsIgnoreCase("Vorbauen")) {
             moduleManager = new ModuleManager(this, ServerType.VORBAUEN);
+            hookManager.hook(ServerType.DEFAULT);
+            moduleManager.init();
+            return;
+        }
+        if (server.equalsIgnoreCase("PlguinTestServer")) {
+            moduleManager = new ModuleManager(this, ServerType.PLUGIN_TEST_SERVER);
             hookManager.hook(ServerType.DEFAULT);
             moduleManager.init();
             return;
@@ -209,5 +219,9 @@ public class CoreSpigot extends JavaPlugin {
 
     public String getPrefix() {
         return prefix;
+    }
+
+    public MongoManager getMongoManager() {
+        return mongoManager;
     }
 }

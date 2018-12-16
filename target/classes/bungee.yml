@@ -1,0 +1,6 @@
+name: BBCoreBungee
+version: 5.5.9.5
+author: MJ
+
+main: main.de.mj.bb.core.CoreBungee
+softdepend: [TimoCloud, LuckPerms, NetworkManager]

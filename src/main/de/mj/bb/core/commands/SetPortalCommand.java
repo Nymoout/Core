@@ -23,10 +23,10 @@ public class SetPortalCommand implements CommandExecutor {
                 if (args.length == 2) {
                     if (args[1].equals("1")) {
                         coreSpigot.getModuleManager().getPortalManager().setPortal(player.getLocation(), 1, args[0]);
-                        player.sendMessage(coreSpigot.getModuleManager().getPrefix() + "Portal-Edge 1 wurde gesetzt!");
+                        player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix()+ "Portal-Edge 1 wurde gesetzt!");
                     } else if (args[1].equals("2")) {
                         coreSpigot.getModuleManager().getPortalManager().setPortal(player.getLocation(), 2, args[0]);
-                        player.sendMessage(coreSpigot.getModuleManager().getPrefix() + "Portal-Edge 2 wurde gesetzt!");
+                        player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "Portal-Edge 2 wurde gesetzt!");
                     } else {
                         player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "Bitte nutze /setportal name <1|2>");
                     }

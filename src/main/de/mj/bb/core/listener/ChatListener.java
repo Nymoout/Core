@@ -53,12 +53,14 @@ public class ChatListener implements Listener {
             suffix = md.getSuffix();
         }
         if (pmsg.contains("%")) pmsg = pmsg.replace("%", "Prozent");
-        //if (!coreSpigot.getNickManager().isDisguised(player)) {
+        if (!coreSpigot.getModuleManager().getNickManager().isDisguised(player)) {
             if (player.hasPermission("chat.color")) {
                 playerChatEvent.setFormat(prefix.replace("&", "§") + player.getName() + suffix.replace("&", "§") + pmsg.replace("&", "§").replace("<3", "\u2764").replace(":3", "\u2764"));
             } else {
                 playerChatEvent.setFormat(prefix.replace("&", "§") + player.getName() + suffix.replace("&", "§") + pmsg.replace("<3", "\u2764").replace(":3", "\u2764"));
             }
-        //}
+        } else {
+            playerChatEvent.setFormat("§7Spieler§8 | §7" + coreSpigot.getNickManager().getPlayerName().get(player) + "§8 » §7" + pmsg.replace("<3", "\u2764").replace(":3", "\u2764"));
+        }
     }
 }

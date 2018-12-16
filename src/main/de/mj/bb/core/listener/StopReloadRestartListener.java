@@ -41,7 +41,7 @@ public class StopReloadRestartListener implements Listener {
         if (player.hasPermission("group.administrator")) {
             if (msg.equalsIgnoreCase("/stop") || msg.equalsIgnoreCase("/reload") || msg.equalsIgnoreCase("/restart")) {
                 preprocessEvent.setCancelled(true);
-                Inventory inv = Bukkit.createInventory(null, 9, "§cServer neustarten?");
+                Inventory inv = Bukkit.createInventory(null, 9, "§c" + coreSpigot.getServer().getServerName() + " neustarten?");
                 //for (int i = inv.getSize()-1; i >= 0; i--) {
                 //    inv.setItem(i, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.STAINED_GLASS_PANE, coreSpigot.getModuleManager().getSettingsListener().getDesign().get(player), 1));
                 //}
@@ -69,7 +69,7 @@ public class StopReloadRestartListener implements Listener {
         if (clickEvent.getCurrentItem() == null) return;
         if (clickEvent.getCurrentItem().getType() == null) return;
         if (clickEvent.getCurrentItem().getType().equals(Material.AIR)) return;
-        if (clickEvent.getInventory().getTitle().contains("Server neustarten")) {
+        if (clickEvent.getInventory().getTitle().contains("neustarten")) {
             Player player = (Player) clickEvent.getWhoClicked();
             if (clickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aJa")) {
                 player.closeInventory();

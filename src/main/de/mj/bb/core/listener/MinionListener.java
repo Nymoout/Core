@@ -63,13 +63,10 @@ public class MinionListener implements Listener {
                     as.setGravity(false);
                     as.setArms(true);
                     as.setBasePlate(false);
-                    ItemStack helm = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-                    SkullMeta hm = (SkullMeta) helm.getItemMeta();
-                    hm.setOwner(player.getName());
+                    ItemStack helm = coreSpigot.getModuleManager().getItemCreator().createItemWithPlayer(player.getUniqueId().toString(), 1, "");
                     //if (coreSpigot.getNickManager().isDisguised(player)) {
                     //    hm.setOwner(coreSpigot.getNickManager().getPlayerName().get(player));
                     //} else hm.setOwner(player.getName());
-                    helm.setItemMeta(hm);
                     as.setHelmet(helm);
                     ItemStack Boots = new ItemStack(Material.LEATHER_BOOTS);
                     Boots.setItemMeta(setColor(Boots, player));
@@ -144,6 +141,7 @@ public class MinionListener implements Listener {
             nZ = Math.sin(Math.toRadians(yaw));
             as.teleport(new Location(player.getLocation().getWorld(), player.getLocation().getX() - nX, player.getLocation().getY(),
                     player.getLocation().getZ() - nZ, player.getLocation().getYaw(), player.getLocation().getPitch()));
+            /*
             ItemStack boots = as.getBoots();
             boots.setItemMeta(setColor(boots, player));
             as.setBoots(boots);
@@ -153,8 +151,9 @@ public class MinionListener implements Listener {
             ItemStack chest = as.getChestplate();
             chest.setItemMeta(setColor(chest, player));
             as.setChestplate(chest);
-            ItemStack helm = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-            SkullMeta hm = (SkullMeta) helm.getItemMeta();
+            ItemStack helm = coreSpigot.getModuleManager().getItemCreator().createItemWithPlayer(player.getUniqueId().toString(), 1, "");
+            as.setHelmet(helm);
+            */
             //if (coreSpigot.getNickManager().isDisguised(player)) {
             //    hm.setOwner(coreSpigot.getNickManager().getPlayerName().get(player));
             //    as.setHelmet(helm);

@@ -1,0 +1,32 @@
+name: BBCoreSpigot
+version: 5.5.9.5
+author: MJ
+
+main: main.de.mj.bb.core.CoreSpigot
+softdepend: [CoinsAPI, Vault, TimoCloud, VIPHide, LuckPerms, NetworkManager, FriendsAPIForPartyAndFriends, Clans-Spigot-Part, ProtocolLib, Skript]
+
+commands:
+   afk:
+   fly:
+   spawn:
+   set:
+   server:
+   setrank:
+   gotoserver:
+   serverinfo:
+   tps:
+   bbreload:
+   corerestart:
+   setportal:
+   autoban:
+   gm:
+   nick:
+   unnick:
+   chest:
+   tipp:
+   setSpeed:
+   finish:
+   flyspeed:
+   walkspeed:
+   invsee:
+   head:

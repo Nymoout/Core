@@ -1,7 +1,7 @@
 package main.de.mj.bb.core.gameapi;
 
 import main.de.mj.bb.core.CoreSpigot;
-import main.de.mj.bb.core.mysql.AsyncMySQL;
+import main.de.mj.bb.core.sql.AsyncMySQL;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

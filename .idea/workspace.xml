@@ -1,0 +1,944 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Core" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="88e18651-4a02-4028-8bbc-c1b50979a35b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/CloudBot_BungeeCord.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mariadb_jdbc_mariadb_java_client_2_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_bson_3_10_0_SNAPSHOT.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_mongodb_driver_async_3_10_0_SNAPSHOT.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_mongodb_driver_core_3_10_0_SNAPSHOT.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Party_and_Friends_MySQL_Edition_Spigot_API_1_4_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/commands/CloudCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/commands/HeadCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/UnknownCommandListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/managers/MongoManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Core.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Core.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Core.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Core_with_dependencies.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/binhe.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/binhe.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_theholywaffle_teamspeak3_api_1_1_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_vexsoftware_nuvotifier_bukkit_2_4_1_SNAPSHOT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_vexsoftware_nuvotifier_bungeecord_2_4_1_SNAPSHOT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_vexsoftware_nuvotifier_common_2_4_1_SNAPSHOT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_vexsoftware_nuvotifier_sponge_2_4_1_SNAPSHOT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_vexsoftware_nuvotifier_universal_2_4_1_SNAPSHOT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_vexsoftware_nuvotifier_velocity_2_4_1_SNAPSHOT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_handler_4_1_16_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_api_1_13_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_api_1_13_SNAPSHOT.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_chat_1_13_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_chat_1_13_SNAPSHOT.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_config_1_13_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_config_1_13_SNAPSHOT.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_event_1_13_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_event_1_13_SNAPSHOT.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_protocol_1_13_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_protocol_1_13_SNAPSHOT.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_25.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Party_and_Friends_MySQL_Edition_Spigot_API_1_4_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/PlotSquared_Bukkit_18_08_23_f5a981f_2037.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Core.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core_with_dependencies/Core-with-dependencies.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/CoreSpigot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/CoreSpigot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/commands/AFKCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/commands/AFKCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/commands/GoToServerCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/commands/SetPortalCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/commands/SetPortalCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/commands/VorbauenFinishCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/gameapi/CoinsAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/gameapi/CoinsAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/gameapi/MySQL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/gameapi/MySQL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/BukkitMinecraftCommandBlockListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/ChatListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/ChatListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/CompassListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/CompassListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/JoinListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/JoinListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/LobbySwitcherListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/LobbySwitcherListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/LoginListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/LoginListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/MinionListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/MinionListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/MusicListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/MusicListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/PlayerMoveListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/PlayerMoveListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/ScrollListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/ScrollListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/SettingsListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/SettingsListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/StopReloadRestartListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/StopReloadRestartListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/VorbauenListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/managers/BungeeModuleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/managers/BungeeModuleManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/managers/HookManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/managers/HookManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/managers/ModuleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/managers/ModuleManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/managers/NickManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/managers/NickManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/managers/ScoreboardManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/managers/ScoreboardManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/mysql/AsyncBungeeSQL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/AsyncBungeeSQL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/mysql/AsyncMySQL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/AsyncMySQL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/mysql/BungeeAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/BungeeAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/mysql/BungeeSQLLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/BungeeSQLLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/mysql/ColumnType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/ColumnType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/mysql/MySQLLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/MySQLLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/mysql/NickAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/NickAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/mysql/SQLData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/SQLData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/mysql/ServerStatsAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/ServerStatsAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/mysql/SettingsAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/SettingsAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/mysql/SpawnLocationAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/SpawnLocationAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/mysql/StatsAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/StatsAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/utils/BungeeTabList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/utils/BungeeTabList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/utils/ItemCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/utils/ItemCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/utils/ServerType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/utils/ServerType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/utils/SkinChanger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/utils/SkinChanger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/utils/TabList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/de/mj/bb/core/utils/TabList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/de/mj/bb/core/utils/VotingPluginMessage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/listener/JoinListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="897">
+              <caret line="68" column="99" selection-start-line="68" selection-start-column="99" selection-end-line="68" selection-end-column="99" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/utils/TabList.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-614">
+              <caret line="17" column="34" lean-forward="true" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+              <folding>
+                <element signature="e#424#425#0" expanded="true" />
+                <element signature="e#468#469#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/listener/SettingsListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="110" column="8" selection-start-line="110" selection-start-column="8" selection-end-line="114" selection-end-column="19" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/commands/GMCommand.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-376">
+              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="260">
+              <caret line="73" column="8" selection-start-line="73" selection-start-column="8" selection-end-line="76" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/managers/MongoManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="299">
+              <caret line="13" column="46" selection-start-line="13" selection-start-column="46" selection-end-line="13" selection-end-column="46" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/utils/Particle.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="684">
+              <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/managers/ScoreboardManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="897">
+              <caret line="59" column="68" selection-start-line="59" selection-start-column="68" selection-end-line="59" selection-end-column="122" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/sql/SettingsAPI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2093">
+              <caret line="106" column="90" selection-start-line="106" selection-start-column="90" selection-end-line="106" selection-end-column="90" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/sql/SpawnLocationAPI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="414">
+              <caret line="27" column="32" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/managers/HookManager.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/utils/ItemCreator.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/commands/SetPortalCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/utils/ServerType.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/utils/SkinChanger.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/ChatListener.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/NickAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/managers/NickManager.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/BukkitMinecraftCommandBlockListener.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/BungeeAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/PlayerMoveListener.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/MinionListener.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/CoreBungee.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/CoreSpigot.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/managers/MongoManager.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/Database.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/AsyncMySQL.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/MySQLLoader.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/ServerStatsAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/AsyncBungeeSQL.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/LoginListener.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/managers/ScoreboardManager.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/SpawnLocationAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/JoinListener.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/sql/SettingsAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/managers/ModuleManager.java" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/listener/SettingsListener.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/de/mj/bb/core/utils/TabList.java" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="138" />
+    <option name="y" value="-8" />
+    <option name="width" value="1372" />
+    <option name="height" value="733" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="commands" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="events" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="gameapi" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="listener" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="managers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="sql" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544905190229" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/CloudBot-BungeeCord.jar!/" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.14986376" />
+    <property name="project.structure.side.proportion" value="0.3621795" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="88e18651-4a02-4028-8bbc-c1b50979a35b" name="Default Changelist" comment="" />
+      <created>1544458747456</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1544458747456</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2553305" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32998884" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Floobits" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.32998884" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Theme Preview" order="4" />
+      <window_info anchor="right" id="Maven" order="5" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+    </layout>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/utils/LobbyParticle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="3" column="39" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/events/NickEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/utils/Nickname.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/commands/SetPortalCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="28" column="94" selection-start-line="28" selection-start-column="94" selection-end-line="28" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/listener/LobbySwitcherListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/commands/NickCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="458">
+          <caret line="31" column="59" selection-start-line="31" selection-start-column="59" selection-end-line="31" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/utils/ServerType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="3" column="105" lean-forward="true" selection-start-line="3" selection-start-column="105" selection-end-line="3" selection-end-column="105" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/listener/ChatListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="431">
+          <caret line="55" column="42" selection-start-line="55" selection-start-column="42" selection-end-line="55" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/spigotmc/spigot/1.8.8/spigot-1.8.8.jar!/org/bukkit/scoreboard/Team.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="17" column="11" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/spigotmc/spigot/1.8.8/spigot-1.8.8.jar!/org/bukkit/entity/HumanEntity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="18" column="11" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/managers/NickManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="76" column="34" lean-forward="true" selection-start-line="76" selection-start-column="34" selection-end-line="76" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/listener/StopReloadRestartListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/managers/HookManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-279">
+          <caret line="259" column="49" lean-forward="true" selection-start-line="259" selection-start-column="49" selection-end-line="259" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="9" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/sql/SQLData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/sql/StatsAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1050">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/sql/NickAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="346">
+          <caret line="32" column="22" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/sql/BungeeAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="989">
+          <caret line="51" column="123" selection-start-line="51" selection-start-column="123" selection-end-line="51" selection-end-column="123" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/utils/BungeeType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="3" column="42" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/listener/UnknownCommandListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="460">
+          <caret line="26" column="152" selection-start-line="26" selection-start-column="90" selection-end-line="26" selection-end-column="152" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/listener/PlayerMoveListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="666">
+          <caret line="102" selection-start-line="102" selection-end-line="102" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/listener/ServerListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bungee.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/commands/FlyCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/commands/ChestCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-16">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/commands/ServerInfoCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="22" column="45" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/listener/MinionListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="155" column="14" selection-start-line="155" selection-start-column="14" selection-end-line="155" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/listener/BukkitMinecraftCommandBlockListener.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/CoreBungee.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="47" column="49" selection-start-line="47" selection-start-column="49" selection-end-line="47" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/commands/CloudCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/sql/Database.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="3" column="23" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/CoreSpigot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="455">
+          <caret line="96" column="45" selection-start-line="96" selection-start-column="45" selection-end-line="96" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/sql/AsyncMySQL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="13" column="26" selection-start-line="13" selection-start-column="26" selection-end-line="13" selection-end-column="26" />
+          <folding>
+            <element signature="e#753#754#0" expanded="true" />
+            <element signature="e#780#781#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/sql/MySQLLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="42" column="59" selection-start-line="42" selection-start-column="59" selection-end-line="42" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/sql/ServerStatsAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-282">
+          <caret line="27" column="212" selection-start-line="27" selection-start-column="212" selection-end-line="27" selection-end-column="212" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/sql/AsyncBungeeSQL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="353">
+          <caret line="149" column="28" selection-start-line="149" selection-start-column="28" selection-end-line="149" selection-end-column="28" />
+          <folding>
+            <element signature="e#789#790#0" expanded="true" />
+            <element signature="e#816#817#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/utils/ItemCreator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-466">
+          <caret line="118" column="70" lean-forward="true" selection-start-line="118" selection-start-column="70" selection-end-line="118" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/managers/ModuleManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5405">
+          <caret line="258" column="36" selection-start-line="258" selection-start-column="36" selection-end-line="258" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/commands/TPSCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/listener/LoginListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="989">
+          <caret line="52" selection-start-line="52" selection-end-line="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/utils/SkinChanger.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="621">
+          <caret line="50" column="25" selection-start-line="50" selection-start-column="25" selection-end-line="50" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/listener/JoinListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="897">
+          <caret line="68" column="99" selection-start-line="68" selection-start-column="99" selection-end-line="68" selection-end-column="99" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/managers/ScoreboardManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="897">
+          <caret line="59" column="68" selection-start-line="59" selection-start-column="68" selection-end-line="59" selection-end-column="122" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/sql/SettingsAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2093">
+          <caret line="106" column="90" selection-start-line="106" selection-start-column="90" selection-end-line="106" selection-end-column="90" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/sql/SpawnLocationAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="27" column="32" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/commands/GMCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-376">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/managers/MongoManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="13" column="46" selection-start-line="13" selection-start-column="46" selection-end-line="13" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/utils/Particle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="73" column="8" selection-start-line="73" selection-start-column="8" selection-end-line="76" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/listener/SettingsListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="110" column="8" selection-start-line="110" selection-start-column="8" selection-end-line="114" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/de/mj/bb/core/utils/TabList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-614">
+          <caret line="17" column="34" lean-forward="true" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+          <folding>
+            <element signature="e#424#425#0" expanded="true" />
+            <element signature="e#468#469#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>Core</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.3621795" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="Copyright.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Minecraft</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.3621795" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>Core</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.3621795" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>CloudBot-BungeeCord</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.3621795" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

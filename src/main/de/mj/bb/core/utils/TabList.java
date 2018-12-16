@@ -19,7 +19,6 @@ public class TabList {
 
     public TabList(CoreSpigot coreSpigot) {
         this.coreSpigot = coreSpigot;
-        createTabList();
     }
 
     public void createTabList() {
@@ -61,104 +60,104 @@ public class TabList {
         player.setDisplayName(scoreboard.getTeam(team).getPrefix().split("§")[1] + player.getName());
         Bukkit.getOnlinePlayers().forEach(all ->
                 all.setScoreboard(scoreboard));
+        player.setScoreboard(scoreboard);
     }
 
     private String getTeam(Player player) {
-        String team = "15";
         //if (!coreSpigot.getNickManager().isDisguised(player)) {
         if (!(coreSpigot.getModuleManager().getServerType().equals(ServerType.CITY_BUILD) || coreSpigot.getModuleManager().getServerType().equals(ServerType.SKY_PVP))) {
             if (player.hasPermission("group." + "administrator"))
-                return team = "0";
+                return "0";
             else if (player.hasPermission("group." + "srmoderator"))
-                return team = "1";
+                return "1";
             else if (player.hasPermission("group." + "moderator"))
-                return team = "2";
+                return "2";
             else if (player.hasPermission("group." + "srdeveloper"))
-                return team = "3";
+                return "3";
             else if (player.hasPermission("group." + "developer"))
-                return team = "4";
+                return "4";
             else if (player.hasPermission("group." + "srbuilder"))
-                return team = "5";
+                return "5";
             else if (player.hasPermission("group." + "builder"))
-                return team = "6";
+                return "6";
             else if (player.hasPermission("group." + "srsupporter"))
-                return team = "7";
+                return "7";
             else if (player.hasPermission("group." + "supporter"))
-                return team = "8";
+                return "8";
             else if (player.hasPermission("group." + "content"))
-                return team = "9";
+                return "9";
             else if (player.hasPermission("group." + "youtuber"))
-                return team = "10";
+                return "10";
             else if (player.hasPermission("group." + "vip+"))
-                return team = "11";
+                return "11";
             else if (player.hasPermission("group." + "diamond"))
-                return team = "12";
+                return "12";
             else if (player.hasPermission("group." + "emerald"))
-                return team = "13";
+                return "13";
             else if (player.hasPermission("group." + "gold"))
-                return team = "14";
+                return "14";
         } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.CITY_BUILD)) {
             if (player.hasPermission("group." + "administrator"))
-                return team = "0";
+                return "0";
             else if (player.hasPermission("group." + "srmoderator"))
-                return team = "1";
+                return "1";
             else if (player.hasPermission("group." + "moderator"))
-                return team = "2";
+                return "2";
             else if (player.hasPermission("group." + "srdeveloper"))
-                return team = "3";
+                return "3";
             else if (player.hasPermission("group." + "developer"))
-                return team = "4";
+                return "4";
             else if (player.hasPermission("group." + "srbuilder"))
-                return team = "5";
+                return "5";
             else if (player.hasPermission("group." + "builder"))
-                return team = "6";
+                return "6";
             else if (player.hasPermission("group." + "srsupporter"))
-                return team = "7";
+                return "7";
             else if (player.hasPermission("group." + "supporter"))
-                return team = "8";
+                return "8";
             else if (player.hasPermission("group." + "content"))
-                return team = "9";
+                return "9";
             else if (player.hasPermission("group." + "youtuber"))
-                return team = "10";
+                return "10";
             else if (player.hasPermission("group." + "vip+"))
-                return team = "11";
+                return "11";
             else if (player.hasPermission("group." + "supreme"))
-                return team = "12";
+                return "12";
             else if (player.hasPermission("group." + "prime"))
-                return team = "13";
+                return "13";
             else if (player.hasPermission("group." + "premium"))
-                return team = "14";
+                return "14";
         } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.SKY_PVP)) {
             if (player.hasPermission("group." + "administrator"))
-                return team = "0";
+                return "0";
             else if (player.hasPermission("group." + "srmoderator"))
-                return team = "1";
+                return "1";
             else if (player.hasPermission("group." + "moderator"))
-                return team = "2";
+                return "2";
             else if (player.hasPermission("group." + "srdeveloper"))
-                return team = "3";
+                return "3";
             else if (player.hasPermission("group." + "developer"))
-                return team = "4";
+                return "4";
             else if (player.hasPermission("group." + "srbuilder"))
-                return team = "5";
+                return "5";
             else if (player.hasPermission("group." + "builder"))
-                return team = "6";
+                return "6";
             else if (player.hasPermission("group." + "srsupporter"))
-                return team = "7";
+                return "7";
             else if (player.hasPermission("group." + "supporter"))
-                return team = "8";
+                return "8";
             else if (player.hasPermission("group." + "content"))
-                return team = "9";
+                return "9";
             else if (player.hasPermission("group." + "youtuber"))
-                return team = "10";
+                return "10";
             else if (player.hasPermission("group." + "vip+"))
-                return team = "11";
+                return "11";
             else if (player.hasPermission("group." + "king"))
-                return team = "12";
+                return "12";
             else if (player.hasPermission("group." + "elite"))
-                return team = "13";
+                return "13";
             else if (player.hasPermission("group." + "ultra"))
-                return team = "14";
+                return "14";
             else return "15";
         }
         return "15";

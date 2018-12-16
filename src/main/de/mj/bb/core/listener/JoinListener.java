@@ -22,15 +22,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,16 +45,16 @@ public class JoinListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent joinEvent) {
         Player player = joinEvent.getPlayer();
-        //coreSpigot.getGameAPI().getCoinsAPI().registerPlayer(player.getUniqueId());
-        if (coreSpigot.getModuleManager().getServerType().equals(ServerType.BAU_SERVER)) {
+        //*coreSpigot.getGameAPI().getCoinsAPI().registerPlayer(player.getUniqueId());
+        if (coreSpigot.getModuleManager().getServerType().equals(ServerType.BAU_SERVER) || coreSpigot.getModuleManager().getServerType().equals(ServerType.PLUGIN_TEST_SERVER)) {
             if (!player.hasPermission("player.team")) {
                 player.kickPlayer("");
             }
         }
         if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
+            //noinspection deprecation
             player.sendTitle("§c✘ §6BattleBuild§c ✘", "✘ Willkommen " + player.getName() + " ✘");
             coreSpigot.getModuleManager().getSettingsListener().loadSkulls(player);
-            player.teleport(coreSpigot.getModuleManager().getLocationsUtil().getSpawn());
             player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "Bitte warte einen Moment, deine §eEinstellungen §7werden geladen!");
             if (!coreSpigot.getModuleManager().getSettingsAPI().checkPlayer(player)) {
                 coreSpigot.getModuleManager().getSettingsListener().getRideState().add(player);
@@ -80,7 +77,6 @@ public class JoinListener implements Listener {
                 coreSpigot.getModuleManager().getSettingsAPI().createPlayer(player);
                 coreSpigot.getModuleManager().getSettingsAPI().createScorePlayer(player);
                 coreSpigot.getModuleManager().getSettingsAPI().getColor(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getSilent(player);
                 coreSpigot.getModuleManager().getSettingsAPI().getRide(player);
                 coreSpigot.getModuleManager().getSettingsAPI().getFriends(player);
                 coreSpigot.getModuleManager().getSettingsAPI().getRang(player);
@@ -94,11 +90,28 @@ public class JoinListener implements Listener {
                 coreSpigot.getModuleManager().getSettingsAPI().getJumPlate(player);
                 coreSpigot.getModuleManager().getSettingsAPI().getTime(player);
                 coreSpigot.getModuleManager().getSettingsAPI().getLevel(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getRadio(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getSpawn(player);
+                if (coreSpigot.getModuleManager().getSettingsAPI().getLevel(player).equals(PlayerLevel.LOBBY)) {
+                    String[] serverName = player.getServer().getServerName().split("-");
+                    int server = Integer.parseInt(serverName[1]);
+                    player.setLevel(server);
+                } else if (coreSpigot.getModuleManager().getSettingsAPI().getLevel(player).equals(PlayerLevel.SCROLL))
+                    player.setLevel(1);
+                else if (coreSpigot.getModuleManager().getSettingsAPI().getLevel(player).equals(PlayerLevel.YEAR)) {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy#DDD");
+                    String[] yearData = format.format(new Date(System.currentTimeMillis())).split("#");
+                    player.setExp(Float.valueOf(yearData[1]) / 365f);
+                    player.setLevel(Integer.valueOf(yearData[0]));
+                } else if (coreSpigot.getModuleManager().getSettingsAPI().getLevel(player).equals(PlayerLevel.COINS))
+                    player.setLevel((int) coreSpigot.getHookManager().getEconomy().getBalance(player));
+                if (!coreSpigot.getModuleManager().getSettingsAPI().getRadio(player))
+                    player.performCommand("radio");
+                if (!coreSpigot.getModuleManager().getSettingsAPI().getSpawn(player))
+                    player.teleport(coreSpigot.getModuleManager().getSpawnLocationAPI().getSpawnLocation(player.getUniqueId()));
+                else player.teleport(coreSpigot.getModuleManager().getLocationsUtil().getSpawn());
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
+            coreSpigot.getModuleManager().getTabList().setTabList(player);
             new BukkitRunnable() {
                 int i = 1;
 
@@ -122,19 +135,15 @@ public class JoinListener implements Listener {
                     coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.COMPASS, 0, 1, "§8\u00BB§7§lNavigator§8\u00AB"));
             player.getInventory().setItem(1, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.REDSTONE_COMPARATOR, 0, 1,
                     "§8\u00BB§c§lEinstellungen§8\u00AB"));
-            player.getInventory().setItem(2, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.JUKEBOX, 0, 1, "§8\u00BB§a§lRadio§8\u00AB"));
+            player.getInventory().setItem(2, coreSpigot.getModuleManager().getItemCreator().createItemWithSkull("148a8c55891dec76764449f57ba677be3ee88a06921ca93b6cc7c9611a7af", 1, "§8\u00BB§a§lRadio§8\u00AB", false));
             player.getInventory().setItem(7,
-                    coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.NETHER_STAR, 0, 1, "§8\u00BB§f§lLobby-Switcher§8\u00AB"));
+                    coreSpigot.getModuleManager().getItemCreator().createItemWithSkull("cf40942f364f6cbceffcf1151796410286a48b1aeba77243e218026c09cd1", 1, "§8\u00BB§f§lLobby-Switcher§8\u00AB", false));
             player.getInventory().setItem(0, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.ARMOR_STAND, 0, 1, "§8\u00BB§3§lDein Minion§8\u00AB"));
 
-            ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-            ItemMeta im = is.getItemMeta();
-            im.setDisplayName("§8\u00BB§9§lDein Profil§8\u00AB");
-            is.setItemMeta(im);
-            SkullMeta sm = (SkullMeta) is.getItemMeta();
-            sm.setOwner(player.getName());
-            is.setItemMeta(sm);
+            ItemStack is = coreSpigot.getModuleManager().getItemCreator().createItemWithPlayer(player.getUniqueId().toString(), 1, "§8\u00BB§9§lDein Profil§8\u00AB");
             player.getInventory().setItem(8, is);
+
+            Bukkit.getOnlinePlayers().forEach(all -> coreSpigot.getModuleManager().getTabList().setTabList(all));
 
             try {
                 URL head = new URL("https://minotar.net/avatar/" + player.getName() + "/8.png");
@@ -153,47 +162,24 @@ public class JoinListener implements Listener {
 
         summonFireWork(player);
         waitMySQL(player, coreSpigot.getModuleManager().getServerType());
+        coreSpigot.getModuleManager().getNickAPI().getPlayerNick(player);
     }
 
     private void waitMySQL(Player player, ServerType serverType) {
         coreSpigot.getModuleManager().getSchedulerSaver().createScheduler(new BukkitRunnable() {
             @Override
             public void run() {
-                if (serverType.equals(ServerType.LOBBY)) {
-                    if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().containsKey(player) && coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player) != null) {
-                        if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.LOBBY)) {
-                            String[] serverName = player.getServer().getServerName().split("-");
-                            int server = Integer.parseInt(serverName[1]);
-                            player.setLevel(server);
-                        } else if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.SCROLL))
-                            player.setLevel(1);
-                        else if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.YEAR)) {
-                            SimpleDateFormat format = new SimpleDateFormat("yyyy#DDD");
-                            String[] yeardata = format.format(new Date(System.currentTimeMillis())).split("#");
-                            player.setExp(Float.valueOf(yeardata[1]) / 365f);
-                            player.setLevel(Integer.valueOf(yeardata[0]));
-                        } else if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.COINS))
-                            player.setLevel(coreSpigot.getGameAPI().getCoinsAPI().getCoins(player.getUniqueId()));
-                        if (coreSpigot.getModuleManager().getMusicListener().getRadioOff().contains(player))
-                            player.performCommand("radio");
-                        cancel();
-                    }
-                } else {
+                if (!serverType.equals(ServerType.LOBBY)) {
                     try {
                         coreSpigot.getModuleManager().getServerStatsAPI().updatePlayed(player, coreSpigot.getModuleManager().getServerStatsAPI().getPlayedInt(player, Bukkit.getServerName()) + 1, Bukkit.getServerName());
-                    } catch (NullPointerException e) {
                         coreSpigot.getModuleManager().getServerStatsAPI().createPlayer(player);
                         coreSpigot.getModuleManager().getServerStatsAPI().getPlayed(player);
-                    }
-                    try {
                         coreSpigot.getModuleManager().getFileManager().getColorConfig().set(player.getUniqueId().toString(), getFinalColor(coreSpigot.getModuleManager().getSettingsAPI().getColorString(player)));
                         coreSpigot.getModuleManager().getFileManager().getColorConfig().save(coreSpigot.getModuleManager().getFileManager().getColorFile());
-                    } catch (IOException io) {
-                        io.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
-                if (coreSpigot.getModuleManager().getSettingsListener().getSpawnLocation().contains(player))
-                    player.teleport(coreSpigot.getModuleManager().getSpawnLocationAPI().getSpawnLocation(player.getUniqueId()));
             }
         }.runTaskTimer(coreSpigot, 0L, 20L));
         coreSpigot.getModuleManager().getTabList().setTabList(player);
@@ -207,7 +193,6 @@ public class JoinListener implements Listener {
 
         int rt = random.nextInt(5) + 1;
         FireworkEffect.Type type = FireworkEffect.Type.BALL;
-        if (rt == 1) type = FireworkEffect.Type.BALL;
         if (rt == 2) type = FireworkEffect.Type.BALL_LARGE;
         if (rt == 3) type = FireworkEffect.Type.BURST;
         if (rt == 4) type = FireworkEffect.Type.CREEPER;

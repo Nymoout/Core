@@ -23,7 +23,7 @@ import java.util.Map;
 public class AFKCommand implements CommandExecutor {
 
     private final CoreSpigot coreSpigot;
-    private Map<Player, BukkitTask> cooldown = new HashMap<>();
+    private Map<Player, BukkitTask> coolDown = new HashMap<>();
     private Map<Player, Integer> time = new HashMap<>();
 
     public AFKCommand(@NotNull CoreSpigot coreSpigot) {
@@ -35,9 +35,9 @@ public class AFKCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (!cooldown.containsKey(player)) {
+            if (!coolDown.containsKey(player)) {
                 if (!coreSpigot.getModuleManager().getAfkListener().getAfkMover().contains(player)) {
-                    setCooldown(player);
+                    setCoolDown(player);
                     coreSpigot.getModuleManager().getAfkListener().setAfkMover(player);
                     for (Player all : Bukkit.getOnlinePlayers())
                         all.sendMessage("§a" + player.getName() + " §eist nun AFK!");
@@ -51,8 +51,8 @@ public class AFKCommand implements CommandExecutor {
         return false;
     }
 
-    private void setCooldown(Player player) {
-        cooldown.put(player, new BukkitRunnable() {
+    private void setCoolDown(Player player) {
+        coolDown.put(player, new BukkitRunnable() {
             int timer = 60;
 
             @Override
@@ -62,7 +62,7 @@ public class AFKCommand implements CommandExecutor {
                 }
                 if (timer == 0) {
                     cancel();
-                    cooldown.remove(player);
+                    coolDown.remove(player);
                     time.remove(player);
                 }
                 timer--;

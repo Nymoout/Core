@@ -31,7 +31,8 @@ public class MusicListener implements Listener {
         if (interactEvent.getItem().getType().equals(Material.AIR)) return;
         if (!(interactEvent.getAction().equals(Action.RIGHT_CLICK_AIR) || interactEvent.getAction().equals(Action.RIGHT_CLICK_BLOCK) || interactEvent.getAction().equals(Action.LEFT_CLICK_AIR) || interactEvent.getAction().equals(Action.LEFT_CLICK_BLOCK)))
             return;
-        if (interactEvent.getItem().getType().equals(Material.JUKEBOX)) {
+        if (!interactEvent.getItem().getType().equals(Material.SKULL_ITEM)) return;
+        if (!interactEvent.getItem().getItemMeta().getDisplayName().contains("Radio")) return;
             Player player = interactEvent.getPlayer();
             player.performCommand("radio");
             if (radioOff.contains(player)) {
@@ -41,6 +42,5 @@ public class MusicListener implements Listener {
                 coreSpigot.getModuleManager().getSettingsAPI().setRadio(player, false);
                 radioOff.add(player);
             }
-        }
     }
 }

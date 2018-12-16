@@ -57,7 +57,7 @@ public class ScoreboardManager {
         PacketPlayOutScoreboardDisplayObjective display = new PacketPlayOutScoreboardDisplayObjective(1, obj);
         ScoreboardScore s1 = new ScoreboardScore(scoreboard, obj, "● §7Coins");
         ScoreboardScore s2;
-        s2 = new ScoreboardScore(scoreboard, obj, "§7➟ §" + color + String.valueOf(coreSpigot.getHookManager().getEconomy().getBalance(p)));
+        s2 = new ScoreboardScore(scoreboard, obj, "§7➟ §" + color + coreSpigot.getHookManager().getEconomy().getBalance(p));
         ScoreboardScore s3 = new ScoreboardScore(scoreboard, obj, "§8§7");
 
         ScoreboardScore s4 = new ScoreboardScore(scoreboard, obj, "● §7Rang");

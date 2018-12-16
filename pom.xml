@@ -126,11 +126,13 @@
             <groupId>cloud.timo.TimoCloud</groupId>
             <artifactId>TimoCloud-API</artifactId>
             <version>5.3.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.2</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
@@ -159,15 +161,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.vexsoftware</groupId>
-            <artifactId>nuvotifier-universal</artifactId>
-            <version>2.4.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-async</artifactId>
+            <version>LATEST</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.theholywaffle</groupId>
-            <artifactId>teamspeak3-api</artifactId>
-            <version>1.1.0</version>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>2.3.0</version>
         </dependency>
     </dependencies>
 

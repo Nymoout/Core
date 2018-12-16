@@ -21,10 +21,12 @@ public class ScrollListener implements Listener {
     @EventHandler
     public void onScroll(PlayerItemHeldEvent heldEvent) {
         Player player = heldEvent.getPlayer();
-        if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.SCROLL)) {
-            player.setLevel(heldEvent.getNewSlot() + 1);
-            player.setExp((float) (heldEvent.getNewSlot() + 1) / 9);
-        }
+        try {
+            if (coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().get(player).equals(PlayerLevel.SCROLL)) {
+                player.setLevel(heldEvent.getNewSlot() + 1);
+                player.setExp((float) (heldEvent.getNewSlot() + 1) / 9);
+            }
+        } catch (Exception ignore) {}
         player.playSound(player.getLocation(), Sound.NOTE_STICKS, 1, 1);
     }
 }

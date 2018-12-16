@@ -1,0 +1,10 @@
+####################
+Clearlag: false
+Animals: true
+Monster: true
+PrimedTNT: true
+Arrows: true
+Items: true
+####################
+
+GameAPI: false

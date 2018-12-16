@@ -2,13 +2,14 @@ package main.de.mj.bb.core.managers;
 
 import main.de.mj.bb.core.CoreBungee;
 import main.de.mj.bb.core.commands.BanCommand;
+import main.de.mj.bb.core.commands.CloudCommand;
 import main.de.mj.bb.core.commands.LobbyCommand;
 import main.de.mj.bb.core.commands.MaintenanceCommand;
 import main.de.mj.bb.core.listener.LoginListener;
 import main.de.mj.bb.core.listener.PingListener;
-import main.de.mj.bb.core.mysql.AsyncBungeeSQL;
-import main.de.mj.bb.core.mysql.BungeeAPI;
-import main.de.mj.bb.core.mysql.BungeeSQLLoader;
+import main.de.mj.bb.core.sql.AsyncBungeeSQL;
+import main.de.mj.bb.core.sql.BungeeAPI;
+import main.de.mj.bb.core.sql.BungeeSQLLoader;
 import main.de.mj.bb.core.utils.BungeeTabList;
 import main.de.mj.bb.core.utils.BungeeType;
 import main.de.mj.bb.core.utils.Data;
@@ -35,6 +36,7 @@ public class BungeeModuleManager {
         new BanCommand(coreBungee);
         new LoginListener(coreBungee);
         new LobbyCommand(coreBungee);
+        new CloudCommand(coreBungee);
         bungeeTablist = new BungeeTabList(coreBungee);
         finalBan = new FinalBan(coreBungee);
         bungeeSQLLoader = new BungeeSQLLoader(coreBungee);

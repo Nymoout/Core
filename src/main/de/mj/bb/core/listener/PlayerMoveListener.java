@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +25,7 @@ public class PlayerMoveListener implements Listener {
     public void onMove(PlayerMoveEvent moveEvent) {
         Player player = moveEvent.getPlayer();
         if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY))
-            if(player.getLocation().getY() <50)
+            if (player.getLocation().getY() < 50)
                 player.teleport(coreSpigot.getModuleManager().getLocationsUtil().getSpawn());
         if (player.getGameMode() != GameMode.CREATIVE) {
             if (coreSpigot.getModuleManager().getSettingsListener().getWaterJump().contains(player)) {
@@ -58,10 +59,7 @@ public class PlayerMoveListener implements Listener {
                 if (coreSpigot.getModuleManager().getSettingsListener().getJumpPads().contains(player)) {
                     if (getPlayerFacing(player).equals(PlayerFacing.SOUTH)) {
                         Vector vector = player.getLocation().getDirection().setZ(10);
-                        try {
-                            player.setVelocity(vector);
-                        } catch (Exception e) {
-                        }
+                        player.setVelocity(vector);
                         player.playSound(player.getLocation(), Sound.SPIDER_IDLE, 1, 1);
                     } else if (getPlayerFacing(player).equals(PlayerFacing.NORTH)) {
                         Vector vector = player.getLocation().getDirection().setZ(-10);
@@ -96,6 +94,13 @@ public class PlayerMoveListener implements Listener {
             if (player.getLocation().getY() >= 90 && player.getLocation().getY() <= 100 && player.getLocation().getX() <= 0.9 && player.getLocation().getZ() <= 0.9 && player.getLocation().getX() >= -0.9 && player.getLocation().getZ() >= -0.9) {
                 player.teleport(new Location(player.getWorld(), -1, 194, -2, 80, 0));
             }
+        }
+    }
+
+    @EventHandler
+    public void onFly(PlayerToggleFlightEvent flightEvent) {
+        if (!flightEvent.getPlayer().getLocation().add(0, -1, 0).getBlock().equals(Material.AIR)) {
+
         }
     }
 

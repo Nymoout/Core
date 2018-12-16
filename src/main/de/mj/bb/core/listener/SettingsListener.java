@@ -4,7 +4,6 @@
  * Copyright (c) 2017 - 2018 by MJ. All rights reserved.
  *
  */
-
 package main.de.mj.bb.core.listener;
 
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
@@ -28,7 +27,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +36,6 @@ import java.util.*;
 
 public class SettingsListener implements Listener {
 
-    private Set<Player> silentState = new HashSet<>();
     private Set<Player> rideState = new HashSet<>();
     private Map<Player, Short> design = new HashMap<>();
     private Map<Player, String> color = new HashMap<>();
@@ -747,10 +744,6 @@ public class SettingsListener implements Listener {
         return 0;
     }
 
-    public Set<Player> getSilentState() {
-        return this.silentState;
-    }
-
     public Set<Player> getRideState() {
         return this.rideState;
     }
@@ -815,14 +808,6 @@ public class SettingsListener implements Listener {
         return this.weather;
     }
 
-    public Map<Player, Inventory> getInvent1() {
-        return this.invent1;
-    }
-
-    public Map<Player, Inventory> getInvent2() {
-        return this.invent2;
-    }
-
     public Set<Player> getSpawnLocation() {
         return spawnLocation;
     }
@@ -832,31 +817,13 @@ public class SettingsListener implements Listener {
     }
 
     public void loadSkulls(Player player) {
-        ItemStack playerStack = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-        ItemMeta playerMeta = playerStack.getItemMeta();
-        playerMeta.setDisplayName("§f§lFreunde");
-        playerStack.setItemMeta(playerMeta);
-        SkullMeta playerSM = (SkullMeta) playerStack.getItemMeta();
-        playerSM.setOwner(player.getName());
-        playerStack.setItemMeta(playerSM);
+        ItemStack playerStack = coreSpigot.getModuleManager().getItemCreator().createItemWithPlayer(player.getUniqueId().toString(), 1, "§f§lFreunde");
         skulls.put(player.getName(), CraftItemStack.asNMSCopy(playerStack));
 
-        ItemStack prev = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-        ItemMeta prevMeta = prev.getItemMeta();
-        prevMeta.setDisplayName("§6⇽ Vorherige Seite");
-        prev.setItemMeta(prevMeta);
-        SkullMeta prevSkullMeta = (SkullMeta) prev.getItemMeta();
-        prevSkullMeta.setOwner("MHF_ArrowLeft");
-        prev.setItemMeta(prevSkullMeta);
+        ItemStack prev = coreSpigot.getModuleManager().getItemCreator().createItemWithSkull("86971dd881dbaf4fd6bcaa93614493c612f869641ed59d1c9363a3666a5fa6", 1, "§6⇽ Vorherige Seite", false);
         skulls.put("prev", CraftItemStack.asNMSCopy(prev));
 
-        ItemStack next = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-        ItemMeta nextMeta = next.getItemMeta();
-        nextMeta.setDisplayName("§6Nächste Seite ⇾");
-        next.setItemMeta(nextMeta);
-        SkullMeta nextSkullMeta = (SkullMeta) next.getItemMeta();
-        nextSkullMeta.setOwner("MHF_ArrowRight");
-        next.setItemMeta(nextSkullMeta);
+        ItemStack next = coreSpigot.getModuleManager().getItemCreator().createItemWithSkull("f32ca66056b72863e98f7f32bd7d94c7a0d796af691c9ac3a9136331352288f9", 1, "§6Nächste Seite ⇾", false);
         skulls.put("next", CraftItemStack.asNMSCopy(next));
     }
 

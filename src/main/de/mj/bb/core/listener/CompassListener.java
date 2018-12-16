@@ -63,8 +63,8 @@ public class CompassListener implements Listener {
             for (int i = inv.getSize() - 1; i >= 0; i--) {
                 inv.setItem(i, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.STAINED_GLASS_PANE, coreSpigot.getModuleManager().getSettingsListener().getDesign().get(player), 1, " "));
             }
-            inv.setItem(20, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.PAPER, 0, 1, "§9§lMinigames"));
-            inv.setItem(24, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.PAPER, 0, 1, "§2§lBuildServer"));
+            inv.setItem(20, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.IRON_SWORD, 0, 1, "§9§lMinigames"));
+            inv.setItem(24, coreSpigot.getModuleManager().getItemCreator().createItemWithMaterial(Material.IRON_PICKAXE, 0, 1, "§2§lBuildServer"));
             List<String> BWlore = new ArrayList<>();
             ServerGroupObject serverGroupObjectBW4x4 = TimoCloudAPI.getUniversalAPI().getServerGroup("BedWars4x4");
             if (TimoCloudAPI.getUniversalAPI().getServerGroup("BedWars4x4") != null) {
@@ -84,7 +84,7 @@ public class CompassListener implements Listener {
                 CBlore.add("§7➟ §6citybuild.battlebuild.net");
             } else
                 CBlore.add("§cDiese Server sind derzeit offline.");
-            inv.setItem(15,
+            inv.setItem(23,
                     moduleManager.getItemCreator().createItemWithSkull("b25b27ce62ca88743840a95d1c39868f43ca60696a84f564fbd7dda259be00fe", getOnlinePlayerCount(serverGroupObjectCityBuild), "§aCityBuild", CBlore, true));
 
             List<String> sPvPlore = new ArrayList<>();

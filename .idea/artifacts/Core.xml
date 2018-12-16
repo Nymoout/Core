@@ -3,6 +3,10 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Core</output-path>
     <root id="archive" name="Core.jar">
       <element id="module-output" name="Core" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/mongodb-driver-core/3.10.0-SNAPSHOT/mongodb-driver-core-3.10.0-20181206.172651-18.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/mongodb-driver-async/3.10.0-SNAPSHOT/mongodb-driver-async-3.10.0-20181206.172641-18.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/bson/3.10.0-SNAPSHOT/bson-3.10.0-20181206.172625-18.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mariadb/jdbc/mariadb-java-client/1.1.7/mariadb-java-client-1.1.7.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

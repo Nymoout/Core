@@ -31,7 +31,10 @@ public class BungeeTabList implements Listener {
         TextComponent footer = new TextComponent();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         Date date = new Date();
-        String server = proxiedPlayer.getServer().getInfo().getName();
+        String server = " ";
+        try {
+            server = proxiedPlayer.getServer().getInfo().getName();
+        } catch (Exception ignored) {}
         footer.setText("\n §7Uhrzeit §8➵ §" + color + dateFormat.format(date) + "Uhr §8✕ §7Server §8➵ §" + color + server + " \n §7TS §8➵ §" + color + "battlebuild.net §8✕ §7Discord §8➵ §" + color + "discord.battlebuild.net \n §7Forum §8➵ §" + color + "forum.battlebuild.net \n §7§m------------------------------ \n");
         proxiedPlayer.setTabHeader(header, footer);
     }

@@ -1,0 +1,6 @@
+name: BBCoreBungee
+version: ${project.version}
+author: MJ
+
+main: main.de.mj.bb.core.CoreBungee
+softdepend: [TimoCloud, LuckPerms, NetworkManager]

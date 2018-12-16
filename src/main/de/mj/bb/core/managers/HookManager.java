@@ -8,7 +8,6 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.reflect.FieldAccessException;
-import com.intellectualcrafters.plot.api.PlotAPI;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayerManager;
 import de.simonsator.partyandfriends.spigot.clans.api.ClansManager;
 import main.de.mj.bb.core.CoreSpigot;
@@ -38,7 +37,6 @@ public class HookManager {
     private LuckPermsApi luckPermsApi;
     private PAFPlayerManager pafPlayerManager;
     private ClansManager clansManager;
-    private PlotAPI plotAPI;
 
     public HookManager(@NotNull CoreSpigot coreSpigot) {
         this.coreSpigot = coreSpigot;
@@ -328,9 +326,5 @@ public class HookManager {
 
     public ClansManager getClansManager() {
         return this.clansManager;
-    }
-
-    public PlotAPI getPlotAPI() {
-        return plotAPI;
     }
 }

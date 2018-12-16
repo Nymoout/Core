@@ -4,7 +4,7 @@ import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.commands.NickCommand;
 import main.de.mj.bb.core.events.NickEvent;
 import main.de.mj.bb.core.events.UnnickEvent;
-import main.de.mj.bb.core.mysql.NickAPI;
+import main.de.mj.bb.core.sql.NickAPI;
 import main.de.mj.bb.core.utils.Nickname;
 import main.de.mj.bb.core.utils.SkinChanger;
 import main.de.mj.bb.core.utils.UUIDFetcher;
@@ -34,8 +34,8 @@ public class NickManager {
 
     public NickManager(CoreSpigot coreSpigot) {
         this.coreSpigot = coreSpigot;
-        nickAPI = new NickAPI(coreSpigot);
-        nickCommand = new NickCommand(coreSpigot);
+        nickAPI = coreSpigot.getModuleManager().getNickAPI();
+        nickCommand = coreSpigot.getModuleManager().getNickCommand();
     }
 
     public boolean isDisguised(Player player) {
@@ -77,17 +77,6 @@ public class NickManager {
                     SkinChanger.nick(player, new Nickname(UUIDFetcher.getUUID(nick), ChatColor.getByChar("7"), nick));
                     //Messages.success(player, "disguised", new Object[]{nick});
                     nickAPI.setPlayer(player, nick);
-                    new BukkitRunnable() {
-                        int timer = 1;
-
-                        @Override
-                        public void run() {
-                            if (timer == 0) {
-                                coreSpigot.getModuleManager().getTabList().setTabList(player);
-                                cancel();
-                            } else timer--;
-                        }
-                    }.runTaskTimer(coreSpigot, 0L, 10L);
                 } catch (Exception ex) {
                     //Messages.error(player, "error", new Object[0]);
                     undisguise(player);
@@ -122,17 +111,6 @@ public class NickManager {
             SkinChanger.unNick(player);
         }
         nickAPI.deletePlayer(player);
-        new BukkitRunnable() {
-            int timer = 2;
-
-            @Override
-            public void run() {
-                if (timer == 0) {
-                    coreSpigot.getModuleManager().getTabList().setTabList(player);
-                    cancel();
-                } else timer--;
-            }
-        }.runTaskTimer(coreSpigot, 0L, 20L);
     }
 
     private int getRandomNumber(int min, int max) {

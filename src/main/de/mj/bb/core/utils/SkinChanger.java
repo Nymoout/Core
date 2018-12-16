@@ -33,24 +33,25 @@ public class SkinChanger {
     private static ProtocolManager protocolManager;
     private static Method fillProfilePropertiesMethod;
     private static Object sessionServiceObject;
-    private static LoadingCache<String, Collection<WrappedSignedProperty>> cachedTextures = CacheBuilder.newBuilder().expireAfterWrite(1L, TimeUnit.HOURS)
-            .build(new CacheLoader<String, Collection<WrappedSignedProperty>>() {
-                public Collection<WrappedSignedProperty> load(String name)
-                        throws ReflectiveOperationException {
-                    Player player = Bukkit.getPlayer(name);
-                    WrappedGameProfile profile;
-                    if (player != null) {
-                        profile = WrappedGameProfile.fromPlayer(player);
-                    } else {
-                        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(name);
-                        profile = WrappedGameProfile.fromOfflinePlayer(offlinePlayer);
-                        profile = fillProfileProperties(profile);
-                    }
-                    return profile.getProperties().get("textures");
-                }
-            });
+    private static LoadingCache<String, Collection<WrappedSignedProperty>> cachedTextures;
 
     static {
+        cachedTextures = CacheBuilder.newBuilder().expireAfterWrite(1L, TimeUnit.HOURS)
+                .build(new CacheLoader<String, Collection<WrappedSignedProperty>>() {
+                    public Collection<WrappedSignedProperty> load(String name)
+                            throws ReflectiveOperationException {
+                        Player player = Bukkit.getPlayer(name);
+                        WrappedGameProfile profile;
+                        if (player != null) {
+                            profile = WrappedGameProfile.fromPlayer(player);
+                        } else {
+                            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(name);
+                            profile = WrappedGameProfile.fromOfflinePlayer(offlinePlayer);
+                            profile = fillProfileProperties(profile);
+                        }
+                        return profile.getProperties().get("textures");
+                    }
+                });
         protocolManager = ProtocolLibrary.getProtocolManager();
         listenToPlayerInfo();
     }
