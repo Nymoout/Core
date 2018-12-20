@@ -10,8 +10,6 @@ package main.de.mj.bb.core.sql;
 
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.utils.PlayerLevel;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -301,99 +299,102 @@ public class SettingsAPI {
             AsyncMySQL.update("UPDATE LobbyConf SET LEVEL='" + 2 + "' WHERE UUID='" + uuid + "'");
     }
 
-    public void getFriends(Player p) {
+    public boolean getFriends(Player p) {
         UUID uuid = p.getUniqueId();
-        amsql.query("SELECT * FROM ScoreConf WHERE UUID='" + uuid + "'", rs -> {
-                    try {
-                        if (rs.next()) {
-                            Integer.valueOf(rs.getInt("FRIENDS"));
-                        }
-                        if ((rs.getInt("FRIENDS")) == 1) {
-                            coreSpigot.getModuleManager().getSettingsListener().getScoreFriends().add(p);
-                        } else {
-                            coreSpigot.getModuleManager().getSettingsListener().getScoreFriends().remove(p);
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
+        String query = "SELECT * FROM ScoreConf WHERE UUID='" + uuid + "'";
+        Statement statement = amsql.prepare(query);
+        try {
+            ResultSet resultSet = statement.executeQuery(query);
+            resultSet.next();
+            if (resultSet.getInt("FRIENDS") == 1) {
+                coreSpigot.getModuleManager().getSettingsListener().getScoreFriends().add(p);
+                return true;
+            } else {
+                coreSpigot.getModuleManager().getSettingsListener().getScoreFriends().remove(p);
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public void getRang(Player p) {
+    public boolean getRang(Player p) {
         UUID uuid = p.getUniqueId();
-        amsql.query("SELECT * FROM ScoreConf WHERE UUID='" + uuid + "'", rs -> {
-                    try {
-                        if (rs.next()) {
-                            Integer.valueOf(rs.getInt("RANG"));
-                        }
-                        if ((rs.getInt("RANG")) == 1) {
-                            coreSpigot.getModuleManager().getSettingsListener().getScoreRank().add(p);
-                        } else {
-                            coreSpigot.getModuleManager().getSettingsListener().getScoreRank().remove(p);
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
+        String query = "SELECT * FROM ScoreConf WHERE UUID='" + uuid + "'";
+        Statement statement = amsql.prepare(query);
+        try {
+            ResultSet resultSet = statement.executeQuery(query);
+            resultSet.next();
+            if (resultSet.getInt("RANG") == 1) {
+                coreSpigot.getModuleManager().getSettingsListener().getScoreRank().add(p);
+                return true;
+            } else {
+                coreSpigot.getModuleManager().getSettingsListener().getScoreRank().remove(p);
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public void getServer(Player p) {
+    public boolean getServer(Player p) {
         UUID uuid = p.getUniqueId();
-        amsql.query("SELECT * FROM ScoreConf WHERE UUID='" + uuid + "'", rs -> {
-                    try {
-                        if (rs.next()) {
-                            Integer.valueOf(rs.getInt("SERVER"));
-                        }
-                        if ((rs.getInt("SERVER")) == 1) {
-                            coreSpigot.getModuleManager().getSettingsListener().getScoreServer().add(p);
-                        } else {
-                            coreSpigot.getModuleManager().getSettingsListener().getScoreServer().remove(p);
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
+        String query = "SELECT * FROM ScoreConf WHERE UUID='" + uuid + "'";
+        Statement statement = amsql.prepare(query);
+        try {
+            ResultSet resultSet = statement.executeQuery(query);
+            resultSet.next();
+            if (resultSet.getInt("SERVER") == 1) {
+                coreSpigot.getModuleManager().getSettingsListener().getScoreServer().add(p);
+                return true;
+            } else {
+                coreSpigot.getModuleManager().getSettingsListener().getScoreServer().remove(p);
+                return false;
+            }
+        } catch (SQLException e) {
+            return false;
+        }
     }
 
-    public void getClan(Player p) {
+    public boolean getClan(Player p) {
         UUID uuid = p.getUniqueId();
-        amsql.query("SELECT * FROM ScoreConf WHERE UUID='" + uuid + "'", rs -> {
-                    try {
-                        if (rs.next()) {
-                            Integer.valueOf(rs.getInt("CLAN"));
-                        }
-                        if ((rs.getInt("CLAN")) == 1) {
-                            coreSpigot.getModuleManager().getSettingsListener().getScoreClan().add(p);
-                        } else {
-                            coreSpigot.getModuleManager().getSettingsListener().getScoreClan().remove(p);
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
+        String query = "SELECT * FROM ScoreConf WHERE UUID='" + uuid + "'";
+        Statement statement = amsql.prepare(query);
+        try {
+            ResultSet resultSet = statement.executeQuery(query);
+            resultSet.next();
+            if (resultSet.getInt("CLAN") == 1) {
+                coreSpigot.getModuleManager().getSettingsListener().getScoreClan().add(p);
+                return true;
+            } else {
+                coreSpigot.getModuleManager().getSettingsListener().getScoreClan().remove(p);
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public void getCoins(Player p) {
+    public boolean getCoins(Player p) {
         UUID uuid = p.getUniqueId();
-        amsql.query("SELECT * FROM ScoreConf WHERE UUID='" + uuid + "'", rs -> {
-                    try {
-                        if (rs.next()) {
-                            Integer.valueOf(rs.getInt("COINS"));
-                        }
-                        if ((rs.getInt("COINS")) == 1) {
-                            coreSpigot.getModuleManager().getSettingsListener().getScoreCoins().add(p);
-                        } else {
-                            coreSpigot.getModuleManager().getSettingsListener().getScoreCoins().remove(p);
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
+        String query = "SELECT * FROM ScoreConf WHERE UUID='" + uuid + "'";
+        Statement statement = amsql.prepare(query);
+        try {
+            ResultSet resultSet = statement.executeQuery(query);
+            resultSet.next();
+            if (resultSet.getInt("COINS") == 1) {
+                coreSpigot.getModuleManager().getSettingsListener().getScoreCoins().add(p);
+                return true;
+            } else {
+                coreSpigot.getModuleManager().getSettingsListener().getScoreCoins().remove(p);
+                return false;
+            }
+        } catch (SQLException e) {
+            return false;
+        }
     }
 
     public void getRealTime(Player p) {
@@ -420,23 +421,24 @@ public class SettingsAPI {
         );
     }
 
-    public void getTime(Player p) {
+    public boolean getTime(Player p) {
         UUID uuid = p.getUniqueId();
-        amsql.query("SELECT * FROM ScoreConf WHERE UUID='" + uuid + "'", rs -> {
-                    try {
-                        if (rs.next()) {
-                            Integer.valueOf(rs.getInt("TIME"));
-                        }
-                        if ((rs.getInt("TIME")) == 1) {
-                            coreSpigot.getModuleManager().getSettingsListener().getScoreTime().add(p);
-                        } else {
-                            coreSpigot.getModuleManager().getSettingsListener().getScoreTime().remove(p);
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
+        String query = "SELECT * FROM ScoreConf WHERE UUID='" + uuid + "'";
+        Statement statement = amsql.prepare(query);
+        try {
+            ResultSet resultSet = statement.executeQuery(query);
+            resultSet.next();
+            if (resultSet.getInt("TIME") == 1) {
+                coreSpigot.getModuleManager().getSettingsListener().getScoreTime().add(p);
+                return true;
+            } else {
+                coreSpigot.getModuleManager().getSettingsListener().getScoreTime().remove(p);
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public void getWeather(Player p) {

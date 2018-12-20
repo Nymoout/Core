@@ -41,11 +41,11 @@ public class ModuleManager {
     private FileManager fileManager;
     private PortalManager portalManager;
     private NickManager nickManager;
+    private ScoreboardManager scoreboardManager;
 
     //sql
     private AsyncMySQL asyncMySQL;
     private NickAPI nickAPI;
-    private ServerStatsAPI serverStatsAPI;
     private SettingsAPI settingsAPI;
     private SpawnLocationAPI spawnLocationAPI;
 
@@ -58,7 +58,7 @@ public class ModuleManager {
     private PlayerRealTime playerRealTime;
     private SchedulerSaver schedulerSaver;
     private SetLocations setLocations;
-    private TabList tabList;
+    //private TabList tabList;
     private TicksPerSecond ticksPerSecond;
     private Data data;
 
@@ -74,8 +74,8 @@ public class ModuleManager {
         data = new Data();
         asyncMySQL = new AsyncMySQL(coreSpigot);
         MySQLLoader mySQLLoader = new MySQLLoader(coreSpigot);
-        serverStatsAPI = new ServerStatsAPI(coreSpigot);
-        serverStatsAPI.createTable();
+        //serverStatsAPI = new ServerStatsAPI(coreSpigot);
+        //serverStatsAPI.createTable();
         schedulerSaver = new SchedulerSaver();
         fileManager = new FileManager(coreSpigot);
         fileManager.loadConfigFile();
@@ -154,15 +154,13 @@ public class ModuleManager {
             locationsUtil = new LocationsUtil();
             new Particle();
             playerRealTime = new PlayerRealTime(coreSpigot);
-            ScoreboardManager scoreboardManager = new ScoreboardManager(coreSpigot);
+            scoreboardManager = new ScoreboardManager(coreSpigot);
             setLocations = new SetLocations(coreSpigot);
-            tabList = new TabList(coreSpigot);
-            tabList.createTabList();
             getSchedulerSaver().createScheduler(
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            Bukkit.getOnlinePlayers().forEach(all -> tabList.setTabList(all));
+                            Bukkit.getOnlinePlayers().forEach(all -> scoreboardManager.updateScoreboard(all));
                         }
                     }.runTaskTimer(coreSpigot, 0L, 20L * 5)
             );
@@ -172,17 +170,17 @@ public class ModuleManager {
             mySQLLoader.loadMySQL();
             setLocations.saveLocs();
             playerRealTime.setPlayerRealTime();
-            scoreboardManager.ScoreboardActu();
             lobbyParticle.playEnderSignal();
             lobbyParticle.playEnchantment();
         } else if (serverType.equals(ServerType.DEFAULT) || serverType.equals(ServerType.PLUGIN_TEST_SERVER)) {
             data = new Data();
-            tabList = new TabList(coreSpigot);
-            tabList.createTabList();
+            //tabList = new TabList(coreSpigot);
+            //tabList.createTabList();
             new JoinListener(coreSpigot);
             new ChatListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
             mySQLLoader.loadMySQL();
+            /*
             getSchedulerSaver().createScheduler(
                     new BukkitRunnable() {
                         @Override
@@ -191,23 +189,25 @@ public class ModuleManager {
                         }
                     }.runTaskTimer(coreSpigot, 0L, 20L)
             );
+            */
         } else if (serverType.equals(ServerType.SKY_PVP)) {
             data = new Data();
-            tabList = new TabList(coreSpigot);
-            tabList.createTabList();
+            //tabList = new TabList(coreSpigot);
+            //tabList.createTabList();
             new JoinListener(coreSpigot);
             new ChatListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
         } else if (serverType.equals(ServerType.CITY_BUILD)) {
             data = new Data();
-            tabList = new TabList(coreSpigot);
-            tabList.createTabList();
+            //tabList = new TabList(coreSpigot);
+            //tabList.createTabList();
             new JoinListener(coreSpigot);
             new ChatListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
             fileManager = new FileManager(coreSpigot);
             new ChestCommand(coreSpigot);
             new BlockPlaceChestListener(coreSpigot);
+            /*
             getSchedulerSaver().createScheduler(
                     new BukkitRunnable() {
                         @Override
@@ -216,12 +216,13 @@ public class ModuleManager {
                         }
                     }.runTaskTimer(coreSpigot, 0L, 20L * 5)
             );
+            */
         } else if (serverType.equals(ServerType.BAU_SERVER)) {
             new CancelWeatherListener(coreSpigot);
             new FlyWalkSpeedCommand(coreSpigot);
             data = new Data();
-            tabList = new TabList(coreSpigot);
-            tabList.createTabList();
+            //tabList = new TabList(coreSpigot);
+            //tabList.createTabList();
             new SetPortalCommand(coreSpigot);
             portalManager = new PortalManager(coreSpigot);
             new Portal();
@@ -238,6 +239,7 @@ public class ModuleManager {
             new SetLocCommand(coreSpigot);
             fileManager.loadPortalConfig();
             portalManager.loadPortals();
+            /*
             getSchedulerSaver().createScheduler(
                     new BukkitRunnable() {
                         @Override
@@ -246,6 +248,7 @@ public class ModuleManager {
                         }
                     }.runTaskTimer(coreSpigot, 0L, 20L * 5)
             );
+            */
         } else if (serverType.equals(ServerType.BED_WARS)) {
             new CancelWeatherListener(coreSpigot);
             data = new Data();
@@ -255,8 +258,8 @@ public class ModuleManager {
         } else if (serverType.equals(ServerType.VORBAUEN)) {
             new CancelWeatherListener(coreSpigot);
             data = new Data();
-            tabList = new TabList(coreSpigot);
-            tabList.createTabList();
+            //tabList = new TabList(coreSpigot);
+            //tabList.createTabList();
             new GMCommand(coreSpigot);
             tpsCommand = new TPSCommand(coreSpigot);
             new ChestCommand(coreSpigot);
@@ -355,10 +358,6 @@ public class ModuleManager {
         return nickAPI;
     }
 
-    public ServerStatsAPI getServerStatsAPI() {
-        return serverStatsAPI;
-    }
-
     public SettingsAPI getSettingsAPI() {
         return settingsAPI;
     }
@@ -387,9 +386,9 @@ public class ModuleManager {
         return setLocations;
     }
 
-    public TabList getTabList() {
-        return tabList;
-    }
+    //public TabList getTabList() {
+    //    return tabList;
+    //}
 
     public TicksPerSecond getTicksPerSecond() {
         return ticksPerSecond;
@@ -397,5 +396,9 @@ public class ModuleManager {
 
     public Data getData() {
         return data;
+    }
+
+    public ScoreboardManager getScoreboardManager() {
+        return scoreboardManager;
     }
 }

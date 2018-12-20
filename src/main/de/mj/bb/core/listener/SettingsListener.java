@@ -461,6 +461,8 @@ public class SettingsListener implements Listener {
             }.runTaskTimer(coreSpigot, 0L, 10L);
             setInv(player);
             player.openInventory(invent1.get(player));
+            coreSpigot.getModuleManager().getScoreboardManager().sendStartScoreboard(player);
+            coreSpigot.getModuleManager().getScoreboardManager().sendScoreboard(player);
         }
     }
 
@@ -577,7 +579,7 @@ public class SettingsListener implements Listener {
                 lobby.getSettingsAPI().setServer(player, true);
                 player.updateInventory();
             }
-        } else if (clickEvent.getCurrentItem().getType().equals(Material.WATCH) && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§6Online-Zeit")) {
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.WATCH) && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§f§lOnline-Zeit")) {
             if (scoreTime.contains(player)) {
                 scoreTime.remove(player);
                 score1.get(player).setItem(25, lobby.getItemCreator().createItemWithMaterial(Material.INK_SACK, 8, 1, "§cDeaktiviert ✗"));
@@ -591,7 +593,11 @@ public class SettingsListener implements Listener {
                 score1.get(player).setItem(25, lobby.getItemCreator().createItemWithMaterial(Material.INK_SACK, 10, 1, "§aAktiviert ✔"));
                 lobby.getSettingsAPI().setTime(player, true);
             }
+        } else if (clickEvent.getCurrentItem().getType().equals(Material.SKULL_ITEM) && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§6⇽ Hauptmenü")) {
+            player.openInventory(invent1.get(player));
         }
+        coreSpigot.getModuleManager().getScoreboardManager().sendStartScoreboard(player);
+        coreSpigot.getModuleManager().getScoreboardManager().sendScoreboard(player);
     }
 
     private void setScore(Player player) {
@@ -649,6 +655,7 @@ public class SettingsListener implements Listener {
         } else {
             inv1.setItem(25, lobby.getItemCreator().createItemWithMaterial(Material.INK_SACK, 8, 1, "§cDeaktiviert ✗"));
         }
+        inv1.setItem(27, CraftItemStack.asBukkitCopy(skulls.get("main")));
 
         score1.put(player, inv1);
 
@@ -825,6 +832,9 @@ public class SettingsListener implements Listener {
 
         ItemStack next = coreSpigot.getModuleManager().getItemCreator().createItemWithSkull("f32ca66056b72863e98f7f32bd7d94c7a0d796af691c9ac3a9136331352288f9", 1, "§6Nächste Seite ⇾", false);
         skulls.put("next", CraftItemStack.asNMSCopy(next));
+
+        ItemStack main = coreSpigot.getModuleManager().getItemCreator().createItemWithSkull("86971dd881dbaf4fd6bcaa93614493c612f869641ed59d1c9363a3666a5fa6", 1, "§6⇽ Hauptmenü", false);
+        skulls.put("main", CraftItemStack.asNMSCopy(main));
     }
 
 

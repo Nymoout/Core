@@ -8,6 +8,7 @@
 package main.de.mj.bb.core.listener;
 
 import main.de.mj.bb.core.CoreSpigot;
+import main.de.mj.bb.core.sql.SettingsAPI;
 import main.de.mj.bb.core.utils.ImageChar;
 import main.de.mj.bb.core.utils.ImageMessage;
 import main.de.mj.bb.core.utils.PlayerLevel;
@@ -28,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,51 +47,54 @@ public class JoinListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent joinEvent) {
         Player player = joinEvent.getPlayer();
-        //*coreSpigot.getGameAPI().getCoinsAPI().registerPlayer(player.getUniqueId());
-        if (coreSpigot.getModuleManager().getServerType().equals(ServerType.BAU_SERVER) || coreSpigot.getModuleManager().getServerType().equals(ServerType.PLUGIN_TEST_SERVER)) {
+        ServerType serverType = coreSpigot.getModuleManager().getServerType();
+        SettingsListener settingsListener = coreSpigot.getModuleManager().getSettingsListener();
+        SettingsAPI settingsAPI = coreSpigot.getModuleManager().getSettingsAPI();
+        //coreSpigot.getGameAPI().getCoinsAPI().registerPlayer(player.getUniqueId());
+        if (serverType.equals(ServerType.BAU_SERVER) || serverType.equals(ServerType.PLUGIN_TEST_SERVER)) {
             if (!player.hasPermission("player.team")) {
                 player.kickPlayer("");
             }
         }
-        if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
+        if (serverType.equals(ServerType.LOBBY)) {
             //noinspection deprecation
             player.sendTitle("§c✘ §6BattleBuild§c ✘", "✘ Willkommen " + player.getName() + " ✘");
             coreSpigot.getModuleManager().getSettingsListener().loadSkulls(player);
             player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "Bitte warte einen Moment, deine §eEinstellungen §7werden geladen!");
-            if (!coreSpigot.getModuleManager().getSettingsAPI().checkPlayer(player)) {
-                coreSpigot.getModuleManager().getSettingsListener().getRideState().add(player);
-                coreSpigot.getModuleManager().getSettingsListener().getColor().put(player, "6");
-                coreSpigot.getModuleManager().getSettingsListener().getScoreClan().add(player);
-                coreSpigot.getModuleManager().getSettingsListener().getScoreCoins().add(player);
-                coreSpigot.getModuleManager().getSettingsListener().getScoreFriends().add(player);
-                coreSpigot.getModuleManager().getSettingsListener().getScoreRank().add(player);
-                coreSpigot.getModuleManager().getSettingsListener().getScoreServer().add(player);
-                coreSpigot.getModuleManager().getSettingsListener().getJumpPads().add(player);
-                coreSpigot.getModuleManager().getSettingsListener().getWeather().add(player);
-                coreSpigot.getModuleManager().getSettingsListener().getSpawnLocation().add(player);
-                coreSpigot.getModuleManager().getSettingsListener().getPlayerLevel().put(player, PlayerLevel.YEAR);
+            if (!settingsAPI.checkPlayer(player)) {
+                settingsListener.getRideState().add(player);
+                settingsListener.getColor().put(player, "6");
+                settingsListener.getScoreClan().add(player);
+                settingsListener.getScoreCoins().add(player);
+                settingsListener.getScoreFriends().add(player);
+                settingsListener.getScoreRank().add(player);
+                settingsListener.getScoreServer().add(player);
+                settingsListener.getJumpPads().add(player);
+                settingsListener.getWeather().add(player);
+                settingsListener.getSpawnLocation().add(player);
+                settingsListener.getPlayerLevel().put(player, PlayerLevel.YEAR);
                 player.setPlayerWeather(WeatherType.CLEAR);
                 coreSpigot.getHookManager().getEconomy().depositPlayer(player, 1000);
             }
             player.setGameMode(GameMode.ADVENTURE);
             joinEvent.setJoinMessage(null);
             try {
-                coreSpigot.getModuleManager().getSettingsAPI().createPlayer(player);
-                coreSpigot.getModuleManager().getSettingsAPI().createScorePlayer(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getColor(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getRide(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getFriends(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getRang(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getServer(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getClan(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getCoins(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getRealTime(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getWeather(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getDoubleJump(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getWjump(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getJumPlate(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getTime(player);
-                coreSpigot.getModuleManager().getSettingsAPI().getLevel(player);
+                settingsAPI.createPlayer(player);
+                settingsAPI.createScorePlayer(player);
+                settingsAPI.getColor(player);
+                settingsAPI.getRide(player);
+                settingsAPI.getFriends(player);
+                settingsAPI.getRang(player);
+                settingsAPI.getServer(player);
+                settingsAPI.getClan(player);
+                settingsAPI.getCoins(player);
+                settingsAPI.getRealTime(player);
+                settingsAPI.getWeather(player);
+                settingsAPI.getDoubleJump(player);
+                settingsAPI.getWjump(player);
+                settingsAPI.getJumPlate(player);
+                settingsAPI.getTime(player);
+                settingsAPI.getLevel(player);
                 if (coreSpigot.getModuleManager().getSettingsAPI().getLevel(player).equals(PlayerLevel.LOBBY)) {
                     String[] serverName = player.getServer().getServerName().split("-");
                     int server = Integer.parseInt(serverName[1]);
@@ -111,7 +116,6 @@ public class JoinListener implements Listener {
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
-            coreSpigot.getModuleManager().getTabList().setTabList(player);
             new BukkitRunnable() {
                 int i = 1;
 
@@ -143,7 +147,9 @@ public class JoinListener implements Listener {
             ItemStack is = coreSpigot.getModuleManager().getItemCreator().createItemWithPlayer(player.getUniqueId().toString(), 1, "§8\u00BB§9§lDein Profil§8\u00AB");
             player.getInventory().setItem(8, is);
 
-            Bukkit.getOnlinePlayers().forEach(all -> coreSpigot.getModuleManager().getTabList().setTabList(all));
+            coreSpigot.getModuleManager().getScoreboardManager().sendStartScoreboard(player);
+            coreSpigot.getModuleManager().getScoreboardManager().sendScoreboard(player);
+            Bukkit.getOnlinePlayers().forEach(all -> coreSpigot.getModuleManager().getScoreboardManager().updatePrefix(all));
 
             try {
                 URL head = new URL("https://minotar.net/avatar/" + player.getName() + "/8.png");
@@ -152,7 +158,7 @@ public class JoinListener implements Listener {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.VORBAUEN)) {
+        } else if (serverType.equals(ServerType.VORBAUEN)) {
             joinEvent.setJoinMessage(null);
             player.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§aWillkommen auf dem Vorbau Server!");
             player.getInventory().clear();
@@ -160,29 +166,16 @@ public class JoinListener implements Listener {
             player.setGameMode(GameMode.CREATIVE);
         }
 
-        summonFireWork(player);
-        waitMySQL(player, coreSpigot.getModuleManager().getServerType());
-        coreSpigot.getModuleManager().getNickAPI().getPlayerNick(player);
-    }
-
-    private void waitMySQL(Player player, ServerType serverType) {
-        coreSpigot.getModuleManager().getSchedulerSaver().createScheduler(new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (!serverType.equals(ServerType.LOBBY)) {
-                    try {
-                        coreSpigot.getModuleManager().getServerStatsAPI().updatePlayed(player, coreSpigot.getModuleManager().getServerStatsAPI().getPlayedInt(player, Bukkit.getServerName()) + 1, Bukkit.getServerName());
-                        coreSpigot.getModuleManager().getServerStatsAPI().createPlayer(player);
-                        coreSpigot.getModuleManager().getServerStatsAPI().getPlayed(player);
-                        coreSpigot.getModuleManager().getFileManager().getColorConfig().set(player.getUniqueId().toString(), getFinalColor(coreSpigot.getModuleManager().getSettingsAPI().getColorString(player)));
-                        coreSpigot.getModuleManager().getFileManager().getColorConfig().save(coreSpigot.getModuleManager().getFileManager().getColorFile());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+        if (!serverType.equals(ServerType.LOBBY)) {
+            coreSpigot.getModuleManager().getFileManager().getColorConfig().set(player.getUniqueId().toString(), getFinalColor(coreSpigot.getModuleManager().getSettingsAPI().getColorString(player)));
+            try {
+                coreSpigot.getModuleManager().getFileManager().getColorConfig().save(coreSpigot.getModuleManager().getFileManager().getColorFile());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }.runTaskTimer(coreSpigot, 0L, 20L));
-        coreSpigot.getModuleManager().getTabList().setTabList(player);
+        }
+        summonFireWork(player);
+        coreSpigot.getModuleManager().getNickAPI().getPlayerNick(player);
     }
 
     private void summonFireWork(Player player) {
