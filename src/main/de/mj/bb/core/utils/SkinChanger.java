@@ -27,7 +27,6 @@ import java.util.concurrent.TimeUnit;
 
 public class SkinChanger {
 
-    protected static final String TEXTURES_KEY = "textures";
     private static final CoreSpigot coreSpigot = CoreSpigot.getInstance();
     private static Map<UUID, Nickname> nicks = new HashMap<>();
     private static ProtocolManager protocolManager;

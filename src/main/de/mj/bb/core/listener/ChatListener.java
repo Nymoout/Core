@@ -60,7 +60,7 @@ public class ChatListener implements Listener {
                 playerChatEvent.setFormat(prefix.replace("&", "§") + player.getName() + suffix.replace("&", "§") + pmsg.replace("<3", "\u2764").replace(":3", "\u2764"));
             }
         } else {
-            playerChatEvent.setFormat("§7Spieler§8 | §7" + coreSpigot.getNickManager().getPlayerName().get(player) + "§8 » §7" + pmsg.replace("<3", "\u2764").replace(":3", "\u2764"));
+            playerChatEvent.setFormat("§7Spieler§8 | §7" + coreSpigot.getModuleManager().getNickManager().getPlayerName().get(player) + "§8 » §7" + pmsg.replace("<3", "\u2764").replace(":3", "\u2764"));
         }
     }
 }

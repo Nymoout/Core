@@ -147,10 +147,6 @@ public class JoinListener implements Listener {
             ItemStack is = coreSpigot.getModuleManager().getItemCreator().createItemWithPlayer(player.getUniqueId().toString(), 1, "§8\u00BB§9§lDein Profil§8\u00AB");
             player.getInventory().setItem(8, is);
 
-            coreSpigot.getModuleManager().getScoreboardManager().sendStartScoreboard(player);
-            coreSpigot.getModuleManager().getScoreboardManager().sendScoreboard(player);
-            Bukkit.getOnlinePlayers().forEach(all -> coreSpigot.getModuleManager().getScoreboardManager().updatePrefix(all));
-
             try {
                 URL head = new URL("https://minotar.net/avatar/" + player.getName() + "/8.png");
                 BufferedImage image = ImageIO.read(head);
@@ -176,6 +172,7 @@ public class JoinListener implements Listener {
         }
         summonFireWork(player);
         coreSpigot.getModuleManager().getNickAPI().getPlayerNick(player);
+        coreSpigot.getModuleManager().getScoreboardManager().setScoreboard(player);
     }
 
     private void summonFireWork(Player player) {

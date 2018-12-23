@@ -124,6 +124,23 @@ public class HookManager {
             }
         }
         if (serverType.equals(ServerType.SKY_PVP)) {
+            sender.sendMessage(prefix + "§6try to hook into FriendsAPIForPartyAndFriends...");
+            if (coreSpigot.getServer().getPluginManager().getPlugin("FriendsAPIForPartyAndFriends") != null) {
+                this.pafPlayerManager = PAFPlayerManager.getInstance();
+                sender.sendMessage(prefix + "§6hooked into: FriendsAPIForPartyAndFriends");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - FriendsAPIForPartyAndFriends wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
+                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
+            }
+
+            sender.sendMessage(prefix + "§5try to hook into Clans-Spigot-Part...");
+            if (coreSpigot.getServer().getPluginManager().getPlugin("Clans-Spigot-Part") != null) {
+                this.clansManager = ClansManager.getInstance();
+                sender.sendMessage(prefix + "§5hooked into: Clans-Spigot-Part");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - Clans-Spigot-Part wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
+                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
+            }
             sender.sendMessage(prefix + "§dtry to hook into LuckPerms...");
             if (coreSpigot.getServer().getPluginManager().getPlugin("LuckPerms") != null) {
                 this.luckPermsApi = LuckPerms.getApi();
@@ -144,6 +161,23 @@ public class HookManager {
             }
         }
         if (serverType.equals(ServerType.CITY_BUILD)) {
+            sender.sendMessage(prefix + "§6try to hook into FriendsAPIForPartyAndFriends...");
+            if (coreSpigot.getServer().getPluginManager().getPlugin("FriendsAPIForPartyAndFriends") != null) {
+                this.pafPlayerManager = PAFPlayerManager.getInstance();
+                sender.sendMessage(prefix + "§6hooked into: FriendsAPIForPartyAndFriends");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - FriendsAPIForPartyAndFriends wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
+                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
+            }
+
+            sender.sendMessage(prefix + "§5try to hook into Clans-Spigot-Part...");
+            if (coreSpigot.getServer().getPluginManager().getPlugin("Clans-Spigot-Part") != null) {
+                this.clansManager = ClansManager.getInstance();
+                sender.sendMessage(prefix + "§5hooked into: Clans-Spigot-Part");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - Clans-Spigot-Part wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
+                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
+            }
             sender.sendMessage(prefix + "§dtry to hook into LuckPerms...");
             if (coreSpigot.getServer().getPluginManager().getPlugin("LuckPerms") != null) {
                 this.luckPermsApi = LuckPerms.getApi();
@@ -164,6 +198,23 @@ public class HookManager {
             }
         }
         if (serverType.equals(ServerType.DEFAULT)) {
+            sender.sendMessage(prefix + "§6try to hook into FriendsAPIForPartyAndFriends...");
+            if (coreSpigot.getServer().getPluginManager().getPlugin("FriendsAPIForPartyAndFriends") != null) {
+                this.pafPlayerManager = PAFPlayerManager.getInstance();
+                sender.sendMessage(prefix + "§6hooked into: FriendsAPIForPartyAndFriends");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - FriendsAPIForPartyAndFriends wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
+                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
+            }
+
+            sender.sendMessage(prefix + "§5try to hook into Clans-Spigot-Part...");
+            if (coreSpigot.getServer().getPluginManager().getPlugin("Clans-Spigot-Part") != null) {
+                this.clansManager = ClansManager.getInstance();
+                sender.sendMessage(prefix + "§5hooked into: Clans-Spigot-Part");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - Clans-Spigot-Part wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
+                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
+            }
             sender.sendMessage(prefix + "§dtry to hook into LuckPerms...");
             if (coreSpigot.getServer().getPluginManager().getPlugin("LuckPerms") != null) {
                 this.luckPermsApi = LuckPerms.getApi();
@@ -184,6 +235,23 @@ public class HookManager {
             }
         }
         if (serverType.equals(ServerType.BAU_SERVER)) {
+            sender.sendMessage(prefix + "§6try to hook into FriendsAPIForPartyAndFriends...");
+            if (coreSpigot.getServer().getPluginManager().getPlugin("FriendsAPIForPartyAndFriends") != null) {
+                this.pafPlayerManager = PAFPlayerManager.getInstance();
+                sender.sendMessage(prefix + "§6hooked into: FriendsAPIForPartyAndFriends");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - FriendsAPIForPartyAndFriends wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
+                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
+            }
+
+            sender.sendMessage(prefix + "§5try to hook into Clans-Spigot-Part...");
+            if (coreSpigot.getServer().getPluginManager().getPlugin("Clans-Spigot-Part") != null) {
+                this.clansManager = ClansManager.getInstance();
+                sender.sendMessage(prefix + "§5hooked into: Clans-Spigot-Part");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - Clans-Spigot-Part wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
+                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
+            }
             sender.sendMessage(prefix + "§dtry to hook into LuckPerms...");
             if (coreSpigot.getServer().getPluginManager().getPlugin("LuckPerms") != null) {
                 this.luckPermsApi = LuckPerms.getApi();
@@ -204,6 +272,23 @@ public class HookManager {
             }
         }
         if (serverType.equals(ServerType.BED_WARS)) {
+            sender.sendMessage(prefix + "§6try to hook into FriendsAPIForPartyAndFriends...");
+            if (coreSpigot.getServer().getPluginManager().getPlugin("FriendsAPIForPartyAndFriends") != null) {
+                this.pafPlayerManager = PAFPlayerManager.getInstance();
+                sender.sendMessage(prefix + "§6hooked into: FriendsAPIForPartyAndFriends");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - FriendsAPIForPartyAndFriends wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
+                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
+            }
+
+            sender.sendMessage(prefix + "§5try to hook into Clans-Spigot-Part...");
+            if (coreSpigot.getServer().getPluginManager().getPlugin("Clans-Spigot-Part") != null) {
+                this.clansManager = ClansManager.getInstance();
+                sender.sendMessage(prefix + "§5hooked into: Clans-Spigot-Part");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - Clans-Spigot-Part wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
+                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
+            }
             sender.sendMessage(prefix + "§dtry to hook into LuckPerms...");
             if (coreSpigot.getServer().getPluginManager().getPlugin("LuckPerms") != null) {
                 this.luckPermsApi = LuckPerms.getApi();
@@ -226,6 +311,23 @@ public class HookManager {
             return;
         }
         if (serverType.equals(ServerType.VORBAUEN)) {
+            sender.sendMessage(prefix + "§6try to hook into FriendsAPIForPartyAndFriends...");
+            if (coreSpigot.getServer().getPluginManager().getPlugin("FriendsAPIForPartyAndFriends") != null) {
+                this.pafPlayerManager = PAFPlayerManager.getInstance();
+                sender.sendMessage(prefix + "§6hooked into: FriendsAPIForPartyAndFriends");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - FriendsAPIForPartyAndFriends wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
+                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
+            }
+
+            sender.sendMessage(prefix + "§5try to hook into Clans-Spigot-Part...");
+            if (coreSpigot.getServer().getPluginManager().getPlugin("Clans-Spigot-Part") != null) {
+                this.clansManager = ClansManager.getInstance();
+                sender.sendMessage(prefix + "§5hooked into: Clans-Spigot-Part");
+            } else {
+                sender.sendMessage(String.format("§c[%s] - Clans-Spigot-Part wasn't found - disable Plugin!", coreSpigot.getDescription().getName()));
+                coreSpigot.getServer().getPluginManager().disablePlugin(coreSpigot);
+            }
             sender.sendMessage(prefix + "§dtry to hook into PlotSquared...");
             if (coreSpigot.getServer().getPluginManager().getPlugin("PlotSquared") != null) {
                 this.protocolManager = ProtocolLibrary.getProtocolManager();
@@ -248,7 +350,7 @@ public class HookManager {
     private void blockTabComplete() {
         this.protocolManager.addPacketListener(new PacketAdapter(coreSpigot, ListenerPriority.HIGHEST, PacketType.Play.Client.TAB_COMPLETE) {
             public void onPacketReceiving(PacketEvent packetEvent) {
-                if (!packetEvent.getPlayer().isOp()) {
+                if (!packetEvent.getPlayer().hasPermission("player.team")) {
                     if (packetEvent.getPacketType() == PacketType.Play.Client.TAB_COMPLETE) {
                         try {
                             PacketContainer packetContainer = packetEvent.getPacket();

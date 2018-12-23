@@ -16,7 +16,6 @@ import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 public class UUIDFetcher {
-    public static final long FEBRUARY_2015 = 1422748800000L;
     private static final String UUID_URL = "https://api.mojang.com/users/profiles/minecraft/%s?at=%d";
     private static final String NAME_URL = "https://api.mojang.com/user/profiles/%s/names";
     private static Gson gson = new GsonBuilder().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();

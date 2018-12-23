@@ -24,7 +24,7 @@ public class NickAPI {
         mySQL.query("SELECT * FROM nicksystem WHERE uuid='" + player.getUniqueId() + "'", resultSet -> {
             try {
                 if (resultSet.next()) {
-                    coreSpigot.getNickManager().disguise(player);
+                    coreSpigot.getModuleManager().getNickManager().disguise(player);
                 }
             } catch (SQLException ignored) { }
         });

@@ -3,9 +3,8 @@ package main.de.mj.bb.core;
 import main.de.mj.bb.core.gameapi.GameAPI;
 import main.de.mj.bb.core.managers.HookManager;
 import main.de.mj.bb.core.managers.ModuleManager;
-import main.de.mj.bb.core.managers.NickManager;
-import main.de.mj.bb.core.sql.ColumnType;
 import main.de.mj.bb.core.managers.MongoManager;
+import main.de.mj.bb.core.sql.ColumnType;
 import main.de.mj.bb.core.utils.BanProcess;
 import main.de.mj.bb.core.utils.Data;
 import main.de.mj.bb.core.utils.ServerType;
@@ -17,6 +16,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.management.Attribute;
+import javax.management.AttributeList;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +39,6 @@ public class CoreSpigot extends JavaPlugin {
     private ConsoleCommandSender sender;
     private ModuleManager moduleManager;
     private HookManager hookManager;
-    private NickManager nickManager;
     private MongoManager mongoManager;
 
     private String prefix = new Data().getPrefix();
@@ -74,6 +77,10 @@ public class CoreSpigot extends JavaPlugin {
                 sender.sendMessage("§6§lPlugin-Version: §e" + coreSpigot.getDescription().getVersion());
                 sender.sendMessage("§4§lTPS: §c" + moduleManager.getTicksPerSecond().getTPS());
                 sender.sendMessage("§6§lOnline: §e" + getOnlinePlayersNameList(names));
+                try {
+                    sender.sendMessage("§9§lCPU-Load: §a" + getProcessCpuLoad());
+                } catch (Exception ignored) {
+                }
                 sender.sendMessage("§8§m--------------------------------------------§r");
             }
         }.runTaskTimer(this, 0L, 20L * 60 * 5);
@@ -141,7 +148,6 @@ public class CoreSpigot extends JavaPlugin {
         moduleManager = new ModuleManager(this, ServerType.DEFAULT);
         hookManager.hook(ServerType.DEFAULT);
         moduleManager.init();
-        setNickManager(new NickManager(this));
     }
 
     @Override
@@ -209,19 +215,28 @@ public class CoreSpigot extends JavaPlugin {
         return hookManager;
     }
 
-    public NickManager getNickManager() {
-        return nickManager;
-    }
-
-    public void setNickManager(NickManager nickManager) {
-        this.nickManager = nickManager;
-    }
-
     public String getPrefix() {
         return prefix;
     }
 
     public MongoManager getMongoManager() {
         return mongoManager;
+    }
+
+    public double getProcessCpuLoad() throws Exception {
+
+        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        ObjectName name = ObjectName.getInstance("java.lang:type=OperatingSystem");
+        AttributeList list = mbs.getAttributes(name, new String[]{"ProcessCpuLoad"});
+
+        if (list.isEmpty()) return Double.NaN;
+
+        Attribute att = (Attribute) list.get(0);
+        Double value = (Double) att.getValue();
+
+        // usually takes a couple of seconds before we get real values
+        if (value == -1.0) return Double.NaN;
+        // returns a percentage value with 1 decimal point precision
+        return ((int) (value * 1000) / 10.0);
     }
 }

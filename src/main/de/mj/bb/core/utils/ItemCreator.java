@@ -20,17 +20,13 @@ import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -114,6 +110,8 @@ public class ItemCreator {
                     coreSpigot.getModuleManager().getSettingsAPI().setValue(UUID.fromString(value), jsonArray.get(0).getAsJsonObject().getAsJsonPrimitive("value").getAsString());
                 } catch (IOException e) {
                     JsonParser jp = new JsonParser();
+                    if (coreSpigot.getModuleManager().getSettingsAPI().getValue(UUID.fromString(value)).equalsIgnoreCase("none"))
+                        getRawSkull(value, amount, isPlayer);
                     byte[] decoded = Base64.decodeBase64(coreSpigot.getModuleManager().getSettingsAPI().getValue(UUID.fromString(value)));
                     JsonElement element = jp.parse(new String(decoded));
                     JsonObject jsonObject = element.getAsJsonObject();

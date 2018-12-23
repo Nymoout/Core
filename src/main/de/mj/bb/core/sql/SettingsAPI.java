@@ -30,7 +30,7 @@ public class SettingsAPI {
 
     public void createPlayer(Player p) {
         UUID uuid = p.getUniqueId();
-        AsyncMySQL.update("INSERT INTO LobbyConf (UUID, COLOR, WJUMP, PJUMP, SILENT, RIDE, DJUMP, SPAWN, VALUE, LEVEL) SELECT '" + uuid + "', '1', '1', '1', '1', '1', '1', '0', 'none', '0' FROM DUAL WHERE NOT EXISTS (SELECT '*' FROM LobbyConf WHERE UUID = '" + uuid + "');");
+        AsyncMySQL.update("INSERT INTO LobbyConf (UUID, COLOR, WJUMP, PJUMP, SILENT, RIDE, DJUMP, SPAWN, VALUE, LEVEL) SELECT '" + uuid + "', '1', '1', '1', '1', '1', '1', '1', 'none', '0' FROM DUAL WHERE NOT EXISTS (SELECT '*' FROM LobbyConf WHERE UUID = '" + uuid + "');");
     }
 
     public void createScorePlayer(Player p) {

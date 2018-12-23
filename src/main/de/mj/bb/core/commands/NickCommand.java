@@ -23,14 +23,14 @@ public class NickCommand implements CommandExecutor {
             Player player = (Player) commandSender;
             if (player.hasPermission("server.nick")) {
                 if (command.getName().equals("nick")) {
-                    if (coreSpigot.getNickManager().isDisguised(player)) {
+                    if (coreSpigot.getModuleManager().getNickManager().isDisguised(player)) {
                         player.sendMessage("ERROR");
                     } else {
-                        coreSpigot.getNickManager().disguise(player);
+                        coreSpigot.getModuleManager().getNickManager().disguise(player);
                     }
                 } else if (command.getName().equals("unnick")) {
-                    if (coreSpigot.getNickManager().isDisguised(player)) {
-                        coreSpigot.getNickManager().undisguise(player);
+                    if (coreSpigot.getModuleManager().getNickManager().isDisguised(player)) {
+                        coreSpigot.getModuleManager().getNickManager().undisguise(player);
                     } else {
                         player.sendMessage("ERROR");
                     }

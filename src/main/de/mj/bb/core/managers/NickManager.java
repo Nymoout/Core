@@ -11,7 +11,6 @@ import main.de.mj.bb.core.utils.UUIDFetcher;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,9 +76,11 @@ public class NickManager {
                     SkinChanger.nick(player, new Nickname(UUIDFetcher.getUUID(nick), ChatColor.getByChar("7"), nick));
                     //Messages.success(player, "disguised", new Object[]{nick});
                     nickAPI.setPlayer(player, nick);
+                    coreSpigot.getModuleManager().getScoreboardManager().resetPrefix(player);
                 } catch (Exception ex) {
                     //Messages.error(player, "error", new Object[0]);
                     undisguise(player);
+                    coreSpigot.getModuleManager().getScoreboardManager().resetPrefix(player);
                     ex.printStackTrace();
                 }
             }, 10L);
@@ -111,6 +112,7 @@ public class NickManager {
             SkinChanger.unNick(player);
         }
         nickAPI.deletePlayer(player);
+        coreSpigot.getModuleManager().getScoreboardManager().resetPrefix(player);
     }
 
     private int getRandomNumber(int min, int max) {

@@ -5,14 +5,15 @@ import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import cloud.timo.TimoCloud.api.objects.PlayerObject;
 import de.simonsator.partyandfriends.spigot.api.pafplayers.PAFPlayer;
 import main.de.mj.bb.core.CoreSpigot;
+import main.de.mj.bb.core.sql.SettingsAPI;
 import main.de.mj.bb.core.utils.ServerType;
+import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.Contexts;
 import me.lucko.luckperms.api.LuckPermsApi;
 import me.lucko.luckperms.api.User;
 import me.lucko.luckperms.api.caching.MetaData;
 import me.lucko.luckperms.api.context.ContextManager;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -41,309 +42,26 @@ public class ScoreboardManager {
         luckPermsApi = coreSpigot.getHookManager().getLuckPermsApi();
     }
 
-    public void sendStartScoreboard(Player player) {
-        Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
-        String color = getFinalColor(coreSpigot.getModuleManager().getSettingsAPI().getColorString(player));
-        board.registerNewTeam("00-Admin").setPrefix("§4§lAdmin §8|§7 ");
-        board.registerNewTeam("01-SrMod").setPrefix("§c§lSrMod §8|§7 ");
-        board.registerNewTeam("02-Mod").setPrefix("§c§lMod §8|§7 ");
-        board.registerNewTeam("03-SrDev").setPrefix("§3§lSrDev §8|§7 ");
-        board.registerNewTeam("04-Dev").setPrefix("§3§lDev §8|§7 ");
-        board.registerNewTeam("05-SrB").setPrefix("§2§lSrB §8|§7 ");
-        board.registerNewTeam("06-B").setPrefix("§2§lB §8|§7 ");
-        board.registerNewTeam("07-SrSup").setPrefix("§9§lSrSup §8|§7 ");
-        board.registerNewTeam("08-Sup").setPrefix("§9§lSup §8|§7 ");
-        board.registerNewTeam("09-C").setPrefix("§b§lC §8|§7 ");
-        board.registerNewTeam("10-YT").setPrefix("§5§lYT §8|§7 ");
-        board.registerNewTeam("11-VIP+").setPrefix("§eVIP+ §8|§7 ");
-        if (!(coreSpigot.getModuleManager().getServerType().equals(ServerType.CITY_BUILD) || coreSpigot.getModuleManager().getServerType().equals(ServerType.SKY_PVP))) {
-            board.registerNewTeam("12-Emerald").setPrefix("§aEmerald §8|§7 ");
-            board.registerNewTeam("13-Diamond").setPrefix("§bDiamond §8|§7 ");
-            board.registerNewTeam("14-Gold").setPrefix("§6Gold §8|§7 ");
-        } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.CITY_BUILD)) {
-            board.registerNewTeam("12-Supreme").setPrefix("§cSupreme §8|§7 ");
-            board.registerNewTeam("13-Prime").setPrefix("§bPrime §8|§7 ");
-            board.registerNewTeam("14-Premium").setPrefix("§6Premium §8|§7 ");
-        } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.SKY_PVP)) {
-            board.registerNewTeam("12-King").setPrefix("§cKing §8|§7 ");
-            board.registerNewTeam("13-Elite").setPrefix("§dElite §8|§7 ");
-            board.registerNewTeam("14-Ultra").setPrefix("§bUltra §8|§7 ");
-        }
-        board.registerNewTeam("15-Player").setPrefix("§7");
-        for (Player players : Bukkit.getOnlinePlayers()) {
-            board.getTeams().forEach(teams -> {
-                if (teams.hasPlayer(players)) {
-                    teams.removePlayer(players);
-                }
-            });
-            String team = "15-Player";
-            User user = luckPermsApi.getUser(players.getUniqueId());
-            assert user != null;
-            String group = user.getPrimaryGroup();
-            if (!coreSpigot.getModuleManager().getNickManager().isDisguised(players)) {
-                if (coreSpigot.getModuleManager().getServerType().equals(ServerType.SKY_PVP)) {
-                    if (group.equalsIgnoreCase("ultra")) {
-                        team = "14-Ultra";
-                    }
-                    if (group.equalsIgnoreCase("elite")) {
-                        team = "13-Elite";
-                    }
-                    if (group.equalsIgnoreCase("king")) {
-                        team = "12-King";
-                    }
-                } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.CITY_BUILD)) {
-                    if (group.equalsIgnoreCase("premium")) {
-                        team = "14-Premium";
-                    }
-                    if (group.equalsIgnoreCase("prime")) {
-                        team = "13-Prime";
-                    }
-                    if (group.equalsIgnoreCase("Supreme")) {
-                        team = "12-Supreme";
-                    }
-                }
-                if (group.equalsIgnoreCase("vip+")) {
-                    team = "11-VIP+";
-                }
-                if (group.equalsIgnoreCase("youtuber")) {
-                    team = "10-YT";
-                }
-                if (group.equalsIgnoreCase("content")) {
-                    team = "09-C";
-                }
-                if (group.equalsIgnoreCase("supporter") || group.equalsIgnoreCase("junior")) {
-                    team = "08-Sup";
-                }
-                if (group.equalsIgnoreCase("srsupporter")) {
-                    team = "07-SrSup";
-                }
-                if (group.equalsIgnoreCase("builder")) {
-                    team = "06-B";
-                }
-                if (group.equalsIgnoreCase("srbuilder")) {
-                    team = "05-SrB";
-                }
-                if (group.equalsIgnoreCase("developer")) {
-                    team = "04-Dev";
-                }
-                if (group.equalsIgnoreCase("srdeveloper")) {
-                    team = "03-SrDev";
-                }
-                if (group.equalsIgnoreCase("moderator")) {
-                    team = "02-Mod";
-                }
-                if (group.equalsIgnoreCase("srmoderator")) {
-                    team = "01-SrMod";
-                }
-                if (group.equalsIgnoreCase("administrator")) {
-                    team = "00-Admin";
-                }
-                Team t = board.getTeam(team);
-                t.addPlayer(players);
-                players.setDisplayName(t.getPrefix() + players.getName());
-                if (coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(players.getUniqueId())) != null) {
-                    players.setPlayerListName(t.getPrefix() + players.getName() + " \u00a77[\u00a7e" + ChatColor.translateAlternateColorCodes('&', coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(players.getUniqueId())).getClanTag()) + "\u00a77]");
-                    continue;
-                }
-                players.setPlayerListName(t.getPrefix() + players.getName());
-                continue;
-            }
-            board.getTeam("015-Player").addPlayer(players);
-            players.setPlayerListName("§7" + players.getName());
-            players.setDisplayName("§7" + players.getName());
-        }
-        player.setScoreboard(board);
-        if (playerScoreboards.containsKey(player)) {
-            Team coins;
-            Objective obj = board.getObjective("Info");
-            if (obj == null) {
-                obj = board.registerNewObjective("Info", "dummy");
-                obj.setDisplayName("§7\u00bb §" + color + "BattleBuild §7\u00ab");
-                obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-            }
-            User user = coreSpigot.getHookManager().getLuckPermsApi().getUser(player.getUniqueId());
-            ContextManager cm = coreSpigot.getHookManager().getLuckPermsApi().getContextManager();
-            Contexts contexts = cm.lookupApplicableContexts(user).orElse(cm.getStaticContexts());
-            MetaData md = user.getCachedData().getMetaData(contexts);
-            String rang = md.getPrefix().replace("&", "§").replace("|", "");
-            String clan = "\u00a76Kein Clan";
-            if (coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())) != null) {
-                int i = 0;
-                try {
-                    for (PAFPlayer all : coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())).getAllPlayers()) {
-                        for (PlayerObject online : TimoCloudAPI.getUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
-                            if (online.getUuid().equals(all.getUniqueId())) {
-                                i++;
-                            }
-                        }
-                    }
-                } catch (NullPointerException ex) {
-                }
-                clan = "§" + color + coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())).getClanTag() + "§7 [§" + color + i + "§7┊§" + color + coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())).getAllPlayers().size() + "§7]";
-            }
-            if ((coins = board.getTeam("coins")) == null) {
-                coins = board.registerNewTeam("coins");
-                coins.setPrefix("§7➟ ");
-                coins.addEntry("§" + color);
-            }
-            coins.setSuffix(String.valueOf(coreSpigot.getHookManager().getEconomy().getBalance(player)));
-            Team onlinetime = board.getTeam("onlinetime");
-            if (onlinetime == null) {
-                onlinetime = board.registerNewTeam("onlinetime");
-                onlinetime.addEntry("§" + color + " ");
-                onlinetime.setPrefix("§7➟ §" + color + " ");
-            }
-            onlinetime.setSuffix("\u00a76" + coreSpigot.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()).getPlaytime());
-            if (coreSpigot.getModuleManager().getSettingsAPI().getRang(player)) {
-                obj.getScore("● §7Dein Rang").setScore(17);
-                obj.getScore("§7➟ " + rang).setScore(16);
-                obj.getScore("\u00a77").setScore(15);
-            }
-            if (coreSpigot.getModuleManager().getSettingsAPI().getCoins(player)) {
-                obj.getScore("● §7Deine Coins").setScore(14);
-                obj.getScore("§7➟ §" + color + coreSpigot.getHookManager().getEconomy().getBalance(player)).setScore(13);
-                obj.getScore("\u00a7a").setScore(12);
-            }
-            if (coreSpigot.getModuleManager().getSettingsAPI().getTime(player)) {
-                obj.getScore("● §7Spielzeit").setScore(11);
-                obj.getScore("§7➟ §" + color + (int) Math.floor(coreSpigot.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()).getPlaytime() / 1000 / 60 / 60) + "h").setScore(10);
-                obj.getScore("\u00a71").setScore(9);
-            }
-            if (coreSpigot.getModuleManager().getSettingsAPI().getClan(player)) {
-                obj.getScore("● §7Dein Clan").setScore(8);
-                obj.getScore("§7➟ §" + color + clan).setScore(7);
-                obj.getScore("§2").setScore(6);
-            }
-            if (coreSpigot.getModuleManager().getSettingsAPI().getServer(player)) {
-                obj.getScore("● §7Server").setScore(5);
-                obj.getScore("§7➟ §" + color + player.getServer().getServerName()).setScore(4);
-                obj.getScore("§3").setScore(3);
-            }
-            if (coreSpigot.getModuleManager().getSettingsAPI().getFriends(player)) {
-                obj.getScore("● §7Freunde").setScore(2);
-                PAFPlayer pafPlayer = coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId());
-                int f = 0;
-                for (PAFPlayer friends : pafPlayer.getFriends()) {
-                    for (PlayerObject online : TimoCloudAPI.getUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
-                        if (online.getUuid().equals(friends.getUniqueId())) {
-                            f++;
-                        }
-                    }
-                }
-                if (pafPlayer.getFriends() != null) {
-                    obj.getScore("§7➟ §" + color + f + "§7┊§r§" + color + pafPlayer.getFriends().size()).setScore(1);
-                } else {
-                    obj.getScore("§7➟ §" + color + "0§7┊§r§" + color + "0").setScore(1);
-                }
-            }
-        }
-        for (Player players : Bukkit.getOnlinePlayers()) {
-            Scoreboard scoreboard = players.getScoreboard();
-            scoreboard.getTeams().forEach(teams -> {
-                if (teams.hasPlayer(player)) {
-                    teams.removePlayer(player);
-                }
-            });
-            String team = "15-Player";
-            User user = luckPermsApi.getUser(players.getUniqueId());
-            assert user != null;
-            String group = user.getPrimaryGroup();
-            if (!coreSpigot.getModuleManager().getNickManager().isDisguised(players)) {
-                if (coreSpigot.getModuleManager().getServerType().equals(ServerType.SKY_PVP)) {
-                    if (group.equalsIgnoreCase("ultra")) {
-                        team = "14-Ultra";
-                    }
-                    if (group.equalsIgnoreCase("elite")) {
-                        team = "13-Elite";
-                    }
-                    if (group.equalsIgnoreCase("king")) {
-                        team = "12-King";
-                    }
-                } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.CITY_BUILD)) {
-                    if (group.equalsIgnoreCase("premium")) {
-                        team = "14-Premium";
-                    }
-                    if (group.equalsIgnoreCase("prime")) {
-                        team = "13-Prime";
-                    }
-                    if (group.equalsIgnoreCase("Supreme")) {
-                        team = "12-Supreme";
-                    }
-                }
-                if (group.equalsIgnoreCase("vip+")) {
-                    team = "11-VIP+";
-                }
-                if (group.equalsIgnoreCase("youtuber")) {
-                    team = "10-YT";
-                }
-                if (group.equalsIgnoreCase("content")) {
-                    team = "09-C";
-                }
-                if (group.equalsIgnoreCase("supporter") || group.equalsIgnoreCase("junior")) {
-                    team = "08-Sup";
-                }
-                if (group.equalsIgnoreCase("srsupporter")) {
-                    team = "07-SrSup";
-                }
-                if (group.equalsIgnoreCase("builder")) {
-                    team = "06-B";
-                }
-                if (group.equalsIgnoreCase("srbuilder")) {
-                    team = "05-SrB";
-                }
-                if (group.equalsIgnoreCase("developer")) {
-                    team = "04-Dev";
-                }
-                if (group.equalsIgnoreCase("srdeveloper")) {
-                    team = "03-SrDev";
-                }
-                if (group.equalsIgnoreCase("moderator")) {
-                    team = "02-Mod";
-                }
-                if (group.equalsIgnoreCase("srmoderator")) {
-                    team = "01-SrMod";
-                }
-                if (group.equalsIgnoreCase("administrator")) {
-                    team = "00-Admin";
-                }
-                Team t = scoreboard.getTeam(team);
-                t.addPlayer(player);
-                player.setDisplayName(t.getPrefix() + player.getName());
-                if (coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())) != null) {
-                    player.setPlayerListName(t.getPrefix() + player.getName() + " \u00a77[\u00a7e" + ChatColor.translateAlternateColorCodes((char) '&', (String) coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())).getClanTag()) + "\u00a77]");
-                } else {
-                    player.setPlayerListName(t.getPrefix() + player.getName());
-                }
-            } else {
-                scoreboard.getTeam(team).addPlayer(player);
-                player.setPlayerListName("§7" + player.getName());
-                player.setDisplayName("§7" + player.getName());
-            }
-            players.setScoreboard(scoreboard);
-            playerScoreboards.put(player, scoreboard);
-        }
-    }
+    public void setScoreboard(final Player player) {
+        SettingsAPI settingsAPI = coreSpigot.getModuleManager().getSettingsAPI();
+        Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        Objective objective = scoreboard.registerNewObjective("aaa", "bbb");
+        String color = getFinalColor(settingsAPI.getColorString(player));
 
-    public void sendScoreboard(Player player) {
-        String color = getFinalColor(coreSpigot.getModuleManager().getSettingsAPI().getColorString(player));
-        Team coins;
-        Scoreboard board = player.getScoreboard();
-        Objective obj = board.getObjective("Info");
-        if (obj == null) {
-            obj = board.registerNewObjective("Info", "dummy");
-            obj.setDisplayName("§7\u00bb §" + color + "BattleBuild §7\u00ab");
-            obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-        }
         User user = coreSpigot.getHookManager().getLuckPermsApi().getUser(player.getUniqueId());
         ContextManager cm = coreSpigot.getHookManager().getLuckPermsApi().getContextManager();
         Contexts contexts = cm.lookupApplicableContexts(user).orElse(cm.getStaticContexts());
         MetaData md = user.getCachedData().getMetaData(contexts);
         String rang = md.getPrefix().replace("&", "§").replace("|", "");
+
+        PAFPlayer pafPlayer = coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId());
         String clan = "\u00a76Kein Clan";
+        String clanTag = null;
         if (coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())) != null) {
             int i = 0;
+            clanTag = coreSpigot.getHookManager().getClansManager().getClan(pafPlayer).getClanTag();
             try {
-                for (PAFPlayer all : coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())).getAllPlayers()) {
+                for (PAFPlayer all : coreSpigot.getHookManager().getClansManager().getClan(pafPlayer).getAllPlayers()) {
                     for (PlayerObject online : TimoCloudAPI.getUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
                         if (online.getUuid().equals(all.getUniqueId())) {
                             i++;
@@ -354,167 +72,301 @@ public class ScoreboardManager {
             }
             clan = "§" + color + coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())).getClanTag() + "§7 [§" + color + i + "§7┊§" + color + coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())).getAllPlayers().size() + "§7]";
         }
-        if ((coins = board.getTeam("coins")) == null) {
-            coins = board.registerNewTeam("coins");
-            coins.setPrefix("§7➟ ");
-            coins.addEntry("§" + color);
-        }
-        coins.setSuffix(String.valueOf(coreSpigot.getHookManager().getEconomy().getBalance(player)));
-        Team onlinetime = board.getTeam("onlinetime");
-        if (onlinetime == null) {
-            onlinetime = board.registerNewTeam("onlinetime");
-            onlinetime.addEntry("§" + color + " ");
-            onlinetime.setPrefix("§7➟ §" + color + " ");
-        }
-        onlinetime.setSuffix("\u00a76" + coreSpigot.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()).getPlaytime());
-        if (coreSpigot.getModuleManager().getSettingsAPI().getRang(player)) {
-            obj.getScore("● §7Dein Rang").setScore(17);
-            obj.getScore("§7➟ " + rang).setScore(16);
-            obj.getScore("\u00a77").setScore(15);
-        }
-        if (coreSpigot.getModuleManager().getSettingsAPI().getCoins(player)) {
-            obj.getScore("● §7Deine Coins").setScore(14);
-            obj.getScore("§7➟ §" + color + coreSpigot.getHookManager().getEconomy().getBalance(player)).setScore(13);
-            obj.getScore("\u00a7a").setScore(12);
-        }
-        if (coreSpigot.getModuleManager().getSettingsAPI().getTime(player)) {
-            obj.getScore("● §7Spielzeit").setScore(11);
-            obj.getScore("§7➟ §" + color + (int) Math.floor(coreSpigot.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()).getPlaytime() / 1000 / 60 / 60) + "h").setScore(10);
-            obj.getScore("\u00a71").setScore(9);
-        }
-        if (coreSpigot.getModuleManager().getSettingsAPI().getClan(player)) {
-            obj.getScore("● §7Dein Clan").setScore(8);
-            obj.getScore("§7➟ §" + color + clan).setScore(7);
-            obj.getScore("§2").setScore(6);
-        }
-        if (coreSpigot.getModuleManager().getSettingsAPI().getServer(player)) {
-            obj.getScore("● §7Server").setScore(5);
-            obj.getScore("§7➟ §" + color + player.getServer().getServerName()).setScore(4);
-            obj.getScore("§3").setScore(3);
-        }
-        if (coreSpigot.getModuleManager().getSettingsAPI().getFriends(player)) {
-            obj.getScore("● §7Freunde").setScore(2);
-            PAFPlayer pafPlayer = coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId());
-            int f = 0;
-            for (PAFPlayer friends : pafPlayer.getFriends()) {
-                for (PlayerObject online : TimoCloudAPI.getUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
-                    if (online.getUuid().equals(friends.getUniqueId())) {
-                        f++;
+
+        if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
+            objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+            objective.setDisplayName("§7\u00bb §" + color + "§lBattleBuild §7\u00ab");
+            if (settingsAPI.getRang(player)) {
+                objective.getScore("● §7Dein Rang").setScore(17);
+                objective.getScore("§7➟ " + rang).setScore(16);
+                objective.getScore("\u00a77").setScore(15);
+            }
+            if (settingsAPI.getCoins(player)) {
+                objective.getScore("● §7Deine Coins").setScore(14);
+                objective.getScore("§7➟ §" + color + coreSpigot.getHookManager().getEconomy().getBalance(player)).setScore(13);
+                objective.getScore("\u00a7a").setScore(12);
+            }
+            if (settingsAPI.getTime(player)) {
+                objective.getScore("● §7Spielzeit").setScore(11);
+                objective.getScore("§7➟ §" + color + (int) Math.floor(coreSpigot.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()).getPlaytime() / 1000 / 60 / 60) + "h").setScore(10);
+                objective.getScore("\u00a71").setScore(9);
+            }
+            if (settingsAPI.getClan(player)) {
+                objective.getScore("● §7Dein Clan").setScore(8);
+                objective.getScore("§7➟ §" + color + clan).setScore(7);
+                objective.getScore("§2").setScore(6);
+            }
+            if (settingsAPI.getServer(player)) {
+                objective.getScore("● §7Server").setScore(5);
+                objective.getScore("§7➟ §" + color + player.getServer().getServerName()).setScore(4);
+                objective.getScore("§3").setScore(3);
+            }
+            if (settingsAPI.getFriends(player)) {
+                objective.getScore("● §7Freunde").setScore(2);
+                int f = 0;
+                for (PAFPlayer friends : pafPlayer.getFriends()) {
+                    for (PlayerObject online : TimoCloudAPI.getUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
+                        if (online.getUuid().equals(friends.getUniqueId())) {
+                            f++;
+                        }
                     }
                 }
+                if (pafPlayer.getFriends() != null) {
+                    objective.getScore("§7➟ §" + color + f + "§7┊§r§" + color + pafPlayer.getFriends().size()).setScore(1);
+                } else {
+                    objective.getScore("§7➟ §" + color + "0§7┊§r§" + color + "0").setScore(1);
+                }
             }
-            if (pafPlayer.getFriends() != null) {
-                obj.getScore("§7➟ §" + color + f + "§7┊§r§" + color + pafPlayer.getFriends().size()).setScore(1);
-            } else {
-                obj.getScore("§7➟ §" + color + "0§7┊§r§" + color + "0").setScore(1);
+        }
+        registerTeams(scoreboard);
+
+        String playersteam = "15-Player";
+        assert user != null;
+        String group = user.getPrimaryGroup();
+        if (!coreSpigot.getModuleManager().getNickManager().isDisguised(player)) {
+            if (group.equalsIgnoreCase("ultra") || group.equalsIgnoreCase("premium") || group.equalsIgnoreCase("gold")) {
+                playersteam = "14-Rank3";
             }
+            if (group.equalsIgnoreCase("elite") || group.equalsIgnoreCase("prime") || group.equalsIgnoreCase("diamond")) {
+                playersteam = "13-Rank2";
+            }
+            if (group.equalsIgnoreCase("king") || group.equalsIgnoreCase("Supreme") || group.equalsIgnoreCase("emerald")) {
+                playersteam = "12-Rank1";
+            }
+            if (group.equalsIgnoreCase("vip+")) {
+                playersteam = "11-VIP+";
+            }
+            if (group.equalsIgnoreCase("youtuber")) {
+                playersteam = "10-YT";
+            }
+            if (group.equalsIgnoreCase("content")) {
+                playersteam = "09-C";
+            }
+            if (group.equalsIgnoreCase("supporter") || group.equalsIgnoreCase("junior")) {
+                playersteam = "08-Sup";
+            }
+            if (group.equalsIgnoreCase("srsupporter")) {
+                playersteam = "07-SrSup";
+            }
+            if (group.equalsIgnoreCase("builder")) {
+                playersteam = "06-B";
+            }
+            if (group.equalsIgnoreCase("srbuilder")) {
+                playersteam = "05-SrB";
+            }
+            if (group.equalsIgnoreCase("developer")) {
+                playersteam = "04-Dev";
+            }
+            if (group.equalsIgnoreCase("srdeveloper")) {
+                playersteam = "03-SrDev";
+            }
+            if (group.equalsIgnoreCase("moderator")) {
+                playersteam = "02-Mod";
+            }
+            if (group.equalsIgnoreCase("srmoderator")) {
+                playersteam = "01-SrMod";
+            }
+            if (group.equalsIgnoreCase("administrator")) {
+                playersteam = "00-Admin";
+            }
+        }
+
+        player.setScoreboard(scoreboard);
+
+        for (Player all : Bukkit.getOnlinePlayers()) {
+            all.getScoreboard().getTeam(playersteam).addEntry(player.getName());
+            all.setScoreboard(all.getScoreboard());
+            if (all.getName().equalsIgnoreCase(player.getName()))
+                return;
+            User allUser = luckPermsApi.getUser(all.getUniqueId());
+            assert allUser != null;
+            String allGroup = allUser.getPrimaryGroup();
+            if (!coreSpigot.getModuleManager().getNickManager().isDisguised(all)) {
+                if (allGroup.equalsIgnoreCase("ultra") || allGroup.equalsIgnoreCase("premium") || allGroup.equalsIgnoreCase("gold")) {
+                    player.getScoreboard().getTeam("14-Rank3").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("elite") || allGroup.equalsIgnoreCase("prime") || allGroup.equalsIgnoreCase("diamond")) {
+                    player.getScoreboard().getTeam("13-Rank2").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("king") || allGroup.equalsIgnoreCase("Supreme") || allGroup.equalsIgnoreCase("emerald")) {
+                    player.getScoreboard().getTeam("12-Rank1").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("vip+")) {
+                    player.getScoreboard().getTeam("11-VIP+").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("youtuber")) {
+                    player.getScoreboard().getTeam("10-YT").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("content")) {
+                    player.getScoreboard().getTeam("09-C").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("supporter") || allGroup.equalsIgnoreCase("junior")) {
+                    player.getScoreboard().getTeam("08-Sup").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("srsupporter")) {
+                    player.getScoreboard().getTeam("07-SrSup").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("builder")) {
+                    player.getScoreboard().getTeam("06-B").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("srbuilder")) {
+                    player.getScoreboard().getTeam("05-SrB").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("developer")) {
+                    player.getScoreboard().getTeam("04-Dev").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("srdeveloper")) {
+                    player.getScoreboard().getTeam("03-SrDev").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("moderator")) {
+                    player.getScoreboard().getTeam("02-Mod").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("srmoderator")) {
+                    player.getScoreboard().getTeam("01-SrMod").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("administrator")) {
+                    player.getScoreboard().getTeam("00-Admin").addEntry(all.getName());
+                } else player.getScoreboard().getTeam("15-Player").addEntry(all.getName());
+            } else player.getScoreboard().getTeam("15-Player").addEntry(all.getName());
+            player.setScoreboard(player.getScoreboard());
         }
     }
 
-    public void updateScoreboard(Player p) {
-        try {
-            String color = getFinalColor(coreSpigot.getModuleManager().getSettingsAPI().getColorString(p));
-            Scoreboard board = p.getScoreboard();
-            Team coins = board.getTeam("coins");
-            coins.setSuffix("§" + color + coreSpigot.getHookManager().getEconomy().getBalance(p));
-            Team onlinetime = board.getTeam("onlinetime");
-            onlinetime.setSuffix("§" + color + coreSpigot.getHookManager().getNetworkManagerPlugin().getPlayer(p.getUniqueId()).getPlaytime());
-        } catch (Exception ignored) {
+    public void resetPrefix(Player player) {
+        Scoreboard scoreboard = player.getScoreboard();
+        String currentTeam = "15-Player";
+        for (Team team : scoreboard.getTeams()) {
+            if (team.getEntries().contains(player.getName())) {
+                currentTeam = team.getName();
+            }
+        }
+        String playersteam = "15-Player";
+        String group = LuckPerms.getApi().getUser(player.getUniqueId()).getPrimaryGroup();
+        if (!coreSpigot.getModuleManager().getNickManager().isDisguised(player)) {
+            if (group.equalsIgnoreCase("ultra") || group.equalsIgnoreCase("premium") || group.equalsIgnoreCase("gold")) {
+                playersteam = "14-Rank3";
+            }
+            if (group.equalsIgnoreCase("elite") || group.equalsIgnoreCase("prime") || group.equalsIgnoreCase("diamond")) {
+                playersteam = "13-Rank2";
+            }
+            if (group.equalsIgnoreCase("king") || group.equalsIgnoreCase("Supreme") || group.equalsIgnoreCase("emerald")) {
+                playersteam = "12-Rank1";
+            }
+            if (group.equalsIgnoreCase("vip+")) {
+                playersteam = "11-VIP+";
+            }
+            if (group.equalsIgnoreCase("youtuber")) {
+                playersteam = "10-YT";
+            }
+            if (group.equalsIgnoreCase("content")) {
+                playersteam = "09-C";
+            }
+            if (group.equalsIgnoreCase("supporter") || group.equalsIgnoreCase("junior")) {
+                playersteam = "08-Sup";
+            }
+            if (group.equalsIgnoreCase("srsupporter")) {
+                playersteam = "07-SrSup";
+            }
+            if (group.equalsIgnoreCase("builder")) {
+                playersteam = "06-B";
+            }
+            if (group.equalsIgnoreCase("srbuilder")) {
+                playersteam = "05-SrB";
+            }
+            if (group.equalsIgnoreCase("developer")) {
+                playersteam = "04-Dev";
+            }
+            if (group.equalsIgnoreCase("srdeveloper")) {
+                playersteam = "03-SrDev";
+            }
+            if (group.equalsIgnoreCase("moderator")) {
+                playersteam = "02-Mod";
+            }
+            if (group.equalsIgnoreCase("srmoderator")) {
+                playersteam = "01-SrMod";
+            }
+            if (group.equalsIgnoreCase("administrator")) {
+                playersteam = "00-Admin";
+            }
+        }
+
+        player.setScoreboard(scoreboard);
+
+        for (Player all : Bukkit.getOnlinePlayers()) {
+            all.getScoreboard().getTeam(currentTeam).removeEntry(player.getName());
+            all.getScoreboard().getTeam(playersteam).addEntry(player.getName());
+            all.setScoreboard(all.getScoreboard());
+            if (all.getName().equalsIgnoreCase(player.getName()))
+                return;
+            User allUser = luckPermsApi.getUser(all.getUniqueId());
+            assert allUser != null;
+            String allGroup = allUser.getPrimaryGroup();
+            if (!coreSpigot.getModuleManager().getNickManager().isDisguised(all)) {
+                if (allGroup.equalsIgnoreCase("ultra") || allGroup.equalsIgnoreCase("premium") || allGroup.equalsIgnoreCase("gold")) {
+                    player.getScoreboard().getTeam("14-Rank3").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("elite") || allGroup.equalsIgnoreCase("prime") || allGroup.equalsIgnoreCase("diamond")) {
+                    player.getScoreboard().getTeam("13-Rank2").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("king") || allGroup.equalsIgnoreCase("Supreme") || allGroup.equalsIgnoreCase("emerald")) {
+                    player.getScoreboard().getTeam("12-Rank1").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("vip+")) {
+                    player.getScoreboard().getTeam("11-VIP+").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("youtuber")) {
+                    player.getScoreboard().getTeam("10-YT").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("content")) {
+                    player.getScoreboard().getTeam("09-C").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("supporter") || allGroup.equalsIgnoreCase("junior")) {
+                    player.getScoreboard().getTeam("08-Sup").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("srsupporter")) {
+                    player.getScoreboard().getTeam("07-SrSup").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("builder")) {
+                    player.getScoreboard().getTeam("06-B").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("srbuilder")) {
+                    player.getScoreboard().getTeam("05-SrB").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("developer")) {
+                    player.getScoreboard().getTeam("04-Dev").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("srdeveloper")) {
+                    player.getScoreboard().getTeam("03-SrDev").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("moderator")) {
+                    player.getScoreboard().getTeam("02-Mod").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("srmoderator")) {
+                    player.getScoreboard().getTeam("01-SrMod").addEntry(all.getName());
+                } else if (allGroup.equalsIgnoreCase("administrator")) {
+                    player.getScoreboard().getTeam("00-Admin").addEntry(all.getName());
+                } else player.getScoreboard().getTeam("15-Player").addEntry(all.getName());
+            } else player.getScoreboard().getTeam("15-Player").addEntry(all.getName());
+            player.setScoreboard(player.getScoreboard());
         }
     }
 
-    public void updatePrefix(final Player p) {
-        Scoreboard board = p.getScoreboard();
-        Bukkit.getScheduler().runTaskLaterAsynchronously(coreSpigot, new Runnable() {
-
-            @Override
-            public void run() {
-                for (Player players : Bukkit.getOnlinePlayers()) {
-                    Scoreboard scoreboard = players.getScoreboard();
-                    scoreboard.getTeams().forEach(teams -> {
-                        if (teams.hasPlayer(players)) {
-                            teams.removePlayer(players);
-                        }
-                    });
-                    String team = "15-Player";
-                    User user = luckPermsApi.getUser(players.getUniqueId());
-                    assert user != null;
-                    String group = user.getPrimaryGroup();
-                    if (!coreSpigot.getModuleManager().getNickManager().isDisguised(players)) {
-                        if (coreSpigot.getModuleManager().getServerType().equals(ServerType.SKY_PVP)) {
-                            if (group.equalsIgnoreCase("ultra")) {
-                                team = "14-Ultra";
-                            }
-                            if (group.equalsIgnoreCase("elite")) {
-                                team = "13-Elite";
-                            }
-                            if (group.equalsIgnoreCase("king")) {
-                                team = "12-King";
-                            }
-                        } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.CITY_BUILD)) {
-                            if (group.equalsIgnoreCase("premium")) {
-                                team = "14-Premium";
-                            }
-                            if (group.equalsIgnoreCase("prime")) {
-                                team = "13-Prime";
-                            }
-                            if (group.equalsIgnoreCase("Supreme")) {
-                                team = "12-Supreme";
-                            }
-                        }
-                        if (group.equalsIgnoreCase("vip+")) {
-                            team = "11-VIP+";
-                        }
-                        if (group.equalsIgnoreCase("youtuber")) {
-                            team = "10-YT";
-                        }
-                        if (group.equalsIgnoreCase("content")) {
-                            team = "09-C";
-                        }
-                        if (group.equalsIgnoreCase("supporter") || group.equalsIgnoreCase("junior")) {
-                            team = "08-Sup";
-                        }
-                        if (group.equalsIgnoreCase("srsupporter")) {
-                            team = "07-SrSup";
-                        }
-                        if (group.equalsIgnoreCase("builder")) {
-                            team = "06-B";
-                        }
-                        if (group.equalsIgnoreCase("srbuilder")) {
-                            team = "05-SrB";
-                        }
-                        if (group.equalsIgnoreCase("developer")) {
-                            team = "04-Dev";
-                        }
-                        if (group.equalsIgnoreCase("srdeveloper")) {
-                            team = "03-SrDev";
-                        }
-                        if (group.equalsIgnoreCase("moderator")) {
-                            team = "02-Mod";
-                        }
-                        if (group.equalsIgnoreCase("srmoderator")) {
-                            team = "01-SrMod";
-                        }
-                        if (group.equalsIgnoreCase("administrator")) {
-                            team = "00-Admin";
-                        }
-                        Team t = scoreboard.getTeam(team);
-                        t.addPlayer(p);
-                        p.setDisplayName(t.getPrefix() + p.getName());
-                        if (coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(players.getUniqueId())) != null) {
-                            p.setPlayerListName(t.getPrefix() + p.getName() + " \u00a77[\u00a7e" + ChatColor.translateAlternateColorCodes('&', coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(players.getUniqueId())).getClanTag() + "\u00a77]"));
-                        } else {
-                            p.setPlayerListName(t.getPrefix() + p.getName());
-                        }
-                    } else {
-                        scoreboard.getTeam(team).addPlayer(p);
-                        p.setPlayerListName("§7" + p.getName());
-                        p.setDisplayName("§7" + p.getName());
-                    }
-                    players.setScoreboard(scoreboard);
-                }
-            }
-        }, 4L);
+    private void registerTeams(final Scoreboard scoreboard) {
+        Team admin = scoreboard.registerNewTeam("00-Admin");
+        Team srMod = scoreboard.registerNewTeam("01-SrMod");
+        Team mod = scoreboard.registerNewTeam("02-Mod");
+        Team srDev = scoreboard.registerNewTeam("03-SrDev");
+        Team dev = scoreboard.registerNewTeam("04-Dev");
+        Team srB = scoreboard.registerNewTeam("05-SrB");
+        Team b = scoreboard.registerNewTeam("06-B");
+        Team srSup = scoreboard.registerNewTeam("07-SrSup");
+        Team sup = scoreboard.registerNewTeam("08-Sup");
+        Team c = scoreboard.registerNewTeam("09-C");
+        Team yt = scoreboard.registerNewTeam("10-YT");
+        Team vip = scoreboard.registerNewTeam("11-VIP+");
+        Team rank1 = scoreboard.registerNewTeam("12-Rank1");
+        Team rank2 = scoreboard.registerNewTeam("13-Rank2");
+        Team rank3 = scoreboard.registerNewTeam("14-Rank3");
+        Team player = scoreboard.registerNewTeam("15-Player");
+        admin.setPrefix("§4§lAdmin §8|§7 ");
+        srMod.setPrefix("§c§lSrMod §8|§7 ");
+        mod.setPrefix("§c§lMod §8|§7 ");
+        srDev.setPrefix("§3§lSrDev §8|§7 ");
+        dev.setPrefix("§3§lDev §8|§7 ");
+        srB.setPrefix("§2§lSrB §8|§7 ");
+        b.setPrefix("§2§lB §8|§7 ");
+        srSup.setPrefix("§9§lSrSup §8|§7 ");
+        sup.setPrefix("§9§lSup §8|§7 ");
+        c.setPrefix("§b§lC §8|§7 ");
+        yt.setPrefix("§5§lYT §8|§7 ");
+        vip.setPrefix("§eVIP+ §8|§7 ");
+        if (!(coreSpigot.getModuleManager().getServerType().equals(ServerType.CITY_BUILD) || coreSpigot.getModuleManager().getServerType().equals(ServerType.SKY_PVP))) {
+            rank1.setPrefix("§aEmerald §8|§7 ");
+            rank2.setPrefix("§bDiamond §8|§7 ");
+            rank3.setPrefix("§6Gold §8|§7 ");
+        } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.CITY_BUILD)) {
+            rank1.setPrefix("§cSupreme §8|§7 ");
+            rank2.setPrefix("§bPrime §8|§7 ");
+            rank3.setPrefix("§6Premium §8|§7 ");
+        } else if (coreSpigot.getModuleManager().getServerType().equals(ServerType.SKY_PVP)) {
+            rank1.setPrefix("§cKing §8|§7 ");
+            rank2.setPrefix("§dElite §8|§7 ");
+            rank3.setPrefix("§bUltra §8|§7 ");
+        }
+        player.setPrefix("§7");
     }
 
     private String getFinalColor(Short color) {

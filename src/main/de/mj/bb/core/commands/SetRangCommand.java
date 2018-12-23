@@ -30,6 +30,7 @@ public class SetRangCommand implements CommandExecutor {
                                 if (args[1].equalsIgnoreCase(group.getName())) {
                                     player.performCommand("lp user " + args[0] + " parent set " + args[1]);
                                     commandSender.sendMessage(coreSpigot.getModuleManager().getData().getPrefix() + "§aDu hast dem Spieler §e" + all.getName() + "§a die Gruppe §2" + args[1] + "§a erfolgreich gesetzt!");
+                                    coreSpigot.getModuleManager().getScoreboardManager().resetPrefix(all);
                                     break;
                                 }
                             }

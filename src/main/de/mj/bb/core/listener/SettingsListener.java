@@ -389,13 +389,13 @@ public class SettingsListener implements Listener {
                 playerLevel.replace(player, PlayerLevel.COINS);
                 lobby.getSettingsAPI().setLEVEL(player, PlayerLevel.COINS);
                 invent2.get(player).setItem(24, lobby.getItemCreator().createItemWithMaterial(Material.GOLD_INGOT, 0, 1, "§6Coins"));
-                player.setLevel(coreSpigot.getGameAPI().getCoinsAPI().getCoins(player.getUniqueId()));
+                player.setLevel((int) Math.floor(coreSpigot.getHookManager().getEconomy().getBalance(player)));
                 player.setExp(0);
                 player.updateInventory();
             } else if (playerLevel.get(player).equals(PlayerLevel.COINS)) {
                 playerLevel.replace(player, PlayerLevel.LOBBY);
                 lobby.getSettingsAPI().setLEVEL(player, PlayerLevel.LOBBY);
-                invent2.get(player).setItem(24, lobby.getItemCreator().createItemWithMaterial(Material.GOLD_INGOT, 0, 1, "§fLobby"));
+                invent2.get(player).setItem(24, lobby.getItemCreator().createItemWithMaterial(Material.NETHER_STAR, 0, 1, "§fLobby"));
                 String[] serverName = player.getServer().getServerName().split("-");
                 int server = Integer.parseInt(serverName[1]);
                 player.setLevel(server);
@@ -461,8 +461,6 @@ public class SettingsListener implements Listener {
             }.runTaskTimer(coreSpigot, 0L, 10L);
             setInv(player);
             player.openInventory(invent1.get(player));
-            coreSpigot.getModuleManager().getScoreboardManager().sendStartScoreboard(player);
-            coreSpigot.getModuleManager().getScoreboardManager().sendScoreboard(player);
         }
     }
 
@@ -596,8 +594,6 @@ public class SettingsListener implements Listener {
         } else if (clickEvent.getCurrentItem().getType().equals(Material.SKULL_ITEM) && clickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§6⇽ Hauptmenü")) {
             player.openInventory(invent1.get(player));
         }
-        coreSpigot.getModuleManager().getScoreboardManager().sendStartScoreboard(player);
-        coreSpigot.getModuleManager().getScoreboardManager().sendScoreboard(player);
     }
 
     private void setScore(Player player) {

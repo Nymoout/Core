@@ -9,7 +9,6 @@ import main.de.mj.bb.core.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
@@ -99,6 +98,7 @@ public class ModuleManager {
         itemCreator = new ItemCreator(coreSpigot);
         nickCommand = new NickCommand(coreSpigot);
         nickManager = new NickManager(coreSpigot);
+        scoreboardManager = new ScoreboardManager(coreSpigot);
         if (serverType.equals(ServerType.LOBBY)) {
 
             ticksPerSecond = new TicksPerSecond();
@@ -154,16 +154,7 @@ public class ModuleManager {
             locationsUtil = new LocationsUtil();
             new Particle();
             playerRealTime = new PlayerRealTime(coreSpigot);
-            scoreboardManager = new ScoreboardManager(coreSpigot);
             setLocations = new SetLocations(coreSpigot);
-            getSchedulerSaver().createScheduler(
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            Bukkit.getOnlinePlayers().forEach(all -> scoreboardManager.updateScoreboard(all));
-                        }
-                    }.runTaskTimer(coreSpigot, 0L, 20L * 5)
-            );
             fileManager.loadPortalConfig();
             afkListener.LocationTimer();
             mySQLLoader.loadConf();
