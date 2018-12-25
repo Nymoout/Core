@@ -8,10 +8,8 @@ import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.sql.SettingsAPI;
 import main.de.mj.bb.core.utils.ServerType;
 import me.lucko.luckperms.LuckPerms;
-import me.lucko.luckperms.api.Contexts;
 import me.lucko.luckperms.api.LuckPermsApi;
 import me.lucko.luckperms.api.User;
-import me.lucko.luckperms.api.caching.MetaData;
 import me.lucko.luckperms.api.context.ContextManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -34,28 +32,26 @@ import java.util.Map;
 public class ScoreboardManager {
 
     private final CoreSpigot coreSpigot;
+    private final SettingsAPI settingsAPI;
+    private final LuckPermsApi luckPermsApi;
     private Map<Player, Scoreboard> playerScoreboards = new HashMap<>();
-    private LuckPermsApi luckPermsApi;
 
     ScoreboardManager(CoreSpigot coreSpigot) {
         this.coreSpigot = coreSpigot;
         luckPermsApi = coreSpigot.getHookManager().getLuckPermsApi();
+        settingsAPI = coreSpigot.getModuleManager().getSettingsAPI();
     }
 
     public void setScoreboard(final Player player) {
-        SettingsAPI settingsAPI = coreSpigot.getModuleManager().getSettingsAPI();
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective objective = scoreboard.registerNewObjective("aaa", "bbb");
         String color = getFinalColor(settingsAPI.getColorString(player));
 
         User user = coreSpigot.getHookManager().getLuckPermsApi().getUser(player.getUniqueId());
         ContextManager cm = coreSpigot.getHookManager().getLuckPermsApi().getContextManager();
-        Contexts contexts = cm.lookupApplicableContexts(user).orElse(cm.getStaticContexts());
-        MetaData md = user.getCachedData().getMetaData(contexts);
-        String rang = md.getPrefix().replace("&", "§").replace("|", "");
 
         PAFPlayer pafPlayer = coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId());
-        String clan = "\u00a76Kein Clan";
+        String clan = "§" + color + "none";
         String clanTag = null;
         if (coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())) != null) {
             int i = 0;
@@ -70,52 +66,89 @@ public class ScoreboardManager {
                 }
             } catch (NullPointerException ex) {
             }
-            clan = "§" + color + coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())).getClanTag() + "§7 [§" + color + i + "§7┊§" + color + coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())).getAllPlayers().size() + "§7]";
+            clan = coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())).getClanTag() + "§7 §" + color + i + "§7┊§" + color + coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())).getAllPlayers().size() + "";
         }
 
         if (coreSpigot.getModuleManager().getServerType().equals(ServerType.LOBBY)) {
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);
             objective.setDisplayName("§7\u00bb §" + color + "§lBattleBuild §7\u00ab");
+
+
+            Team scoreRang = scoreboard.registerNewTeam("rang");
+            scoreRang.addEntry("§a§" + color);
+            scoreRang.setPrefix("§7➟ ");
+            scoreRang.setSuffix("");
+
+
+            Team scoreCoins = scoreboard.registerNewTeam("coins");
+            scoreCoins.addEntry("§b§" + color);
+            scoreCoins.setPrefix("§7➟ ");
+            scoreCoins.setSuffix(String.valueOf(coreSpigot.getHookManager().getEconomy().getBalance(player)));
+
+
+            Team scoreTime = scoreboard.registerNewTeam("time");
+            scoreTime.addEntry("§c§" + color);
+            scoreTime.setPrefix("§7➟ ");
+            String time = ((int) Math.floor(coreSpigot.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()).getPlaytime() / 1000 / 60 / 60)) + "h";
+            scoreTime.setSuffix(time);
+
+            Team scoreClan = scoreboard.registerNewTeam("clan");
+            scoreClan.addEntry("§d§" + color);
+            scoreClan.setPrefix("§7➟ ");
+            scoreClan.setSuffix(clan);
+
+
+            Team scoreServer = scoreboard.registerNewTeam("server");
+            scoreServer.addEntry("§e§" + color);
+            scoreServer.setPrefix("§7➟ ");
+            scoreServer.setSuffix(player.getServer().getServerName());
+
+            Team scoreFriends = scoreboard.registerNewTeam("friends");
+            scoreFriends.addEntry("§f§" + color);
+            scoreFriends.setPrefix("§7➟ ");
+            int f = 0;
+            for (PAFPlayer friends : pafPlayer.getFriends()) {
+                for (PlayerObject online : TimoCloudAPI.getUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
+                    if (online.getUuid().equals(friends.getUniqueId())) {
+                        f++;
+                    }
+                }
+            }
+            if (pafPlayer.getFriends() != null) {
+                scoreFriends.setSuffix(f + "§7┊§r§" + color + pafPlayer.getFriends().size());
+            } else {
+                scoreFriends.setSuffix("0§7┊§r§" + color + "0");
+            }
+
+
             if (settingsAPI.getRang(player)) {
                 objective.getScore("● §7Dein Rang").setScore(17);
-                objective.getScore("§7➟ " + rang).setScore(16);
-                objective.getScore("\u00a77").setScore(15);
+                objective.getScore("§a§" + color).setScore(16);
+                objective.getScore("§5").setScore(15);
             }
             if (settingsAPI.getCoins(player)) {
                 objective.getScore("● §7Deine Coins").setScore(14);
-                objective.getScore("§7➟ §" + color + coreSpigot.getHookManager().getEconomy().getBalance(player)).setScore(13);
-                objective.getScore("\u00a7a").setScore(12);
+                objective.getScore("§b§" + color).setScore(13);
+                objective.getScore("§4").setScore(12);
             }
             if (settingsAPI.getTime(player)) {
                 objective.getScore("● §7Spielzeit").setScore(11);
-                objective.getScore("§7➟ §" + color + (int) Math.floor(coreSpigot.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()).getPlaytime() / 1000 / 60 / 60) + "h").setScore(10);
-                objective.getScore("\u00a71").setScore(9);
+                objective.getScore("§c§" + color).setScore(10);
+                objective.getScore("§3").setScore(9);
             }
             if (settingsAPI.getClan(player)) {
                 objective.getScore("● §7Dein Clan").setScore(8);
-                objective.getScore("§7➟ §" + color + clan).setScore(7);
+                objective.getScore("§d§" + color).setScore(7);
                 objective.getScore("§2").setScore(6);
             }
             if (settingsAPI.getServer(player)) {
                 objective.getScore("● §7Server").setScore(5);
-                objective.getScore("§7➟ §" + color + player.getServer().getServerName()).setScore(4);
-                objective.getScore("§3").setScore(3);
+                objective.getScore("§e§" + color).setScore(4);
+                objective.getScore("§1").setScore(3);
             }
             if (settingsAPI.getFriends(player)) {
                 objective.getScore("● §7Freunde").setScore(2);
-                int f = 0;
-                for (PAFPlayer friends : pafPlayer.getFriends()) {
-                    for (PlayerObject online : TimoCloudAPI.getUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
-                        if (online.getUuid().equals(friends.getUniqueId())) {
-                            f++;
-                        }
-                    }
-                }
-                if (pafPlayer.getFriends() != null) {
-                    objective.getScore("§7➟ §" + color + f + "§7┊§r§" + color + pafPlayer.getFriends().size()).setScore(1);
-                } else {
-                    objective.getScore("§7➟ §" + color + "0§7┊§r§" + color + "0").setScore(1);
-                }
+                objective.getScore("§f§" + color).setScore(1);
             }
         }
         registerTeams(scoreboard);
@@ -218,7 +251,125 @@ public class ScoreboardManager {
         }
     }
 
-    public void resetPrefix(Player player) {
+    public void renewScoreboard(final Player player) {
+        Scoreboard scoreboard = player.getScoreboard();
+        Objective objective = scoreboard.getObjective("aaa");
+        String color = getFinalColor(coreSpigot.getModuleManager().getSettingsAPI().getColorString(player));
+        PAFPlayer pafPlayer = coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId());
+        String clan = "§" + color + "none";
+        if (coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())) != null) {
+            int i = 0;
+            try {
+                for (PAFPlayer all : coreSpigot.getHookManager().getClansManager().getClan(pafPlayer).getAllPlayers()) {
+                    for (PlayerObject online : TimoCloudAPI.getUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
+                        if (online.getUuid().equals(all.getUniqueId())) {
+                            i++;
+                        }
+                    }
+                }
+            } catch (NullPointerException ex) {
+            }
+            clan = coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())).getClanTag() + "§7 §" + color + i + "§7┊§" + color + coreSpigot.getHookManager().getClansManager().getClan(coreSpigot.getHookManager().getPafPlayerManager().getPlayer(player.getUniqueId())).getAllPlayers().size() + "";
+        }
+
+        Team scoreRang = scoreboard.getTeam("rang");
+        String rang = "§" + color + "Player";
+        for (Team team : scoreboard.getTeams()) {
+            if (team.getEntries().contains(player.getName())) {
+                rang = team.getName().split("-")[1];
+                break;
+            }
+        }
+        scoreRang.setSuffix(rang);
+
+
+        Team scoreCoins = scoreboard.getTeam("coins");
+        scoreCoins.setSuffix(String.valueOf(coreSpigot.getHookManager().getEconomy().getBalance(player)));
+
+
+        Team scoreTime = scoreboard.getTeam("time");
+        String time = ((int) Math.floor(coreSpigot.getHookManager().getNetworkManagerPlugin().getPlayer(player.getUniqueId()).getPlaytime() / 1000 / 60 / 60)) + "h";
+        scoreTime.setSuffix(time);
+
+        Team scoreClan = scoreboard.getTeam("clan");
+        scoreClan.setSuffix(clan);
+
+
+        Team scoreServer = scoreboard.getTeam("server");
+        scoreServer.setSuffix(player.getServer().getServerName());
+
+        Team scoreFriends = scoreboard.getTeam("friends");
+        int f = 0;
+        for (PAFPlayer friends : pafPlayer.getFriends()) {
+            for (PlayerObject online : TimoCloudAPI.getUniversalAPI().getProxy("Proxy").getOnlinePlayers()) {
+                if (online.getUuid().equals(friends.getUniqueId())) {
+                    f++;
+                }
+            }
+        }
+        if (pafPlayer.getFriends() != null) {
+            scoreFriends.setSuffix(f + "§7┊§r§" + color + pafPlayer.getFriends().size());
+        } else {
+            scoreFriends.setSuffix("0§7┊§r§" + color + "0");
+        }
+
+
+        if (settingsAPI.getRang(player)) {
+            objective.getScore("● §7Dein Rang").setScore(17);
+            objective.getScore("§a§" + color).setScore(16);
+            objective.getScore("§5").setScore(15);
+        } else {
+            scoreboard.resetScores("● §7Dein Rang");
+            scoreboard.resetScores("§a§" + color);
+            scoreboard.resetScores("§5");
+        }
+        if (settingsAPI.getCoins(player)) {
+            objective.getScore("● §7Deine Coins").setScore(14);
+            objective.getScore("§b§" + color).setScore(13);
+            objective.getScore("§4").setScore(12);
+        } else {
+            scoreboard.resetScores("● §7Deine Coins");
+            scoreboard.resetScores("§b§" + color);
+            scoreboard.resetScores("§4");
+        }
+        if (settingsAPI.getTime(player)) {
+            objective.getScore("● §7Spielzeit").setScore(11);
+            objective.getScore("§c§" + color).setScore(10);
+            objective.getScore("§3").setScore(9);
+        } else {
+            scoreboard.resetScores("● §7Spielzeit");
+            scoreboard.resetScores("§c§" + color);
+            scoreboard.resetScores("§3");
+        }
+        if (settingsAPI.getClan(player)) {
+            objective.getScore("● §7Dein Clan").setScore(8);
+            objective.getScore("§d§" + color).setScore(7);
+            objective.getScore("§2").setScore(6);
+        } else {
+            scoreboard.resetScores("● §7Dein Clan");
+            scoreboard.resetScores("§d§" + color);
+            scoreboard.resetScores("§2");
+        }
+        if (settingsAPI.getServer(player)) {
+            objective.getScore("● §7Server").setScore(5);
+            objective.getScore("§e§" + color).setScore(4);
+            objective.getScore("§1").setScore(3);
+        } else {
+            scoreboard.resetScores("● §7Server");
+            scoreboard.resetScores("§e§" + color);
+            scoreboard.resetScores("§1");
+        }
+        if (settingsAPI.getFriends(player)) {
+            objective.getScore("● §7Freunde").setScore(2);
+            objective.getScore("§f§" + color).setScore(1);
+        } else {
+            scoreboard.resetScores("● §7Freunde");
+            scoreboard.resetScores("§f§" + color);
+        }
+        player.setScoreboard(scoreboard);
+    }
+
+    public void resetPrefix(final Player player) {
         Scoreboard scoreboard = player.getScoreboard();
         String currentTeam = "15-Player";
         for (Team team : scoreboard.getTeams()) {

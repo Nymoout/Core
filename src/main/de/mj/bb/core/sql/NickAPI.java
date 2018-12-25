@@ -37,7 +37,7 @@ public class NickAPI {
     }
 
     public void deletePlayer(Player player) {
-        String preparedStatement = "DELETE FROM nicksystem WHERE player='" + player.getUniqueId() + "'";
+        String preparedStatement = "DELETE FROM nicksystem WHERE UUID='" + player.getUniqueId() + "'";
         AsyncMySQL.update(preparedStatement);
     }
 

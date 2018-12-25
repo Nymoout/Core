@@ -1,6 +1,5 @@
 package main.de.mj.bb.core.managers;
 
-import cloud.timo.TimoCloud.api.TimoCloudAPI;
 import main.de.mj.bb.core.CoreSpigot;
 import main.de.mj.bb.core.commands.*;
 import main.de.mj.bb.core.listener.*;
@@ -8,13 +7,8 @@ import main.de.mj.bb.core.sql.*;
 import main.de.mj.bb.core.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
-
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class ModuleManager {
 
@@ -73,8 +67,6 @@ public class ModuleManager {
         data = new Data();
         asyncMySQL = new AsyncMySQL(coreSpigot);
         MySQLLoader mySQLLoader = new MySQLLoader(coreSpigot);
-        //serverStatsAPI = new ServerStatsAPI(coreSpigot);
-        //serverStatsAPI.createTable();
         schedulerSaver = new SchedulerSaver();
         fileManager = new FileManager(coreSpigot);
         fileManager.loadConfigFile();
@@ -163,57 +155,39 @@ public class ModuleManager {
             playerRealTime.setPlayerRealTime();
             lobbyParticle.playEnderSignal();
             lobbyParticle.playEnchantment();
+
+            schedulerSaver.createScheduler(
+                    new BukkitRunnable() {
+
+                        @Override
+                        public void run() {
+                            Bukkit.getOnlinePlayers().forEach(all -> scoreboardManager.renewScoreboard(all));
+                        }
+                    }.runTaskTimerAsynchronously(coreSpigot, 0L, 20L)
+            );
         } else if (serverType.equals(ServerType.DEFAULT) || serverType.equals(ServerType.PLUGIN_TEST_SERVER)) {
             data = new Data();
-            //tabList = new TabList(coreSpigot);
-            //tabList.createTabList();
             new JoinListener(coreSpigot);
             new ChatListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
             mySQLLoader.loadMySQL();
-            /*
-            getSchedulerSaver().createScheduler(
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            Bukkit.getOnlinePlayers().forEach(all -> tabList.setTabList(all));
-                        }
-                    }.runTaskTimer(coreSpigot, 0L, 20L)
-            );
-            */
         } else if (serverType.equals(ServerType.SKY_PVP)) {
             data = new Data();
-            //tabList = new TabList(coreSpigot);
-            //tabList.createTabList();
             new JoinListener(coreSpigot);
             new ChatListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
         } else if (serverType.equals(ServerType.CITY_BUILD)) {
             data = new Data();
-            //tabList = new TabList(coreSpigot);
-            //tabList.createTabList();
             new JoinListener(coreSpigot);
             new ChatListener(coreSpigot);
             stopReloadRestartListener = new StopReloadRestartListener(coreSpigot);
             fileManager = new FileManager(coreSpigot);
             new ChestCommand(coreSpigot);
             new BlockPlaceChestListener(coreSpigot);
-            /*
-            getSchedulerSaver().createScheduler(
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            Bukkit.getOnlinePlayers().forEach(all -> tabList.setTabList(all));
-                        }
-                    }.runTaskTimer(coreSpigot, 0L, 20L * 5)
-            );
-            */
         } else if (serverType.equals(ServerType.BAU_SERVER)) {
             new CancelWeatherListener(coreSpigot);
             new FlyWalkSpeedCommand(coreSpigot);
             data = new Data();
-            //tabList = new TabList(coreSpigot);
-            //tabList.createTabList();
             new SetPortalCommand(coreSpigot);
             portalManager = new PortalManager(coreSpigot);
             new Portal();
@@ -230,16 +204,6 @@ public class ModuleManager {
             new SetLocCommand(coreSpigot);
             fileManager.loadPortalConfig();
             portalManager.loadPortals();
-            /*
-            getSchedulerSaver().createScheduler(
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            Bukkit.getOnlinePlayers().forEach(all -> tabList.setTabList(all));
-                        }
-                    }.runTaskTimer(coreSpigot, 0L, 20L * 5)
-            );
-            */
         } else if (serverType.equals(ServerType.BED_WARS)) {
             new CancelWeatherListener(coreSpigot);
             data = new Data();
@@ -249,8 +213,6 @@ public class ModuleManager {
         } else if (serverType.equals(ServerType.VORBAUEN)) {
             new CancelWeatherListener(coreSpigot);
             data = new Data();
-            //tabList = new TabList(coreSpigot);
-            //tabList.createTabList();
             new GMCommand(coreSpigot);
             tpsCommand = new TPSCommand(coreSpigot);
             new ChestCommand(coreSpigot);
@@ -269,17 +231,7 @@ public class ModuleManager {
     }
 
     public void stopServer() {
-        for (Player all : Bukkit.getOnlinePlayers()) {
-            int online = ThreadLocalRandom.current().nextInt(1, TimoCloudAPI.getUniversalAPI().getServerGroup("Lobby").getOnlineAmount() + 1);
-            try {
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
-                dataOutputStream.writeUTF("Connect");
-                dataOutputStream.writeUTF("Lobby-" + online);
-                all.sendPluginMessage(this.coreSpigot, "BungeeCord", byteArrayOutputStream.toByteArray());
-            } catch (IOException ignored) {
-            }
-        }
+        Bukkit.getOnlinePlayers().forEach(all -> all.kickPlayer("Server closed!"));
         schedulerSaver.cancelSchedulers();
     }
 
